@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const TestAIPage = (): React.JSX.Element => {
-  const [link, setLink] = useState("");
-
   const fetchGifts = async () => {
     const response = await fetch("/api/giftSuggestions", {
       method: "POST",
@@ -18,7 +16,9 @@ const TestAIPage = (): React.JSX.Element => {
     console.log(data.message.content);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchGifts();
+  }, []);
 
   return <></>;
 };
