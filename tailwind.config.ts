@@ -10,7 +10,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        elfGreen: "#12433B",
+        elfHeaderGreen: "#12433B",
+        logoWhite: "#FEF0F0",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
