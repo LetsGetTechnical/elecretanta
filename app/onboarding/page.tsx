@@ -63,7 +63,13 @@ export const FormSchema = z.object({
 	}),
 });
 
-const steps = [
+type Step = {
+	title: string;
+	description: string;
+	schema: z.AnyZodObject;
+};
+
+const steps: Step[] = [
 	{
 		title: "Welcome to Elecretanta✨",
 		description: "Let's find your perfect gift match",
