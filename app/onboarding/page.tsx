@@ -110,6 +110,7 @@ export default function OnboardingPage() {
 
 		if (currentStep === steps.length - 1) {
 			// Replace with API call to update profile in DB
+			// change to test if I can push
 			console.log("Form data:", formData);
 		} else {
 			next();
