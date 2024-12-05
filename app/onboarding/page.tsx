@@ -25,13 +25,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectItem,
-} from "@/components/ui/select";
 
 const stepOneSchema = z.object({});
 
@@ -41,12 +34,6 @@ const stepTwoSchema = z.object({
 	}),
 	giftCircle: z.string().min(1, {
 		message: "Please enter your gift-giving circle.",
-	}),
-});
-
-const stepThreeSchema = z.object({
-	colorTheme: z.string().min(1, {
-		message: "Please select a color theme.",
 	}),
 });
 
@@ -80,11 +67,6 @@ const steps: Step[] = [
 		description: "First let's get to know each other",
 		schema: stepTwoSchema,
 	},
-	{
-		title: "Color Theme",
-		description: "Choose your preferred color theme",
-		schema: stepThreeSchema,
-	},
 ];
 
 export default function OnboardingPage() {
@@ -112,15 +94,12 @@ export default function OnboardingPage() {
 	}
 
 	function back() {
-		setCurrentStep(currentStep - 1);
+		if (currentStep > 0) {
+			setCurrentStep(currentStep - 1);
+		}
 	}
 
 	function onSubmit(data: z.infer<typeof FormSchema>) {
-		if (currentStep === 0) {
-			next();
-			return;
-		}
-
 		// Update formData with the current step's data
 		setFormData((prev) => ({
 			...prev,
@@ -151,6 +130,7 @@ export default function OnboardingPage() {
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)}>
 							<CardContent>
+								{/* Conditionally render the form Fields for each step */}
 								{currentStep === 0 && (
 									<>
 										<div className="bg-pink-100 w-fit p-3 rounded-full mx-auto mb-4">
@@ -194,35 +174,6 @@ export default function OnboardingPage() {
 													</FormLabel>
 													<FormControl>
 														<Input {...field} />
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</>
-								)}
-								{currentStep === 2 && (
-									<>
-										<FormField
-											control={form.control}
-											name="colorTheme"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Choose your color theme</FormLabel>
-													<FormControl>
-														<Select
-															onValueChange={field.onChange}
-															defaultValue={field.value}
-														>
-															<SelectTrigger className="w-full">
-																<SelectValue placeholder="Select a theme" />
-															</SelectTrigger>
-															<SelectContent>
-																<SelectItem value="light">Light</SelectItem>
-																<SelectItem value="dark">Dark</SelectItem>
-																<SelectItem value="system">System</SelectItem>
-															</SelectContent>
-														</Select>
 													</FormControl>
 													<FormMessage />
 												</FormItem>
