@@ -25,6 +25,13 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 const stepOneSchema = z.object({});
 
@@ -44,9 +51,6 @@ export const FormSchema = z.object({
 	}),
 	giftCircle: z.string().min(1, {
 		message: "Please enter your gift-giving circle.",
-	}),
-	colorTheme: z.string().min(1, {
-		message: "Please select a color theme.",
 	}),
 });
 
@@ -74,7 +78,6 @@ export default function OnboardingPage() {
 	const [formData, setFormData] = useState<z.infer<typeof FormSchema>>({
 		name: "",
 		giftCircle: "",
-		colorTheme: "",
 	});
 
 	// Initialize form
@@ -83,7 +86,6 @@ export default function OnboardingPage() {
 		defaultValues: {
 			name: "",
 			giftCircle: "",
-			colorTheme: "",
 		},
 	});
 
@@ -168,13 +170,43 @@ export default function OnboardingPage() {
 											control={form.control}
 											name="giftCircle"
 											render={({ field }) => (
-												<FormItem className="mt-4">
+												<FormItem>
 													<FormLabel>
 														Which gift-giving circle do you belong to?
 													</FormLabel>
-													<FormControl>
-														<Input {...field} />
-													</FormControl>
+													<Select
+														onValueChange={field.onChange}
+														defaultValue={field.value}
+													>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder="Select your age group" />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															<SelectItem value="0-12">0 - 12 years</SelectItem>
+															<SelectItem value="13-17">
+																13 - 17 years
+															</SelectItem>
+															<SelectItem value="18-24">
+																18 - 24 years
+															</SelectItem>
+															<SelectItem value="25-34">
+																25 - 34 years
+															</SelectItem>
+															<SelectItem value="35-44">
+																35 - 44 years
+															</SelectItem>
+															<SelectItem value="45-54">
+																45 - 54 years
+															</SelectItem>
+															<SelectItem value="55-64">
+																55 - 64 years
+															</SelectItem>
+															<SelectItem value="65+">65+ years</SelectItem>
+														</SelectContent>
+													</Select>
+
 													<FormMessage />
 												</FormItem>
 											)}
