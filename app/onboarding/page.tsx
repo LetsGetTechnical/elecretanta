@@ -1,4 +1,4 @@
-export default async function DashboardPage() {
+export default async function OnboardingPage() {
   return (
     <div className="min-h-screen p-8">
       <h1 className="text-2xl font-bold mb-4">Onboarding</h1>
