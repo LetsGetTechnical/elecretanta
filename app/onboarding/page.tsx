@@ -45,7 +45,8 @@ const stepTwoSchema = z.object({
 });
 
 // Combined schema for the entire form
-export const FormSchema = z.object({
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const FormSchema = z.object({
 	name: z.string().min(2, {
 		message: "Name must be at least 2 characters.",
 	}),
