@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { ChevronLeft, ChevronRight, Gift } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -33,6 +33,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
+// Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
 
 const stepTwoSchema = z.object({
@@ -76,10 +77,6 @@ const steps: Step[] = [
 
 export default function OnboardingPage() {
 	const [currentStep, setCurrentStep] = useState(0);
-	const [formData, setFormData] = useState<z.infer<typeof FormSchema>>({
-		name: "",
-		giftCircle: "",
-	});
 
 	// Initialize form
 	const form = useForm<z.infer<typeof FormSchema>>({
@@ -89,6 +86,20 @@ export default function OnboardingPage() {
 			giftCircle: "",
 		},
 	});
+
+	useEffect(() => {
+		const fetchProfile = async () => {
+			const response = await fetch("/api/profile", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			const data = await response.json();
+			form.setValue("name", data.display_name);
+		};
+		fetchProfile();
+	}, [form]);
 
 	function next() {
 		if (currentStep < steps.length - 1) {
@@ -102,17 +113,10 @@ export default function OnboardingPage() {
 		}
 	}
 
-	function onSubmit(data: z.infer<typeof FormSchema>) {
-		// Update formData with the current step's data
-		setFormData((prev) => ({
-			...prev,
-			...data,
-		}));
-
+	function onSubmit() {
 		if (currentStep === steps.length - 1) {
-			// Replace with API call to update profile in DB
-			// change to test if I can push
-			console.log("Form data:", formData);
+			// TODO: Replace with API call to update profile in DB
+			console.log("Form data:", form.getValues());
 		} else {
 			next();
 		}
