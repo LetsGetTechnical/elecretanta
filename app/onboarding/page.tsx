@@ -14,7 +14,7 @@ import { Progress } from "@/components/Progress/progress";
 import { ChevronLeft, ChevronRight, Gift } from "lucide-react";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import {
 	Form,
@@ -32,7 +32,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/Select/select";
-import { Label } from "@radix-ui/react-label";
+import { MultiSelect } from "@/components/Multi-select/multi-select-input";
 
 // Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
@@ -96,6 +96,17 @@ const steps: Step[] = [
 		description: "Help our elves understand what brings you joy",
 		schema: stepThreeSchema,
 	},
+];
+
+const hobbyOptions = [
+	{ value: "books & stories", label: "Books & Stories" },
+	{ value: "games & play", label: "Games & Play" },
+	{ value: "sports & adventure", label: "Sports & Adventure" },
+	{ value: "tech & gadgets", label: "Tech & Gadgets" },
+	{ value: "arts & crafts", label: "Arts & Crafts" },
+	{ value: "music & sound", label: "Music & Sound" },
+	{ value: "style & fashion", label: "Style & Fashion" },
+	{ value: "food & cooking", label: "Food & Cooking" },
 ];
 
 export default function OnboardingPage() {
@@ -246,15 +257,51 @@ export default function OnboardingPage() {
 								)}
 								{currentStep === 2 && (
 									<>
-										<div>
-											<div>
-												<Label htmlFor="">
-													<Input type="checkbox" />
-												</Label>
-												<p></p>
-												<p></p>
-											</div>
-										</div>
+										<FormField
+											control={form.control}
+											name="categories"
+											// eslint-disable-next-line @typescript-eslint/no-unused-vars
+											render={({ field }) => (
+												<FormItem className="mb-2">
+													<FormLabel>What catches your eye?</FormLabel>
+													<FormControl>
+														<Controller
+															name="categories"
+															control={form.control}
+															render={({ field }) => (
+																<MultiSelect
+																	options={hobbyOptions}
+																	value={field.value}
+																	onChange={field.onChange}
+																/>
+															)}
+														/>
+													</FormControl>
+													<FormDescription>
+														Select categories that interest you
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="hobbies"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>
+														Tell us more about your interests
+													</FormLabel>
+													<FormControl>
+														<Input {...field} />
+													</FormControl>
+													<FormDescription>
+														Share some of your favorite activities or hobbies
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
 									</>
 								)}
 							</CardContent>
