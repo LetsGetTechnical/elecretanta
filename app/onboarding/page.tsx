@@ -33,6 +33,7 @@ import {
 	SelectValue,
 } from "@/components/Select/select";
 import { MultiSelect } from "@/components/Multi-select/multi-select-input";
+import { Textarea } from "@/components/ui/textarea";
 
 // Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
@@ -293,11 +294,12 @@ export default function OnboardingPage() {
 														Tell us more about your interests
 													</FormLabel>
 													<FormControl>
-														<Input {...field} />
+														<Textarea
+															placeholder="Share some of your favorite activities or hobbies"
+															className="resize-none"
+															{...field}
+														/>
 													</FormControl>
-													<FormDescription>
-														Share some of your favorite activities or hobbies
-													</FormDescription>
 													<FormMessage />
 												</FormItem>
 											)}
