@@ -35,6 +35,7 @@ import {
 import { MultiSelect } from "@/components/MultiSelect/multi-select-input";
 import { Textarea } from "@/components/TextArea/textarea";
 import { Slider } from "@/components/Slider/slider";
+import { useRouter } from "next/navigation";
 
 // Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
@@ -137,6 +138,8 @@ const hobbyOptions = [
 
 export default function OnboardingPage() {
 	const [currentStep, setCurrentStep] = useState(0);
+	const [isSubmitted, setIsSubmitted] = useState(false);
+	const router = useRouter();
 
 	// Initialize form
 	const form = useForm<z.infer<typeof FormSchema>>({
@@ -147,7 +150,6 @@ export default function OnboardingPage() {
 			categories: [],
 			hobbies: "",
 			giftRestrictions: "",
-			// Initialize as numbers instead of arrays
 			giftPersonality: 50,
 			experienceStyle: 50,
 			giftStyle: 50,
@@ -180,10 +182,36 @@ export default function OnboardingPage() {
 		}
 	}
 
-	function onSubmit() {
+	async function onSubmit() {
 		if (currentStep === steps.length - 1) {
-			// TODO: Replace with API call to update profile in DB
-			console.log("Form data:", form.getValues());
+			try {
+				const formData = form.getValues();
+				const response = await fetch("/api/profile", {
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						display_name: formData.name,
+						age_group: formData.giftCircle,
+						categories: formData.categories,
+						hobbies: formData.hobbies,
+						avoid: formData.giftRestrictions,
+						practical_whimsical: formData.giftPersonality,
+						cozy_adventurous: formData.experienceStyle,
+						minimal_luxurious: formData.giftStyle,
+					}),
+				});
+
+				if (!response.ok) {
+					throw new Error("Failed to update profile");
+				}
+
+				setIsSubmitted(true);
+				router.push("/dashboard");
+			} catch (error) {
+				console.error("Error updating profile: ", error);
+			}
 		} else {
 			next();
 		}
@@ -192,7 +220,10 @@ export default function OnboardingPage() {
 	return (
 		<main className="w-full min-h-screen flex flex-col items-center justify-center">
 			<div className="max-w-lg">
-				<Progress value={(currentStep / steps.length) * 100} className="my-4" />
+				<Progress
+					value={isSubmitted ? 100 : (currentStep / steps.length) * 100}
+					className="my-4"
+				/>
 				<Card>
 					<CardHeader>
 						<CardTitle className="text-center text-2xl font-bold">
