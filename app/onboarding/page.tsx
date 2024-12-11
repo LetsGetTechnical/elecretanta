@@ -32,7 +32,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/Select/select";
-import { MultiSelect } from "@/components/Multi-Select/multi-select-input";
+import { MultiSelect } from "../../components/Multi-Select/multi-select-input";
 import { Textarea } from "@/components/TextArea/textarea";
 
 // Use an empty schema for steps without a form
