@@ -486,7 +486,9 @@ export default function OnboardingPage() {
 										</Button>
 									)}
 									<Button type="submit">
-										{currentStep < steps.length - 1 ? "Next" : "Submit"}
+										{currentStep < steps.length - 1
+											? "Next"
+											: "Find My Perfect Gift"}
 										<ChevronRight />
 									</Button>
 								</div>
