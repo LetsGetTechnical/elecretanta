@@ -32,8 +32,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/Select/select";
-import { MultiSelect } from "@/components/Multi-select/multi-select-input";
-import { Textarea } from "@/components/ui/textarea";
+import { MultiSelect } from "@/components/Multi-Select/multi-select-input";
+import { Textarea } from "@/components/TextArea/textarea";
 
 // Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
