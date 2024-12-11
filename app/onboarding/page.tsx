@@ -57,6 +57,10 @@ const stepThreeSchema = z.object({
 	}),
 });
 
+const stepFourSchema = z.object({
+	giftRestrictions: z.string(),
+});
+
 // Combined schema for the entire form
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FormSchema = z.object({
@@ -73,6 +77,7 @@ const FormSchema = z.object({
 		message:
 			"Our elves need a little more info about your interests to find the perfect gift! Please share some of your favorite activities or hobbies.",
 	}),
+	giftRestrictions: z.string(),
 });
 
 type Step = {
@@ -96,6 +101,11 @@ const steps: Step[] = [
 		title: "Your Interests",
 		description: "Help our elves understand what brings you joy",
 		schema: stepThreeSchema,
+	},
+	{
+		title: "Gift Restrictions",
+		description: "Help your secret Santa avoid any gift mishaps",
+		schema: stepFourSchema,
 	},
 ];
 
@@ -300,6 +310,32 @@ export default function OnboardingPage() {
 															{...field}
 														/>
 													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</>
+								)}
+								{currentStep === 3 && (
+									<>
+										<FormField
+											control={form.control}
+											name="giftRestrictions"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>
+														Is there anything your Secret Santa should avoid?
+													</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Examples: allergies, dietary restrictions, specific materials, types of items you don't use, etc."
+															{...field}
+														/>
+													</FormControl>
+													<FormDescription>
+														This helps ensure you recieve a gift you&apos;ll
+														love and can actually use.
+													</FormDescription>
 													<FormMessage />
 												</FormItem>
 											)}
