@@ -32,7 +32,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/Select/select";
-import { MultiSelect } from "@/components/Multi-Select/multi-select-input";
+import { MultiSelect } from "@/components/MultiSelect/multi-select-input";
 import { Textarea } from "@/components/TextArea/textarea";
 import { Slider } from "@/components/Slider/slider";
 
@@ -63,9 +63,9 @@ const stepFourSchema = z.object({
 });
 
 const stepFiveSchema = z.object({
-	giftPersonality: z.array(z.number()),
-	experienceStyle: z.array(z.number()),
-	giftStyle: z.array(z.number()),
+	giftPersonality: z.number(),
+	experienceStyle: z.number(),
+	giftStyle: z.number(),
 });
 
 // Combined schema for the entire form
@@ -85,9 +85,9 @@ const FormSchema = z.object({
 			"Our elves need a little more info about your interests to find the perfect gift! Please share some of your favorite activities or hobbies.",
 	}),
 	giftRestrictions: z.string(),
-	giftPersonality: z.array(z.number()),
-	experienceStyle: z.array(z.number()),
-	giftStyle: z.array(z.number()),
+	giftPersonality: z.number(),
+	experienceStyle: z.number(),
+	giftStyle: z.number(),
 });
 
 type Step = {
@@ -147,10 +147,10 @@ export default function OnboardingPage() {
 			categories: [],
 			hobbies: "",
 			giftRestrictions: "",
-			// Initialize slider values as arrays with single values
-			giftPersonality: [50],
-			experienceStyle: [50],
-			giftStyle: [50],
+			// Initialize as numbers instead of arrays
+			giftPersonality: 50,
+			experienceStyle: 50,
+			giftStyle: 50,
 		},
 	});
 
@@ -374,8 +374,10 @@ export default function OnboardingPage() {
 														<Slider
 															min={0}
 															max={100}
-															value={field.value}
-															onValueChange={field.onChange}
+															value={[field.value]}
+															onValueChange={(values) =>
+																field.onChange(values[0])
+															}
 														/>
 													</FormControl>
 													<FormDescription className="flex justify-between">
@@ -397,8 +399,10 @@ export default function OnboardingPage() {
 														<Slider
 															min={0}
 															max={100}
-															value={field.value}
-															onValueChange={field.onChange}
+															value={[field.value]}
+															onValueChange={(values) =>
+																field.onChange(values[0])
+															}
 														/>
 													</FormControl>
 													<FormDescription className="flex justify-between">
@@ -420,8 +424,10 @@ export default function OnboardingPage() {
 														<Slider
 															min={0}
 															max={100}
-															value={field.value}
-															onValueChange={field.onChange}
+															value={[field.value]}
+															onValueChange={(values) =>
+																field.onChange(values[0])
+															}
 														/>
 													</FormControl>
 													<FormDescription className="flex justify-between">
