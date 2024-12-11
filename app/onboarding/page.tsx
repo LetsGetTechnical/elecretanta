@@ -34,6 +34,7 @@ import {
 } from "@/components/Select/select";
 import { MultiSelect } from "@/components/Multi-Select/multi-select-input";
 import { Textarea } from "@/components/TextArea/textarea";
+import { Slider } from "@/components/Slider/slider";
 
 // Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
@@ -61,6 +62,12 @@ const stepFourSchema = z.object({
 	giftRestrictions: z.string(),
 });
 
+const stepFiveSchema = z.object({
+	giftPersonality: z.array(z.number()),
+	experienceStyle: z.array(z.number()),
+	giftStyle: z.array(z.number()),
+});
+
 // Combined schema for the entire form
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FormSchema = z.object({
@@ -78,6 +85,9 @@ const FormSchema = z.object({
 			"Our elves need a little more info about your interests to find the perfect gift! Please share some of your favorite activities or hobbies.",
 	}),
 	giftRestrictions: z.string(),
+	giftPersonality: z.array(z.number()),
+	experienceStyle: z.array(z.number()),
+	giftStyle: z.array(z.number()),
 });
 
 type Step = {
@@ -107,6 +117,11 @@ const steps: Step[] = [
 		description: "Help your secret Santa avoid any gift mishaps",
 		schema: stepFourSchema,
 	},
+	{
+		title: "Gift Compass",
+		description: "Help us understand your perfect gift style",
+		schema: stepFiveSchema,
+	},
 ];
 
 const hobbyOptions = [
@@ -131,6 +146,11 @@ export default function OnboardingPage() {
 			giftCircle: "",
 			categories: [],
 			hobbies: "",
+			giftRestrictions: "",
+			// Initialize slider values as arrays with single values
+			giftPersonality: [50],
+			experienceStyle: [50],
+			giftStyle: [50],
 		},
 	});
 
@@ -341,6 +361,78 @@ export default function OnboardingPage() {
 											)}
 										/>
 									</>
+								)}
+								{currentStep === 4 && (
+									<div className="flex flex-col gap-4">
+										<FormField
+											control={form.control}
+											name="giftPersonality"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Gift Personality</FormLabel>
+													<FormControl>
+														<Slider
+															min={0}
+															max={100}
+															value={field.value}
+															onValueChange={field.onChange}
+														/>
+													</FormControl>
+													<FormDescription className="flex justify-between">
+														<span>Practical & Purposeful</span>
+														<span>Fun & Whimsical</span>
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+
+										<FormField
+											control={form.control}
+											name="experienceStyle"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Experience Style</FormLabel>
+													<FormControl>
+														<Slider
+															min={0}
+															max={100}
+															value={field.value}
+															onValueChange={field.onChange}
+														/>
+													</FormControl>
+													<FormDescription className="flex justify-between">
+														<span>Cozy & Comfortable</span>
+														<span>Bold & Adventurous</span>
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+
+										<FormField
+											control={form.control}
+											name="giftStyle"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Gift Style</FormLabel>
+													<FormControl>
+														<Slider
+															min={0}
+															max={100}
+															value={field.value}
+															onValueChange={field.onChange}
+														/>
+													</FormControl>
+													<FormDescription className="flex justify-between">
+														<span>Simple & Essential</span>
+														<span>Fancy & Special</span>
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 								)}
 							</CardContent>
 							<CardFooter>
