@@ -10,7 +10,7 @@ interface ProfileCardProps {
 
 const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
   return (
-    <article className="text-white max-w-5xl">
+    <article className="text-white px-4">
       <div className="flex items-center rounded-t-2xl justify-between py-5 px-9 bg-groupCardGreen">
         <div className="flex items-center gap-4">
           <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
@@ -28,7 +28,7 @@ const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
           </Button>
         )}
       </div>
-      <div className="bg-[#12433A] rounded-b-2xl grid grid-cols-1 md:grid-cols-[2fr_minmax(300px,1fr)] gap-12 px-9 py-7">
+      <div className="bg-[#12433A] rounded-b-2xl grid grid-cols-1 lg:grid-cols-[minmax(550px,2fr)_minmax(300px,1fr)] gap-12 pl-9 pr-28 py-7">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-3">
             <h2 className="flex items-center gap-2 font-bold text-[#FFD17C]">
