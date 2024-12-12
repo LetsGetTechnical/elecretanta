@@ -17,13 +17,13 @@ const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
           <div>
             <h1 className="text-lg font-bold">John Doe</h1>
             <div className="flex items-center gap-2 text-sm font-medium">
-              <Cake size={16} />
-              <span className="text-sm">25-34</span>
+              <Cake className="text-[#92AEA9]" size={16} />
+              <span className="text-sm text-[#EDE6DF]">25-34</span>
             </div>
           </div>
         </div>
         {showEditButton && (
-          <Button className="flex items-center gap-2 text-sm font-bold rounded-xl">
+          <Button className="bg-[#C5DBB2] text-black flex items-center gap-2 text-sm font-bold rounded-xl hover:text-white">
             <Pencil size={16} /> Edit Profile
           </Button>
         )}
@@ -31,14 +31,14 @@ const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
       <div className="grid grid-cols-1 md:grid-cols-[2fr_minmax(300px,1fr)] gap-12 px-9 py-7">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-3">
-            <h2 className="flex items-center gap-2 font-bold">
+            <h2 className="flex items-center gap-2 font-bold text-[#FFD17C]">
               <Heart size={16} strokeWidth={2} /> Interests & Hobbies
             </h2>
             <div className="flex flex-wrap gap-2">
-              <Badge className="text-sm py-1 px-2.5 rounded-xl">
+              <Badge className="text-sm py-1 px-2.5 rounded-xl bg-[#DBDBB2] text-[#292913] hover:text-white">
                 Books & Stories
               </Badge>
-              <Badge className="text-sm py-1 px-2.5 rounded-xl">
+              <Badge className="text-sm py-1 px-2.5 rounded-xl bg-[#DBDBB2] text-[#292913] hover:text-white">
                 Art & Creation
               </Badge>
             </div>
@@ -48,7 +48,7 @@ const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <h2 className="flex items-center gap-3 font-bold">
+            <h2 className="flex items-center gap-3 font-bold text-[#FDDEDE]">
               <CircleX size={16} strokeWidth={2} /> Please avoid
             </h2>
             <p className="text-sm">
@@ -59,7 +59,7 @@ const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <h2 className="flex items-center gap-2 font-bold mb-2">
+          <h2 className="flex items-center gap-2 font-bold mb-2 text-[#E8577D]">
             <Compass size={16} strokeWidth={2} /> Gift Styles
           </h2>
           <div className="flex flex-col gap-2 text-xs">
@@ -67,21 +67,21 @@ const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
               <div>Practical</div>
               <div className="font-bold">Whimsical</div>
             </div>
-            <Progress value={95} />
+            <Progress indicatorClassName="bg-[#E8577D]" value={95} />
           </div>
           <div className="flex flex-col gap-2 text-xs">
             <div className="flex items-center justify-between">
               <div className="font-bold">Cozy</div>
               <div>Adventurous</div>
             </div>
-            <Progress value={15} />
+            <Progress indicatorClassName="bg-[#E8577D]" value={15} />
           </div>
           <div className="flex flex-col gap-2 text-xs">
             <div className="flex items-center justify-between">
               <div>Minimal</div>
               <div className="font-bold">Luxurious</div>
             </div>
-            <Progress value={65} />
+            <Progress indicatorClassName="bg-[#E8577D]" value={65} />
           </div>
         </div>
       </div>
