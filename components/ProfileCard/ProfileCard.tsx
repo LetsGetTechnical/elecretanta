@@ -4,7 +4,11 @@ import Avatar from "@/components/Avatar/Avatar";
 import { Button } from "@/components/Button/button";
 import { Badge } from "@/components/Badge/badge";
 
-const ProfileCard = () => {
+interface ProfileCardProps {
+  showEditButton?: boolean;
+}
+
+const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
   return (
     <article className="rounded-2xl border text-white max-w-5xl">
       <div className="flex items-center justify-between py-5 border-b px-9">
@@ -18,9 +22,11 @@ const ProfileCard = () => {
             </div>
           </div>
         </div>
-        <Button className="flex items-center gap-2 text-sm font-bold rounded-xl">
-          <Pencil size={16} /> Edit Profile
-        </Button>
+        {showEditButton && (
+          <Button className="flex items-center gap-2 text-sm font-bold rounded-xl">
+            <Pencil size={16} /> Edit Profile
+          </Button>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-[2fr_minmax(300px,1fr)] gap-12 px-9 py-7">
         <div className="flex flex-col gap-8">
