@@ -1,5 +1,6 @@
 "use client";
 
+import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
 import { useEffect } from "react";
 
 const TestAIPage = (): React.JSX.Element => {
@@ -20,7 +21,11 @@ const TestAIPage = (): React.JSX.Element => {
     fetchGifts();
   }, []);
 
-  return <></>;
+  return (
+    <>
+      <GiftSuggestionCard />
+    </>
+  );
 };
 
 export default TestAIPage;

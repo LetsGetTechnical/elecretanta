@@ -10,6 +10,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        giftSuggestionTextBackground: "#E5ECDF",
+        giftSuggestionTextGreen: "#50766C",
+        giftSuggestionPriceGreen: "#18443C",
         giftSuggestionsCardBackground: "#F8F7F0",
         primaryButtonYellow: "#E8B24E",
         groupCardArrow: "#F9F8F280",
