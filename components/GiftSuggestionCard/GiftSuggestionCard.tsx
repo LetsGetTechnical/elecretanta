@@ -1,3 +1,4 @@
+import { SquareArrowOutUpRight, ThumbsDown } from "lucide-react";
 import { Button } from "../Button/button";
 import {
   Card,
@@ -10,7 +11,7 @@ import {
 
 const GiftSuggestionCard = () => {
   return (
-    <Card>
+    <Card className="bg-giftSuggestionsCardBackground">
       <CardHeader>
         <CardTitle>Name of Gift</CardTitle>
         <CardDescription>Description of gift.</CardDescription>
@@ -23,8 +24,13 @@ const GiftSuggestionCard = () => {
       </CardContent>
       <CardFooter>
         <div>
-          <Button>View</Button>
-          <Button>Not This</Button>
+          <Button>
+            <SquareArrowOutUpRight /> View
+          </Button>
+          <Button>
+            <ThumbsDown />
+            Not This
+          </Button>
         </div>
         <Button>Select Gift</Button>
       </CardFooter>
