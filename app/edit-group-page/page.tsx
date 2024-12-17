@@ -37,6 +37,7 @@ import {
 } from "@/components/Command/command";
 import { Textarea } from "@/components/TextArea/textarea";
 import { ImageSelector } from "@/components/ImageSelector/ImageSelector";
+import { useRouter } from "next/navigation";
 
 const priceRanges = [
   { label: "$10 - $20", value: "10-20" },
@@ -71,6 +72,8 @@ const formSchema = z.object({
   selectedImage: z.string(),
 });
 export default function CreateGroupPage() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -88,9 +91,13 @@ export default function CreateGroupPage() {
   return (
     <div className=" flex justify-center align-center flex-col">
       <div className="flex flex-row">
-        <Button className="bg-clear">
-          <ChevronLeft></ChevronLeft>
-          <p>Back to user dashboard</p>
+        <Button
+          className="bg-clear"
+          type="button"
+          onClick={() => router.push("/dashboard")}
+        >
+          <ChevronLeft className="mr-2" />
+          Back to Dashboard
         </Button>
       </div>
       <div className="flex items-center justify-center h-full">
@@ -137,7 +144,7 @@ export default function CreateGroupPage() {
                 name="selectedImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="m-5">Select an Image</FormLabel>
+                    <FormLabel className="m-5">Group Theme Image</FormLabel>
                     <FormControl>
                       <ImageSelector {...field} />
                     </FormControl>
@@ -153,7 +160,7 @@ export default function CreateGroupPage() {
                 name="priceRanges"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="m-5">Price Range</FormLabel>
+                    <FormLabel className="mx-5 mt-5">Price Range</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -161,7 +168,7 @@ export default function CreateGroupPage() {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              "w-[200px] justify-between m-5 w-4/5",
+                              "w-[200px] justify-between mx-5 mt-5 w-4/5",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -170,7 +177,7 @@ export default function CreateGroupPage() {
                                   (priceRanges) =>
                                     priceRanges.value === field.value
                                 )?.label
-                              : "Select a price range"}
+                              : "Budget Per Person."}
                             <ChevronsUpDown className="opacity-50" />
                           </Button>
                         </FormControl>
@@ -178,11 +185,11 @@ export default function CreateGroupPage() {
                       <PopoverContent className="w-[200px] p-0">
                         <Command>
                           <CommandInput
-                            placeholder="Search framework..."
+                            placeholder="Select a price range."
                             className="h-9"
                           />
                           <CommandList>
-                            <CommandEmpty>No framework found.</CommandEmpty>
+                            <CommandEmpty>No Price Selected</CommandEmpty>
                             <CommandGroup>
                               {priceRanges.map((priceRanges) => (
                                 <CommandItem
@@ -257,6 +264,9 @@ export default function CreateGroupPage() {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormDescription className="ml-5">
+                      When names will be randomly drawn for the gift exchange.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -300,13 +310,16 @@ export default function CreateGroupPage() {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormDescription className="ml-5">
+                      When the gift exchange will take place.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="flex justify-start m-5">
                 <Button className="m-2" type="submit">
-                  Edit Group Details
+                  Save Changes
                 </Button>
                 <Button
                   variant="outline"

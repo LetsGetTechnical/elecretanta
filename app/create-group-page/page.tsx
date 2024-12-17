@@ -37,6 +37,7 @@ import {
 } from "@/components/Command/command";
 import { Textarea } from "@/components/TextArea/textarea";
 import { ImageSelector } from "@/components/ImageSelector/ImageSelector";
+import { useRouter } from "next/navigation";
 
 const priceRanges = [
   { label: "$10 - $20", value: "10-20" },
@@ -71,6 +72,8 @@ const formSchema = z.object({
   selectedImage: z.string(),
 });
 export default function CreateGroupPage() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -88,7 +91,11 @@ export default function CreateGroupPage() {
   return (
     <div className=" flex justify-center align-center flex-col">
       <div className="flex flex-row">
-        <Button className="bg-clear">
+        <Button
+          className="bg-clear"
+          type="button"
+          onClick={() => router.push("/dashboard")}
+        >
           <ChevronLeft></ChevronLeft>
           <p>Back to user dashboard</p>
         </Button>
@@ -137,13 +144,10 @@ export default function CreateGroupPage() {
                 name="selectedImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="m-5">Select an Image</FormLabel>
+                    <FormLabel className="m-5">Group Theme Image</FormLabel>
                     <FormControl>
                       <ImageSelector {...field} />
                     </FormControl>
-                    <FormDescription className="ml-5">
-                      Choose one of the images above.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -257,6 +261,9 @@ export default function CreateGroupPage() {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormDescription className="ml-5">
+                      When names will be drawn for the gift exchange.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -300,6 +307,9 @@ export default function CreateGroupPage() {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormDescription className="ml-5">
+                      When the gift exchange will take place.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
