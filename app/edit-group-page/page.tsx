@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/Form/form";
-import { Check, ChevronsUpDown, ChevronLeft, ArrowBigLeft } from "lucide-react";
+import { Check, ChevronsUpDown, ChevronLeft } from "lucide-react";
 import { Input } from "@/components/Input/input";
 import { Button } from "@/components/Button/button";
 import { CalendarIcon } from "lucide-react";
@@ -26,14 +24,11 @@ import {
 import { format } from "date-fns";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/Command/command";
 import { Textarea } from "@/components/TextArea/textarea";
 import { ImageSelector } from "@/components/ImageSelector/ImageSelector";

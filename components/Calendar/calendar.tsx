@@ -60,8 +60,11 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        // The lack of props is causing a linter error, but we will need them when setting up the fetch logic later. For now I'm commenting out the error as a temporary fix.
+        // IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
+        // IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        IconLeft: () => <ChevronLeft className="h-4 w-4" />,
+        IconRight: () => <ChevronRight className="h-4 w-4" />,
       }}
       {...props}
     />
