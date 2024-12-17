@@ -3,9 +3,12 @@ import { NextResponse } from "next/server";
 import type { CreateGiftExchangeMemberRequest } from "@/app/types/giftExchangeMember";
 
 // get all members of a gift exchange
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const exchangeId = searchParams.get("exchangeId");
+export async function GET(
+  req: Request,
+  props: { params: Promise<{ id: string }> }
+) {
+  const params = await props.params;
+  const id = await params.id;
 
   try {
     const supabase = await createClient();
@@ -17,36 +20,36 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Query to get all members in the gift exchange
-    let query = supabase.from("gift_exchange_members").select(`
-          *,
-          member:user_id (
-            id,
-            email,
-            user_metadata
-          ),
-          recipient:recipient_id (
-            id,
-            email,
-            user_metadata
-          )
-        `);
+    const query = supabase
+      .from("gift_exchange_members")
+      .select(
+        `
+        id,
+        gift_exchange_id,
+        user_id,
+        recipient_id,
+        has_drawn,
+        created_at,
+        updated_at,
+        member:profiles!user_id (
+          id,
+          display_name,
+          email
+        )
+      `
+      )
+      .eq("gift_exchange_id", id);
 
-    // Apply filter using the exchangeId directly from the path
-    if (exchangeId) {
-      query = query.eq("gift_exchange_id", exchangeId);
-    }
+    const { data: membersData, error: membersError } = await query;
 
-    const { data, error } = await query;
-
-    if (error) {
+    if (membersError) {
       return NextResponse.json(
         { error: "Gift exchange members not found" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json(membersData);
   } catch (error) {
     console.log(error);
 
