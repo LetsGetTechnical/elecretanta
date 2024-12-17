@@ -63,7 +63,10 @@ export default function GiftExchangePage() {
       case "pending":
         return (
           <div className="flex flex-row w-full pt-12 gap-8 items-start">
-            <JourneyCard />
+            <JourneyCard
+              drawingDate={giftExchangeData.drawing_date}
+              exchangeDate={giftExchangeData.exchange_date}
+            />
             <div className="flex flex-col gap-4 w-full max-w-md">
               <MembersList members={giftExchangeMembers} />
               <InviteCard />
