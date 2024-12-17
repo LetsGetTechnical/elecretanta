@@ -55,7 +55,7 @@ export default function GiftExchangePage() {
   }, [id]);
 
   if (isLoading) {
-    return <LoadingSkeleton />;
+    return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
   }
 
   const renderContent = () => {

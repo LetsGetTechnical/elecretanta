@@ -1,7 +1,11 @@
 import { Card, CardContent, CardHeader } from "@/components/Card/card";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
 
-const SkeletonCard = () => (
+interface SkeletonCardProps {
+  itemCount?: number;
+}
+
+const SkeletonCard = ({ itemCount = 3 }: SkeletonCardProps) => (
   <Card className="w-full">
     <CardHeader className="rounded-xl">
       <div className="flex items-center gap-2">
@@ -10,7 +14,7 @@ const SkeletonCard = () => (
       </div>
     </CardHeader>
     <CardContent className="pt-6 space-y-4">
-      {[1, 2, 3].map((i) => (
+      {Array.from({ length: itemCount }, (_, i) => (
         <div key={i} className="flex items-center gap-4">
           <Skeleton className="h-10 w-10 rounded-full" />
           <div className="space-y-2 flex-1">
@@ -23,7 +27,15 @@ const SkeletonCard = () => (
   </Card>
 );
 
-export const LoadingSkeleton = () => (
+interface LoadingSkeletonProps {
+  statsCount?: number;
+  cardItemCount?: number;
+}
+
+export const LoadingSkeleton = ({
+  statsCount = 4,
+  cardItemCount = 3,
+}: LoadingSkeletonProps) => (
   <main className="h-screen">
     <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       {/* Header Navigation */}
@@ -51,7 +63,7 @@ export const LoadingSkeleton = () => (
           </div>
           <div className="border-t pt-4">
             <div className="grid grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
+              {Array.from({ length: statsCount }, (_, i) => (
                 <div key={i} className="space-y-2">
                   <Skeleton className="h-5 w-24" />
                   <Skeleton className="h-4 w-16" />
@@ -64,9 +76,9 @@ export const LoadingSkeleton = () => (
 
       {/* Generic Layout */}
       <div className="flex flex-row w-full pt-12 gap-8 items-start">
-        <SkeletonCard />
+        <SkeletonCard itemCount={cardItemCount} />
         <div className="flex flex-col gap-4 w-full max-w-md">
-          <SkeletonCard />
+          <SkeletonCard itemCount={cardItemCount} />
         </div>
       </div>
     </section>
