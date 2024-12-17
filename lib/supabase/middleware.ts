@@ -49,6 +49,26 @@ export async function updateSession(request: NextRequest) {
 		// Todo: Uncomment this to redirect unauthenticated users to the login page
 	}
 
+	if (user && !request.nextUrl.pathname.startsWith("/api/")) {
+		// Get the user's profile
+		const { data: profile } = await supabase
+			.from("profiles")
+			.select("onboarding_complete")
+			.eq("id", user.id)
+			.single();
+
+		// If user is not onboarded and not already on the onboarding page, redirect to onboarding
+		if (
+			profile &&
+			!profile.onboarding_complete &&
+			!request.nextUrl.pathname.startsWith("/onboarding")
+		) {
+			const url = request.nextUrl.clone();
+			url.pathname = "/onboarding";
+			return NextResponse.redirect(url);
+		}
+	}
+
 	// IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
 	// creating a new response object with NextResponse.next() make sure to:
 	// 1. Pass the request in it, like so:
