@@ -1,7 +1,7 @@
 "use client";
 
 import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export interface Gift {
   title: string;
@@ -26,12 +26,10 @@ const TestAIPage = (): React.JSX.Element => {
     console.log(dataObject);
     setGifts(dataObject);
   };
-  useEffect(() => {
-    fetchGifts();
-  }, []);
 
   return (
     <>
+      <button onClick={fetchGifts}>Generate Gifts</button>
       {Object.keys(gifts).map((key) => (
         <GiftSuggestionCard key={key} gift={gifts[key]} />
       ))}
