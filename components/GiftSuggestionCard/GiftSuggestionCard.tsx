@@ -8,11 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "../Card/card";
-import { Gift } from "@/app/test-ai/page";
+import { GiftSuggestionCardProps } from "@/app/types/giftSuggestion";
 
-interface GiftSuggestionCardProps {
-  gift: Gift;
-}
 const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
   return (
     <Card className="bg-giftSuggestionsCardBackground h-96 w-80 flex flex-col justify-between m-5">
