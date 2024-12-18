@@ -66,6 +66,14 @@ export async function updateSession(request: NextRequest) {
 			const url = request.nextUrl.clone();
 			url.pathname = "/onboarding";
 			return NextResponse.redirect(url);
+		} else if (
+			profile &&
+			profile.onboarding_complete &&
+			request.nextUrl.pathname.startsWith("/onboarding")
+		) {
+			const url = request.nextUrl.clone();
+			url.pathname = "/dashboard";
+			return NextResponse.redirect(url);
 		}
 	}
 
