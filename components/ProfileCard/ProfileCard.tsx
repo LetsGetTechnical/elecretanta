@@ -4,28 +4,20 @@ import { Progress } from "@/components/Progress/progress";
 import Avatar from "@/components/Avatar/Avatar";
 import { Button } from "@/components/Button/button";
 import { Badge } from "@/components/Badge/badge";
-import { useEffect, useState } from "react";
 import { Profile } from "@/app/types/profile";
 
 interface ProfileCardProps {
+  profile: Profile | null;
   showEditButton?: boolean;
 }
 
-const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
-  const [profile, setProfile] = useState<Profile | null>(null);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch("/api/profile");
-        const profile = await response.json();
-        setProfile(profile);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-    fetchProfile();
-  }, []);
+const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
+  const formatDisplayName = (displayName: string) => {
+    const formattedDisplayName = displayName.split(" ").map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
+    return formattedDisplayName.join(" ");
+  };
 
   const formatCategory = (category: string) => {
     const categories = category.split("&");
@@ -75,7 +67,9 @@ const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
         <div className="flex items-center gap-4">
           <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
           <div>
-            <h1 className="text-lg font-bold">{profile?.display_name}</h1>
+            <h1 className="text-lg font-bold">
+              {formatDisplayName(profile?.display_name || "")}
+            </h1>
             <div className="flex items-center gap-2 text-sm font-medium">
               <Cake className="text-[#92AEA9]" size={16} />
               <span className="text-sm text-[#EDE6DF]">
