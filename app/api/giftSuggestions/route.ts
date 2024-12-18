@@ -23,9 +23,10 @@ export async function POST(req: NextRequest) {
           - Avoid
 
           For each suggestion, provide:
-          - Title and approximate price range
+          - Short Title of Gift
+          - Price range of gift
           - Brief description
-          - 3 reasons why it matches the profile
+          - 2 short reasons why it matches the profile
           - Match percentage
 
           Format as JSON with fields: title, price, description, matchReasons[], matchScore.

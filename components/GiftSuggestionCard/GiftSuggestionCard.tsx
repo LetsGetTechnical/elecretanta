@@ -20,10 +20,10 @@ interface GiftSuggestionCardProps {
 }
 const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
   return (
-    <Card className="bg-giftSuggestionsCardBackground h-80 w-80 flex flex-col justify-between m-5">
+    <Card className="bg-giftSuggestionsCardBackground h-96 w-80 flex flex-col justify-between m-5">
       <div className="flex justify-between m-4">
         <p className="text-xs w-24 h-7 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-md">
-          {gift.matchScore}
+          {gift.matchScore}% Match
         </p>
         <p className="text-sm font-semibold text-giftSuggestionDarkGreen">
           {gift.price}
@@ -37,7 +37,7 @@ const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
           {gift.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-0 m-4 w-72 h-14 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
+      <CardContent className="p-0 m-4 w-72 h-20 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
         <ul className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1">
           <li>{gift.matchReasons[0]}</li>
           <li>{gift.matchReasons[1]}</li>
