@@ -2,10 +2,17 @@
 
 import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
 import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
+
+export interface Gift {
+  title: string;
+  price: string;
+  description: string;
+  matchReasons: string[];
+  matchScore: number;
+}
 
 const TestAIPage = (): React.JSX.Element => {
-  const [gifts, setGifts] = useState<any>({});
+  const [gifts, setGifts] = useState<Record<string, Gift>>({});
   const fetchGifts = async () => {
     const response = await fetch("/api/giftSuggestions", {
       method: "POST",

@@ -8,15 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "../Card/card";
+import { Gift } from "@/app/test-ai/page";
 
 interface GiftSuggestionCardProps {
-  gift: {
-    title: string;
-    price: string;
-    description: string;
-    matchReasons: string[];
-    matchScore: number;
-  };
+  gift: Gift;
 }
 const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
   return (
