@@ -1,14 +1,32 @@
+"use client";
 import { Cake, CircleX, Compass, Heart, Pencil } from "lucide-react";
 import { Progress } from "@/components/Progress/progress";
 import Avatar from "@/components/Avatar/Avatar";
 import { Button } from "@/components/Button/button";
 import { Badge } from "@/components/Badge/badge";
+import { useEffect, useState } from "react";
+import { Profile } from "@/app/types/profile";
 
 interface ProfileCardProps {
   showEditButton?: boolean;
 }
 
 const ProfileCard = ({ showEditButton = false }: ProfileCardProps) => {
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch("/api/profile");
+        const profile = await response.json();
+        setProfile(profile);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <article className="text-white px-4">
       <div className="flex items-center rounded-t-2xl justify-between py-5 px-9 bg-groupCardGreen">
