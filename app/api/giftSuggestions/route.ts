@@ -2,9 +2,9 @@ import { openai } from "../openaiConfig/config";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const requestBody = await req.json();
+  // const requestBody = await req.json();
 
-  const { profile } = requestBody;
+  // const { profile } = requestBody;
 
   try {
     const completion = await openai.chat.completions.create({
