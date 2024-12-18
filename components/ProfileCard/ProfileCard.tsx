@@ -68,7 +68,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
           <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
           <div>
             <h1 className="text-lg font-bold">
-              {formatDisplayName(profile?.display_name || "")}
+              {formatDisplayName(profile?.display_name || "No Name Provided")}
             </h1>
             <div className="flex items-center gap-2 text-sm font-medium">
               <Cake className="text-[#92AEA9]" size={16} />
