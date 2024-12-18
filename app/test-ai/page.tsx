@@ -28,9 +28,9 @@ const TestAIPage = (): React.JSX.Element => {
     setGifts(dataObject);
   };
 
-  useEffect(() => {
-    fetchGifts();
-  }, []);
+  // useEffect(() => {
+  //   fetchGifts();
+  // }, []);
 
   return (
     <>
