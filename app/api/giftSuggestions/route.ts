@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
         },
         {
           role: "user",
-          content: `Name: ${profile.name}, Age: ${profile.age}, Interests: ${profile.interests}, Style: ${profile.style}, Budget: ${profile.budget}, Avoid: ${profile.avoid}`,
+          // content: `Name: ${profile.name}, Age: ${profile.age}, Interests: ${profile.interests}, Style: ${profile.style}, Budget: ${profile.budget}, Avoid: ${profile.avoid}`,
+          content: `Name: Jack, Age: 25, Interests: Cooking and Athletics, Style: Practicall, Budget: $50, Avoid: Candy and Peanuts`,
         },
       ],
     });

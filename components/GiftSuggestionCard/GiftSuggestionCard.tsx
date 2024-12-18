@@ -9,29 +9,38 @@ import {
   CardTitle,
 } from "../Card/card";
 
-const GiftSuggestionCard = () => {
+interface GiftSuggestionCardProps {
+  gift: {
+    title: string;
+    price: string;
+    description: string;
+    matchReasons: string[];
+    matchScore: number;
+  };
+}
+const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
   return (
-    <Card className="bg-giftSuggestionsCardBackground h-80 w-80 flex flex-col justify-between">
+    <Card className="bg-giftSuggestionsCardBackground h-80 w-80 flex flex-col justify-between m-5">
       <div className="flex justify-between m-4">
         <p className="text-xs w-24 h-7 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-md">
-          95% Match
+          {gift.matchScore}
         </p>
         <p className="text-sm font-semibold text-giftSuggestionDarkGreen">
-          $29.95
+          {gift.price}
         </p>
       </div>
       <CardHeader className="p-0 mx-4">
         <CardTitle className="text-base font-bold text-giftSuggestionDarkGreen">
-          Name of Gift
+          {gift.title}
         </CardTitle>
         <CardDescription className="text-sm text-giftSuggestionTextLightGreen">
-          Description of gift.
+          {gift.description}
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0 m-4 w-72 h-14 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
         <ul className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1">
-          <li>reason #1 for gift suggestion</li>
-          <li>reason #2 for gift suggestion</li>
+          <li>{gift.matchReasons[0]}</li>
+          <li>{gift.matchReasons[1]}</li>
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col p-4">
