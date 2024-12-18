@@ -23,7 +23,7 @@ export default function LoginButton({ redirectPath = "/onboarding" }) {
 		});
 
 		if (error) {
-			redirect("/error");
+			redirect("/auth/error");
 		}
 	};
 
