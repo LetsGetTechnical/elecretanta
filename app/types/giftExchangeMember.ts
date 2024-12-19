@@ -6,6 +6,10 @@ export interface GiftExchangeMember {
   has_drawn: boolean;
   created_at?: Date;
   updated_at?: Date;
+  member: {
+    display_name: string;
+    email: string;
+  };
 }
 
 export interface CreateGiftExchangeMemberRequest {

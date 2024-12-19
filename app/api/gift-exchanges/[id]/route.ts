@@ -3,10 +3,12 @@ import { createClient } from "@/lib/supabase/server";
 import { validateGroupExchangeDates } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
-
+export async function GET(
+  req: Request,
+  props: { params: Promise<{ id: string }> }
+) {
+  const params = await props.params;
+  const id = await params.id;
   try {
     const supabase = await createClient();
     const {
@@ -19,20 +21,12 @@ export async function GET(req: Request) {
 
     const { data, error } = await supabase
       .from("gift_exchanges")
-      .select(
-        `
-          *,
-          owner:owner_id (
-            id,
-            email,
-            user_metadata
-          )
-        `
-      )
+      .select("*")
       .eq("id", id)
       .single();
 
     if (error) {
+      console.error("supabase error", error);
       return NextResponse.json(
         { error: "Gift exchange not found" },
         { status: 404 }
