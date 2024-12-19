@@ -64,7 +64,7 @@ const formSchema = z.object({
   giftDrawingDate: z.date(),
   giftExchangeDate: z.date(),
   priceRanges: z.string({
-    required_error: "Please select a language.",
+    required_error: "Please select a Price Range.",
   }),
   selectedImage: z.string(),
 });
