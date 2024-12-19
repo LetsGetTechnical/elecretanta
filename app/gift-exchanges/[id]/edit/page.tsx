@@ -48,26 +48,30 @@ const priceRanges = [
   { label: "$90 - $100", value: "90-100" },
 ] as const;
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Group name must be at least 2 characters long",
-  }),
-  groupName: z.string().min(2, {
-    message: "Group name must be at least 2 characters long",
-  }),
-  groupDescription: z.string().min(2, {
-    message: "Group name must be at least 2 characters long",
-  }),
-  groupBudget: z.number().min(0, {
-    message: "Budget must be a positive number",
-  }),
-  giftDrawingDate: z.date(),
-  giftExchangeDate: z.date(),
-  priceRanges: z.string({
-    required_error: "Please select a Price Range.",
-  }),
-  selectedImage: z.string(),
-});
+const formSchema = z
+  .object({
+    username: z.string().min(2, {
+      message: "Group name must be at least 2 characters long",
+    }),
+    groupName: z.string().min(2, {
+      message: "Group name must be at least 2 characters long",
+    }),
+    groupDescription: z.string().min(2, {
+      message: "Group name must be at least 2 characters long",
+    }),
+    groupBudget: z.number().min(0, {
+      message: "Budget must be a positive number",
+    }),
+    giftDrawingDate: z.date(),
+    giftExchangeDate: z.date(),
+    priceRanges: z.string({
+      required_error: "Please select a Price Range.",
+    }),
+    selectedImage: z.string(),
+  })
+  .refine((data) => data.giftExchangeDate >= data.giftDrawingDate, {
+    message: "Gift Exchange Date must be after Gift Drawing Date",
+  });
 export default function CreateGroupPage() {
   const router = useRouter();
 
@@ -85,6 +89,8 @@ export default function CreateGroupPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
+  const giftDrawingDate = form.watch("giftDrawingDate");
   return (
     <div className=" flex justify-center align-center flex-col">
       <div className="flex flex-row">
@@ -300,9 +306,7 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          // disabled={(date) =>
-                          //   date > new Date() || date < new Date("1900-01-01")
-                          // }
+                          disabled={(date) => date < giftDrawingDate}
                           initialFocus
                         />
                       </PopoverContent>
