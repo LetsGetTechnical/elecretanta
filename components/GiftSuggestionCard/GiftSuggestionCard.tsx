@@ -31,8 +31,9 @@ const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
       </CardHeader>
       <CardContent className="p-0 m-4 w-72 h-20 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
         <ul className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1">
-          <li>{gift.matchReasons[0]}</li>
-          <li>{gift.matchReasons[1]}</li>
+          {gift.matchReasons.map((reason, index) => (
+            <li key={index}>{reason}</li>
+          ))}
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col p-4">
