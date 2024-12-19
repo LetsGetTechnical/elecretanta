@@ -200,6 +200,7 @@ export default function OnboardingPage() {
 						practical_whimsical: formData.giftPersonality,
 						cozy_adventurous: formData.experienceStyle,
 						minimal_luxurious: formData.giftStyle,
+						onboarding_complete: true,
 					}),
 				});
 

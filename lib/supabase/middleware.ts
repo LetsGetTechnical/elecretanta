@@ -37,16 +37,48 @@ export async function updateSession(request: NextRequest) {
 		data: { user },
 	} = await supabase.auth.getUser();
 
+	// If the user is not authenticated redirect the user to the login page
 	if (
 		!user &&
-		!request.nextUrl.pathname.startsWith("/login") &&
-		!request.nextUrl.pathname.startsWith("/auth")
+		!request.nextUrl.pathname.startsWith("/auth/login") &&
+		!request.nextUrl.pathname.startsWith("/auth") &&
+		request.nextUrl.pathname !== "/auth/error" &&
+		request.nextUrl.pathname !== "/"
 	) {
 		// no user, potentially respond by redirecting the user to the login page
-		// const url = request.nextUrl.clone();
-		// url.pathname = "/login";
-		// return NextResponse.redirect(url);
+		const url = request.nextUrl.clone();
+		url.pathname = "/auth/login";
+		return NextResponse.redirect(url);
 		// Todo: Uncomment this to redirect unauthenticated users to the login page
+	}
+
+	// if the user is authenticated check if they have already onboarded
+	if (user && !request.nextUrl.pathname.startsWith("/api/")) {
+		// Get the user's profile
+		const { data: profile } = await supabase
+			.from("profiles")
+			.select("onboarding_complete")
+			.eq("id", user.id)
+			.single();
+
+		// If user is not onboarded and not already on the onboarding page, redirect to onboarding
+		if (
+			profile &&
+			!profile.onboarding_complete &&
+			!request.nextUrl.pathname.startsWith("/onboarding")
+		) {
+			const url = request.nextUrl.clone();
+			url.pathname = "/onboarding";
+			return NextResponse.redirect(url);
+		} else if (
+			profile &&
+			profile.onboarding_complete &&
+			request.nextUrl.pathname.startsWith("/onboarding")
+		) {
+			const url = request.nextUrl.clone();
+			url.pathname = "/dashboard";
+			return NextResponse.redirect(url);
+		}
 	}
 
 	// IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
