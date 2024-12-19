@@ -176,10 +176,10 @@ export default function CreateGroupPage() {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
+                      <PopoverContent className="w-52 p-0">
                         <Command>
                           <CommandInput
-                            placeholder="Search framework..."
+                            placeholder="Search Price Ranges..."
                             className="h-9"
                           />
                           <CommandList>
