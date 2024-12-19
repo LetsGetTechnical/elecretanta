@@ -79,6 +79,11 @@ export const GiftExchangeHeader = ({
               <p className="text-xs">{giftExchangeData.description}</p>
             </div>
             <div>
+              {getStatusText(giftExchangeData.status) === "Open" ? (
+                <Button>Draw Gift Exchange</Button>
+              ) : null}
+            </div>
+            <div>
               <Button size={"sm"} variant={"secondary"}>
                 <Share2 />
                 Share Link
