@@ -99,7 +99,7 @@ export default function CreateGroupPage() {
       </div>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white w-1/2 mb-5 flex justify-center align-center rounded flex-col ">
-          <h2 className="font-bold m-5">Edit Secret Santa Page</h2>
+          <h2 className="font-bold m-5">Create Secret Santa Page</h2>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
