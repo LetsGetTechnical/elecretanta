@@ -233,7 +233,7 @@ export default function CreateGroupPage() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-[240px] pl-3 text-left font-normal m-5 w-4/5",
+                              "w-60 pl-3 text-left font-normal m-5",
                               !field.value && "text-muted-foreground "
                             )}
                           >
@@ -279,7 +279,7 @@ export default function CreateGroupPage() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-[240px] pl-3 text-left font-normal m-5 w-4/5",
+                              "w-60 pl-3 text-left font-normal m-5",
                               !field.value && "text-muted-foreground"
                             )}
                           >

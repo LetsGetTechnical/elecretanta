@@ -64,7 +64,7 @@ const formSchema = z.object({
   giftDrawingDate: z.date(),
   giftExchangeDate: z.date(),
   priceRanges: z.string({
-    required_error: "Please select a language.",
+    required_error: "Please select a Price Range.",
   }),
   selectedImage: z.string(),
 });
@@ -165,7 +165,7 @@ export default function CreateGroupPage() {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              "w-[200px] justify-between mx-5 mt-5 w-4/5",
+                              "w-52 justify-between mx-5 mt-5 w-4/5",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -179,7 +179,7 @@ export default function CreateGroupPage() {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
+                      <PopoverContent className="w-50 p-0">
                         <Command>
                           <CommandInput
                             placeholder="Select a price range."
@@ -236,7 +236,7 @@ export default function CreateGroupPage() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-[240px] pl-3 text-left font-normal m-5 w-4/5",
+                              "w-60 pl-3 text-left font-normal m-5",
                               !field.value && "text-muted-foreground "
                             )}
                           >
@@ -282,7 +282,7 @@ export default function CreateGroupPage() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-[240px] pl-3 text-left font-normal m-5 w-4/5",
+                              "w-60 pl-3 text-left font-normal m-5",
                               !field.value && "text-muted-foreground"
                             )}
                           >
