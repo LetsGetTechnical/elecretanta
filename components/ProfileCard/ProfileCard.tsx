@@ -5,6 +5,7 @@ import Avatar from "@/components/Avatar/Avatar";
 import { Button } from "@/components/Button/button";
 import { Badge } from "@/components/Badge/badge";
 import { Profile } from "@/app/types/profile";
+import { useRouter } from "next/navigation";
 
 interface ProfileCardProps {
   profile: Profile | null;
@@ -12,6 +13,12 @@ interface ProfileCardProps {
 }
 
 const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
+  const router = useRouter();
+
+  const handleEditProfile = () => {
+    router.push("/onboarding");
+  };
+
   const formatDisplayName = (displayName: string) => {
     const formattedDisplayName = displayName.split(" ").map((word) => {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -79,7 +86,10 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
           </div>
         </div>
         {showEditButton && (
-          <Button className="bg-[#C5DBB2] text-black flex items-center gap-2 text-sm font-bold rounded-xl hover:text-white">
+          <Button
+            className="bg-[#C5DBB2] text-black flex items-center gap-2 text-sm font-bold rounded-xl hover:text-white"
+            onClick={handleEditProfile}
+          >
             <Pencil size={16} /> Edit Profile
           </Button>
         )}
