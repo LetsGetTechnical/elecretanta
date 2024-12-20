@@ -80,7 +80,6 @@ export default function CreateGroupPage() {
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log("submitted");
 		try {
 			const response = await fetch("/api/gift-exchanges", {
 				method: "POST",
