@@ -91,6 +91,7 @@ export default function CreateGroupPage() {
 			});
 			if (!response.ok) throw new Error(`Error: ${response.status}`);
 			await response.json();
+			router.push("/dashboard");
 		} catch (error) {
 			console.error(error);
 		}
