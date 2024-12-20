@@ -61,7 +61,6 @@ export async function PATCH(
 		}
 
 		const body: UpdateGiftExchangeRequest = await req.json();
-		console.log("body", body);
 
 		// Validate dates if both are provided
 		if (body.drawing_date && body.exchange_date) {
@@ -83,8 +82,6 @@ export async function PATCH(
 			.eq("id", id)
 			.select()
 			.single();
-
-		console.log("data", data);
 
 		if (error) {
 			return NextResponse.json({ error: error.message }, { status: 500 });
