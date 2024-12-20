@@ -48,22 +48,27 @@ const priceRanges = [
 	{ label: "$90 - $100", value: "90-100" },
 ] as const;
 
-const formSchema = z.object({
-	name: z.string().min(2, {
-		message: "Group name must be at least 2 characters long",
-	}),
-	description: z.string().min(2, {
-		message: "Group name must be at least 2 characters long",
-	}),
-	drawing_date: z.date(),
-	exchange_date: z.date(),
-	budget: z.string({
-		required_error: "Please select a Price Range.",
-	}),
-	group_image: z.string({
-		message: "Please Select An Image for the Group",
-	}),
-});
+const formSchema = z
+	.object({
+		name: z.string().min(2, {
+			message: "Group name must be at least 2 characters long",
+		}),
+		description: z.string().min(2, {
+			message: "Group name must be at least 2 characters long",
+		}),
+		drawing_date: z.date(),
+		exchange_date: z.date(),
+		budget: z.string({
+			required_error: "Please select a Price Range.",
+		}),
+		group_image: z.string({
+			message: "Please Select An Image for the Group",
+		}),
+	})
+	.refine((data) => data.exchange_date > data.drawing_date, {
+		message: "Exchange Date must be after the Drawing Date",
+		path: ["exchange_date"],
+	});
 export default function CreateGroupPage() {
 	const router = useRouter();
 
@@ -325,15 +330,6 @@ export default function CreateGroupPage() {
 							</div>
 						</form>
 					</Form>
-					<button
-						onClick={() => {
-							if (form) {
-								console.log(form.getValues());
-							}
-						}}
-					>
-						log form values
-					</button>
 				</div>
 			</div>
 		</div>
