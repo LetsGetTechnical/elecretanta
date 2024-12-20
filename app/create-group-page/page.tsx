@@ -95,8 +95,8 @@ export default function CreateGroupPage() {
 				body: JSON.stringify(values),
 			});
 			if (!response.ok) throw new Error(`Error: ${response.status}`);
-			await response.json();
-			router.push("/dashboard");
+			const data = await response.json();
+			router.push(`/gift-exchanges/${data.id}`);
 		} catch (error) {
 			console.error(error);
 		}
