@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/Input/input";
 import { Progress } from "@/components/Progress/progress";
 import { ChevronLeft, ChevronRight, Gift } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
@@ -137,6 +137,18 @@ const hobbyOptions = [
 ];
 
 export default function OnboardingPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="text-center text-white text-2xl">Loading...</div>
+      }
+    >
+      <Onboarding />
+    </Suspense>
+  );
+}
+
+function Onboarding() {
   const [name, setName] = useState<string | null>("There");
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
