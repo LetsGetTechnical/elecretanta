@@ -89,7 +89,7 @@ export default function CreateGroupPage() {
 				},
 				body: JSON.stringify(values),
 			});
-			if (!response.ok) throw new Error("Error creating Gift Exchange");
+			if (!response.ok) throw new Error(`Error: ${response.status}`);
 			await response.json();
 		} catch (error) {
 			console.error(error);
