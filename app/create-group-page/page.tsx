@@ -69,6 +69,7 @@ const formSchema = z
 		message: "Exchange Date must be after the Drawing Date",
 		path: ["exchange_date"],
 	});
+
 export default function CreateGroupPage() {
 	const router = useRouter();
 
@@ -100,6 +101,7 @@ export default function CreateGroupPage() {
 			console.error(error);
 		}
 	}
+	const giftDrawingDate = form.watch("drawing_date");
 	return (
 		<div className=" flex justify-center align-center flex-col">
 			<div className="flex flex-row">
@@ -309,9 +311,7 @@ export default function CreateGroupPage() {
 													mode="single"
 													selected={field.value}
 													onSelect={field.onChange}
-													// disabled={(date) =>
-													//   date > new Date() || date < new Date("1900-01-01")
-													// }
+													disabled={(date) => date < giftDrawingDate}
 													initialFocus
 												/>
 											</PopoverContent>
