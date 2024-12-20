@@ -53,7 +53,7 @@ export async function updateSession(request: NextRequest) {
 	}
 
 	// if the user is authenticated check if they have already onboarded
-	if (user && !request.nextUrl.pathname.startsWith("/api/")) {
+	if (user) {
 		// Get the user's profile
 		const { data: profile } = await supabase
 			.from("profiles")
