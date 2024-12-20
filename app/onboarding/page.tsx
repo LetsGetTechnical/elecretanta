@@ -250,7 +250,9 @@ export default function OnboardingPage() {
                     <div className="bg-pink-100 w-fit p-3 rounded-full mx-auto mb-4">
                       <Gift className="text-red-600" />
                     </div>
-                    <h3 className="font-bold text-center">Hello, John Doe!</h3>
+                    <h3 className="font-bold text-center">
+                      Hello, {form.getValues("name") || "There"}!
+                    </h3>
                     <p className="text-center">
                       Our elf-powered AI is here to help you create your gift
                       profile. In just a few minutes, we&apos;ll help your
