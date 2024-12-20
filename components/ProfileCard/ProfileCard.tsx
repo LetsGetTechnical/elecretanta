@@ -16,7 +16,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
   const router = useRouter();
 
   const handleEditProfile = () => {
-    router.push("/onboarding");
+    router.push("/onboarding?editing=true");
   };
 
   const formatDisplayName = (displayName: string) => {

@@ -35,7 +35,7 @@ import {
 import { MultiSelect } from "@/components/MultiSelect/multi-select-input";
 import { Textarea } from "@/components/TextArea/textarea";
 import { Slider } from "@/components/Slider/slider";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
@@ -137,9 +137,12 @@ const hobbyOptions = [
 ];
 
 export default function OnboardingPage() {
+  const [name, setName] = useState<string | null>("There");
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editing = searchParams.get("editing");
 
   // Initialize form
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -165,6 +168,7 @@ export default function OnboardingPage() {
         },
       });
       const data = await response.json();
+      setName(data.display_name);
       form.setValue("name", data.display_name);
       form.setValue("giftCircle", data.age_group);
       form.setValue("categories", data.categories);
@@ -216,7 +220,12 @@ export default function OnboardingPage() {
         }
 
         setIsSubmitted(true);
-        router.push("/dashboard");
+
+        if (editing) {
+          router.push("/profile");
+        } else {
+          router.push("/dashboard");
+        }
       } catch (error) {
         console.error("Error updating profile: ", error);
       }
@@ -250,9 +259,7 @@ export default function OnboardingPage() {
                     <div className="bg-pink-100 w-fit p-3 rounded-full mx-auto mb-4">
                       <Gift className="text-red-600" />
                     </div>
-                    <h3 className="font-bold text-center">
-                      Hello, {form.getValues("name") || "There"}!
-                    </h3>
+                    <h3 className="font-bold text-center">Hello, {name}!</h3>
                     <p className="text-center">
                       Our elf-powered AI is here to help you create your gift
                       profile. In just a few minutes, we&apos;ll help your
