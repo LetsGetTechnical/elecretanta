@@ -22,7 +22,7 @@ const GroupCard = ({ giftExchange }: GroupCardProps) => {
 					</h2>
 					<div className="flex gap-4 items-center">
 						<span className="flex gap-2 items-center">
-							<Users color="white" opacity={0.7} />
+							<Users className="text-white opacity-70 h-6 lg:h-8" />
 							<p className="text-white text-xs lg:text-sm">
 								{giftExchange.member_count}{" "}
 								{giftExchange.member_count === 1 ? "member" : "members"}
