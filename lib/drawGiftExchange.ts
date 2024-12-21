@@ -1,3 +1,4 @@
+import { generateAndStoreSuggestions } from "@/app/api/giftSuggestions/route";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 // util function to draw gift exchange names
@@ -59,7 +60,17 @@ export async function drawGiftExchange(
       throw new Error("Failed to assign recipients");
     }
 
-    // TODO: Generate giftExchange for each user
+    try {
+      await generateAndStoreSuggestions(
+        supabase,
+        exchangeId,
+        giver.user_id,
+        recipient.user_id,
+        exchange.budget
+      );
+    } catch (error) {
+      console.error("Failed to generate suggestions:", error);
+    }
   }
 
   // Update exchange status to active
