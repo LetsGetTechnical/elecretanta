@@ -49,6 +49,17 @@ export const GiftExchangeHeader = ({
     }
   };
 
+  //write fetch call to gift exchange route
+  let call = async () => {
+    try {
+      const response = await fetch(
+        "/api/gift-exchanges/8e3f26aa-59c6-49a1-bc76-91c956f59c01/members"
+      );
+      console.log(response);
+    } catch (error) {
+      console.log("this is the error: ", error);
+    }
+  };
   return (
     <>
       <div className="flex justify-between">
@@ -80,7 +91,7 @@ export const GiftExchangeHeader = ({
             </div>
             <div>
               {getStatusText(giftExchangeData.status) === "Open" ? (
-                <Button>Draw Gift Exchange</Button>
+                <Button onClick={call}>Draw Gift Exchange</Button>
               ) : null}
             </div>
             <div>
