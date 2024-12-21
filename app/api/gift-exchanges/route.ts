@@ -14,17 +14,15 @@ export async function GET() {
 		if (!user) {
 			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 		}
-		const { data, error } = await supabase
-			.from("gift_exchange_members")
-			.select("*, gift_exchanges(*)")
-			.eq("user_id", user.id);
+
+		const { data, error } = await supabase.rpc("get_gift_exchanges_for_user", {
+			input_user_id: user.id,
+		});
 
 		if (error) {
 			return NextResponse.json({ error: error.message }, { status: 500 });
 		}
-		console.log("data", data);
-		const giftExchanges = data.map((item) => item.gift_exchanges);
-		return NextResponse.json(giftExchanges);
+		return NextResponse.json(data);
 	} catch (error) {
 		console.log(error);
 
