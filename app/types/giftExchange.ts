@@ -3,7 +3,7 @@ export interface GiftExchange {
 	name: string;
 	description?: string;
 	group_image: string;
-	budget: number;
+	budget: string;
 	drawing_date: string;
 	exchange_date: string;
 	owner_id: string;
@@ -28,16 +28,16 @@ export interface CreateGiftExchangeRequest {
 	name: string;
 	description?: string;
 	group_image: string;
-	budget: number;
-	drawing_date: string;
-	exchange_date: string;
+	budget: string;
+	drawing_date: Date;
+	exchange_date: Date;
 }
 
 export interface UpdateGiftExchangeRequest {
 	name?: string;
 	description?: string;
 	group_image?: string;
-	budget?: number;
+	budget?: string;
 	drawing_date?: string;
 	exchange_date?: string;
 	status?: string;
