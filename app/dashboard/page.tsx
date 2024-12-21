@@ -4,10 +4,12 @@ import { Button } from "@/components/Button/button";
 import GroupCard from "@/components/GroupCard/GroupCard";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { GiftExchange } from "../types/giftExchange";
+import { GiftExchangeWithMemberCount } from "../types/giftExchange";
 
 export default function Dashboard() {
-	const [giftExchanges, setGiftExchanges] = useState<GiftExchange[]>([]);
+	const [giftExchanges, setGiftExchanges] = useState<
+		GiftExchangeWithMemberCount[]
+	>([]);
 
 	useEffect(() => {
 		async function fetchGiftExchanges() {
@@ -40,14 +42,19 @@ export default function Dashboard() {
 					className="bg-primaryButtonYellow h-10 w-36 font-semibold text-sm"
 					asChild
 				>
-					<Link href="/groups">Create Group</Link>
+					<Link href="/create-group-page">Create Group</Link>
 				</Button>
 			</div>
 			<div className="flex flex-col flex-grow px-4 md:px-16 lg:px-32 xl:px-52">
-				<h2 className="font-semibold text-lg text-white mb-2">My Groups</h2>
-				{giftExchanges.map((exchange) => (
-					<GroupCard giftExchange={exchange} key={exchange.id} />
-				))}
+				<h2 className="font-semibold text-lg text-white mb-2 ">My Groups</h2>
+				<div className="grid xl:grid-cols-2 gap-4">
+					{giftExchanges.map((exchange) => (
+						<GroupCard
+							giftExchange={exchange}
+							key={exchange.gift_exchange_id}
+						/>
+					))}
+				</div>
 			</div>
 		</section>
 	);
