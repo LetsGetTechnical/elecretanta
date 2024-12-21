@@ -54,7 +54,6 @@ export async function generateAndStoreSuggestions(
   recipientId: string,
   budget: number
 ) {
-  console.log("budget", budget);
   // Get recipient's profile
   const { data: recipientProfile, error: profileError } = await supabase
     .from("profiles")
@@ -62,7 +61,6 @@ export async function generateAndStoreSuggestions(
     .eq("id", recipientId)
     .single();
 
-  console.log("recipientProfile", recipientProfile);
   if (profileError || !recipientProfile) {
     throw new Error("Failed to fetch recipient profile");
   }
@@ -102,7 +100,6 @@ export async function generateAndStoreSuggestions(
   const response = completion.choices[0].message.content || "";
   const suggestions = response.split("\n").filter((s) => s.trim());
 
-  console.log("Suggestions:", suggestions);
   // Store each suggestion
   for (const suggestion of suggestions) {
     const { error: suggestionError } = await supabase
