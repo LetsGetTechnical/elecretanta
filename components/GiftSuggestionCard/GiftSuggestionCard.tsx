@@ -21,6 +21,7 @@ const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
       />
     );
   };
+
   return (
     <Card className="bg-giftSuggestionsCardBackground h-96 w-80 flex flex-col justify-between m-5">
       {renderView()}
