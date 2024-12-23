@@ -51,24 +51,41 @@ export async function generateAndStoreSuggestions(
     temperature: 0.7,
   });
 
-  const response = completion.choices[0].message.content || "";
-  const suggestions = response.split("\n").filter((s) => s.trim());
+  try {
+    const parsedResponse = JSON.parse(
+      completion.choices[0].message.content || ""
+    );
+    console.log("Parsed response:", parsedResponse);
 
-  // Store each suggestion
-  for (const suggestion of suggestions) {
-    const { error: suggestionError } = await supabase
-      .from("gift_suggestions")
-      .insert({
-        gift_exchange_id: exchangeId,
-        giver_id: giverId,
-        recipient_id: recipientId,
-        suggestion: JSON.stringify(suggestion), // Store the entire suggestion object
-      });
+    // Validate and clean each suggestion
+    for (const suggestion of parsedResponse) {
+      const cleanSuggestion = {
+        title: String(suggestion.title),
+        price: String(suggestion.price),
+        description: String(suggestion.description),
+        matchReasons: Array.isArray(suggestion.matchReasons)
+          ? suggestion.matchReasons.map(String)
+          : [],
+        matchScore: Number(suggestion.matchScore),
+      };
 
-    if (suggestionError) {
-      console.error("Failed to store suggestion:", suggestionError);
+      console.log("Cleaned suggestion:", cleanSuggestion);
+      const { error: suggestionError } = await supabase
+        .from("gift_suggestions")
+        .insert({
+          gift_exchange_id: exchangeId,
+          giver_id: giverId,
+          recipient_id: recipientId,
+          suggestion: cleanSuggestion,
+        });
+
+      if (suggestionError) {
+        console.error("Failed to store suggestion:", suggestionError);
+      }
     }
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to parse or store suggestions:", error);
+    throw new Error("Failed to generate gift suggestions");
   }
-
-  return { success: true };
 }
