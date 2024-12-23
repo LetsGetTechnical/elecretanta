@@ -63,7 +63,7 @@ const GiftExchangeMatch = () => {
       <div className="flex flex-col gap-4 px-4 xl:px-52 pt-12 text-primary-foreground mb-16">
         <GiftExchangeHeader giftExchangeData={giftExchangeData} />
       </div>
-      <ProfileCard className="px-4 xl:px-52" profile={match} />
+      <ProfileCard profile={match} />
     </section>
   );
 };

@@ -11,6 +11,7 @@ import { LoadingSkeleton } from "./LoadingSkeleton";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
 import { Profile } from "@/app/types/profile";
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
+import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -31,7 +32,7 @@ export default function GiftExchangePage() {
   >([]);
 
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
-  const [giftSuggestions, setGiftSuggestions] = useState({});
+  const [giftSuggestions, setGiftSuggestions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,14 +90,23 @@ export default function GiftExchangePage() {
       case "active":
         return (
           <div className="w-full pt-12">
+            <h1 className="font-bold mb-2">Your Secret Santa Match</h1>
             <ProfileCard profile={giftMatch} />
+            <div className="flex flex-col">
+              <h1 className="ml-8 mt-8">Gift Suggestions</h1>
+              <div className="flex flex-col xl:flex-row">
+                {giftSuggestions.map((gift, index) => (
+                  <GiftSuggestionCard key={index} gift={gift} />
+                ))}
+              </div>
+            </div>
           </div>
         );
     }
   };
 
   return (
-    <main className="h-screen">
+    <main className="h-full">
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader giftExchangeData={giftExchangeData} />
         {renderContent()}
