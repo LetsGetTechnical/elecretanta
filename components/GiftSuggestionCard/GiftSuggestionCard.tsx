@@ -7,24 +7,16 @@ import GiftDetailsView from "../GiftDetailsView/GiftDetailsView";
 const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
   const [isShowingFeedback, setIsShowingFeedback] = useState(false);
 
-  const renderView = () => {
-    if (isShowingFeedback) {
-      return (
-        <FeedbackView handleFeedback={() => setIsShowingFeedback(false)} />
-      );
-    }
-
-    return (
-      <GiftDetailsView
-        gift={gift}
-        handleFeedback={() => setIsShowingFeedback(true)}
-      />
-    );
-  };
-
   return (
     <Card className="bg-giftSuggestionsCardBackground h-96 w-80 flex flex-col justify-between m-5">
-      {renderView()}
+      {isShowingFeedback ? (
+        <FeedbackView handleFeedback={() => setIsShowingFeedback(false)} />
+      ) : (
+        <GiftDetailsView
+          gift={gift}
+          handleFeedback={() => setIsShowingFeedback(true)}
+        />
+      )}
     </Card>
   );
 };
