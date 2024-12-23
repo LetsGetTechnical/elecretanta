@@ -69,7 +69,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
   };
 
   return (
-    <article className="text-white px-4">
+    <article className="text-white">
       <div className="flex items-center rounded-t-2xl justify-between py-5 px-9 bg-groupCardGreen">
         <div className="flex items-center gap-4">
           <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
