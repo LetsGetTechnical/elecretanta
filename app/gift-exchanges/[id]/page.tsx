@@ -31,6 +31,7 @@ export default function GiftExchangePage() {
   >([]);
 
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
+  const [giftSuggestions, setGiftSuggestions] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,10 +51,12 @@ export default function GiftExchangePage() {
             giftSuggestionsResponse.json(),
           ]);
 
+        console.log(giftSuggestionsResult);
+
         setGiftExchangeData(giftExchangeResult);
         setGiftExchangeMembers(membersResult);
-        setGiftMatch(giftSuggestionsResult);
-        console.log(giftMatch);
+        setGiftMatch(giftSuggestionsResult.match);
+        setGiftSuggestions(giftSuggestionsResult.suggestions);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -84,7 +87,11 @@ export default function GiftExchangePage() {
           </div>
         );
       case "active":
-        return <div className="w-full pt-12"></div>;
+        return (
+          <div className="w-full pt-12">
+            <ProfileCard profile={giftMatch} />
+          </div>
+        );
     }
   };
 
