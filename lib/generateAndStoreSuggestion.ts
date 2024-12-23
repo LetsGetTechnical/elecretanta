@@ -52,7 +52,7 @@ export async function generateAndStoreSuggestions(
   });
 
   try {
-    let parsedResponse = JSON.parse(
+    const parsedResponse = JSON.parse(
       completion.choices[0].message.content || ""
     );
     console.log("Parsed response:", parsedResponse);
