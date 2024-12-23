@@ -1,5 +1,6 @@
 "use client";
 import { Cake, CircleX, Compass, Heart, Pencil } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Progress } from "@/components/Progress/progress";
 import Avatar from "@/components/Avatar/Avatar";
 import { Button } from "@/components/Button/button";
@@ -8,11 +9,16 @@ import { Profile } from "@/app/types/profile";
 import { useRouter } from "next/navigation";
 
 interface ProfileCardProps {
+  className?: string;
   profile: Profile | null;
   showEditButton?: boolean;
 }
 
-const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
+const ProfileCard = ({
+  className,
+  profile,
+  showEditButton = false,
+}: ProfileCardProps) => {
   const router = useRouter();
 
   const handleEditProfile = () => {
@@ -69,7 +75,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
   };
 
   return (
-    <article className="text-white px-4">
+    <article className={(cn("text-white px-4"), className)}>
       <div className="flex items-center rounded-t-2xl justify-between py-5 px-9 bg-groupCardGreen">
         <div className="flex items-center gap-4">
           <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
