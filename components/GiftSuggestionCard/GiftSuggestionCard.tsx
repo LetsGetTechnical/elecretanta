@@ -12,14 +12,14 @@ const GiftSuggestionCard: React.FC<GiftSuggestionCardProps> = ({ gift }) => {
       return (
         <FeedbackView handleFeedback={() => setIsShowingFeedback(false)} />
       );
-    } else {
-      return (
-        <GiftDetailsView
-          gift={gift}
-          handleFeedback={() => setIsShowingFeedback(true)}
-        />
-      );
     }
+
+    return (
+      <GiftDetailsView
+        gift={gift}
+        handleFeedback={() => setIsShowingFeedback(true)}
+      />
+    );
   };
   return (
     <Card className="bg-giftSuggestionsCardBackground h-96 w-80 flex flex-col justify-between m-5">
