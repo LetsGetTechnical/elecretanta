@@ -52,8 +52,6 @@ export default function GiftExchangePage() {
             giftSuggestionsResponse.json(),
           ]);
 
-        console.log(giftSuggestionsResult);
-
         setGiftExchangeData(giftExchangeResult);
         setGiftExchangeMembers(membersResult);
         setGiftMatch(giftSuggestionsResult.match);
