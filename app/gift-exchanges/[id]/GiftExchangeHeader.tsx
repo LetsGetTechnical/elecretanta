@@ -11,7 +11,17 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../../components/AlertDialogue/AlertDialgoue";
 interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
 }
@@ -91,8 +101,28 @@ export const GiftExchangeHeader = ({
             </div>
             <div>
               {getStatusText(giftExchangeData.status) === "Open" ? (
-                <Button onClick={call}>Draw Gift Exchange</Button>
-              ) : null}
+                <AlertDialog>
+                  <AlertDialogTrigger>Draw Gift Exchange</AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to start gift exchangee?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction>
+                        <Button onClick={call}>Draw Gift Exchange</Button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              ) : // <Button onClick={call}>Draw Gift Exchange</Button>
+
+              null}
             </div>
             <div>
               <Button size={"sm"} variant={"secondary"}>
