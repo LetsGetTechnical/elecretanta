@@ -7,7 +7,7 @@ import { LogIn } from "lucide-react";
 
 interface WarningModalProps {
   giftExchangeData: GiftExchange;
-  members: GiftExchangeMember[];
+  members: GiftExchangeMember[] | null;
   session: Session | null;
 }
 
@@ -38,7 +38,7 @@ const WarningModal = ({
             </div>
             <div>
               <div className="text-sm font-bold">Members</div>
-              <div className="text-sm">{members?.length}</div>
+              <div className="text-sm">{members?.length || 0}</div>
             </div>
           </div>
           {session ? (
