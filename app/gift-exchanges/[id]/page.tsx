@@ -114,8 +114,6 @@ export default function GiftExchangePage() {
     }
   };
 
-  console.log(giftSuggestions);
-
   return (
     <main className="min-h-screen">
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
