@@ -6,7 +6,3 @@ export interface GiftSuggestion {
   matchReasons: string[];
   matchScore: number;
 }
-
-export interface GiftSuggestionCardProps {
-  gift: GiftSuggestion;
-}
