@@ -1,6 +1,29 @@
 import { ChevronLeft } from "lucide-react";
 
-const FeedbackView = ({ handleFeedback }: { handleFeedback: () => void }) => {
+const FeedbackView = ({
+  allSuggestions,
+  gift,
+  handleFeedback,
+}: {
+  allSuggestions: {
+    id: string;
+    matchScore: number;
+    price: string;
+    title: string;
+    description: string;
+    matchReasons: string[];
+  };
+  gift: {
+    matchScore: number;
+    price: string;
+    title: string;
+    description: string;
+    matchReasons: string[];
+  };
+  handleFeedback: () => void;
+}) => {
+  console.log(allSuggestions);
+  console.log(gift);
   return (
     <div className="flex flex-col m-4">
       <ChevronLeft className="hover:cursor-pointer" onClick={handleFeedback} />

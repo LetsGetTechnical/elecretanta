@@ -1,4 +1,5 @@
 export interface GiftSuggestion {
+  id: string;
   title: string;
   price: string;
   description: string;
