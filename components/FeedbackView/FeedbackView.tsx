@@ -1,25 +1,13 @@
 import { ChevronLeft } from "lucide-react";
+import { GiftSuggestion } from "@/app/types/giftSuggestion";
 
 const FeedbackView = ({
   allSuggestions,
   gift,
   handleFeedback,
 }: {
-  allSuggestions: {
-    id: string;
-    matchScore: number;
-    price: string;
-    title: string;
-    description: string;
-    matchReasons: string[];
-  };
-  gift: {
-    matchScore: number;
-    price: string;
-    title: string;
-    description: string;
-    matchReasons: string[];
-  };
+  allSuggestions: GiftSuggestion[];
+  gift: GiftSuggestion;
   handleFeedback: () => void;
 }) => {
   console.log(allSuggestions);
