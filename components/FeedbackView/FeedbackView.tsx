@@ -2,15 +2,15 @@ import { ChevronLeft } from "lucide-react";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
 
 const FeedbackView = ({
-  allSuggestions,
+  allGiftSuggestions,
   gift,
   handleFeedback,
 }: {
-  allSuggestions: GiftSuggestion[];
+  allGiftSuggestions: GiftSuggestion[];
   gift: GiftSuggestion;
   handleFeedback: () => void;
 }) => {
-  console.log(allSuggestions);
+  console.log(allGiftSuggestions);
   console.log(gift);
   return (
     <div className="flex flex-col m-4">

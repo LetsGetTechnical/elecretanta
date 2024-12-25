@@ -5,10 +5,10 @@ import GiftDetailsView from "../GiftDetailsView/GiftDetailsView";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
 
 const GiftSuggestionCard = ({
-  allSuggestions,
+  allGiftSuggestions,
   gift,
 }: {
-  allSuggestions: GiftSuggestion[];
+  allGiftSuggestions: GiftSuggestion[];
   gift: GiftSuggestion;
 }) => {
   const [isShowingFeedback, setIsShowingFeedback] = useState(false);
@@ -19,7 +19,7 @@ const GiftSuggestionCard = ({
         <FeedbackView
           gift={gift}
           handleFeedback={() => setIsShowingFeedback(false)}
-          allSuggestions={allSuggestions}
+          allGiftSuggestions={allGiftSuggestions}
         />
       ) : (
         <GiftDetailsView

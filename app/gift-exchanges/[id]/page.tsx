@@ -96,7 +96,7 @@ export default function GiftExchangePage() {
               <div className="flex flex-col xl:flex-row">
                 {giftSuggestions.map((gift, index) => (
                   <GiftSuggestionCard
-                    allSuggestions={giftSuggestions}
+                    allGiftSuggestions={giftSuggestions}
                     key={index}
                     gift={gift}
                   />
