@@ -9,6 +9,7 @@ import { MembersList } from "./MembersList";
 import { InviteCard } from "./InviteCard";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
+import { CompletedExchangeCard } from "./CompletedExchangeCard";
 
 export default function GiftExchangePage() {
 	const { id } = useParams();
@@ -77,6 +78,12 @@ export default function GiftExchangePage() {
 				return (
 					<div className="w-full pt-12">
 						<MembersList members={giftExchangeMembers} />
+					</div>
+				);
+			case "completed":
+				return (
+					<div className="w-full pt-12">
+						<CompletedExchangeCard members={giftExchangeMembers} />
 					</div>
 				);
 		}
