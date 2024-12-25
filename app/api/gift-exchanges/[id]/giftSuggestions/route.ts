@@ -23,21 +23,21 @@ export async function GET(
       .from("gift_exchange_members")
       .select(
         `
+        id,
+        recipient_id,
+        recipient:profiles!gift_exchange_members_recipient_id_profiles_fkey (
           id,
-          recipient_id,
-          recipient:profiles!gift_exchange_members_recipient_id_fkey (
-            id,
-            display_name,
-            age_group,
-            categories,
-            hobbies,
-            avoid,
-            practical_whimsical,
-            cozy_adventurous,
-            minimal_luxurious,
-            email
-          )
-        `
+          display_name,
+          age_group,
+          categories,
+          hobbies,
+          avoid,
+          practical_whimsical,
+          cozy_adventurous,
+          minimal_luxurious,
+          email
+        )
+      `
       )
       .eq("gift_exchange_id", id)
       .eq("user_id", user.id)
