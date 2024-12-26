@@ -9,23 +9,13 @@ import {
 import { UsersRound } from "lucide-react";
 import Avatar from "@/components/Avatar/Avatar";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-import { useEffect, useState } from "react";
-import getUserAvatar from "@/lib/getUserAvatar";
 
 interface MembersListProps {
   members: GiftExchangeMember[];
 }
 
 export const MembersList = ({ members }: MembersListProps) => {
-  const [avatar, setAvatar] = useState<string>("");
-
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      const response = await getUserAvatar();
-      setAvatar(response);
-    };
-    fetchAvatar();
-  }, []);
+  console.log(members);
 
   return (
     <Card className="w-full">
@@ -39,7 +29,7 @@ export const MembersList = ({ members }: MembersListProps) => {
         <div className="space-y-4">
           {members.map((member) => (
             <div key={member.id} className="flex items-center gap-4">
-              <Avatar userAvatar={avatar} />
+              <Avatar userAvatar={member.member.avatar} />
               <div className="flex flex-col">
                 <span className="text-sm font-medium leading-none">
                   {member.member.display_name}
