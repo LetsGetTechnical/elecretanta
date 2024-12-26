@@ -39,7 +39,7 @@ export async function generateAndUpdateNewGiftSuggestion(
     With this profile information, you generated these 3 gifts:
     - Gifts: ${allGiftSuggestions}
 
-    Generate 1 new gift suggestion to replace the gift I will provide you with along with the feedback it recieved:
+    Generate 1 new gift suggestion to replace the gift I will provide you with along with the feedback it recieved. Please do not generate anything closely related to the provided gift:
     - Gift: ${gift}
     - Feedback: ${feedback}
 
