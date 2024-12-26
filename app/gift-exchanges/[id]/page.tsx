@@ -85,7 +85,10 @@ export default function GiftExchangePage() {
   return (
     <main className="h-screen">
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
-        <GiftExchangeHeader giftExchangeData={giftExchangeData} />
+        <GiftExchangeHeader
+          giftExchangeData={giftExchangeData}
+          members={giftExchangeMembers}
+        />
         {renderContent()}
       </section>
     </main>

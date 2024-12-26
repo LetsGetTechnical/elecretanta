@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/Button/button";
 import { GiftExchange } from "@/app/types/giftExchange";
 import { formatDate } from "@/lib/utils";
@@ -22,13 +23,27 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../../../components/AlertDialogue/AlertDialgoue";
+import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
+
+interface MembersListProps {
+  members: GiftExchangeMember[];
+}
+
 interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
 }
+type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps & MembersListProps;
 
 export const GiftExchangeHeader = ({
   giftExchangeData,
-}: GiftExchangeHeaderProps) => {
+  members,
+}: GiftExchangeHeaderPropsUnion) => {
+  const [membersData, setMembersData] = useState(members);
+
+  useEffect(() => {
+    setMembersData(members);
+  }, [members]);
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "pending":
@@ -43,7 +58,6 @@ export const GiftExchangeHeader = ({
         return <Verified />;
     }
   };
-
   const getStatusText = (status: string) => {
     switch (status) {
       case "pending":
@@ -59,17 +73,33 @@ export const GiftExchangeHeader = ({
     }
   };
 
-  //write fetch call to gift exchange route
-  let call = async () => {
+  // fetch call to thomas's matching logic
+  const call = async () => {
     try {
       const response = await fetch(
-        "/api/gift-exchanges/8e3f26aa-59c6-49a1-bc76-91c956f59c01/members"
+        // currently fetches memberslist from
+        "/api/gift-exchanges/8e3f26aa-59c6-49a1-bc76-91c956f59c01/members",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
-      console.log(response);
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
       console.log("this is the error: ", error);
     }
   };
+
+  console.log("members", members.length);
+  console.log("membersData:", membersData);
   return (
     <>
       <div className="flex justify-between">
@@ -102,7 +132,16 @@ export const GiftExchangeHeader = ({
             <div>
               {getStatusText(giftExchangeData.status) === "Open" ? (
                 <AlertDialog>
-                  <AlertDialogTrigger>Draw Gift Exchange</AlertDialogTrigger>
+                  <AlertDialogTrigger asChild>
+                    <Button disabled={membersData.length < 2}>
+                      Draw Gift Exchange
+                    </Button>
+                  </AlertDialogTrigger>
+                  {membersData.length < 2 && (
+                    <p className="text-yellow-600 bg-yellow-100 border border-yellow-600 p-2 rounded-lg text-sm mt-2">
+                      Gift Exchange needs 3 or more people to start
+                    </p>
+                  )}
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
@@ -114,15 +153,13 @@ export const GiftExchangeHeader = ({
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>
-                        <Button onClick={call}>Draw Gift Exchange</Button>
+                      <AlertDialogAction onClick={call}>
+                        Draw Gift Exchange
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-              ) : // <Button onClick={call}>Draw Gift Exchange</Button>
-
-              null}
+              ) : null}
             </div>
             <div>
               <Button size={"sm"} variant={"secondary"}>
