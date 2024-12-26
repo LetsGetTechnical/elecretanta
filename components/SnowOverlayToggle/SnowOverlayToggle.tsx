@@ -2,12 +2,14 @@
 
 import { Snowflake, Sun } from "lucide-react";
 import { useSnowOverlay } from "@/providers/SnowOverlayProvider";
+import { Button } from "../Button/button";
 
 export default function SnowOverlayToggle() {
 	const { isSnowing, toggleSnowSetting } = useSnowOverlay();
 	return (
-		<button
-			className="text-white p-1 hover:bg-transparent hover:border-none hover:scale-125 transition-all ease-in-out w-auto h-auto"
+		<Button
+			variant={"ghost"}
+			className="text-white p-1 transition-all ease-in-out w-auto h-auto"
 			onClick={toggleSnowSetting}
 		>
 			{isSnowing ? (
@@ -15,6 +17,6 @@ export default function SnowOverlayToggle() {
 			) : (
 				<Snowflake size={24} className="text-blue-300 text-xl" />
 			)}
-		</button>
+		</Button>
 	);
 }
