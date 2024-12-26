@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -7,12 +9,24 @@ import {
 import { UsersRound } from "lucide-react";
 import Avatar from "@/components/Avatar/Avatar";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
+import { useEffect, useState } from "react";
+import getUserAvatar from "@/lib/getUserAvatar";
 
 interface MembersListProps {
   members: GiftExchangeMember[];
 }
 
 export const MembersList = ({ members }: MembersListProps) => {
+  const [avatar, setAvatar] = useState<string>("");
+
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      const response = await getUserAvatar();
+      setAvatar(response);
+    };
+    fetchAvatar();
+  }, []);
+
   return (
     <Card className="w-full">
       <CardHeader className="rounded-xl">
@@ -25,7 +39,7 @@ export const MembersList = ({ members }: MembersListProps) => {
         <div className="space-y-4">
           {members.map((member) => (
             <div key={member.id} className="flex items-center gap-4">
-              <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
+              <Avatar userAvatar={avatar} />
               <div className="flex flex-col">
                 <span className="text-sm font-medium leading-none">
                   {member.member.display_name}
