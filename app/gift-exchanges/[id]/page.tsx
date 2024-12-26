@@ -9,6 +9,11 @@ import { MembersList } from "./MembersList";
 import { InviteCard } from "./InviteCard";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
+import { CompletedExchangeCard } from "./CompletedExchangeCard";
+import { Profile } from "@/app/types/profile";
+import ProfileCard from "@/components/ProfileCard/ProfileCard";
+import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
+import { GiftSuggestion } from "@/app/types/giftSuggestion";
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -17,7 +22,7 @@ export default function GiftExchangePage() {
     id: "",
     name: "",
     description: "",
-    budget: 0,
+    budget: "",
     drawing_date: "",
     group_image: "",
     exchange_date: "",
@@ -28,22 +33,42 @@ export default function GiftExchangePage() {
     GiftExchangeMember[]
   >([]);
 
+  const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
+  const [giftSuggestions, setGiftSuggestions] = useState<GiftSuggestion[]>([]);
+
+  const handleGiftUpdate = (
+    updatedGift: GiftSuggestion,
+    originalIndex: number
+  ) => {
+    setGiftSuggestions((prevSuggestions) => {
+      const newSuggestions = [...prevSuggestions];
+      newSuggestions[originalIndex] = updatedGift;
+      return newSuggestions;
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const [giftExchangeResponse, membersResponse] = await Promise.all([
-          fetch(`/api/gift-exchanges/${id}`),
-          fetch(`/api/gift-exchanges/${id}/members`),
-        ]);
+        const [giftExchangeResponse, membersResponse, giftSuggestionsResponse] =
+          await Promise.all([
+            fetch(`/api/gift-exchanges/${id}`),
+            fetch(`/api/gift-exchanges/${id}/members`),
+            fetch(`/api/gift-exchanges/${id}/giftSuggestions`),
+          ]);
 
-        const [giftExchangeResult, membersResult] = await Promise.all([
-          giftExchangeResponse.json(),
-          membersResponse.json(),
-        ]);
+        const [giftExchangeResult, membersResult, giftSuggestionsResult] =
+          await Promise.all([
+            giftExchangeResponse.json(),
+            membersResponse.json(),
+            giftSuggestionsResponse.json(),
+          ]);
 
         setGiftExchangeData(giftExchangeResult);
         setGiftExchangeMembers(membersResult);
+        setGiftMatch(giftSuggestionsResult.match);
+        setGiftSuggestions(giftSuggestionsResult.suggestions);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -76,14 +101,37 @@ export default function GiftExchangePage() {
       case "active":
         return (
           <div className="w-full pt-12">
-            <MembersList members={giftExchangeMembers} />
+            <h1 className="font-bold mb-2">Your Secret Santa Match</h1>
+            <ProfileCard profile={giftMatch} />
+            <div className="flex flex-col">
+              <h1 className="ml-8 mt-8">Gift Suggestions</h1>
+              <div className="flex flex-col xl:flex-row">
+                {giftSuggestions.map((gift, index) => (
+                  <GiftSuggestionCard
+                    allGiftSuggestions={giftSuggestions}
+                    budget={giftExchangeData.budget}
+                    gift={gift}
+                    index={index}
+                    key={gift.id}
+                    onGiftUpdate={handleGiftUpdate}
+                    recipient={giftMatch}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      case "completed":
+        return (
+          <div className="w-full pt-12">
+            <CompletedExchangeCard members={giftExchangeMembers} />
           </div>
         );
     }
   };
 
   return (
-    <main className="h-screen">
+    <main className="min-h-screen">
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}

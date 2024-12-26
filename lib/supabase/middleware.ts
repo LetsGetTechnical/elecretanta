@@ -40,20 +40,19 @@ export async function updateSession(request: NextRequest) {
 	// If the user is not authenticated redirect the user to the login page
 	if (
 		!user &&
-		!request.nextUrl.pathname.startsWith("/auth/login") &&
 		!request.nextUrl.pathname.startsWith("/auth") &&
 		request.nextUrl.pathname !== "/auth/error" &&
 		request.nextUrl.pathname !== "/"
 	) {
 		// no user, potentially respond by redirecting the user to the login page
 		const url = request.nextUrl.clone();
-		url.pathname = "/auth/login";
+		url.pathname = "/";
 		return NextResponse.redirect(url);
 		// Todo: Uncomment this to redirect unauthenticated users to the login page
 	}
 
 	// if the user is authenticated check if they have already onboarded
-	if (user && !request.nextUrl.pathname.startsWith("/api/")) {
+	if (user) {
 		// Get the user's profile
 		const { data: profile } = await supabase
 			.from("profiles")
@@ -69,14 +68,6 @@ export async function updateSession(request: NextRequest) {
 		) {
 			const url = request.nextUrl.clone();
 			url.pathname = "/onboarding";
-			return NextResponse.redirect(url);
-		} else if (
-			profile &&
-			profile.onboarding_complete &&
-			request.nextUrl.pathname.startsWith("/onboarding")
-		) {
-			const url = request.nextUrl.clone();
-			url.pathname = "/dashboard";
 			return NextResponse.redirect(url);
 		}
 	}
