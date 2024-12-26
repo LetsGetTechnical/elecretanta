@@ -15,8 +15,6 @@ interface MembersListProps {
 }
 
 export const MembersList = ({ members }: MembersListProps) => {
-  console.log(members);
-
   return (
     <Card className="w-full">
       <CardHeader className="rounded-xl">
