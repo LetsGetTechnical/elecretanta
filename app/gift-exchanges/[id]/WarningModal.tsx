@@ -4,18 +4,41 @@ import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
 import { Session } from "@supabase/supabase-js";
 import { Button } from "@/components/Button/button";
 import { LogIn } from "lucide-react";
-
+import { signInWithGoogle } from "@/lib/utils";
 interface WarningModalProps {
   giftExchangeData: GiftExchange;
   members: GiftExchangeMember[] | null;
   session: Session | null;
+  updateGiftExchangeMembers: () => Promise<void>;
 }
 
 const WarningModal = ({
   giftExchangeData,
   members,
   session,
+  updateGiftExchangeMembers,
 }: WarningModalProps) => {
+  const signIn = async () => {
+    try {
+      await signInWithGoogle({
+        redirectPath: `/gift-exchanges/${giftExchangeData.id}`,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const joinExchange = async () => {
+    try {
+      await fetch(`/api/gift-exchanges/${giftExchangeData.id}/members`, {
+        method: "POST",
+        body: JSON.stringify({ user_id: session?.user.id }),
+      });
+
+      await updateGiftExchangeMembers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex backdrop-blur justify-center items-center z-50">
       <div className="bg-white rounded-lg text-center">
@@ -42,11 +65,11 @@ const WarningModal = ({
             </div>
           </div>
           {session ? (
-            <Button className="w-full">
+            <Button className="w-full" onClick={joinExchange}>
               Join <LogIn />
             </Button>
           ) : (
-            <Button className="w-full flex items-center gap-2">
+            <Button className="w-full flex items-center gap-2" onClick={signIn}>
               Sign in with Google to Join <LogIn />
             </Button>
           )}

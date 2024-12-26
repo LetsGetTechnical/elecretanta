@@ -48,39 +48,46 @@ export default function GiftExchangePage() {
     fetchSession();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const [giftExchangeResponse, membersResponse] = await Promise.all([
-          fetch(`/api/gift-exchanges/${id}`),
-          fetch(`/api/gift-exchanges/${id}/members`),
-        ]);
+  const fetchGiftExchangeData = async () => {
+    setIsLoading(true);
+    try {
+      const [giftExchangeResponse, membersResponse] = await Promise.all([
+        fetch(`/api/gift-exchanges/${id}`),
+        fetch(`/api/gift-exchanges/${id}/members`),
+      ]);
 
-        const [giftExchangeResult, membersResult] = await Promise.all([
-          giftExchangeResponse.json(),
-          membersResponse.json(),
-        ]);
+      const [giftExchangeResult, membersResult] = await Promise.all([
+        giftExchangeResponse.json(),
+        membersResponse.json(),
+      ]);
 
-        setGiftExchangeData(giftExchangeResult);
-        setGiftExchangeMembers(membersResult);
-        if (session) {
-          setIsUserAMember(
-            membersResult.some(
-              (member: GiftExchangeMember) =>
-                member.user_id === session?.user.id
-            )
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
+      setGiftExchangeData(giftExchangeResult);
+      setGiftExchangeMembers(membersResult);
+      if (session) {
+        setIsUserAMember(
+          membersResult.some(
+            (member: GiftExchangeMember) => member.user_id === session?.user.id
+          )
+        );
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    fetchGiftExchangeData();
   }, [id, session]);
+
+  const updateGiftExchangeMembers = async () => {
+    try {
+      await fetchGiftExchangeData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (isLoading) {
     return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
@@ -117,6 +124,7 @@ export default function GiftExchangePage() {
           giftExchangeData={giftExchangeData}
           session={session}
           members={giftExchangeMembers}
+          updateGiftExchangeMembers={updateGiftExchangeMembers}
         />
       )}
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
