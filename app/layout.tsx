@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import GlobalHeader from "@/components/GlobalHeader/GlobalHeader";
+import { SnowOverlayProvider } from "@/providers/SnowOverlayProvider";
+import SnowOverlayWrapper from "@/components/SnowOverlayWrapper/SnowOverlayWrapper";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -29,8 +31,11 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient`}
 			>
-				<GlobalHeader />
-				{children}
+				<SnowOverlayProvider>
+					<GlobalHeader />
+					<SnowOverlayWrapper />
+					{children}
+				</SnowOverlayProvider>
 			</body>
 		</html>
 	);
