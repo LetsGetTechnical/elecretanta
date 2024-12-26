@@ -8,7 +8,7 @@ export default function SnowOverlayToggle() {
 	return (
 		<button
 			className="text-white p-1 hover:bg-transparent hover:border-none hover:scale-125 transition-all ease-in-out w-auto h-auto"
-			onClick={() => toggleSnowSetting()}
+			onClick={toggleSnowSetting}
 		>
 			{isSnowing ? (
 				<Sun size={24} className="text-orange-300 text-xl" />

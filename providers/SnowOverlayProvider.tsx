@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState } from "react";
 
-// Export the context so it can be used with useContext
 export const SnowOverlayContext = createContext({
 	isSnowing: false,
 	toggleSnowSetting: () => {},
