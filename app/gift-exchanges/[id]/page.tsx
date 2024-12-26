@@ -13,6 +13,7 @@ import { CompletedExchangeCard } from "./CompletedExchangeCard";
 import { Profile } from "@/app/types/profile";
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
+import { GiftSuggestion } from "@/app/types/giftSuggestion";
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -33,7 +34,18 @@ export default function GiftExchangePage() {
   >([]);
 
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
-  const [giftSuggestions, setGiftSuggestions] = useState([]);
+  const [giftSuggestions, setGiftSuggestions] = useState<GiftSuggestion[]>([]);
+
+  const handleGiftUpdate = (
+    updatedGift: GiftSuggestion,
+    originalIndex: number
+  ) => {
+    setGiftSuggestions((prevSuggestions) => {
+      const newSuggestions = [...prevSuggestions];
+      newSuggestions[originalIndex] = updatedGift;
+      return newSuggestions;
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,7 +111,9 @@ export default function GiftExchangePage() {
                     allGiftSuggestions={giftSuggestions}
                     budget={giftExchangeData.budget}
                     gift={gift}
-                    key={index}
+                    index={index}
+                    key={gift.id}
+                    onGiftUpdate={handleGiftUpdate}
                     recipient={giftMatch}
                   />
                 ))}

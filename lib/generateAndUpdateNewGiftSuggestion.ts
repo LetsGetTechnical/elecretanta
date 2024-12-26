@@ -3,7 +3,6 @@ import { openai } from "@/app/api/openaiConfig/config";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
 import { Profile } from "@/app/types/profile";
 import { createClient } from "./supabase/server";
-import { NextResponse } from "next/server";
 
 export async function generateAndUpdateNewGiftSuggestion(
   allGiftSuggestions: GiftSuggestion[],
@@ -13,13 +12,11 @@ export async function generateAndUpdateNewGiftSuggestion(
   recipient: Profile | null
 ) {
   if (!recipient) {
-    return NextResponse.json(
-      { error: "Recipient profile is missing" },
-      { status: 400 }
-    );
+    throw new Error("Recipient profile is missing");
   }
 
-  const prompt = `You have been taking on the role of a Secret Santa. Previously, you generated 3 gift suggestions based on this profile information that I will provide you with:
+  try {
+    const prompt = `You have been taking on the role of a Secret Santa. Previously, you generated 3 gift suggestions based on this profile information that I will provide you with:
   
     Gift Budget: $${budget}
 
@@ -63,45 +60,47 @@ export async function generateAndUpdateNewGiftSuggestion(
 
     Format as JSON array with fields: title, price, description, matchReasons (array), matchScore (number)`;
 
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: "user", content: prompt }],
-    model: "gpt-3.5-turbo",
-    temperature: 0.7,
-  });
+    const completion = await openai.chat.completions.create({
+      messages: [{ role: "user", content: prompt }],
+      model: "gpt-3.5-turbo",
+      temperature: 0.7,
+    });
 
-  try {
     const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      throw new Error("Unauthorized");
     }
+
     const parsedResponse = JSON.parse(
       completion.choices[0].message.content || ""
     );
 
-    for (const suggestion of parsedResponse) {
-      const cleanSuggestion = {
-        title: String(suggestion.title),
-        price: String(suggestion.price),
-        description: String(suggestion.description),
-        matchReasons: Array.isArray(suggestion.matchReasons)
-          ? suggestion.matchReasons.map(String)
-          : [],
-        matchScore: Number(suggestion.matchScore),
-      };
+    const suggestion = parsedResponse[0];
 
-      const { error: suggestionError } = await supabase
-        .from("gift_suggestions")
-        .update({ suggestion: cleanSuggestion })
-        .eq("id", gift.id);
+    const cleanSuggestion: GiftSuggestion = {
+      id: gift.id,
+      title: String(suggestion.title),
+      price: String(suggestion.price),
+      description: String(suggestion.description),
+      matchReasons: Array.isArray(suggestion.matchReasons)
+        ? suggestion.matchReasons.map(String)
+        : [],
+      matchScore: Number(suggestion.matchScore),
+    };
 
-      if (suggestionError) {
-        console.error("Failed to update suggestion:", suggestionError);
-      }
+    const { error: suggestionError } = await supabase
+      .from("gift_suggestions")
+      .update({ suggestion: cleanSuggestion })
+      .eq("id", gift.id);
+
+    if (suggestionError) {
+      console.error("Failed to update suggestion:", suggestionError);
     }
+    return cleanSuggestion;
   } catch (error) {
     throw error;
   }

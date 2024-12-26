@@ -9,14 +9,23 @@ const GiftSuggestionCard = ({
   allGiftSuggestions,
   budget,
   gift,
+  index,
+  onGiftUpdate,
   recipient,
 }: {
   allGiftSuggestions: GiftSuggestion[];
   budget: string;
   gift: GiftSuggestion;
+  index: number;
+  onGiftUpdate: (updatedGift: GiftSuggestion, index: number) => void;
   recipient: Profile | null;
 }) => {
   const [isShowingFeedback, setIsShowingFeedback] = useState(false);
+
+  const handleGiftUpdate = async (updatedGift: GiftSuggestion) => {
+    onGiftUpdate(updatedGift, index);
+    setIsShowingFeedback(false);
+  };
 
   return (
     <Card className="bg-giftSuggestionsCardBackground h-96 w-80 flex flex-col justify-between m-5">
@@ -26,6 +35,7 @@ const GiftSuggestionCard = ({
           budget={budget}
           gift={gift}
           handleFeedback={() => setIsShowingFeedback(false)}
+          onGiftUpdate={handleGiftUpdate}
           recipient={recipient}
         />
       ) : (

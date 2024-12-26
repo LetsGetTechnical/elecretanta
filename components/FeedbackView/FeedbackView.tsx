@@ -9,14 +9,36 @@ const FeedbackView = ({
   budget,
   gift,
   handleFeedback,
+  onGiftUpdate,
   recipient,
 }: {
   allGiftSuggestions: GiftSuggestion[];
   budget: string;
   gift: GiftSuggestion;
   handleFeedback: () => void;
+  onGiftUpdate: (updatedGift: GiftSuggestion) => void;
   recipient: Profile | null;
 }) => {
+  const handleFeedbackSubmit = async (feedback: string) => {
+    try {
+      const updatedGift = await generateAndUpdateNewGiftSuggestion(
+        allGiftSuggestions,
+        budget,
+        feedback,
+        gift,
+        recipient
+      );
+
+      if (updatedGift) {
+        onGiftUpdate(updatedGift);
+      } else {
+        console.error("Failed to update gift suggestion");
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <div className="flex flex-col m-4">
       <ChevronLeft className="hover:cursor-pointer" onClick={handleFeedback} />
@@ -32,15 +54,7 @@ const FeedbackView = ({
           <button
             key={index}
             className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
-            onClick={() =>
-              generateAndUpdateNewGiftSuggestion(
-                allGiftSuggestions,
-                budget,
-                `${title}: ${subtitle}`,
-                gift,
-                recipient
-              )
-            }
+            onClick={() => handleFeedbackSubmit(`${title}: ${subtitle}`)}
           >
             <p className="text-sm font-bold">{title}</p>
             <p className="text-sm">{subtitle}</p>
