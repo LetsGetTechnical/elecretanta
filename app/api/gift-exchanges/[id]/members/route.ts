@@ -54,9 +54,12 @@ export async function GET(
 }
 
 // add a member to a gift exchange
-export async function POST(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const exchangeId = searchParams.get("exchangeId");
+export async function POST(
+  req: Request,
+  props: { params: Promise<{ id: string }> }
+) {
+  const params = await props.params;
+  const id = await params.id;
 
   try {
     const supabase = await createClient();
@@ -73,7 +76,7 @@ export async function POST(req: Request) {
     const { data, error } = await supabase
       .from("gift_exchange_members")
       .insert({
-        gift_exchange_id: exchangeId,
+        gift_exchange_id: id,
         user_id: body.user_id,
         recipient_id: body.recipient_id || null,
         has_drawn: false,
