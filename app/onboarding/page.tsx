@@ -36,6 +36,7 @@ import { MultiSelect } from "@/components/MultiSelect/multi-select-input";
 import { Textarea } from "@/components/TextArea/textarea";
 import { Slider } from "@/components/Slider/slider";
 import { useRouter, useSearchParams } from "next/navigation";
+import getUserAvatar from "@/lib/getUserAvatar";
 
 // Use an empty schema for steps without a form
 const stepOneSchema = z.object({});
@@ -149,12 +150,21 @@ export default function OnboardingPage() {
 }
 
 function Onboarding() {
+  const [avatar, setAvatar] = useState<string>("");
   const [name, setName] = useState<string | null>("There");
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const editing = searchParams.get("editing");
+
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      const response = await getUserAvatar();
+      setAvatar(response);
+    };
+    fetchAvatar();
+  }, []);
 
   // Initialize form
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -224,6 +234,7 @@ function Onboarding() {
             cozy_adventurous: formData.experienceStyle,
             minimal_luxurious: formData.giftStyle,
             onboarding_complete: true,
+            avatar: avatar,
           }),
         });
 
