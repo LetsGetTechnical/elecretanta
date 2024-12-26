@@ -40,7 +40,18 @@ export async function generateAndUpdateNewGiftSuggestion(
     - Gifts: ${allGiftSuggestions}
 
     Generate 1 new gift suggestion to replace the gift I will provide you with along with the feedback it recieved. Please do not generate anything closely related to the provided gift:
-    - Gift: ${gift}
+    - Gift: ${allGiftSuggestions
+      .map(
+        (suggestion, index) => `
+      Gift ${index + 1}: 
+      - Title: ${suggestion.title}
+      - Price: $${suggestion.price}
+      - Description: ${suggestion.description}
+      - Match Score: ${suggestion.matchScore}
+      - Match Reasons: ${suggestion.matchReasons.join(", ")}
+      `
+      )
+      .join("\n")}
     - Feedback: ${feedback}
 
     For the replacement suggestion, provide:
