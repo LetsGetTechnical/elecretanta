@@ -31,6 +31,15 @@ const FeedbackView = ({
           <button
             key={index}
             className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
+            onClick={() =>
+              generateAndUpdateNewGiftSuggestion(
+                allGiftSuggestions,
+                budget,
+                `${title}: ${subtitle}`,
+                gift,
+                recipient
+              )
+            }
           >
             <p className="text-sm font-bold">{title}</p>
             <p className="text-sm">{subtitle}</p>
