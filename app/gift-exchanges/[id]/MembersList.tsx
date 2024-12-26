@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -25,7 +27,7 @@ export const MembersList = ({ members }: MembersListProps) => {
         <div className="space-y-4">
           {members.map((member) => (
             <div key={member.id} className="flex items-center gap-4">
-              <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
+              <Avatar userAvatar={member.member.avatar} />
               <div className="flex flex-col">
                 <span className="text-sm font-medium leading-none">
                   {member.member.display_name}

@@ -41,4 +41,4 @@ export default function LoginButton() {
       <span>Continue with Google</span>
     </Button>
   );
-}
+

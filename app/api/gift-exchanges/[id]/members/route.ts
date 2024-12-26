@@ -27,7 +27,14 @@ export async function GET(
         member:profiles!user_id (
           id,
           display_name,
-          email
+          email,
+		  avatar
+        ),
+        recipient:profiles!recipient_id (
+          id,
+          display_name,
+          email,
+		  avatar
         )
       `
       )
@@ -59,7 +66,7 @@ export async function POST(
   props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params;
-  const id = await params.id;
+  const giftExchangeId = await params.id;
 
   try {
     const supabase = await createClient();
@@ -71,14 +78,37 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Get and validate request body
     const body: CreateGiftExchangeMemberRequest = await req.json();
 
+    if (!body.user_id) {
+      return NextResponse.json(
+        { error: "User ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Check if exchange exists and is valid
+    const { data: exchange, error: exchangeError } = await supabase
+      .from("gift_exchanges")
+      .select("status")
+      .eq("id", giftExchangeId)
+      .single();
+
+    if (exchangeError || !exchange) {
+      return NextResponse.json(
+        { error: "Gift exchange not found" },
+        { status: 404 }
+      );
+    }
+
+    // Insert new member
     const { data, error } = await supabase
       .from("gift_exchange_members")
       .insert({
-        gift_exchange_id: id,
+        gift_exchange_id: giftExchangeId,
         user_id: body.user_id,
-        recipient_id: body.recipient_id || null,
+        recipient_id: null,
         has_drawn: false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -92,8 +122,7 @@ export async function POST(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
-
+    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

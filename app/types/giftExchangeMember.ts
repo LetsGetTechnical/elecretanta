@@ -9,6 +9,12 @@ export interface GiftExchangeMember {
   member: {
     display_name: string;
     email: string;
+    avatar: string;
+  };
+  recipient: {
+    display_name: string;
+    email: string;
+    avatar: string;
   };
 }
 
