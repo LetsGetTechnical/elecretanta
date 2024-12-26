@@ -1,3 +1,4 @@
+"use client";
 import { ChevronLeft } from "lucide-react";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
 import { Profile } from "@/app/types/profile";

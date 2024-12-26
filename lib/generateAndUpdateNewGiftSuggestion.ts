@@ -1,3 +1,4 @@
+"use server";
 import { openai } from "@/app/api/openaiConfig/config";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
 import { Profile } from "@/app/types/profile";
