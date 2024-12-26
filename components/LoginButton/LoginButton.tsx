@@ -1,26 +1,21 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "../Button/button";
 import { useState } from "react";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
-import { redirect } from "next/navigation";
+import { signInWithGoogle } from "@/lib/utils";
 
 export default function LoginButton() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const signInWithGoogle = async () => {
+  const signIn = async () => {
     setIsLoading(true);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-
-    if (error) {
-      redirect("/auth/error");
+    try {
+      await signInWithGoogle({});
+    } catch (error) {
+      console.error("Error signing in:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -29,7 +24,7 @@ export default function LoginButton() {
       variant="outline"
       className={"w-full"}
       disabled={isLoading}
-      onClick={signInWithGoogle}
+      onClick={signIn}
     >
       {!isLoading ? (
         <>
