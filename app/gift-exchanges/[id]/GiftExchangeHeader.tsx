@@ -31,12 +31,14 @@ interface MembersListProps {
 
 interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
+  id: string | string[] | undefined;
 }
 type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps & MembersListProps;
 
 export const GiftExchangeHeader = ({
   giftExchangeData,
   members,
+  id,
 }: GiftExchangeHeaderPropsUnion) => {
   const [membersData, setMembersData] = useState(members);
 
@@ -78,7 +80,7 @@ export const GiftExchangeHeader = ({
     try {
       const response = await fetch(
         // currently fetches memberslist from
-        "/api/gift-exchanges/8e3f26aa-59c6-49a1-bc76-91c956f59c01/members",
+        `/api/gift-exchanges/${id}/members`,
         {
           method: "GET",
           headers: {
@@ -100,6 +102,7 @@ export const GiftExchangeHeader = ({
 
   console.log("members", members.length);
   console.log("membersData:", membersData);
+  console.log("ID: ", id);
   return (
     <>
       <div className="flex justify-between">

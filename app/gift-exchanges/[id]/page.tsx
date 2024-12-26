@@ -136,6 +136,7 @@ export default function GiftExchangePage() {
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}
           members={giftExchangeMembers}
+          id={id}
         />
         {renderContent()}
       </section>
