@@ -1,17 +1,21 @@
 import { ChevronLeft } from "lucide-react";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
+import { Profile } from "@/app/types/profile";
+import { generateAndUpdateNewGiftSuggestion } from "@/lib/generateAndUpdateNewGiftSuggestion";
 
 const FeedbackView = ({
   allGiftSuggestions,
+  budget,
   gift,
   handleFeedback,
+  recipient,
 }: {
   allGiftSuggestions: GiftSuggestion[];
+  budget: string;
   gift: GiftSuggestion;
   handleFeedback: () => void;
+  recipient: Profile | null;
 }) => {
-  console.log(allGiftSuggestions);
-  console.log(gift);
   return (
     <div className="flex flex-col m-4">
       <ChevronLeft className="hover:cursor-pointer" onClick={handleFeedback} />

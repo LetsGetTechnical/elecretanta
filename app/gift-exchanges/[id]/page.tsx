@@ -97,8 +97,10 @@ export default function GiftExchangePage() {
                 {giftSuggestions.map((gift, index) => (
                   <GiftSuggestionCard
                     allGiftSuggestions={giftSuggestions}
-                    key={index}
+                    budget={giftExchangeData.budget}
                     gift={gift}
+                    key={index}
+                    recipient={giftMatch}
                   />
                 ))}
               </div>
