@@ -167,7 +167,7 @@ export default function GiftExchangePage() {
 
   return (
     <main className="h-screen">
-      {!isUserAMember && (
+      {!isUserAMember && giftExchangeData.status === "pending" && (
         <WarningModal
           giftExchangeData={giftExchangeData}
           session={session}
