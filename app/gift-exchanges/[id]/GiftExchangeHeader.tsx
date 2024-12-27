@@ -25,6 +25,10 @@ import {
 } from "../../../components/AlertDialogue/AlertDialgoue";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
 
+// initialize type for exchange data response
+interface PairingDataProps {
+  pairingData: any;
+}
 interface MembersListProps {
   members: GiftExchangeMember[];
 }
@@ -33,18 +37,26 @@ interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
   id: string | string[] | undefined;
 }
-type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps & MembersListProps;
+type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps &
+  MembersListProps &
+  PairingDataProps;
 
 export const GiftExchangeHeader = ({
   giftExchangeData,
   members,
   id,
+  pairingData,
 }: GiftExchangeHeaderPropsUnion) => {
   const [membersData, setMembersData] = useState(members);
+  const [matchingData, setMatchingData] = useState(pairingData);
 
   useEffect(() => {
     setMembersData(members);
   }, [members]);
+
+  useEffect(() => {
+    setMatchingData(pairingData);
+  }, []);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -80,12 +92,17 @@ export const GiftExchangeHeader = ({
     try {
       const response = await fetch(
         // currently fetches memberslist from
-        `/api/gift-exchanges/${id}/members`,
+        `/api/gift-exchanges/${id}/draw`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            memberData: {
+              groupId: id,
+            },
+          }),
         }
       );
 
@@ -94,7 +111,9 @@ export const GiftExchangeHeader = ({
       }
 
       const data = await response.json();
-      console.log(data);
+      setMatchingData(data);
+      console.log("data:", data);
+      console.log("Set Data:", matchingData);
     } catch (error) {
       console.log("this is the error: ", error);
     }
@@ -197,6 +216,13 @@ export const GiftExchangeHeader = ({
             </div>
           </div>
         </div>
+        <ul>
+          {matchingData
+            ? matchingData.map((item: any, index: number) => (
+                <li key={index}>{item.id}</li> // Adjust based on your data structure
+              ))
+            : null}
+        </ul>
       </div>
     </>
   );
