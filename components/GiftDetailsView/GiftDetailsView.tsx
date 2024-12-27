@@ -7,20 +7,21 @@ import {
   CardTitle,
 } from "../Card/card";
 import { SquareArrowOutUpRight, ThumbsDown } from "lucide-react";
+import { GiftSuggestion } from "@/app/types/giftSuggestion";
 
 const GiftDetailsView = ({
   gift,
   handleFeedback,
 }: {
-  gift: {
-    matchScore: number;
-    price: string;
-    title: string;
-    description: string;
-    matchReasons: string[];
-  };
+  gift: GiftSuggestion;
   handleFeedback: () => void;
 }) => {
+  const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
+    const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, "+");
+
+    return `https://www.amazon.com/s?k=${encodedSearch}`;
+  };
+
   return (
     <>
       <div className="flex justify-between m-4">
@@ -46,11 +47,20 @@ const GiftDetailsView = ({
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="flex flex-col p-4">
+      <CardFooter className="flex flex-col">
         <div className="flex justify-between w-full">
-          <Button className="text-sm w-32 h-9 bg-primaryButtonYelow70 hover:bg-primaryButtonYellow">
-            <SquareArrowOutUpRight /> View
-          </Button>
+          <a
+            href={handleAmazonLink({ searchTerm: gift.title })}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button
+              className="text-sm w-32 h-9 bg-primaryButtonYelow70 hover:bg-primaryButtonYellow"
+              onClick={() => handleAmazonLink({ searchTerm: gift.title })}
+            >
+              <SquareArrowOutUpRight /> View
+            </Button>
+          </a>
           <Button
             className="text-sm w-32 h-9 text-giftSuggestionDarkGreen bg-gray-100 hover:bg-gray-200"
             onClick={handleFeedback}
@@ -59,9 +69,6 @@ const GiftDetailsView = ({
             Not This
           </Button>
         </div>
-        <Button className="w-full mt-4 text-sm bg-giftSuggestionDarkGreen hover:bg-GiftSuggestionDarkGreenHover">
-          Select Gift
-        </Button>
       </CardFooter>
     </>
   );
