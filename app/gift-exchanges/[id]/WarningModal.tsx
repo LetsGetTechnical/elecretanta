@@ -66,7 +66,7 @@ const WarningModal = ({
           </div>
           {session ? (
             <Button className="w-full" onClick={joinExchange}>
-              Join <LogIn />
+              Join
             </Button>
           ) : (
             <Button className="w-full flex items-center gap-2" onClick={signIn}>
