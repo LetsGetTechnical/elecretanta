@@ -7,41 +7,34 @@ export async function GET(
 	req: Request,
 	props: { params: Promise<{ id: string }> }
 ) {
-	const params = await props.params;
-	const id = await params.id;
-	try {
-		const supabase = await createClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
+  const params = await props.params;
+  const id = await params.id;
+  try {
+    const supabase = await createClient();
 
-		if (!user) {
-			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-		}
+    const { data, error } = await supabase
+      .from("gift_exchanges")
+      .select("*")
+      .eq("id", id)
+      .single();
 
-		const { data, error } = await supabase
-			.from("gift_exchanges")
-			.select("*")
-			.eq("id", id)
-			.single();
+    if (error) {
+      console.error("supabase error", error);
+      return NextResponse.json(
+        { error: "Gift exchange not found" },
+        { status: 404 }
+      );
+    }
 
-		if (error) {
-			console.error("supabase error", error);
-			return NextResponse.json(
-				{ error: "Gift exchange not found" },
-				{ status: 404 }
-			);
-		}
+    return NextResponse.json(data);
+  } catch (error) {
+    console.log(error);
 
-		return NextResponse.json(data);
-	} catch (error) {
-		console.log(error);
-
-		return NextResponse.json(
-			{ error: "Internal server error" },
-			{ status: 500 }
-		);
-	}
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function PATCH(

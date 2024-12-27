@@ -12,13 +12,6 @@ export async function GET(
 
   try {
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
 
     const query = supabase
       .from("gift_exchange_members")
@@ -67,6 +60,7 @@ export async function GET(
   }
 }
 
+// add a member to a gift exchange
 export async function POST(
   req: Request,
   props: { params: Promise<{ id: string }> }
