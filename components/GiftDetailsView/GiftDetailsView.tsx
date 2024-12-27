@@ -23,7 +23,6 @@ const GiftDetailsView = ({
 }) => {
   return (
     <>
-      {" "}
       <div className="flex justify-between m-4">
         <p className="text-xs w-24 h-7 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-md">
           {gift.matchScore}% Match
