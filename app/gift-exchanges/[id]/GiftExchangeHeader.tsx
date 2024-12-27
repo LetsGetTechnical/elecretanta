@@ -48,15 +48,10 @@ export const GiftExchangeHeader = ({
   pairingData,
 }: GiftExchangeHeaderPropsUnion) => {
   const [membersData, setMembersData] = useState(members);
-  const [matchingData, setMatchingData] = useState(pairingData);
 
   useEffect(() => {
     setMembersData(members);
   }, [members]);
-
-  useEffect(() => {
-    setMatchingData(pairingData);
-  }, []);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -111,9 +106,7 @@ export const GiftExchangeHeader = ({
       }
 
       const data = await response.json();
-      setMatchingData(data);
       console.log("data:", data);
-      console.log("Set Data:", matchingData);
     } catch (error) {
       console.log("this is the error: ", error);
     }
@@ -216,13 +209,6 @@ export const GiftExchangeHeader = ({
             </div>
           </div>
         </div>
-        <ul>
-          {matchingData
-            ? matchingData.map((item: any, index: number) => (
-                <li key={index}>{item.id}</li> // Adjust based on your data structure
-              ))
-            : null}
-        </ul>
       </div>
     </>
   );
