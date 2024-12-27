@@ -70,18 +70,24 @@ export default function GiftExchangePage() {
   const fetchGiftExchangeData = async () => {
     setIsLoading(true);
     try {
-      const [giftExchangeResponse, membersResponse] = await Promise.all([
-        fetch(`/api/gift-exchanges/${id}`),
-        fetch(`/api/gift-exchanges/${id}/members`),
-      ]);
+      const [giftExchangeResponse, membersResponse, giftSuggestionsResponse] =
+        await Promise.all([
+          fetch(`/api/gift-exchanges/${id}`),
+          fetch(`/api/gift-exchanges/${id}/members`),
+          fetch(`/api/gift-exchanges/${id}/giftSuggestions`),
+        ]);
 
-      const [giftExchangeResult, membersResult] = await Promise.all([
-        giftExchangeResponse.json(),
-        membersResponse.json(),
-      ]);
+      const [giftExchangeResult, membersResult, giftSuggestionsResult] =
+        await Promise.all([
+          giftExchangeResponse.json(),
+          membersResponse.json(),
+          giftSuggestionsResponse.json(),
+        ]);
 
       setGiftExchangeData(giftExchangeResult);
       setGiftExchangeMembers(membersResult);
+      setGiftMatch(giftSuggestionsResult.match);
+      setGiftSuggestions(giftSuggestionsResult.suggestions);
       if (session) {
         setIsUserAMember(
           membersResult.some(
