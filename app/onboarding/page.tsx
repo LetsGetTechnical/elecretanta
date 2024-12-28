@@ -258,7 +258,7 @@ function Onboarding() {
 	}
 
 	return (
-		<main className="w-full min-h-screen flex flex-col items-center justify-center">
+		<main className="w-full min-h-screen-minus-20 flex flex-col items-center justify-center">
 			<div className="max-w-lg">
 				<Progress
 					value={isSubmitted ? 100 : (currentStep / steps.length) * 100}
