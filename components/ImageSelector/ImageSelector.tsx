@@ -51,8 +51,8 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  layout="fill"
-                  objectFit="cover"
+                  fill={true}
+                  style={{ objectFit: "cover" }} // Use the style prop for objectFit
                 />
               </div>
               <div className="p-4">
