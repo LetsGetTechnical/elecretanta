@@ -100,7 +100,7 @@ type Step = {
 
 const steps: Step[] = [
 	{
-		title: "Welcome to Elecretanta✨",
+		title: "Welcome to Elfgorithm✨",
 		description: "Let's find your perfect gift match",
 		schema: stepOneSchema,
 	},
