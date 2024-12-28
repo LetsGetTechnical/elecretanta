@@ -36,22 +36,22 @@ export async function updateSession(request: NextRequest) {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
-  
-  // If the user is not authenticated redirect the user to the login page
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith("/auth/login") &&
-    !request.nextUrl.pathname.startsWith("/auth") &&
-    request.nextUrl.pathname !== "/auth/error" &&
-    request.nextUrl.pathname !== "/" &&
-    !request.nextUrl.pathname.startsWith("/gift-exchanges")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
-    // Todo: Uncomment this to redirect unauthenticated users to the login page
-  }
+
+	// If the user is not authenticated redirect the user to the login page
+	if (
+		!user &&
+		!request.nextUrl.pathname.startsWith("/auth/login") &&
+		!request.nextUrl.pathname.startsWith("/auth") &&
+		request.nextUrl.pathname !== "/auth/error" &&
+		request.nextUrl.pathname !== "/" &&
+		!request.nextUrl.pathname.startsWith("/gift-exchanges")
+	) {
+		// no user, potentially respond by redirecting the user to the login page
+		const url = request.nextUrl.clone();
+		url.pathname = "/";
+		return NextResponse.redirect(url);
+		// Todo: Uncomment this to redirect unauthenticated users to the login page
+	}
 
 	// if the user is authenticated check if they have already onboarded
 	if (user) {
