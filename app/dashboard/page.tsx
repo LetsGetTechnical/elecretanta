@@ -35,7 +35,7 @@ export default function Dashboard() {
 	}, []);
 
 	return (
-		<section className="min-h-screen flex flex-col">
+		<section className="min-h-screen-minus-20 flex flex-col">
 			<div className="flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 h-40 pt-16">
 				<h1 className="text-2xl font-semibold text-white">Dashboard</h1>
 				<Button
