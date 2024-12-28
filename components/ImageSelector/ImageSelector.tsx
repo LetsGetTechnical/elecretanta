@@ -17,17 +17,17 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
   const images = [
     {
       id: "image1",
-      src: "/placeholder.svg?height=120&width=120",
+      src: "https://images.unsplash.com/photo-1513297887119-d46091b24bfa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       alt: "Image 1",
     },
     {
       id: "image2",
-      src: "/placeholder.svg?height=120&width=120",
+      src: "https://images.unsplash.com/photo-1634038036367-7c0e7a95fa4c?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       alt: "Image 2",
     },
     {
       id: "image3",
-      src: "/placeholder.svg?height=120&width=120",
+      src: "https://plus.unsplash.com/premium_photo-1668654056797-061fc37d99b0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       alt: "Image 3",
     },
   ];
