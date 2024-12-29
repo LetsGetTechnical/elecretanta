@@ -35,8 +35,8 @@ export default function Dashboard() {
 	}, []);
 
 	return (
-		<section className="min-h-screen-minus-20 flex flex-col">
-			<div className="flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 h-40 pt-16">
+		<section className="min-h-screen-minus-20 flex flex-col pb-12">
+			<div className="flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 h-40">
 				<h1 className="text-2xl font-semibold text-white">Dashboard</h1>
 				<Button
 					className="bg-primaryButtonYellow h-10 w-36 font-semibold text-sm"
@@ -46,15 +46,26 @@ export default function Dashboard() {
 				</Button>
 			</div>
 			<div className="flex flex-col flex-grow px-4 md:px-16 lg:px-32 xl:px-52">
-				<h2 className="font-semibold text-lg text-white mb-2 ">My Groups</h2>
-				<div className="grid xl:grid-cols-2 gap-4">
-					{giftExchanges.map((exchange) => (
-						<GroupCard
-							giftExchange={exchange}
-							key={exchange.gift_exchange_id}
-						/>
-					))}
-				</div>
+				<h2 className="font-semibold text-lg text-white mb-2">My Groups</h2>
+				{giftExchanges.length === 0 ? (
+					<div className="flex flex-col items-center justify-center text-white text-center py-12">
+						<p className="mb-2">
+							You haven&apos;t created or joined any Secret Santa groups yet!
+						</p>
+						<p className="text-sm text-gray-400">
+							Get started by creating a new group or asking for an invite.
+						</p>
+					</div>
+				) : (
+					<div className="grid xl:grid-cols-2 gap-4">
+						{giftExchanges.map((exchange) => (
+							<GroupCard
+								giftExchange={exchange}
+								key={exchange.gift_exchange_id}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 		</section>
 	);
