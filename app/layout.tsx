@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-	title: "Elecretanta",
-	description: "Secret Santa gift choosing app using AI.",
+	title: "Elfgorithm",
+	description: "A secret santa gift-exchange app powered by AI",
 };
 
 export default function RootLayout({
