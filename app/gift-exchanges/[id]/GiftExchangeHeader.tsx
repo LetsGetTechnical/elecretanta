@@ -1,10 +1,8 @@
-import { Button } from "@/components/Button/button";
 import { GiftExchange } from "@/app/types/giftExchange";
 import { formatDate } from "@/lib/utils";
 import {
 	ChevronLeft,
 	Settings,
-	Share2,
 	Verified,
 	Clock,
 	CheckCircle,
@@ -77,18 +75,6 @@ export const GiftExchangeHeader = ({
 								{giftExchangeData.name}
 							</h1>
 							<p className="text-xs">{giftExchangeData.description}</p>
-						</div>
-						<div>
-							<Button
-								size={"sm"}
-								variant={"secondary"}
-								onClick={async () => {
-									await navigator.clipboard.writeText(window.location.href);
-								}}
-							>
-								<Share2 />
-								Share Link
-							</Button>
 						</div>
 					</div>
 
