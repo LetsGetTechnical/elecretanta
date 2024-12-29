@@ -21,7 +21,7 @@ import { GiftSuggestion } from "@/app/types/giftSuggestion";
 export default function GiftExchangePage() {
   const { id } = useParams();
   const [session, setSession] = useState<Session | null>(null);
-  const [isUserAMember, setIsUserAMember] = useState(false);
+  const [isUserAMember, setIsUserAMember] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
     id: "",
@@ -167,7 +167,7 @@ export default function GiftExchangePage() {
 
   return (
     <main className="h-screen">
-      {!isUserAMember && giftExchangeData.status === "pending" && (
+      {isUserAMember === false && giftExchangeData.status === "pending" && (
         <WarningModal
           giftExchangeData={giftExchangeData}
           session={session}
