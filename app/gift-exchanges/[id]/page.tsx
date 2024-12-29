@@ -122,7 +122,7 @@ export default function GiftExchangePage() {
 		switch (giftExchangeData.status) {
 			case "pending":
 				return (
-					<div className="flex flex-row w-full pt-12 gap-8 items-start">
+					<div className="flex flex-row w-full py-12 gap-8 items-start">
 						<JourneyCard
 							drawingDate={giftExchangeData.drawing_date}
 							exchangeDate={giftExchangeData.exchange_date}
@@ -135,7 +135,7 @@ export default function GiftExchangePage() {
 				);
 			case "active":
 				return (
-					<div className="w-full pt-12">
+					<div className="w-full py-12">
 						<section className="py-4">
 							<h1 className="font-bold mb-2">Your Secret Santa Match</h1>
 							<ProfileCard profile={giftMatch} />
@@ -160,7 +160,7 @@ export default function GiftExchangePage() {
 				);
 			case "completed":
 				return (
-					<div className="w-full pt-12">
+					<div className="w-full py-12">
 						<CompletedExchangeCard members={giftExchangeMembers} />
 					</div>
 				);
