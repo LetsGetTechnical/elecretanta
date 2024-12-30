@@ -52,17 +52,20 @@ export const GiftExchangeHeader = ({
 
   return (
     <>
+      <div>
+        <Image
+          alt="banner image"
+          src={giftExchangeData.group_image}
+          width={1980}
+          height={1200}
+          className="w-full h-48 object-cover rounded-xl"
+        ></Image>
+      </div>
       <div className="flex justify-between">
         <Link href={"/dashboard"} className="flex items-center gap-1 text-sm">
           <ChevronLeft size={16} strokeWidth={2.25} />
           <span>Back to Dashboard</span>
         </Link>
-        <Image
-          alt="banner image"
-          src={giftExchangeData.group_image}
-          width={300}
-          height={160}
-        ></Image>
         <Link href={"#"} className="flex items-center gap-1 text-sm">
           <Settings size={16} strokeWidth={2.25} />
           <span>Settings</span>
