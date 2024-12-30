@@ -6,8 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../Card/card";
-import { SquareArrowOutUpRight, ThumbsDown } from "lucide-react";
+import { SquareArrowOutUpRight, ThumbsDown, Gift } from "lucide-react";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
+import { useState, useCallback } from "react";
 
 const GiftDetailsView = ({
   gift,
@@ -16,22 +17,43 @@ const GiftDetailsView = ({
   gift: GiftSuggestion;
   handleFeedback: () => void;
 }) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = useCallback(() => {
+    setImageError(true);
+  }, []);
+
   const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, "+");
-
     return `https://www.amazon.com/s?k=${encodedSearch}`;
   };
 
   return (
     <>
-      <div className="flex justify-between m-4">
-        <p className="text-xs w-24 h-7 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-md">
-          {gift.matchScore}% Match
-        </p>
-        <p className="text-sm font-semibold text-giftSuggestionDarkGreen">
-          {gift.price}
-        </p>
+      <div className="relative w-full h-40 bg-white rounded-t-md">
+        {gift.imageUrl && !imageError ? (
+          <img
+            src={gift.imageUrl}
+            alt={gift.title}
+            className="w-full h-full object-contain p-2"
+            onError={handleImageError}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <Gift className="w-16 h-16 text-gray-300" />
+          </div>
+        )}
+        
+        <div className="absolute top-2 left-2 right-2 flex justify-between items-center">
+          <div className="text-xs px-3 py-1 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-full shadow-sm">
+            {gift.matchScore}% Match
+          </div>
+          <div className="px-3 py-1 font-semibold text-giftSuggestionDarkGreen bg-white/90 rounded-full shadow-sm">
+            {gift.price}
+          </div>
+        </div>
       </div>
+
       <CardHeader className="p-0 mx-4">
         <CardTitle className="text-base font-bold text-giftSuggestionDarkGreen">
           {gift.title}
@@ -40,7 +62,7 @@ const GiftDetailsView = ({
           {gift.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-0 m-4 w-72 h-20 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
+      <CardContent className="p-0 m-2 w-72 h-20 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
         <ul className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1">
           {gift.matchReasons.map((reason, index) => (
             <li key={index}>{reason}</li>
