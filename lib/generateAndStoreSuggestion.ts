@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { openai } from "../app/api/openaiConfig/config";
+import { getAmazonImage } from "./getAmazonImage";
 
 export async function generateAndStoreSuggestions(
   supabase: SupabaseClient,
@@ -37,13 +38,13 @@ export async function generateAndStoreSuggestions(
     - Minimal vs Luxurious: ${recipientProfile.minimal_luxurious}
   
     For each suggestion, provide:
-    1. A title
+    1. A title (be very specific with brand names and model numbers if applicable)
     2. An estimated price within budget
     3. A brief description
     4. 2-3 specific reasons why this matches the recipient's preferences
     5. A match score (0-100) based on how well it fits their preferences
     
-    Format as JSON array with fields: title, price, description, matchReasons (array), matchScore (number)`;
+    Respond with only the JSON array without any markdown formatting or additional text. The array should contain objects with fields: title, price, description, matchReasons (array), matchScore (number)`;
 
   const completion = await openai.chat.completions.create({
     messages: [{ role: "user", content: prompt }],
@@ -52,13 +53,34 @@ export async function generateAndStoreSuggestions(
   });
 
   try {
-    const parsedResponse = JSON.parse(
-      completion.choices[0].message.content || ""
-    );
-    console.log("Parsed response:", parsedResponse);
+    let jsonContent = completion.choices[0].message.content || "";
+    
+    // Clean up the response if it contains markdown or extra text
+    if (jsonContent.includes('```')) {
+      const match = jsonContent.match(/```(?:json)?\s*([\s\S]*?)```/);
+      jsonContent = match ? match[1] : jsonContent;
+    }
+    
+    jsonContent = jsonContent.trim();
+    if (!jsonContent.startsWith('[')) {
+      const startIndex = jsonContent.indexOf('[');
+      if (startIndex !== -1) {
+        jsonContent = jsonContent.slice(startIndex);
+      }
+    }
+    if (!jsonContent.endsWith(']')) {
+      const endIndex = jsonContent.lastIndexOf(']');
+      if (endIndex !== -1) {
+        jsonContent = jsonContent.slice(0, endIndex + 1);
+      }
+    }
 
-    // Validate and clean each suggestion
+    const parsedResponse = JSON.parse(jsonContent);
+
+    // Process each suggestion with Amazon data
     for (const suggestion of parsedResponse) {
+      const amazonData = await getAmazonImage(suggestion.title);
+
       const cleanSuggestion = {
         title: String(suggestion.title),
         price: String(suggestion.price),
@@ -67,21 +89,22 @@ export async function generateAndStoreSuggestions(
           ? suggestion.matchReasons.map(String)
           : [],
         matchScore: Number(suggestion.matchScore),
+        imageUrl: amazonData.imageUrl || null,
       };
 
       console.log("Cleaned suggestion:", cleanSuggestion);
       const { error: suggestionError } = await supabase
-        .from("gift_suggestions")
-        .insert({
-          gift_exchange_id: exchangeId,
-          giver_id: giverId,
-          recipient_id: recipientId,
-          suggestion: cleanSuggestion,
-        });
+      .from("gift_suggestions")
+      .insert({
+        gift_exchange_id: exchangeId,
+        giver_id: giverId,
+        recipient_id: recipientId,
+        suggestion: cleanSuggestion,
+      });
 
-      if (suggestionError) {
-        console.error("Failed to store suggestion:", suggestionError);
-      }
+    if (suggestionError) {
+      console.error("Failed to store suggestion:", suggestionError);
+    }
     }
     return { success: true };
   } catch (error) {

@@ -28,7 +28,7 @@ const GiftSuggestionCard = ({
   };
 
   return (
-    <Card className="bg-giftSuggestionsCardBackground h-96 w-80 flex flex-col justify-between m-5">
+    <Card className="bg-giftSuggestionsCardBackground h-100 w-80 flex flex-col justify-between m-5">
       {isShowingFeedback ? (
         <FeedbackView
           allGiftSuggestions={allGiftSuggestions}
