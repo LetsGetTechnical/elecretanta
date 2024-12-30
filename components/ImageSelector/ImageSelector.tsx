@@ -8,11 +8,6 @@ import {
 } from "@/components/RadioGroup/radio-group";
 import { Label } from "@/components/Label/label";
 
-interface ImageData {
-  id: string;
-  src: string;
-  alt: string;
-}
 interface ImageSelectorProps {
   value?: string;
   onChange?: (value: string) => void;
