@@ -11,6 +11,7 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
@@ -56,6 +57,12 @@ export const GiftExchangeHeader = ({
           <ChevronLeft size={16} strokeWidth={2.25} />
           <span>Back to Dashboard</span>
         </Link>
+        <Image
+          alt="banner image"
+          src={giftExchangeData.group_image}
+          width={300}
+          height={160}
+        ></Image>
         <Link href={"#"} className="flex items-center gap-1 text-sm">
           <Settings size={16} strokeWidth={2.25} />
           <span>Settings</span>
