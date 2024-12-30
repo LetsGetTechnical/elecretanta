@@ -1,4 +1,5 @@
 import { GiftExchange } from "@/app/types/giftExchange";
+import { Button } from "@/components/Button/button";
 import { formatDate } from "@/lib/utils";
 import {
 	ChevronLeft,
@@ -54,7 +55,7 @@ export const GiftExchangeHeader = ({
 					<ChevronLeft size={16} strokeWidth={2.25} />
 					<span>Back to Dashboard</span>
 				</Link>
-				<Link href={"#"} className="flex items-center gap-1 text-sm">
+				<Link href={`/gift-exchanges/${giftExchangeData.id}/edit`} className="flex items-center gap-1 text-sm">
 					<Settings size={16} strokeWidth={2.25} />
 					<span>Settings</span>
 				</Link>
