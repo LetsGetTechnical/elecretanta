@@ -8,6 +8,11 @@ import {
 } from "@/components/RadioGroup/radio-group";
 import { Label } from "@/components/Label/label";
 
+interface ImageData {
+  id: string;
+  src: string;
+  alt: string;
+}
 interface ImageSelectorProps {
   value?: string;
   onChange?: (value: string) => void;
@@ -32,10 +37,17 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
     },
   ];
 
+  const handleValueChange = (id: string) => {
+    const selectedImage = images.find((image) => image.id === id);
+    if (selectedImage && onChange) {
+      onChange(selectedImage.src);
+    }
+  };
+
   return (
     <RadioGroup
       value={value}
-      onValueChange={onChange}
+      onValueChange={handleValueChange}
       className="grid grid-cols-1 md:grid-cols-3 gap-4 m-5"
     >
       {images.map((image) => (
