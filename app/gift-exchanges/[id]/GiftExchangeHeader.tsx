@@ -9,7 +9,6 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
@@ -48,18 +47,21 @@ export const GiftExchangeHeader = ({
     }
   };
 
-	return (
-		<>
-			<div className="flex justify-between">
-				<Link href={"/dashboard"} className="flex items-center gap-1 text-sm">
-					<ChevronLeft size={16} strokeWidth={2.25} />
-					<span>Back to Dashboard</span>
-				</Link>
-				<Link href={`/gift-exchanges/${giftExchangeData.id}/edit`} className="flex items-center gap-1 text-sm">
-					<Settings size={16} strokeWidth={2.25} />
-					<span>Settings</span>
-				</Link>
-			</div>
+  return (
+    <>
+      <div className="flex justify-between">
+        <Link href={"/dashboard"} className="flex items-center gap-1 text-sm">
+          <ChevronLeft size={16} strokeWidth={2.25} />
+          <span>Back to Dashboard</span>
+        </Link>
+        <Link
+          href={`/gift-exchanges/${giftExchangeData.id}/edit`}
+          className="flex items-center gap-1 text-sm"
+        >
+          <Settings size={16} strokeWidth={2.25} />
+          <span>Settings</span>
+        </Link>
+      </div>
 
       <section className="flex flex-col grow-0 gap-8 sm:flex-row">
         <div className="w-36 h-36 grow-0 shrink-0">
