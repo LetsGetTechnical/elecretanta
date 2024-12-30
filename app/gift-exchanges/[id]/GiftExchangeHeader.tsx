@@ -80,12 +80,12 @@ export const GiftExchangeHeader = ({
           </div>
 
           <div className="flex sm:flex-row flex-wrap border-t pt-2 gap-4 sm:gap-16">
-            <p className="flex items-center gap-2 basis-full sm:basis-auto">
+            <div className="flex items-center gap-2 basis-full sm:basis-auto">
               {getStatusIcon(giftExchangeData.status)}
-              <div className="text-md font-semibold">
+              <p className="text-md font-semibold">
                 {getStatusText(giftExchangeData.status)}
-              </div>
-            </p>
+              </p>
+            </div>
             <div className="basis-full sm:basis-auto">
               <p className="text-lg font-semibold">Gift Budget</p>
               <p className="text-lg text-primary-foreground/80">
