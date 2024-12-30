@@ -137,11 +137,11 @@ export default function GiftExchangePage() {
         return (
           <div className="w-full py-4">
             <section className="py-4">
-              <h1 className="font-bold mb-2">Your Secret Santa Match</h1>
+              <h1 className="font-bold mb-4">Your Secret Santa Match</h1>
               <ProfileCard profile={giftMatch} />
             </section>
             <section className="flex flex-col ">
-              <h1 className="font-bold mb-2">Gift Suggestions</h1>
+              <h1 className="font-bold">Gift Suggestions</h1>
               <div className="flex flex-row flex-wrap">
                 {giftSuggestions.map((gift, index) => (
                   <GiftSuggestionCard
