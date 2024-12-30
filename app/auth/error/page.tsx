@@ -1,6 +1,6 @@
 export default function ErrorPage() {
 	return (
-		<main className="h-screen w-full grid place-content-center p-2">
+		<main className="min-h-screen-minus-20 w-full grid place-content-center p-2">
 			<h1 className="text-4xl text-white text-center mb-4">
 				Authentication Error
 			</h1>

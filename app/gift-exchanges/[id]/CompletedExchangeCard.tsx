@@ -19,7 +19,6 @@ export const CompletedExchangeCard = ({
 	members,
 }: CompletedExchangeCardProps) => {
 	const [showConfetti, setShowConfetti] = useState(true);
-
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setShowConfetti(false);
@@ -46,7 +45,12 @@ export const CompletedExchangeCard = ({
 					{members.map((member, index) => (
 						<div key={index} className="grid grid-cols-[auto_1fr_auto]">
 							<div className="flex items-center">
-								<Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
+								<Avatar
+									userAvatar={
+										member.recipient.avatar ||
+										"https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
+									}
+								/>
 								<p className="sm:text-lg pl-2">{member.member.display_name}</p>
 							</div>
 							<div className="flex justify-center items-center">
@@ -59,7 +63,12 @@ export const CompletedExchangeCard = ({
 								<p className="sm:text-lg pr-2">
 									{member.recipient.display_name}
 								</p>
-								<Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
+								<Avatar
+									userAvatar={
+										member.recipient.avatar ||
+										"https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
+									}
+								/>
 							</div>
 						</div>
 					))}

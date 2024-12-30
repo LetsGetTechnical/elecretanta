@@ -60,17 +60,16 @@ export async function drawGiftExchange(
       throw new Error("Failed to assign recipients");
     }
 
-    try {
-      await generateAndStoreSuggestions(
-        supabase,
-        exchangeId,
-        giver.user_id,
-        recipient.user_id,
-        exchange.budget
-      );
-    } catch (error) {
-      console.error("Failed to generate suggestions:", error);
-    }
+    // Fire and forget suggestions with error handling
+    // hacky way to avoid waiting for all suggestions to be generated
+    // avoids timeout issues
+    generateAndStoreSuggestions(
+      supabase,
+      exchangeId,
+      giver.user_id,
+      recipient.user_id,
+      exchange.budget
+    ).catch((error) => console.error("Failed to generate suggestions:", error));
   }
 
   // Update exchange status to active
