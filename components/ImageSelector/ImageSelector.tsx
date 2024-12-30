@@ -17,17 +17,17 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
   const images = [
     {
       id: "image1",
-      src: "https://images.unsplash.com/photo-1513297887119-d46091b24bfa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://images.unsplash.com/photo-1480632563560-30f503c09195?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNocmlzdG1hcyUyMGNoYXJhY3RlcnxlbnwwfHwwfHx8MA%3D%3D",
       alt: "Image 1",
     },
     {
       id: "image2",
-      src: "https://images.unsplash.com/photo-1634038036367-7c0e7a95fa4c?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://plus.unsplash.com/premium_photo-1681426549371-f85391e73e60?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGhvbGlkYXklMjBjaGFyYWN0ZXJzfGVufDB8fDB8fHww",
       alt: "Image 2",
     },
     {
       id: "image3",
-      src: "https://plus.unsplash.com/premium_photo-1668654056797-061fc37d99b0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://plus.unsplash.com/premium_photo-1669242712308-4b0aef7166da?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2hyaXN0bWFzJTIwY2hhcmFjdGVyfGVufDB8fDB8fHww",
       alt: "Image 3",
     },
   ];
