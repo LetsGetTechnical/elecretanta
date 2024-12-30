@@ -1,5 +1,4 @@
 import { GiftExchange } from "@/app/types/giftExchange";
-import { Button } from "@/components/Button/button";
 import { formatDate } from "@/lib/utils";
 import {
 	ChevronLeft,
