@@ -3,6 +3,7 @@ import { openai } from "@/app/api/openaiConfig/config";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
 import { Profile } from "@/app/types/profile";
 import { createClient } from "./supabase/server";
+import { getAmazonImage } from "./getAmazonImage";
 
 export async function generateAndUpdateNewGiftSuggestion(
   allGiftSuggestions: GiftSuggestion[],
@@ -80,6 +81,7 @@ export async function generateAndUpdateNewGiftSuggestion(
     );
 
     const suggestion = parsedResponse[0];
+    const amazonData = await getAmazonImage(suggestion.title);
 
     const cleanSuggestion: GiftSuggestion = {
       id: gift.id,
@@ -90,6 +92,7 @@ export async function generateAndUpdateNewGiftSuggestion(
         ? suggestion.matchReasons.map(String)
         : [],
       matchScore: Number(suggestion.matchScore),
+      imageUrl: amazonData.imageUrl || null,
     };
 
     const { error: suggestionError } = await supabase
