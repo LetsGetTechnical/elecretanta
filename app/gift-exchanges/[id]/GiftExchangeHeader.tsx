@@ -1,4 +1,7 @@
+"use client";
+
 import { GiftExchange } from "@/app/types/giftExchange";
+import { createClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/utils";
 import {
 	ChevronLeft,
@@ -9,16 +12,28 @@ import {
 	XCircle,
 } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface GiftExchangeHeaderProps {
 	giftExchangeData: GiftExchange;
-	isOwner: boolean;
 }
 
 export const GiftExchangeHeader = ({
 	giftExchangeData,
-	isOwner,
 }: GiftExchangeHeaderProps) => {
+	const [isOwner, setIsOwner] = useState(false);
+
+	useEffect(() => {
+		async function checkOwnerStatus() {
+			const supabase = createClient();
+			const { data } = await supabase.auth.getUser();
+			const id = data.user?.id;
+			setIsOwner(id === giftExchangeData.owner_id);
+		}
+
+		checkOwnerStatus();
+	}, [giftExchangeData.owner_id]);
+
 	const getStatusIcon = (status: string) => {
 		switch (status) {
 			case "pending":
