@@ -49,7 +49,7 @@ export const GiftExchangeHeader = ({
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-6">
         <Link href={"/dashboard"} className="flex items-center gap-1 text-sm">
           <ChevronLeft size={16} strokeWidth={2.25} />
           <span>Back to Dashboard</span>
