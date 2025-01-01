@@ -35,7 +35,8 @@ export async function GET(
           practical_whimsical,
           cozy_adventurous,
           minimal_luxurious,
-          email
+          email,
+          avatar
         )
       `
       )

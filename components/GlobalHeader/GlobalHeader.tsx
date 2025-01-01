@@ -5,6 +5,7 @@ import Avatar from "../Avatar/Avatar";
 import NavLogo from "../NavLogo/NavLogo";
 import SnowOverlayToggle from "../SnowOverlayToggle/SnowOverlayToggle";
 import getUserAvatar from "@/lib/getUserAvatar";
+import Link from "next/link";
 
 const GlobalHeader = () => {
   const [avatar, setAvatar] = useState<string>("");
@@ -22,7 +23,9 @@ const GlobalHeader = () => {
       <NavLogo />
       <div className="flex gap-2 items-center">
         <SnowOverlayToggle />
-        <Avatar userAvatar={avatar} />
+        <Link href={"/profile"}>
+          <Avatar userAvatar={avatar} />
+        </Link>
       </div>
     </nav>
   );

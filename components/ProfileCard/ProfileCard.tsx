@@ -72,7 +72,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
     <article className="text-white">
       <div className="flex items-center rounded-t-2xl justify-between py-5 px-9 bg-groupCardGreen">
         <div className="flex items-center gap-4">
-          <Avatar userAvatar="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" />
+          <Avatar userAvatar={profile?.avatar} />
           <div>
             <h1 className="text-lg font-bold">
               {formatDisplayName(profile?.display_name || "No Name Provided")}
@@ -87,7 +87,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
         </div>
         {showEditButton && (
           <Button
-            className="bg-[#C5DBB2] text-black flex items-center gap-2 text-sm font-bold rounded-xl hover:text-white"
+            className="bg-[#C5DBB2] text-black flex items-center gap-2 text-sm font-bold rounded-xl hover:bg-[#E4ECD9]"
             onClick={handleEditProfile}
           >
             <Pencil size={16} /> Edit Profile
@@ -127,12 +127,12 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
             <Compass size={16} strokeWidth={2} /> Gift Styles
           </h2>
           {renderPreference(
-            "Practical",
             "Whimsical",
+            "Practical",
             profile?.practical_whimsical
           )}
-          {renderPreference("Cozy", "Adventurous", profile?.cozy_adventurous)}
-          {renderPreference("Minimal", "Luxurious", profile?.minimal_luxurious)}
+          {renderPreference("Adventurous", "Cozy", profile?.cozy_adventurous)}
+          {renderPreference("Luxurious", "Minimal", profile?.minimal_luxurious)}
         </div>
       </div>
     </article>

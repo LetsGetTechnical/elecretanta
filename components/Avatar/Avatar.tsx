@@ -2,7 +2,7 @@ import { AvatarImage } from "./AvatarImage";
 import { AvatarFallback } from "./AvatarFallback";
 import { AvatarBody } from "./AvatarBody";
 
-const Avatar = ({ userAvatar }: { userAvatar: string }) => {
+const Avatar = ({ userAvatar }: { userAvatar: string | undefined }) => {
   return (
     <AvatarBody>
       <AvatarImage src={userAvatar} alt="" />
