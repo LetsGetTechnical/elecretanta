@@ -127,12 +127,12 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
             <Compass size={16} strokeWidth={2} /> Gift Styles
           </h2>
           {renderPreference(
-            "Practical",
             "Whimsical",
+            "Practical",
             profile?.practical_whimsical
           )}
-          {renderPreference("Cozy", "Adventurous", profile?.cozy_adventurous)}
-          {renderPreference("Minimal", "Luxurious", profile?.minimal_luxurious)}
+          {renderPreference("Adventurous", "Cozy", profile?.cozy_adventurous)}
+          {renderPreference("Luxurious", "Minimal", profile?.minimal_luxurious)}
         </div>
       </div>
     </article>
