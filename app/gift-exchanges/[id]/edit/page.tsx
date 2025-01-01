@@ -37,6 +37,7 @@ import { ImageSelector } from "@/components/ImageSelector/ImageSelector";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 const priceRanges = [
 	{ label: "$10 - $20", value: "10-20" },
@@ -76,6 +77,8 @@ export default function CreateGroupPage() {
 	const { id } = useParams();
 	const router = useRouter();
 
+	const supabase = createClient();
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -94,6 +97,14 @@ export default function CreateGroupPage() {
 				const response = await fetch(`/api/gift-exchanges/${id}`);
 				if (!response.ok) throw new Error(`Error: ${response.status}`);
 				const data = await response.json();
+
+				const {
+					data: { user },
+				} = await supabase.auth.getUser();
+				if (user?.id !== data.owner_id) {
+					router.push(`/gift-exchanges/${data.id}`);
+					return;
+				}
 
 				form.reset({
 					name: data.name,
