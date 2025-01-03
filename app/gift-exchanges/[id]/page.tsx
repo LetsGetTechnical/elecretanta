@@ -3,16 +3,16 @@
 import { GiftExchange } from "@/app/types/giftExchange";
 import { useParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { GiftExchangeHeader } from "./GiftExchangeHeader";
-import { JourneyCard } from "./JourneyCard";
-import { MembersList } from "./MembersList";
-import { InviteCard } from "./InviteCard";
-import { LoadingSkeleton } from "./LoadingSkeleton";
+import { GiftExchangeHeader } from "@/components/GiftExchangeHeader/GiftExchangeHeader";
+import { JourneyCard } from "../../../components/JourneyCard/JourneyCard";
+import { MembersList } from "../../../components/MembersList/MembersList";
+import { InviteCard } from "../../../components/InviteCard/InviteCard";
+import { LoadingSkeleton } from "../../../components/LoadingSkeleton/LoadingSkeleton";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
 import { createClient } from "@/lib/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import WarningModal from "./WarningModal";
-import { CompletedExchangeCard } from "./CompletedExchangeCard";
+import WarningModal from "../../../components/WarningModal/WarningModal";
+import { CompletedExchangeCard } from "../../../components/CompletedExchangeCard/CompletedExchangeCard";
 import { Profile } from "@/app/types/profile";
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
@@ -122,12 +122,12 @@ export default function GiftExchangePage() {
     switch (giftExchangeData.status) {
       case "pending":
         return (
-          <div className="flex flex-row w-full py-12 gap-8 items-start">
+          <div className="flex flex-col md:flex-row w-full py-12 gap-8 items-start">
             <JourneyCard
               drawingDate={giftExchangeData.drawing_date}
               exchangeDate={giftExchangeData.exchange_date}
             />
-            <div className="flex flex-col gap-4 w-full max-w-md">
+            <div className="flex flex-col gap-4 w-full">
               <MembersList members={giftExchangeMembers} />
               <InviteCard />
             </div>
