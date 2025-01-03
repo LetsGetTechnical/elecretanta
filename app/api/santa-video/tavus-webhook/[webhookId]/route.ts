@@ -1,6 +1,7 @@
 import { ProcessedVideoResult } from "@/app/types/tavusSanta";
 import { createClient } from "@/lib/supabase/server";
 
+// Route that tavus will hit to notify that the santa video has been processed
 export async function POST(
 	req: Request,
 	props: { params: Promise<{ webhookId: string }> }
