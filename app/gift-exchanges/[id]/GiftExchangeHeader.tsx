@@ -24,10 +24,9 @@ import {
 } from "../../../components/AlertDialogue/AlertDialgoue";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
 import { Button } from "@/components/Button/button";
+import { useRouter } from "next/navigation";
 // initialize type for exchange data response
-interface PairingDataProps {
-  pairingData: any;
-}
+
 interface MembersListProps {
   members: GiftExchangeMember[];
 }
@@ -36,18 +35,16 @@ interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
   id: string | string[] | undefined;
 }
-type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps &
-  MembersListProps &
-  PairingDataProps;
+type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps & MembersListProps;
 
 export const GiftExchangeHeader = ({
   giftExchangeData,
   members,
   id,
-  pairingData,
 }: GiftExchangeHeaderPropsUnion) => {
   const [membersData, setMembersData] = useState(members);
 
+  const router = useRouter();
   useEffect(() => {
     setMembersData(members);
   }, [members]);
@@ -105,6 +102,7 @@ export const GiftExchangeHeader = ({
       }
 
       const data = await response.json();
+      location.reload();
       console.log("data:", data);
     } catch (error) {
       console.log("this is the error: ", error);
