@@ -9,6 +9,9 @@ import { MembersList } from "./MembersList";
 import { InviteCard } from "./InviteCard";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
+import { createClient } from "@/lib/supabase/client";
+import { Session } from "@supabase/supabase-js";
+import WarningModal from "./WarningModal";
 import { CompletedExchangeCard } from "./CompletedExchangeCard";
 import { Profile } from "@/app/types/profile";
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
@@ -17,6 +20,8 @@ import { GiftSuggestion } from "@/app/types/giftSuggestion";
 
 export default function GiftExchangePage() {
   const { id } = useParams();
+  const [session, setSession] = useState<Session | null>(null);
+  const [isUserAMember, setIsUserAMember] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
     id: "",
@@ -48,36 +53,66 @@ export default function GiftExchangePage() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+    const fetchSession = async () => {
       try {
-        const [giftExchangeResponse, membersResponse, giftSuggestionsResponse] =
-          await Promise.all([
-            fetch(`/api/gift-exchanges/${id}`),
-            fetch(`/api/gift-exchanges/${id}/members`),
-            fetch(`/api/gift-exchanges/${id}/giftSuggestions`),
-          ]);
-
-        const [giftExchangeResult, membersResult, giftSuggestionsResult] =
-          await Promise.all([
-            giftExchangeResponse.json(),
-            membersResponse.json(),
-            giftSuggestionsResponse.json(),
-          ]);
-
-        setGiftExchangeData(giftExchangeResult);
-        setGiftExchangeMembers(membersResult);
-        setGiftMatch(giftSuggestionsResult.match);
-        setGiftSuggestions(giftSuggestionsResult.suggestions);
+        const supabase = createClient();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setSession(session);
       } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
+        console.error("Error fetching session:", error);
       }
     };
+    fetchSession();
+  }, []);
 
-    fetchData();
-  }, [id]);
+  const fetchGiftExchangeData = async () => {
+    setIsLoading(true);
+    try {
+      const [giftExchangeResponse, membersResponse, giftSuggestionsResponse] =
+        await Promise.all([
+          fetch(`/api/gift-exchanges/${id}`),
+          fetch(`/api/gift-exchanges/${id}/members`),
+          fetch(`/api/gift-exchanges/${id}/giftSuggestions`),
+        ]);
+
+      const [giftExchangeResult, membersResult, giftSuggestionsResult] =
+        await Promise.all([
+          giftExchangeResponse.json(),
+          membersResponse.json(),
+          giftSuggestionsResponse.json(),
+        ]);
+
+      setGiftExchangeData(giftExchangeResult);
+      setGiftExchangeMembers(membersResult);
+      setGiftMatch(giftSuggestionsResult.match);
+      setGiftSuggestions(giftSuggestionsResult.suggestions);
+      if (session) {
+        setIsUserAMember(
+          membersResult.some(
+            (member: GiftExchangeMember) => member.user_id === session?.user.id
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchGiftExchangeData();
+  }, [id, session]);
+
+  const updateGiftExchangeMembers = async () => {
+    try {
+      await fetchGiftExchangeData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (isLoading) {
     return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
@@ -87,7 +122,7 @@ export default function GiftExchangePage() {
     switch (giftExchangeData.status) {
       case "pending":
         return (
-          <div className="flex flex-row w-full pt-12 gap-8 items-start">
+          <div className="flex flex-row w-full py-12 gap-8 items-start">
             <JourneyCard
               drawingDate={giftExchangeData.drawing_date}
               exchangeDate={giftExchangeData.exchange_date}
@@ -100,12 +135,14 @@ export default function GiftExchangePage() {
         );
       case "active":
         return (
-          <div className="w-full pt-12">
-            <h1 className="font-bold mb-2">Your Secret Santa Match</h1>
-            <ProfileCard profile={giftMatch} />
-            <div className="flex flex-col">
-              <h1 className="ml-8 mt-8">Gift Suggestions</h1>
-              <div className="flex flex-col xl:flex-row">
+          <div className="w-full py-12">
+            <section className="py-4">
+              <h1 className="font-bold mb-2">Your Secret Santa Match</h1>
+              <ProfileCard profile={giftMatch} />
+            </section>
+            <section className="flex flex-col ">
+              <h1 className="font-bold mb-2">Gift Suggestions</h1>
+              <div className="flex flex-row flex-wrap">
                 {giftSuggestions.map((gift, index) => (
                   <GiftSuggestionCard
                     allGiftSuggestions={giftSuggestions}
@@ -118,12 +155,12 @@ export default function GiftExchangePage() {
                   />
                 ))}
               </div>
-            </div>
+            </section>
           </div>
         );
       case "completed":
         return (
-          <div className="w-full pt-12">
+          <div className="w-full py-12">
             <CompletedExchangeCard members={giftExchangeMembers} />
           </div>
         );
@@ -135,8 +172,8 @@ export default function GiftExchangePage() {
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}
+          id={giftExchangeData.id}
           members={giftExchangeMembers}
-          id={id}
         />
         {renderContent()}
       </section>

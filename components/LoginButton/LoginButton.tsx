@@ -1,48 +1,19 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "../Button/button";
 import { useState } from "react";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
-import { redirect, useRouter } from "next/navigation";
+import { signInWithGoogle } from "@/lib/utils";
 
 export default function LoginButton() {
 	const [isLoading, setIsLoading] = useState(false);
-	const router = useRouter();
 
-	const signInWithGoogle = async () => {
+	const signIn = async () => {
 		setIsLoading(true);
 		try {
-			const supabase = createClient();
-			const { error } = await supabase.auth.signInWithOAuth({
-				provider: "google",
-				options: {
-					redirectTo: `${window.location.origin}/auth/callback`,
-				},
-			});
-
-			if (error) {
-				redirect("/auth/error");
-			}
-
-			const {
-				data: { user },
-			} = await supabase.auth.getUser();
-			if (!user) return;
-
-			const { data: profile } = await supabase
-				.from("profiles")
-				.select("onboarding_complete")
-				.eq("id", user.id)
-				.single();
-
-			if (profile?.onboarding_complete) {
-				router.push("/dashboard");
-			} else {
-				router.push("/onboarding");
-			}
+			await signInWithGoogle({});
 		} catch (error) {
-			console.error("Error occurred during Google Sign in: ", error);
+			console.error("Error signing in:", error);
 		} finally {
 			setIsLoading(false);
 		}
@@ -53,7 +24,7 @@ export default function LoginButton() {
 			size="lg"
 			className="bg-primaryButtonYellow hover:bg-primaryButtonYellow/70"
 			disabled={isLoading}
-			onClick={signInWithGoogle}
+			onClick={signIn}
 		>
 			{!isLoading ? (
 				<>
@@ -67,7 +38,7 @@ export default function LoginButton() {
 			) : (
 				<LoadingSpinner className="text-logoRed" />
 			)}
-			<span>Get started with Google</span>
+			<span>Continue with Google</span>
 		</Button>
 	);
 }

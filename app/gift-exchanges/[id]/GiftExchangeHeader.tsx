@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Button } from "@/components/Button/button";
 import { GiftExchange } from "@/app/types/giftExchange";
 import { formatDate } from "@/lib/utils";
 import {
@@ -24,7 +23,7 @@ import {
   AlertDialogTrigger,
 } from "../../../components/AlertDialogue/AlertDialgoue";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-
+import { Button } from "@/components/Button/button";
 // initialize type for exchange data response
 interface PairingDataProps {
   pairingData: any;
@@ -128,7 +127,7 @@ export const GiftExchangeHeader = ({
         </Link>
       </div>
 
-      <div className="flex grow-0 gap-8 sm:flex-row">
+      <section className="flex flex-col grow-0 gap-8 sm:flex-row">
         <div className="w-36 h-36 grow-0 shrink-0">
           <img
             className="w-full h-full rounded-xl ring-4 ring-white"
@@ -176,12 +175,6 @@ export const GiftExchangeHeader = ({
                 </AlertDialog>
               ) : null}
             </div>
-            <div>
-              <Button size={"sm"} variant={"secondary"}>
-                <Share2 />
-                Share Link
-              </Button>
-            </div>
           </div>
 
           <div className="flex flex-row border-t pt-2 gap-16">
@@ -209,7 +202,7 @@ export const GiftExchangeHeader = ({
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

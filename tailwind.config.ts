@@ -75,6 +75,9 @@ export default {
 				md: "calc(var(--radius) - 2px)",
 				sm: "calc(var(--radius) - 4px)",
 			},
+			minHeight: {
+				"screen-minus-20": "calc(100vh - 5rem)",
+			},
 		},
 	},
 	plugins: [tailwindcssMotion],
