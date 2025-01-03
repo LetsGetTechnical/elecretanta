@@ -23,7 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../../../components/AlertDialogue/AlertDialgoue";
+} from "../AlertDialogue/AlertDialgoue";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
 import { Button } from "@/components/Button/button";
 // initialize type for exchange data response
