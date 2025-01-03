@@ -122,12 +122,12 @@ export default function GiftExchangePage() {
     switch (giftExchangeData.status) {
       case "pending":
         return (
-          <div className="flex flex-row w-full py-12 gap-8 items-start">
+          <div className="flex flex-col md:flex-row w-full py-12 gap-8 items-start">
             <JourneyCard
               drawingDate={giftExchangeData.drawing_date}
               exchangeDate={giftExchangeData.exchange_date}
             />
-            <div className="flex flex-col gap-4 w-full max-w-md">
+            <div className="flex flex-col gap-4 w-full">
               <MembersList members={giftExchangeMembers} />
               <InviteCard />
             </div>
