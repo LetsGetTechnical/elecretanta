@@ -2,7 +2,7 @@
 
 import { GiftExchange } from "@/app/types/giftExchange";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { GiftExchangeHeader } from "./GiftExchangeHeader";
 import { JourneyCard } from "./JourneyCard";
 import { MembersList } from "./MembersList";
@@ -21,7 +21,7 @@ import { GiftSuggestion } from "@/app/types/giftSuggestion";
 export default function GiftExchangePage() {
   const { id } = useParams();
   const [session, setSession] = useState<Session | null>(null);
-  const [isUserAMember, setIsUserAMember] = useState(false);
+  const [isUserAMember, setIsUserAMember] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
     id: "",
@@ -67,7 +67,7 @@ export default function GiftExchangePage() {
     fetchSession();
   }, []);
 
-  const fetchGiftExchangeData = async () => {
+  const fetchGiftExchangeData = useCallback(async () => {
     setIsLoading(true);
     try {
       const [giftExchangeResponse, membersResponse, giftSuggestionsResponse] =
@@ -100,11 +100,11 @@ export default function GiftExchangePage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id, session]);
 
   useEffect(() => {
     fetchGiftExchangeData();
-  }, [id, session]);
+  }, [fetchGiftExchangeData, session, id]);
 
   const updateGiftExchangeMembers = async () => {
     try {
@@ -135,13 +135,13 @@ export default function GiftExchangePage() {
         );
       case "active":
         return (
-          <div className="w-full py-12">
-            <section className="py-4">
-              <h1 className="font-bold mb-2">Your Secret Santa Match</h1>
+          <div className="w-full py-4">
+            <section className="py-4 mb-12">
+              <h1 className="font-bold mb-4">Your Secret Santa Match</h1>
               <ProfileCard profile={giftMatch} />
             </section>
-            <section className="flex flex-col ">
-              <h1 className="font-bold mb-2">Gift Suggestions</h1>
+            <section className="flex flex-col">
+              <h1 className="font-bold">Gift Suggestions</h1>
               <div className="flex flex-row flex-wrap">
                 {giftSuggestions.map((gift, index) => (
                   <GiftSuggestionCard
@@ -168,7 +168,15 @@ export default function GiftExchangePage() {
   };
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen-minus-20">
+      {!isUserAMember && giftExchangeData.status === "pending" && (
+        <WarningModal
+          giftExchangeData={giftExchangeData}
+          session={session}
+          members={giftExchangeMembers}
+          updateGiftExchangeMembers={updateGiftExchangeMembers}
+        />
+      )}
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}

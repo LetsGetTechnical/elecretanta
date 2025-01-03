@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { GiftExchange } from "@/app/types/giftExchange";
+import { createClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/utils";
 import {
   ChevronLeft,
@@ -48,6 +51,19 @@ export const GiftExchangeHeader = ({
   useEffect(() => {
     setMembersData(members);
   }, [members]);
+
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    async function checkOwnerStatus() {
+      const supabase = createClient();
+      const { data } = await supabase.auth.getUser();
+      const id = data.user?.id;
+      setIsOwner(id === giftExchangeData.owner_id);
+    }
+
+    checkOwnerStatus();
+  }, [giftExchangeData.owner_id]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -129,7 +145,7 @@ export const GiftExchangeHeader = ({
         <div className="w-36 h-36 grow-0 shrink-0">
           <img
             className="w-full h-full rounded-xl ring-4 ring-white"
-            src="https://img.freepik.com/free-vector/santa-claus-elements-red-background_1057-2152.jpg"
+            src={giftExchangeData.group_image}
             alt="Group logo"
           />
         </div>
@@ -175,28 +191,30 @@ export const GiftExchangeHeader = ({
             </div>
           </div>
 
-          <div className="flex flex-row border-t pt-2 gap-16">
-            <div className="flex items-center gap-2">
+          <div className="flex sm:flex-row flex-wrap border-t pt-2 gap-4 sm:gap-16">
+            <div className="flex items-center gap-2 basis-full sm:basis-auto">
               {getStatusIcon(giftExchangeData.status)}
-              <div className="text-md font-semibold">
+              <p className="text-md font-semibold">
                 {getStatusText(giftExchangeData.status)}
-              </div>
+              </p>
+            </div>
+            <div className="basis-full sm:basis-auto">
+              <p className="text-lg font-semibold">Gift Budget</p>
+              <p className="text-lg text-primary-foreground/80">
+                ${giftExchangeData.budget}
+              </p>
             </div>
             <div>
-              <div className="text-md font-semibold">Gift Budget</div>
-              <div className="">${giftExchangeData.budget}</div>
-            </div>
-            <div>
-              <div className="text-md font-semibold">Draw date</div>
-              <div className="">
+              <p className="text-lg font-semibold">Draw date</p>
+              <p className="text-lg text-primary-foreground/80">
                 {formatDate(giftExchangeData.drawing_date)}
-              </div>
+              </p>
             </div>
             <div>
-              <div className="text-md font-semibold">Exchange Date</div>
-              <div className="">
+              <p className="text-lg font-semibold">Exchange Date</p>
+              <p className="text-lg text-primary-foreground/80">
                 {formatDate(giftExchangeData.exchange_date)}
-              </div>
+              </p>
             </div>
           </div>
         </div>

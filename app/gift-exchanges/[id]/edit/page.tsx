@@ -36,6 +36,8 @@ import { Textarea } from "@/components/TextArea/textarea";
 import { ImageSelector } from "@/components/ImageSelector/ImageSelector";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 const priceRanges = [
 	{ label: "$10 - $20", value: "10-20" },
@@ -75,6 +77,8 @@ export default function CreateGroupPage() {
 	const { id } = useParams();
 	const router = useRouter();
 
+	const supabase = createClient();
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -93,6 +97,14 @@ export default function CreateGroupPage() {
 				const response = await fetch(`/api/gift-exchanges/${id}`);
 				if (!response.ok) throw new Error(`Error: ${response.status}`);
 				const data = await response.json();
+
+				const {
+					data: { user },
+				} = await supabase.auth.getUser();
+				if (user?.id !== data.owner_id) {
+					router.push(`/gift-exchanges/${data.id}`);
+					return;
+				}
 
 				form.reset({
 					name: data.name,
@@ -132,19 +144,18 @@ export default function CreateGroupPage() {
 
 	const giftDrawingDate = form.watch("drawing_date");
 	return (
-		<div className=" flex justify-center align-center flex-col">
+		<div className=" flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
 			<div className="flex flex-row">
-				<Button
-					className="bg-clear"
-					type="button"
-					onClick={() => router.push("/dashboard")}
+				<Link
+					href={"/dashboard"}
+					className="flex items-center gap-1 text-sm text-primary-foreground m-5"
 				>
-					<ChevronLeft className="mr-2" />
-					Back to Dashboard
-				</Button>
+					<ChevronLeft size={16} strokeWidth={2.25} />
+					<span>Back to Dashboard</span>
+				</Link>
 			</div>
 			<div className="flex items-center justify-center h-full">
-				<div className="bg-white w-1/2 mb-5 flex justify-center align-center rounded flex-col ">
+				<div className="bg-white w-3/4 xl:w-1/2 mb-5 flex justify-center align-center rounded flex-col ">
 					<h2 className="font-bold m-5">Edit Secret Santa Page</h2>
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -355,7 +366,7 @@ export default function CreateGroupPage() {
 									</FormItem>
 								)}
 							/>
-							<div className="flex justify-start m-5">
+							<div className="flex md:justify-start justify-center md:m-5 m-0 w-full">
 								<Button className="m-2" type="submit">
 									Save Changes
 								</Button>

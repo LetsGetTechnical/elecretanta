@@ -3,6 +3,7 @@ export interface Profile {
   display_name: string;
   email: string;
   age_group?: string;
+  avatar?: string;
   categories: string[];
   hobbies?: string;
   avoid?: string;
