@@ -43,7 +43,7 @@ const GiftDetailsView = ({
             <Gift className="w-16 h-16 text-gray-300" />
           </div>
         )}
-        
+
         <div className="absolute top-2 left-2 right-2 flex justify-between items-center">
           <div className="text-xs px-3 py-1 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-full shadow-sm">
             {gift.matchScore}% Match
@@ -77,7 +77,7 @@ const GiftDetailsView = ({
             rel="noopener noreferrer"
           >
             <Button
-              className="text-sm w-32 h-9 bg-primaryButtonYelow70 hover:bg-primaryButtonYellow"
+              className="text-sm w-32 h-9 bg-primaryButtonYellow hover:bg-primaryButtonYelow70"
               onClick={() => handleAmazonLink({ searchTerm: gift.title })}
             >
               <SquareArrowOutUpRight /> View
