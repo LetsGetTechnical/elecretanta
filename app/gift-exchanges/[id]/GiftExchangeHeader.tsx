@@ -7,7 +7,6 @@ import { formatDate } from "@/lib/utils";
 import {
   ChevronLeft,
   Settings,
-  Share2,
   Verified,
   Clock,
   CheckCircle,
@@ -27,7 +26,6 @@ import {
 } from "../../../components/AlertDialogue/AlertDialgoue";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
 import { Button } from "@/components/Button/button";
-import { useRouter } from "next/navigation";
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -47,7 +45,6 @@ export const GiftExchangeHeader = ({
 }: GiftExchangeHeaderPropsUnion) => {
   const [membersData, setMembersData] = useState(members);
 
-  const router = useRouter();
   useEffect(() => {
     setMembersData(members);
   }, [members]);
