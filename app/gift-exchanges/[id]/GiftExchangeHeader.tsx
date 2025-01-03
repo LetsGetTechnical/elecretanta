@@ -122,9 +122,6 @@ export const GiftExchangeHeader = ({
     }
   };
 
-  console.log("members", members.length);
-  console.log("membersData:", membersData);
-  console.log("ID: ", id);
   return (
     <>
       <div className="flex justify-between mb-6">
