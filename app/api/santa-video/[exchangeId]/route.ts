@@ -1,8 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // Route to get the santa video for the user
-export async function GET(props: { params: Promise<{ exchangeId: string }> }) {
+export async function GET(
+	request: NextRequest,
+	props: { params: Promise<{ exchangeId: string }> }
+) {
 	try {
 		const params = await props.params;
 		const exchange_id = await params.exchangeId;
