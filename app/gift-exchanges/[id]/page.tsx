@@ -17,7 +17,6 @@ import { Profile } from "@/app/types/profile";
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
-import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
 
 export default function GiftExchangePage() {
 	const { id } = useParams();
