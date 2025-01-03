@@ -3,7 +3,7 @@ import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import { useEffect, useState } from "react";
 import { Profile } from "@/app/types/profile";
 import { useParams } from "next/navigation";
-import LoadingCard from "@/app/profile/LoadingCard";
+import LoadingCard from "@/components/LoadingCard/LoadingCard";
 
 export default function UserProfile() {
   const params = useParams();

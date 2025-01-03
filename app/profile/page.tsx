@@ -2,7 +2,7 @@
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import { useEffect, useState } from "react";
 import { Profile } from "@/app/types/profile";
-import LoadingCard from "@/app/profile/LoadingCard";
+import LoadingCard from "@/components/LoadingCard/LoadingCard";
 
 export default function PersonalProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);
