@@ -222,7 +222,7 @@ export default function CreateGroupPage() {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              "w-52 justify-between mx-5 mt-5 w-4/5",
+                              "w-60 justify-between mx-5 mt-5",
                               !field.value && "text-muted-foreground"
                             )}
                           >
