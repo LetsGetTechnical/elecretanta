@@ -38,7 +38,7 @@ export default function Home() {
     <div className="min-h-screen-minus-20">
       <main className="container mx-auto px-4 py-16">
         {/* Hero Section */}
-        <section className="text-center mb-12">
+        <section className="text-center my-12">
           <h1 className="text-5xl font-bold text-primary-foreground mb-4">
             Make Gift-Giving Magical
           </h1>
