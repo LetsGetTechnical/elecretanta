@@ -22,6 +22,14 @@ Requirements from Santa:
 
 - Usage of AI to help find gift ideas
 
+## 👥 Contributors
+
+- [Thomas Nguyen](https://www.linkedin.com/in/thomasnguyensoftware/)
+- [Cody Epstein](https://www.linkedin.com/in/cody-epstein/)
+- [Alex Appleget](https://www.linkedin.com/in/alex-appleget/)
+- [Jennifer Tieu](https://www.linkedin.com/in/jennifertieu/)
+- [Dominic Monaco](https://www.linkedin.com/in/dominick-j-monaco/)
+
 ## ✨ Features
 
 ### Smart Gift Exchange Management
