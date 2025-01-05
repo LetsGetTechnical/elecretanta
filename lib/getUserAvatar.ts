@@ -10,7 +10,7 @@ const getUserAvatar = async () => {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      throw new Error("Unauthorized");
+      return null;
     }
 
     const avatarUrl = user.user_metadata.avatar_url;
@@ -20,4 +20,5 @@ const getUserAvatar = async () => {
     throw error;
   }
 };
+
 export default getUserAvatar;
