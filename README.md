@@ -131,23 +131,12 @@ The application will be available at `http://localhost:4000`
 
 ## 🛠 Tech Stack
 
-- **Frontend**:<a href="https://nextjs.org/">
-  <img src="  
-  https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js">
-  </a>
-- **Authentication & Database**: <a href="https://supabase.com">
-  <img src="https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase" alt="Supabase">
-  </a>
-- **AI Integration**: <a href="https://platform.openai.com/docs/overview">
-  <img src="https://img.shields.io/badge/ChatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white" alt="Supabase">
-  </a>
-- **Form Management**: <a href="https://www.react-hook-form.com/">
-  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="121.25" height="28" role="img" aria-label="React Hook Form"><title>React Hook Form</title><g shape-rendering="crispEdges"><rect width="121.25" height="28" fill="#ec5990"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="100"><text transform="scale(.1)" x="600" y="175" textLength="772.5" fill="#fff" font-weight="bold">React Hook Form</text></g></svg>
-  </a><a href="https://zod.dev/"><img src="https://img.shields.io/badge/Zod-000000?style=for-the-badge&logo=zod&logoColor=3068B7" alt="Zod"></a>
-- **UI Components**:
-  <a href="https://zod.dev/"><img src="https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white" alt="Shadcn/UI"></a>
-- **Styling**:
-  <a href="https://zod.dev/"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+- **Frontend**: [Next.js](https://nextjs.org/)
+- **Authentication & Database**: [Supabase](https://supabase.com/)
+- **AI Integration**: [OpenAI API](https://platform.openai.com/docs/overview)
+- **Form Management**: [React Hook Form](https://react-hook-form.com/) with [Zod](https://zod.dev/) validation
+- **UI Components**: [Shadcn/UI](https://ui.shadcn.com/) 
+- **Styling**: [TailwindCSS](https://tailwindcss.com/)
 
 ## 📱 User Flow
 
