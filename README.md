@@ -68,10 +68,10 @@ Requirements from Santa:
 
 ### 📸 Screenshots
 
-<a href="https://ibb.co/5v52h2j"><img src="https://i.ibb.co/92qGHG4/Screenshot-2025-01-06-at-11-27-49-AM.png" alt="Screenshot-2025-01-06-at-11-27-49-AM" border="0"></a>
-<a  href="https://ibb.co/3MyRRYn"><img  src="https://i.ibb.co/MGDBB5m/Screenshot-2025-01-06-at-11-19-28-AM.png"  alt="Screenshot-2025-01-06-at-11-19-28-AM"  border="0"></a>
-<a  href="https://ibb.co/sK2wYVH"><img  src="https://i.ibb.co/D9tC2Rp/Screenshot-2025-01-06-at-11-21-56-AM.png"  alt="Screenshot-2025-01-06-at-11-21-56-AM"  border="0"></a>
-<a  href="https://ibb.co/hRQS1bW"><img  src="https://i.ibb.co/Rprq4f0/Screenshot-2025-01-06-at-11-22-54-AM.png"  alt="Screenshot-2025-01-06-at-11-22-54-AM"  border="0"></a>
+<a href="https://ibb.co/5v52h2j"><img src="https://i.ibb.co/q9RxYxg/Screenshot-2025-01-06-at-11-27-49-AM.png" alt="Screenshot-2025-01-06-at-11-27-49-AM" border="0"></a>
+<a  href="https://ibb.co/3MyRRYn"><img  src="https://i.ibb.co/fnYDDGs/Screenshot-2025-01-06-at-11-19-28-AM.png"  alt="Screenshot-2025-01-06-at-11-19-28-AM"  border="0"></a>
+<a  href="https://ibb.co/sK2wYVH"><img  src="https://i.ibb.co/x1DjT7H/Screenshot-2025-01-06-at-11-21-56-AM.png"  alt="Screenshot-2025-01-06-at-11-21-56-AM"  border="0"></a>
+<a  href="https://ibb.co/hRQS1bW"><img  src="https://i.ibb.co/zh9zHpR/Screenshot-2025-01-06-at-11-22-54-AM.png"  alt="Screenshot-2025-01-06-at-11-22-54-AM"  border="0"></a>
 
 ## 🚀 Getting Started
 
@@ -106,7 +106,7 @@ GOOGLE_CSE_ID="your_google_cse_id"
 ```bash
 # Clone the repository
 
-git  clone  https://github.com/your-username/elfgorithm.git
+git  clone  git@github.com:guardiansofthegit-collab/elecretanta.git
 
 # Install dependencies
 
