@@ -2,22 +2,29 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { Session, User } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
-import React, { createContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 const AuthContext = createContext<{
   user: User | null;
   session: Session | null;
+  isSignedIn: boolean | null;
 }>({
   user: null,
   session: null,
+  isSignedIn: null,
 });
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const supabase = createClient();
-  const router = useRouter();
 
   useEffect(() => {
     const grabSession = async () => {
@@ -32,6 +39,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
             data: { user },
           } = await supabase.auth.getUser();
           setUser(user);
+          setIsSignedIn(true);
         }
       } catch (error) {
         throw error;
@@ -41,19 +49,31 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     grabSession();
   }, [supabase]);
 
-  useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  const contextValue = useMemo(
+    () => ({
+      user,
+      session,
+      isSignedIn,
+    }),
+    [isSignedIn]
+  );
 
   return (
-    <AuthContext.Provider value={{ user, session }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
 export default AuthContextProvider;
+
+// custom hook to access the authentication context
+const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error(
+      "useAuthContext must be used withing an AuthContextProvider"
+    );
+  }
+  return context;
+};
+
+export { useAuthContext };
