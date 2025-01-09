@@ -9,18 +9,17 @@ import { MembersList } from "../../../components/MembersList/MembersList";
 import { InviteCard } from "../../../components/InviteCard/InviteCard";
 import { LoadingSkeleton } from "../../../components/LoadingSkeleton/LoadingSkeleton";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-import { createClient } from "@/lib/supabase/client";
-import { Session } from "@supabase/supabase-js";
 import WarningModal from "../../../components/WarningModal/WarningModal";
 import { CompletedExchangeCard } from "../../../components/CompletedExchangeCard/CompletedExchangeCard";
 import { Profile } from "@/app/types/profile";
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
+import { useAuthContext } from "@/context/AuthContextProvider";
 
 export default function GiftExchangePage() {
   const { id } = useParams();
-  const [session, setSession] = useState<Session | null>(null);
+  const { session } = useAuthContext();
   const [isUserAMember, setIsUserAMember] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
@@ -51,21 +50,6 @@ export default function GiftExchangePage() {
       return newSuggestions;
     });
   };
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      try {
-        const supabase = createClient();
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        setSession(session);
-      } catch (error) {
-        console.error("Error fetching session:", error);
-      }
-    };
-    fetchSession();
-  }, []);
 
   const fetchGiftExchangeData = useCallback(async () => {
     setIsLoading(true);
@@ -169,14 +153,15 @@ export default function GiftExchangePage() {
 
   return (
     <main className="min-h-screen-minus-20">
-      {!isUserAMember && giftExchangeData.status === "pending" && (
-        <WarningModal
-          giftExchangeData={giftExchangeData}
-          session={session}
-          members={giftExchangeMembers}
-          updateGiftExchangeMembers={updateGiftExchangeMembers}
-        />
-      )}
+      {!isUserAMember &&
+        !isLoading &&
+        giftExchangeData.status === "pending" && (
+          <WarningModal
+            giftExchangeData={giftExchangeData}
+            members={giftExchangeMembers}
+            updateGiftExchangeMembers={updateGiftExchangeMembers}
+          />
+        )}
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}
