@@ -122,6 +122,31 @@ export const GiftExchangeHeader = ({
     }
   };
 
+  async function completeGiftExchange() {
+    try {
+      const updatedGiftExchangeData = {
+        ...giftExchangeData,
+        status: "completed",
+      };
+
+      const response = await fetch(`/api/gift-exchanges/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(updatedGiftExchangeData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete gift exchange:", error);
+    }
+  }
+
   return (
     <>
       <div className="flex justify-between mb-6">
@@ -157,6 +182,11 @@ export const GiftExchangeHeader = ({
               <p className="text-xs">{giftExchangeData.description}</p>
             </div>
             <div>
+              {getStatusText(giftExchangeData.status) === "Active" && (
+                <Button onClick={completeGiftExchange}>
+                  Complete Gift Exchange
+                </Button>
+              )}
               {getStatusText(giftExchangeData.status) === "Open" ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>

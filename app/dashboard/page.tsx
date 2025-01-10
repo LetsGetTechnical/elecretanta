@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/Button/button";
-import GroupCard from "@/components/GroupCard/GroupCard";
+import GroupCard, { GroupCardSkeleton } from "@/components/GroupCard/GroupCard";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GiftExchangeWithMemberCount } from "../types/giftExchange";
@@ -10,6 +10,7 @@ export default function Dashboard() {
   const [giftExchanges, setGiftExchanges] = useState<
     GiftExchangeWithMemberCount[]
   >([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchGiftExchanges() {
@@ -29,6 +30,8 @@ export default function Dashboard() {
         setGiftExchanges(data);
       } catch (error) {
         console.error("Failed to fetch gift exchanges:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchGiftExchanges();
@@ -47,7 +50,13 @@ export default function Dashboard() {
       </div>
       <div className="flex flex-col flex-grow px-4 md:px-16 lg:px-32 xl:px-52">
         <h2 className="font-semibold text-lg text-white mb-2">My Groups</h2>
-        {giftExchanges.length === 0 ? (
+        {isLoading ? (
+          <div className="grid xl:grid-cols-2 gap-4">
+            {[...Array(4)].map((_, index) => (
+              <GroupCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : giftExchanges.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-white text-center py-12">
             <p className="mb-2">
               You haven&apos;t created or joined any Secret Santa groups yet!

@@ -16,6 +16,7 @@ import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
 import { GiftSuggestion } from "@/app/types/giftSuggestion";
 import { useAuthContext } from "@/context/AuthContextProvider";
+import WaitingForSuggestions from "./WaitingForSuggestions";
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -126,19 +127,23 @@ export default function GiftExchangePage() {
             </section>
             <section className="flex flex-col">
               <h1 className="font-bold">Gift Suggestions</h1>
-              <div className="flex flex-row flex-wrap">
-                {giftSuggestions.map((gift, index) => (
-                  <GiftSuggestionCard
-                    allGiftSuggestions={giftSuggestions}
-                    budget={giftExchangeData.budget}
-                    gift={gift}
-                    index={index}
-                    key={gift.id}
-                    onGiftUpdate={handleGiftUpdate}
-                    recipient={giftMatch}
-                  />
-                ))}
-              </div>
+              {giftSuggestions.length === 0 && <WaitingForSuggestions />}
+
+              {giftSuggestions.length !== 0 && (
+                <div className="flex flex-row flex-wrap">
+                  {giftSuggestions.map((gift, index) => (
+                    <GiftSuggestionCard
+                      allGiftSuggestions={giftSuggestions}
+                      budget={giftExchangeData.budget}
+                      gift={gift}
+                      index={index}
+                      key={gift.id}
+                      onGiftUpdate={handleGiftUpdate}
+                      recipient={giftMatch}
+                    />
+                  ))}
+                </div>
+              )}
             </section>
           </div>
         );
