@@ -158,7 +158,7 @@ export default function GiftExchangePage() {
 
   return (
     <main className="min-h-screen-minus-20">
-      {!isUserAMember &&
+      {isUserAMember === false &&
         !isLoading &&
         giftExchangeData.status === "pending" && (
           <WarningModal
