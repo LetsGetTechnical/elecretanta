@@ -35,9 +35,10 @@ import {
 import { Textarea } from "@/components/TextArea/textarea";
 import { ImageSelector } from "@/components/ImageSelector/ImageSelector";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { GiftExchange } from "@/app/types/giftExchange";
 
 const priceRanges = [
   { label: "$10 - $20", value: "10-20" },
@@ -76,6 +77,9 @@ const formSchema = z
 export default function CreateGroupPage() {
   const { id } = useParams();
   const router = useRouter();
+  const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange | null>(
+    null
+  );
 
   const supabase = createClient();
 
@@ -105,6 +109,8 @@ export default function CreateGroupPage() {
           router.push(`/gift-exchanges/${data.id}`);
           return;
         }
+
+        setGiftExchangeData(data);
 
         form.reset({
           name: data.name,
@@ -139,6 +145,30 @@ export default function CreateGroupPage() {
       router.push(`/gift-exchanges/${data.id}`);
     } catch (error) {
       console.error("Failed to update gift exchange:", error);
+    }
+  }
+
+  async function deleteGiftExchange() {
+    try {
+      const updatedGiftExchangeData = {
+        ...giftExchangeData,
+        status: "cancelled",
+      };
+
+      const response = await fetch(`/api/gift-exchanges/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(updatedGiftExchangeData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      router.push(`/dashboard`);
+    } catch (error) {
+      console.error("Failed to delete gift exchange:", error);
     }
   }
 
@@ -374,6 +404,7 @@ export default function CreateGroupPage() {
                   variant="outline"
                   type="button"
                   className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white m-2"
+                  onClick={deleteGiftExchange}
                 >
                   Delete Group
                 </Button>
