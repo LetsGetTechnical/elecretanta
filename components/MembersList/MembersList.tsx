@@ -9,7 +9,7 @@ import {
 import { UsersRound } from "lucide-react";
 import Avatar from "@/components/Avatar/Avatar";
 import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-
+import Link from "next/link";
 interface MembersListProps {
   members: GiftExchangeMember[];
 }
@@ -27,7 +27,9 @@ export const MembersList = ({ members }: MembersListProps) => {
         <div className="space-y-4">
           {members.map((member) => (
             <div key={member.id} className="flex items-center gap-4">
-              <Avatar userAvatar={member.member.avatar} />
+              <Link href={`/profile/${member.user_id}`} target="_blank">
+                <Avatar userAvatar={member.member.avatar} />
+              </Link>
               <div className="flex flex-col">
                 <span className="text-sm font-medium leading-none">
                   {member.member.display_name}

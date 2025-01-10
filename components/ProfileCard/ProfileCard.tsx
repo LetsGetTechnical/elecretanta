@@ -101,17 +101,18 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
               <Heart size={16} strokeWidth={2} /> Interests & Hobbies
             </h2>
             <div className="flex flex-wrap gap-2">
-              {profile?.categories.map((category) => {
-                const categoryName = formatCategory(category);
-                return (
-                  <Badge
-                    key={category}
-                    className="text-sm py-1 px-2.5 rounded-xl bg-[#DBDBB2] text-[#292913]"
-                  >
-                    {categoryName}
-                  </Badge>
-                );
-              })}
+              {profile?.categories &&
+                profile?.categories.map((category) => {
+                  const categoryName = formatCategory(category);
+                  return (
+                    <Badge
+                      key={category}
+                      className="text-sm py-1 px-2.5 rounded-xl bg-[#DBDBB2] text-[#292913]"
+                    >
+                      {categoryName}
+                    </Badge>
+                  );
+                })}
             </div>
             <p className="text-sm">{profile?.hobbies}</p>
           </div>
