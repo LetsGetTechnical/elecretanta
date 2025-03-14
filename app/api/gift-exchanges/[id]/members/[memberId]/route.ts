@@ -1,12 +1,12 @@
-import { createClient } from "@/lib/supabase/server";
-import { NextResponse } from "next/server";
-import type { UpdateGiftExchangeMemberRequest } from "@/app/types/giftExchangeMember";
+import { createClient } from '@/lib/supabase/server';
+import { NextResponse } from 'next/server';
+import type { UpdateGiftExchangeMemberRequest } from '@/app/types/giftExchangeMember';
 
 // update a gift exchange member
 export async function PATCH(req: Request) {
   const { searchParams } = new URL(req.url);
-  const exchangeId = searchParams.get("exchangeId");
-  const memberId = searchParams.get("memberId");
+  const exchangeId = searchParams.get('exchangeId');
+  const memberId = searchParams.get('memberId');
 
   try {
     const supabase = await createClient();
@@ -15,19 +15,19 @@ export async function PATCH(req: Request) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body: UpdateGiftExchangeMemberRequest = await req.json();
 
     const { data, error } = await supabase
-      .from("gift_exchange_members")
+      .from('gift_exchange_members')
       .update({
         ...body,
         updated_at: new Date().toISOString(),
       })
-      .eq("id", memberId)
-      .eq("gift_exchange_id", exchangeId)
+      .eq('id', memberId)
+      .eq('gift_exchange_id', exchangeId)
       .select()
       .single();
 
@@ -40,8 +40,8 @@ export async function PATCH(req: Request) {
     console.log(error);
 
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: 'Internal server error' },
+      { status: 500 },
     );
   }
 }
@@ -49,8 +49,8 @@ export async function PATCH(req: Request) {
 // delete a gift exchange member
 export async function DELETE(req: Request) {
   const { searchParams } = new URL(req.url);
-  const exchangeId = searchParams.get("exchangeId");
-  const memberId = searchParams.get("memberId");
+  const exchangeId = searchParams.get('exchangeId');
+  const memberId = searchParams.get('memberId');
 
   try {
     const supabase = await createClient();
@@ -59,14 +59,14 @@ export async function DELETE(req: Request) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { error } = await supabase
-      .from("gift_exchange_members")
+      .from('gift_exchange_members')
       .delete()
-      .eq("id", memberId)
-      .eq("gift_exchange_id", exchangeId);
+      .eq('id', memberId)
+      .eq('gift_exchange_id', exchangeId);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
@@ -77,8 +77,8 @@ export async function DELETE(req: Request) {
     console.log(error);
 
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: 'Internal server error' },
+      { status: 500 },
     );
   }
 }

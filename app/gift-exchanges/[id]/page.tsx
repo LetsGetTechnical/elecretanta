@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { GiftExchange } from "@/app/types/giftExchange";
-import { useParams } from "next/navigation";
-import { useEffect, useState, useCallback } from "react";
-import { GiftExchangeHeader } from "@/components/GiftExchangeHeader/GiftExchangeHeader";
-import { JourneyCard } from "../../../components/JourneyCard/JourneyCard";
-import { MembersList } from "../../../components/MembersList/MembersList";
-import { InviteCard } from "../../../components/InviteCard/InviteCard";
-import { LoadingSkeleton } from "../../../components/LoadingSkeleton/LoadingSkeleton";
-import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-import WarningModal from "../../../components/WarningModal/WarningModal";
-import { CompletedExchangeCard } from "../../../components/CompletedExchangeCard/CompletedExchangeCard";
-import { Profile } from "@/app/types/profile";
-import ProfileCard from "@/components/ProfileCard/ProfileCard";
-import GiftSuggestionCard from "@/components/GiftSuggestionCard/GiftSuggestionCard";
-import { GiftSuggestion } from "@/app/types/giftSuggestion";
-import { useAuthContext } from "@/context/AuthContextProvider";
-import WaitingForSuggestions from "./WaitingForSuggestions";
+import { GiftExchange } from '@/app/types/giftExchange';
+import { useParams } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
+import { GiftExchangeHeader } from '@/components/GiftExchangeHeader/GiftExchangeHeader';
+import { JourneyCard } from '../../../components/JourneyCard/JourneyCard';
+import { MembersList } from '../../../components/MembersList/MembersList';
+import { InviteCard } from '../../../components/InviteCard/InviteCard';
+import { LoadingSkeleton } from '../../../components/LoadingSkeleton/LoadingSkeleton';
+import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
+import WarningModal from '../../../components/WarningModal/WarningModal';
+import { CompletedExchangeCard } from '../../../components/CompletedExchangeCard/CompletedExchangeCard';
+import { Profile } from '@/app/types/profile';
+import ProfileCard from '@/components/ProfileCard/ProfileCard';
+import GiftSuggestionCard from '@/components/GiftSuggestionCard/GiftSuggestionCard';
+import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { useAuthContext } from '@/context/AuthContextProvider';
+import WaitingForSuggestions from './WaitingForSuggestions';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -24,15 +24,15 @@ export default function GiftExchangePage() {
   const [isUserAMember, setIsUserAMember] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
-    id: "",
-    name: "",
-    description: "",
-    budget: "",
-    drawing_date: "",
-    group_image: "",
-    exchange_date: "",
-    owner_id: "",
-    status: "pending",
+    id: '',
+    name: '',
+    description: '',
+    budget: '',
+    drawing_date: '',
+    group_image: '',
+    exchange_date: '',
+    owner_id: '',
+    status: 'pending',
   });
   const [giftExchangeMembers, setGiftExchangeMembers] = useState<
     GiftExchangeMember[]
@@ -43,7 +43,7 @@ export default function GiftExchangePage() {
 
   const handleGiftUpdate = (
     updatedGift: GiftSuggestion,
-    originalIndex: number
+    originalIndex: number,
   ) => {
     setGiftSuggestions((prevSuggestions) => {
       const newSuggestions = [...prevSuggestions];
@@ -76,12 +76,12 @@ export default function GiftExchangePage() {
       if (session) {
         setIsUserAMember(
           membersResult.some(
-            (member: GiftExchangeMember) => member.user_id === session?.user.id
-          )
+            (member: GiftExchangeMember) => member.user_id === session?.user.id,
+          ),
         );
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error);
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +105,7 @@ export default function GiftExchangePage() {
 
   const renderContent = () => {
     switch (giftExchangeData.status) {
-      case "pending":
+      case 'pending':
         return (
           <div className="flex flex-col md:flex-row w-full py-12 gap-8 items-start">
             <JourneyCard
@@ -118,7 +118,7 @@ export default function GiftExchangePage() {
             </div>
           </div>
         );
-      case "active":
+      case 'active':
         return (
           <div className="w-full py-4">
             <section className="py-4 mb-12">
@@ -147,7 +147,7 @@ export default function GiftExchangePage() {
             </section>
           </div>
         );
-      case "completed":
+      case 'completed':
         return (
           <div className="w-full py-12">
             <CompletedExchangeCard members={giftExchangeMembers} />
@@ -160,7 +160,7 @@ export default function GiftExchangePage() {
     <main className="min-h-screen-minus-20">
       {isUserAMember === false &&
         !isLoading &&
-        giftExchangeData.status === "pending" && (
+        giftExchangeData.status === 'pending' && (
           <WarningModal
             giftExchangeData={giftExchangeData}
             members={giftExchangeMembers}

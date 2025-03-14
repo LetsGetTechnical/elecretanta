@@ -1,11 +1,11 @@
-"use client";
-import { Cake, CircleX, Compass, Heart, Pencil } from "lucide-react";
-import { Progress } from "@/components/Progress/progress";
-import Avatar from "@/components/Avatar/Avatar";
-import { Button } from "@/components/Button/button";
-import { Badge } from "@/components/Badge/badge";
-import { Profile } from "@/app/types/profile";
-import { useRouter } from "next/navigation";
+'use client';
+import { Cake, CircleX, Compass, Heart, Pencil } from 'lucide-react';
+import { Progress } from '@/components/Progress/progress';
+import Avatar from '@/components/Avatar/Avatar';
+import { Button } from '@/components/Button/button';
+import { Badge } from '@/components/Badge/badge';
+import { Profile } from '@/app/types/profile';
+import { useRouter } from 'next/navigation';
 
 interface ProfileCardProps {
   profile: Profile | null;
@@ -16,31 +16,31 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
   const router = useRouter();
 
   const handleEditProfile = () => {
-    router.push("/onboarding?editing=true");
+    router.push('/onboarding?editing=true');
   };
 
   const formatDisplayName = (displayName: string) => {
-    const formattedDisplayName = displayName.split(" ").map((word) => {
+    const formattedDisplayName = displayName.split(' ').map((word) => {
       return word.charAt(0).toUpperCase() + word.slice(1);
     });
-    return formattedDisplayName.join(" ");
+    return formattedDisplayName.join(' ');
   };
 
   const formatCategory = (category: string) => {
-    const categories = category.split("&");
+    const categories = category.split('&');
     const formattedCategories = categories.map((categoryItem) => {
       const trimmedCategoryItem = categoryItem.trim();
       const firstLetter = trimmedCategoryItem.charAt(0).toUpperCase();
       const restOfCategory = trimmedCategoryItem.slice(1);
       return `${firstLetter}${restOfCategory}`;
     });
-    return formattedCategories.join(" & ");
+    return formattedCategories.join(' & ');
   };
 
   const renderPreference = (
     preferenceRight: string,
     preferenceLeft: string,
-    preference_value: number | undefined
+    preference_value: number | undefined,
   ) => {
     if (!preference_value) {
       return (
@@ -56,10 +56,10 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
     return (
       <div className="flex flex-col gap-2 text-xs">
         <div className="flex items-center justify-between">
-          <div className={preference_value <= 50 ? "font-bold" : ""}>
+          <div className={preference_value <= 50 ? 'font-bold' : ''}>
             {preferenceLeft}
           </div>
-          <div className={preference_value >= 50 ? "font-bold" : ""}>
+          <div className={preference_value >= 50 ? 'font-bold' : ''}>
             {preferenceRight}
           </div>
         </div>
@@ -75,7 +75,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
           <Avatar userAvatar={profile?.avatar} />
           <div>
             <h1 className="text-lg font-bold">
-              {formatDisplayName(profile?.display_name || "No Name Provided")}
+              {formatDisplayName(profile?.display_name || 'No Name Provided')}
             </h1>
             <div className="flex items-center gap-2 text-sm font-medium">
               <Cake className="text-[#92AEA9]" size={16} />
@@ -128,12 +128,12 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
             <Compass size={16} strokeWidth={2} /> Gift Styles
           </h2>
           {renderPreference(
-            "Whimsical",
-            "Practical",
-            profile?.practical_whimsical
+            'Whimsical',
+            'Practical',
+            profile?.practical_whimsical,
           )}
-          {renderPreference("Adventurous", "Cozy", profile?.cozy_adventurous)}
-          {renderPreference("Luxurious", "Minimal", profile?.minimal_luxurious)}
+          {renderPreference('Adventurous', 'Cozy', profile?.cozy_adventurous)}
+          {renderPreference('Luxurious', 'Minimal', profile?.minimal_luxurious)}
         </div>
       </div>
     </article>

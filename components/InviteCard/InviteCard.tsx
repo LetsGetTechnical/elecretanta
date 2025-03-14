@@ -1,7 +1,7 @@
-import { Card, CardContent } from "@/components/Card/card";
-import { Button } from "@/components/Button/button";
-import { Copy, CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { Card, CardContent } from '@/components/Card/card';
+import { Button } from '@/components/Button/button';
+import { Copy, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
 
 export const InviteCard = () => {
   const [copied, setCopied] = useState(false);
@@ -12,7 +12,7 @@ export const InviteCard = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy:", err);
+      console.error('Failed to copy:', err);
     }
   };
 

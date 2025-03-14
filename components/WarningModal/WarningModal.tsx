@@ -1,10 +1,10 @@
-"use client";
-import { GiftExchange } from "@/app/types/giftExchange";
-import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-import { Button } from "@/components/Button/button";
-import { LogIn } from "lucide-react";
-import { signInWithGoogle } from "@/lib/utils";
-import { useAuthContext } from "@/context/AuthContextProvider";
+'use client';
+import { GiftExchange } from '@/app/types/giftExchange';
+import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
+import { Button } from '@/components/Button/button';
+import { LogIn } from 'lucide-react';
+import { signInWithGoogle } from '@/lib/utils';
+import { useAuthContext } from '@/context/AuthContextProvider';
 
 interface WarningModalProps {
   giftExchangeData: GiftExchange;
@@ -30,7 +30,7 @@ const WarningModal = ({
   const joinExchange = async () => {
     try {
       await fetch(`/api/gift-exchanges/${giftExchangeData.id}/members`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({ user_id: session?.user.id }),
       });
 

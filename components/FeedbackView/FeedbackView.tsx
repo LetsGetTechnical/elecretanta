@@ -1,9 +1,9 @@
-"use client";
-import { ChevronLeft } from "lucide-react";
-import { GiftSuggestion } from "@/app/types/giftSuggestion";
-import { Profile } from "@/app/types/profile";
-import { generateAndUpdateNewGiftSuggestion } from "@/lib/generateAndUpdateNewGiftSuggestion";
-import { useState } from "react";
+'use client';
+import { ChevronLeft } from 'lucide-react';
+import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { Profile } from '@/app/types/profile';
+import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
+import { useState } from 'react';
 
 const FeedbackView = ({
   allGiftSuggestions,
@@ -30,13 +30,13 @@ const FeedbackView = ({
         budget,
         feedback,
         gift,
-        recipient
+        recipient,
       );
 
       if (updatedGift) {
         onGiftUpdate(updatedGift);
       } else {
-        console.error("Failed to update gift suggestion");
+        console.error('Failed to update gift suggestion');
       }
     } catch (error) {
       throw error;
@@ -64,9 +64,9 @@ const FeedbackView = ({
           </h1>
           <div className="flex flex-col justify-center mt-4 gap-4">
             {[
-              { title: "Too Expensive", subtitle: "Show lower price range" },
-              { title: "Not Their Style", subtitle: "Try different interests" },
-              { title: "They Might Have This", subtitle: "Show alternatives" },
+              { title: 'Too Expensive', subtitle: 'Show lower price range' },
+              { title: 'Not Their Style', subtitle: 'Try different interests' },
+              { title: 'They Might Have This', subtitle: 'Show alternatives' },
             ].map(({ title, subtitle }, index) => (
               <button
                 key={index}

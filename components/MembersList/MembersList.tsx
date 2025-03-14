@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/Card/card";
-import { UsersRound } from "lucide-react";
-import Avatar from "@/components/Avatar/Avatar";
-import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-import Link from "next/link";
+} from '@/components/Card/card';
+import { UsersRound } from 'lucide-react';
+import Avatar from '@/components/Avatar/Avatar';
+import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
+import Link from 'next/link';
 interface MembersListProps {
   members: GiftExchangeMember[];
 }

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { createClient } from "@/lib/supabase/client";
-import { Session, User } from "@supabase/supabase-js";
+import { createClient } from '@/lib/supabase/client';
+import { Session, User } from '@supabase/supabase-js';
 import React, {
   createContext,
   useContext,
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
 const AuthContext = createContext<{
   user: User | null;
@@ -55,7 +55,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       session,
       isSignedIn,
     }),
-    [isSignedIn]
+    [isSignedIn],
   );
 
   return (
@@ -70,7 +70,7 @@ const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error(
-      "useAuthContext must be used withing an AuthContextProvider"
+      'useAuthContext must be used withing an AuthContextProvider',
     );
   }
   return context;

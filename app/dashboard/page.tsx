@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/Button/button";
-import GroupCard, { GroupCardSkeleton } from "@/components/GroupCard/GroupCard";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { GiftExchangeWithMemberCount } from "../types/giftExchange";
+import { Button } from '@/components/Button/button';
+import GroupCard, { GroupCardSkeleton } from '@/components/GroupCard/GroupCard';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { GiftExchangeWithMemberCount } from '../types/giftExchange';
 
 export default function Dashboard() {
   const [giftExchanges, setGiftExchanges] = useState<
@@ -16,9 +16,9 @@ export default function Dashboard() {
     async function fetchGiftExchanges() {
       try {
         const response = await fetch(`/api/gift-exchanges`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         });
 
@@ -29,7 +29,7 @@ export default function Dashboard() {
         const data = await response.json();
         setGiftExchanges(data);
       } catch (error) {
-        console.error("Failed to fetch gift exchanges:", error);
+        console.error('Failed to fetch gift exchanges:', error);
       } finally {
         setIsLoading(false);
       }
