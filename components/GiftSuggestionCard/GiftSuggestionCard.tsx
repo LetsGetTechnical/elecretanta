@@ -1,9 +1,9 @@
-import { Card } from "../Card/card";
-import { useState } from "react";
-import FeedbackView from "../FeedbackView/FeedbackView";
-import GiftDetailsView from "../GiftDetailsView/GiftDetailsView";
-import { GiftSuggestion } from "@/app/types/giftSuggestion";
-import { Profile } from "@/app/types/profile";
+import { Card } from '../Card/card';
+import { useState } from 'react';
+import FeedbackView from '../FeedbackView/FeedbackView';
+import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';
+import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { Profile } from '@/app/types/profile';
 
 const GiftSuggestionCard = ({
   allGiftSuggestions,

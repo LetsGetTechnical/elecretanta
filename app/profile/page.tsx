@@ -1,8 +1,8 @@
-"use client";
-import ProfileCard from "@/components/ProfileCard/ProfileCard";
-import { useEffect, useState } from "react";
-import { Profile } from "@/app/types/profile";
-import LoadingCard from "@/components/LoadingCard/LoadingCard";
+'use client';
+import ProfileCard from '@/components/ProfileCard/ProfileCard';
+import { useEffect, useState } from 'react';
+import { Profile } from '@/app/types/profile';
+import LoadingCard from '@/components/LoadingCard/LoadingCard';
 
 export default function PersonalProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -12,11 +12,11 @@ export default function PersonalProfile() {
     const fetchProfile = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("/api/profile");
+        const response = await fetch('/api/profile');
         const profile = await response.json();
         setProfile(profile);
       } catch (error) {
-        console.error("Error fetching profile:", error);
+        console.error('Error fetching profile:', error);
       } finally {
         setIsLoading(false);
       }

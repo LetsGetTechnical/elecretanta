@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { GiftExchange } from "@/app/types/giftExchange";
-import { createClient } from "@/lib/supabase/client";
-import { formatDate } from "@/lib/utils";
+import { useState, useEffect } from 'react';
+import { GiftExchange } from '@/app/types/giftExchange';
+import { createClient } from '@/lib/supabase/client';
+import { formatDate } from '@/lib/utils';
 import {
   ChevronLeft,
   Settings,
@@ -11,8 +11,8 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-} from "lucide-react";
-import Link from "next/link";
+} from 'lucide-react';
+import Link from 'next/link';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,9 +23,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../AlertDialogue/AlertDialgoue";
-import { GiftExchangeMember } from "@/app/types/giftExchangeMember";
-import { Button } from "@/components/Button/button";
+} from '../AlertDialogue/AlertDialgoue';
+import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
+import { Button } from '@/components/Button/button';
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -64,13 +64,13 @@ export const GiftExchangeHeader = ({
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "pending":
+      case 'pending':
         return <Verified />;
-      case "active":
+      case 'active':
         return <Clock />;
-      case "completed":
+      case 'completed':
         return <CheckCircle />;
-      case "cancelled":
+      case 'cancelled':
         return <XCircle />;
       default:
         return <Verified />;
@@ -78,16 +78,16 @@ export const GiftExchangeHeader = ({
   };
   const getStatusText = (status: string) => {
     switch (status) {
-      case "pending":
-        return "Open";
-      case "active":
-        return "Active";
-      case "completed":
-        return "Completed";
-      case "cancelled":
-        return "Cancelled";
+      case 'pending':
+        return 'Open';
+      case 'active':
+        return 'Active';
+      case 'completed':
+        return 'Completed';
+      case 'cancelled':
+        return 'Cancelled';
       default:
-        return "Open";
+        return 'Open';
     }
   };
 
@@ -98,16 +98,16 @@ export const GiftExchangeHeader = ({
         // currently fetches memberslist from
         `/api/gift-exchanges/${id}/draw`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             memberData: {
               groupId: id,
             },
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -116,9 +116,9 @@ export const GiftExchangeHeader = ({
 
       const data = await response.json();
       location.reload();
-      console.log("data:", data);
+      console.log('data:', data);
     } catch (error) {
-      console.log("this is the error: ", error);
+      console.log('this is the error: ', error);
     }
   };
 
@@ -126,13 +126,13 @@ export const GiftExchangeHeader = ({
     try {
       const updatedGiftExchangeData = {
         ...giftExchangeData,
-        status: "completed",
+        status: 'completed',
       };
 
       const response = await fetch(`/api/gift-exchanges/${id}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
         },
         body: JSON.stringify(updatedGiftExchangeData),
       });
@@ -143,14 +143,14 @@ export const GiftExchangeHeader = ({
 
       window.location.reload();
     } catch (error) {
-      console.error("Failed to delete gift exchange:", error);
+      console.error('Failed to delete gift exchange:', error);
     }
   }
 
   return (
     <>
       <div className="flex justify-between mb-6">
-        <Link href={"/dashboard"} className="flex items-center gap-1 text-sm">
+        <Link href={'/dashboard'} className="flex items-center gap-1 text-sm">
           <ChevronLeft size={16} strokeWidth={2.25} />
           <span>Back to Dashboard</span>
         </Link>
@@ -182,12 +182,12 @@ export const GiftExchangeHeader = ({
               <p className="text-xs">{giftExchangeData.description}</p>
             </div>
             <div>
-              {getStatusText(giftExchangeData.status) === "Active" && (
+              {getStatusText(giftExchangeData.status) === 'Active' && (
                 <Button onClick={completeGiftExchange}>
                   Complete Gift Exchange
                 </Button>
               )}
-              {getStatusText(giftExchangeData.status) === "Open" ? (
+              {getStatusText(giftExchangeData.status) === 'Open' ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button disabled={membersData.length < 2}>

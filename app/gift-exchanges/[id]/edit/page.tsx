@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import {
   Form,
   FormControl,
@@ -12,18 +12,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/Form/form";
-import { Check, ChevronsUpDown, ChevronLeft } from "lucide-react";
-import { Input } from "@/components/Input/input";
-import { Button } from "@/components/Button/button";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/Calendar/calendar";
+} from '@/components/Form/form';
+import { Check, ChevronsUpDown, ChevronLeft } from 'lucide-react';
+import { Input } from '@/components/Input/input';
+import { Button } from '@/components/Button/button';
+import { CalendarIcon } from 'lucide-react';
+import { Calendar } from '@/components/Calendar/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/Popover/popover";
-import { format } from "date-fns";
+} from '@/components/Popover/popover';
+import { format } from 'date-fns';
 import {
   Command,
   CommandEmpty,
@@ -31,54 +31,54 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/Command/command";
-import { Textarea } from "@/components/TextArea/textarea";
-import { ImageSelector } from "@/components/ImageSelector/ImageSelector";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
-import { GiftExchange } from "@/app/types/giftExchange";
+} from '@/components/Command/command';
+import { Textarea } from '@/components/TextArea/textarea';
+import { ImageSelector } from '@/components/ImageSelector/ImageSelector';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
+import { GiftExchange } from '@/app/types/giftExchange';
 
 const priceRanges = [
-  { label: "$10 - $20", value: "10-20" },
-  { label: "$20 - $30", value: "20-30" },
-  { label: "$30 - $40", value: "30-40" },
-  { label: "$40 - $50", value: "40-50" },
-  { label: "$50 - $60", value: "50-60" },
-  { label: "$60 - $70", value: "60-70" },
-  { label: "$70 - $80", value: "70-80" },
-  { label: "$80 - $90", value: "80-90" },
-  { label: "$90 - $100", value: "90-100" },
+  { label: '$10 - $20', value: '10-20' },
+  { label: '$20 - $30', value: '20-30' },
+  { label: '$30 - $40', value: '30-40' },
+  { label: '$40 - $50', value: '40-50' },
+  { label: '$50 - $60', value: '50-60' },
+  { label: '$60 - $70', value: '60-70' },
+  { label: '$70 - $80', value: '70-80' },
+  { label: '$80 - $90', value: '80-90' },
+  { label: '$90 - $100', value: '90-100' },
 ] as const;
 
 const formSchema = z
   .object({
     name: z.string().min(2, {
-      message: "Group name must be at least 2 characters long",
+      message: 'Group name must be at least 2 characters long',
     }),
     description: z.string().min(2, {
-      message: "Group name must be at least 2 characters long",
+      message: 'Group name must be at least 2 characters long',
     }),
     drawing_date: z.date(),
     exchange_date: z.date(),
     budget: z.string({
-      required_error: "Please select a Price Range.",
+      required_error: 'Please select a Price Range.',
     }),
     group_image: z.string({
-      message: "Please Select An Image for the Group",
+      message: 'Please Select An Image for the Group',
     }),
   })
   .refine((data) => data.exchange_date > data.drawing_date, {
-    message: "Exchange Date must be after the Drawing Date",
-    path: ["exchange_date"],
+    message: 'Exchange Date must be after the Drawing Date',
+    path: ['exchange_date'],
   });
 
 export default function CreateGroupPage() {
   const { id } = useParams();
   const router = useRouter();
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange | null>(
-    null
+    null,
   );
 
   const supabase = createClient();
@@ -86,12 +86,12 @@ export default function CreateGroupPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       drawing_date: new Date(),
       exchange_date: new Date(),
-      budget: "",
-      group_image: "",
+      budget: '',
+      group_image: '',
     },
   });
 
@@ -131,9 +131,9 @@ export default function CreateGroupPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(`/api/gift-exchanges/${id}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
         },
         body: JSON.stringify(values),
       });
@@ -144,7 +144,7 @@ export default function CreateGroupPage() {
       const data = await response.json();
       router.push(`/gift-exchanges/${data.id}`);
     } catch (error) {
-      console.error("Failed to update gift exchange:", error);
+      console.error('Failed to update gift exchange:', error);
     }
   }
 
@@ -152,13 +152,13 @@ export default function CreateGroupPage() {
     try {
       const updatedGiftExchangeData = {
         ...giftExchangeData,
-        status: "cancelled",
+        status: 'cancelled',
       };
 
       const response = await fetch(`/api/gift-exchanges/${id}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
         },
         body: JSON.stringify(updatedGiftExchangeData),
       });
@@ -168,16 +168,16 @@ export default function CreateGroupPage() {
       }
       router.push(`/dashboard`);
     } catch (error) {
-      console.error("Failed to delete gift exchange:", error);
+      console.error('Failed to delete gift exchange:', error);
     }
   }
 
-  const giftDrawingDate = form.watch("drawing_date");
+  const giftDrawingDate = form.watch('drawing_date');
   return (
     <div className=" flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       <div className="flex flex-row">
         <Link
-          href={"/dashboard"}
+          href={'/dashboard'}
           className="flex items-center gap-1 text-sm text-primary-foreground m-5"
         >
           <ChevronLeft size={16} strokeWidth={2.25} />
@@ -252,16 +252,16 @@ export default function CreateGroupPage() {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              "w-60 justify-between mx-5 mt-5",
-                              !field.value && "text-muted-foreground"
+                              'w-60 justify-between mx-5 mt-5',
+                              !field.value && 'text-muted-foreground',
                             )}
                           >
                             {field.value
                               ? priceRanges.find(
                                   (priceRanges) =>
-                                    priceRanges.value === field.value
+                                    priceRanges.value === field.value,
                                 )?.label
-                              : "Budget Per Person."}
+                              : 'Budget Per Person.'}
                             <ChevronsUpDown className="opacity-50" />
                           </Button>
                         </FormControl>
@@ -280,16 +280,16 @@ export default function CreateGroupPage() {
                                   value={priceRanges.label}
                                   key={priceRanges.value}
                                   onSelect={() => {
-                                    form.setValue("budget", priceRanges.value);
+                                    form.setValue('budget', priceRanges.value);
                                   }}
                                 >
                                   {priceRanges.label}
                                   <Check
                                     className={cn(
-                                      "ml-auto",
+                                      'ml-auto',
                                       priceRanges.value === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
+                                        ? 'opacity-100'
+                                        : 'opacity-0',
                                     )}
                                   />
                                 </CommandItem>
@@ -318,14 +318,14 @@ export default function CreateGroupPage() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-60 pl-3 text-left font-normal m-5",
-                              !field.value && "text-muted-foreground "
+                              'w-60 pl-3 text-left font-normal m-5',
+                              !field.value && 'text-muted-foreground ',
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(field.value, 'PPP')
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -364,14 +364,14 @@ export default function CreateGroupPage() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-60 pl-3 text-left font-normal m-5",
-                              !field.value && "text-muted-foreground"
+                              'w-60 pl-3 text-left font-normal m-5',
+                              !field.value && 'text-muted-foreground',
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(field.value, 'PPP')
                             ) : (
                               <span>Pick a date</span>
                             )}

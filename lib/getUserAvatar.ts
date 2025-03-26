@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { createClient } from "./supabase/server";
+import { createClient } from './supabase/server';
 
 const getUserAvatar = async () => {
   try {

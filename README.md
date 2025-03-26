@@ -135,7 +135,7 @@ The application will be available at `http://localhost:4000`
 - **Authentication & Database**: [Supabase](https://supabase.com/)
 - **AI Integration**: [OpenAI API](https://platform.openai.com/docs/overview)
 - **Form Management**: [React Hook Form](https://react-hook-form.com/) with [Zod](https://zod.dev/) validation
-- **UI Components**: [Shadcn/UI](https://ui.shadcn.com/) 
+- **UI Components**: [Shadcn/UI](https://ui.shadcn.com/)
 - **Styling**: [TailwindCSS](https://tailwindcss.com/)
 
 ## 📱 User Flow

@@ -1,17 +1,17 @@
-import { createClient } from "@/lib/supabase/server";
-import { NextRequest, NextResponse } from "next/server";
+import { createClient } from '@/lib/supabase/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  props: { params: Promise<{ id: string }> }
+  props: { params: Promise<{ id: string }> },
 ) {
   const params = await props.params;
   const id = await params.id;
 
   if (!id) {
     return NextResponse.json(
-      { error: "Missing id parameter" },
-      { status: 400 }
+      { error: 'Missing id parameter' },
+      { status: 400 },
     );
   }
 
@@ -22,13 +22,13 @@ export async function GET(
     } = await supabase.auth.getSession();
 
     if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", id)
+      .from('profiles')
+      .select('*')
+      .eq('id', id)
       .single();
 
     if (error) {
@@ -39,8 +39,8 @@ export async function GET(
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      { error: 'Internal Server Error' },
+      { status: 500 },
     );
   }
 }

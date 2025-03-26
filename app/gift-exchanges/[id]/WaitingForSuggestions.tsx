@@ -1,6 +1,6 @@
-import React from "react";
-import { Gift, RefreshCw } from "lucide-react";
-import { Button } from "@/components/Button/button";
+import React from 'react';
+import { Gift, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/Button/button';
 
 const WaitingForSuggestions = () => {
   const handleRefresh = () => {

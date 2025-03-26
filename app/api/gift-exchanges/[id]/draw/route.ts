@@ -1,6 +1,6 @@
-import { createClient } from "@/lib/supabase/server";
-import { NextResponse } from "next/server";
-import { drawGiftExchange } from "@/lib/drawGiftExchange";
+import { createClient } from '@/lib/supabase/server';
+import { NextResponse } from 'next/server';
+import { drawGiftExchange } from '@/lib/drawGiftExchange';
 
 /**
  * API Route for drawing gift exchange names
@@ -9,7 +9,7 @@ import { drawGiftExchange } from "@/lib/drawGiftExchange";
 
 export async function POST(
   req: Request,
-  props: { params: Promise<{ id: string }> }
+  props: { params: Promise<{ id: string }> },
 ) {
   const params = await props.params;
   const id = await params.id;
@@ -21,7 +21,7 @@ export async function POST(
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     await drawGiftExchange(supabase, id);
@@ -29,13 +29,13 @@ export async function POST(
   } catch (error) {
     console.error(error);
     const message =
-      error instanceof Error ? error.message : "Internal server error";
+      error instanceof Error ? error.message : 'Internal server error';
     let status = 500; // default status
-    if (message.includes("not found")) {
+    if (message.includes('not found')) {
       status = 404;
     } else if (
-      message.includes("already been drawn") ||
-      message.includes("3 members")
+      message.includes('already been drawn') ||
+      message.includes('3 members')
     ) {
       status = 400;
     }

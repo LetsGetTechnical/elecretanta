@@ -1,9 +1,9 @@
-"use client";
-import ProfileCard from "@/components/ProfileCard/ProfileCard";
-import { useEffect, useState } from "react";
-import { Profile } from "@/app/types/profile";
-import { useParams } from "next/navigation";
-import LoadingCard from "@/components/LoadingCard/LoadingCard";
+'use client';
+import ProfileCard from '@/components/ProfileCard/ProfileCard';
+import { useEffect, useState } from 'react';
+import { Profile } from '@/app/types/profile';
+import { useParams } from 'next/navigation';
+import LoadingCard from '@/components/LoadingCard/LoadingCard';
 
 export default function UserProfile() {
   const params = useParams();
@@ -19,7 +19,7 @@ export default function UserProfile() {
         const profile = await response.json();
         setProfile(profile);
       } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error('Error fetching user profile:', error);
       } finally {
         setIsLoading(false);
       }

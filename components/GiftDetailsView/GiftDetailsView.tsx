@@ -1,14 +1,14 @@
-import { Button } from "../Button/button";
+import { Button } from '../Button/button';
 import {
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../Card/card";
-import { SquareArrowOutUpRight, ThumbsDown, Gift } from "lucide-react";
-import { GiftSuggestion } from "@/app/types/giftSuggestion";
-import { useState, useCallback } from "react";
+} from '../Card/card';
+import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
+import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { useState, useCallback } from 'react';
 
 const GiftDetailsView = ({
   gift,
@@ -24,7 +24,7 @@ const GiftDetailsView = ({
   }, []);
 
   const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
-    const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, "+");
+    const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
     return `https://www.amazon.com/s?k=${encodedSearch}`;
   };
 
