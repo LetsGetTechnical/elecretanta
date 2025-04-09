@@ -1,5 +1,8 @@
 .github/
 *.config.js
 .prettierrc.js
-*.json
 *.md
+settings.json
+package.json
+pnpm-lock.yaml
+.test-results/
