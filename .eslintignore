@@ -1,4 +1,4 @@
-# Ignored files due to ESLINT errors
+// # Ignored files due to ESLINT errors
 
 app/api/gift-exchanges/route.ts
 app/api/gift-exchanges/\[id\]/draw/route.ts
@@ -38,7 +38,6 @@ components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/Card/card.tsx
 components/Command/command.tsx
-components/CompletedExchangeCard/CompletedExchangeCard.tsx
 components/Dialogue/dialog.tsx
 components/FeedbackView/FeedbackView.tsx
 components/Form/form.tsx
