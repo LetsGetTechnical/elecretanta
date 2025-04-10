@@ -1,7 +1,7 @@
-import { GiftExchangeWithMemberCount } from "@/app/types/giftExchange";
-import { formatDate } from "@/lib/utils";
-import { ChevronRight, Users } from "lucide-react";
-import Link from "next/link";
+import { GiftExchangeWithMemberCount } from '@/app/types/giftExchange';
+import { formatDate } from '@/lib/utils';
+import { ChevronRight, Users } from 'lucide-react';
+import Link from 'next/link';
 
 type GroupCardProps = {
   giftExchange: GiftExchangeWithMemberCount;
@@ -43,8 +43,8 @@ const GroupCard = ({ giftExchange }: GroupCardProps) => {
             <span className="flex gap-2 items-center">
               <Users className="text-white opacity-70 h-6 lg:h-8" />
               <p className="text-white text-xs lg:text-sm">
-                {giftExchange.member_count}{" "}
-                {giftExchange.member_count === 1 ? "member" : "members"}
+                {giftExchange.member_count}{' '}
+                {giftExchange.member_count === 1 ? 'member' : 'members'}
               </p>
             </span>
             <p className="text-white text-xs lg:text-sm">

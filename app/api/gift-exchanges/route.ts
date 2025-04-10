@@ -1,7 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
-import { NextResponse } from "next/server";
-import { CreateGiftExchangeRequest } from "@/app/types/giftExchange";
-import { validateGroupExchangeDates } from "@/lib/utils";
+import { createClient } from '@/lib/supabase/server';
+import { NextResponse } from 'next/server';
+import { CreateGiftExchangeRequest } from '@/app/types/giftExchange';
+import { validateGroupExchangeDates } from '@/lib/utils';
 
 // Get all gift exchanges for the current user
 export async function GET() {
@@ -12,10 +12,10 @@ export async function GET() {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data, error } = await supabase.rpc("get_gift_exchanges_for_user", {
+    const { data, error } = await supabase.rpc('get_gift_exchanges_for_user', {
       input_user_id: user.id,
     });
 
@@ -27,8 +27,8 @@ export async function GET() {
     console.log(error);
 
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: 'Internal server error' },
+      { status: 500 },
     );
   }
 }
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body: CreateGiftExchangeRequest = await req.json();
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     }
 
     const { data, error } = await supabase
-      .from("gift_exchanges")
+      .from('gift_exchanges')
       .insert({
         name: body.name,
         description: body.description,
@@ -80,8 +80,8 @@ export async function POST(req: Request) {
     console.log(error);
 
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: 'Internal server error' },
+      { status: 500 },
     );
   }
 }
@@ -94,22 +94,22 @@ export async function PATCH(req: Request) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const body = await req.json();
-    const giftExchangeId = req.url.split("/").pop();
+    const giftExchangeId = req.url.split('/').pop();
 
     // Just verify the exchange exists
     const { data: giftExchange, error: fetchError } = await supabase
-      .from("gift_exchanges")
+      .from('gift_exchanges')
       .select()
-      .eq("id", giftExchangeId)
+      .eq('id', giftExchangeId)
       .single();
 
     if (fetchError || !giftExchange) {
       return NextResponse.json(
-        { error: "Gift exchange not found" },
-        { status: 404 }
+        { error: 'Gift exchange not found' },
+        { status: 404 },
       );
     }
 
@@ -120,9 +120,9 @@ export async function PATCH(req: Request) {
     };
 
     const { data, error } = await supabase
-      .from("gift_exchanges")
+      .from('gift_exchanges')
       .update(updateData)
-      .eq("id", giftExchangeId)
+      .eq('id', giftExchangeId)
       .select()
       .single();
 
@@ -134,8 +134,8 @@ export async function PATCH(req: Request) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: 'Internal server error' },
+      { status: 500 },
     );
   }
 }

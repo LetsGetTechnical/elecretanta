@@ -3,9 +3,9 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/Card/card";
-import { formatDate } from "@/lib/utils";
-import { Gift, UserCircle, Sparkles, PartyPopper } from "lucide-react";
+} from '@/components/Card/card';
+import { formatDate } from '@/lib/utils';
+import { Gift, UserCircle, Sparkles, PartyPopper } from 'lucide-react';
 
 interface JourneyCardProps {
   drawingDate: string;
@@ -19,28 +19,28 @@ export const JourneyCard = ({
   const journeySteps = [
     {
       icon: <Gift className="text-groupCardGreen" />,
-      title: "Secret Match",
+      title: 'Secret Match',
       description: `On ${formatDate(
-        drawingDate
+        drawingDate,
       )}, we'll review who you're gifting to`,
     },
     {
       icon: <UserCircle className="text-groupCardGreen" />,
-      title: "Profile Insights",
+      title: 'Profile Insights',
       description:
-        "See their interests and preferences to guide your gift choice. Update your own profile anytime to help your Secret Santa",
+        'See their interests and preferences to guide your gift choice. Update your own profile anytime to help your Secret Santa',
     },
     {
       icon: <Sparkles className="text-groupCardGreen" />,
-      title: "Smart Gift Ideas",
+      title: 'Smart Gift Ideas',
       description:
-        "Our AI suggests personalized gifts based on their interests. Your feedback helps find the perfect match.",
+        'Our AI suggests personalized gifts based on their interests. Your feedback helps find the perfect match.',
     },
     {
       icon: <PartyPopper className="text-groupCardGreen" />,
-      title: "Exchange Time",
+      title: 'Exchange Time',
       description: `Bring your wrapped gift to exchange on ${formatDate(
-        exchangeDate
+        exchangeDate,
       )}`,
     },
   ];
