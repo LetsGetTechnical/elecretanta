@@ -1,5 +1,9 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import type { JSX } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -26,10 +30,17 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+/**
+ * Styled badge component.
+ * @param {BadgeProps} props - Component props.
+ * @param {string} [props.className] - Optional classnames for the badge.
+ * @param {'default' | 'secondary' | 'destructive' | 'outline'} [props.variant] - Variant for the badge.
+ * @returns {JSX.Element} The rendered Badge component.
+ */
+const Badge = ({ className, variant, ...props }: BadgeProps): JSX.Element => {
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props} />
   );
-}
+};
 
 export { Badge, badgeVariants };
