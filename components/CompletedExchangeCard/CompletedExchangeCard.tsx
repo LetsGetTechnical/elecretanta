@@ -20,9 +20,9 @@ interface CompletedExchangeCardProps {
 
 /**
  * Function that shows up after gift exchange completes and shows confetti.
- * @param props - Props for function
- * @param props.members - Gift exchange members.
- * @returns The rendered card component with confetti animation.
+ * @param {CompletedExchangeCardProps} props - Props for function
+ * @param {GiftExchangeMember[]} props.members - Gift exchange members.
+ * @returns {JSX.Element} The rendered card component with confetti animation.
  */
 export const CompletedExchangeCard = ({
   members,
