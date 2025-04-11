@@ -3,7 +3,7 @@
 
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, JSX } from 'react';
 import {
   Card,
   CardContent,
@@ -26,7 +26,7 @@ interface CompletedExchangeCardProps {
  */
 export const CompletedExchangeCard = ({
   members,
-}: CompletedExchangeCardProps): React.JSX.Element => {
+}: CompletedExchangeCardProps): JSX.Element => {
   const [showConfetti, setShowConfetti] = useState(true);
 
   /**

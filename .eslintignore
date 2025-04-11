@@ -1,4 +1,4 @@
-// # Ignored files due to ESLINT errors
+# Ignored files due to ESLINT errors
 
 app/api/gift-exchanges/route.ts
 app/api/gift-exchanges/\[id\]/draw/route.ts
