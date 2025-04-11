@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import * as React from 'react';
@@ -53,10 +56,16 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
+/**
+ * Function that renders the header for the dialog component.
+ * @param props - Props for function
+ * @param props.className - Additional CSS classes for custom styling.
+ * @returns The rendered dialog header element.
+ */
 const DialogHeader = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element => (
   <div
     className={cn(
       'flex flex-col space-y-1.5 text-center sm:text-left',
@@ -67,10 +76,16 @@ const DialogHeader = ({
 );
 DialogHeader.displayName = 'DialogHeader';
 
+/**
+ * Function that renders the footer for the dialog component.
+ * @param props - Props for function
+ * @param props.className - Additional CSS classes for custom styling.
+ * @returns The rendered dialog footer element.
+ */
 const DialogFooter = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element => (
   <div
     className={cn(
       'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
