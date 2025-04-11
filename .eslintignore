@@ -33,7 +33,6 @@ components/Avatar/Avatar.tsx
 components/Avatar/AvatarFallback.tsx
 components/Avatar/AvatarBody.tsx
 components/Avatar/AvatarImage.tsx
-components/Badge/badge.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/Card/card.tsx
