@@ -36,7 +36,6 @@ components/Avatar/AvatarImage.tsx
 components/Badge/badge.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
-components/Card/card.tsx
 components/Command/command.tsx
 components/CompletedExchangeCard/CompletedExchangeCard.tsx
 components/Dialogue/dialog.tsx
