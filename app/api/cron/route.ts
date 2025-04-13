@@ -41,18 +41,13 @@ export async function GET(request: Request) {
         await drawGiftExchange(supabase, exchange.id);
       }
 
-      if (
-        exchangeDate &&
-        currentDay > exchangeDate &&
-        exchange.status !== 'completed'
-      ) {
+      if (currentDay > exchangeDate && exchange.status !== 'completed') {
         await supabase
           .from('gift_exchanges')
           .update({ status: 'completed' })
           .eq('id', exchange.id);
       }
     }
-
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(error);
