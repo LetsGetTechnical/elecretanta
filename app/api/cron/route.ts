@@ -5,7 +5,12 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
 
-export async function GET(request: Request) {
+/**
+ * Checks the dates to know how to update gift exchange status.
+ * @param {Request} request - API request.
+ * @returns {Promise<Response>} The rendered weekly picks page.
+ */
+export async function GET(request: Request): Promise<Response> {
   const authHeader = request.headers.get('authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response('Unauthorized', {
