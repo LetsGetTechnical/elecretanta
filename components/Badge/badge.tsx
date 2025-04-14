@@ -33,7 +33,7 @@ export interface BadgeProps
  *  Badge component.
  * @param {BadgeProps} props - Component props.
  * @param {string} [props.className] - Optional classnames for the badge.
- * @param {'default' | 'secondary' | 'destructive' | 'outline'} [props.variant] - Variant for the badge.
+ * @param {BadgeProps["variant"]} [props.variant] - Variant for the badge.
  * @returns {JSX.Element} The rendered Badge component.
  */
 const Badge = ({ className, variant, ...props }: BadgeProps): JSX.Element => {
