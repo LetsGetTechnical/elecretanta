@@ -30,7 +30,6 @@ app/types/profile.ts
 app/types/tailwindcss-motion.d.ts
 components/AlertDialogue/AlertDialgoue.tsx
 components/Avatar/Avatar.tsx
-components/Avatar/AvatarFallback.tsx
 components/Avatar/AvatarBody.tsx
 components/Avatar/AvatarImage.tsx
 components/Badge/badge.tsx
