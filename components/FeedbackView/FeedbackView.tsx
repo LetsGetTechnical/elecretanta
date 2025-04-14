@@ -1,10 +1,24 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 import { ChevronLeft } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
 import { useState } from 'react';
+import { JSX } from 'react';
 
+/**
+ * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx. 
+ * @param {GiftSuggestion[]} allGiftSuggestions - The list of all gift suggestions for this recipient.
+ * @param {string} budget - The budget for the gift to be passed on to AI to generate suggestions.
+ * @param {GiftSuggestion} gift - The selected gift that the user is providing feedback on.
+ * @param {() => void} handleFeedback - The function to update gift recommendations based on user feedback.
+ * @param {(updatedGift: GiftSuggestion) => void} onGiftUpdate - The function to update the gift suggestion.
+ * @param {Profile | null} recipient - Contains the recipients info to pass on to AI to generate suggestions.
+ * @returns {Promise<void>} - It returns a promise that resolves when the gift suggestion is updated because it's an async function and all async functions return promises.
+ */
 const FeedbackView = ({
   allGiftSuggestions,
   budget,
@@ -19,10 +33,15 @@ const FeedbackView = ({
   handleFeedback: () => void;
   onGiftUpdate: (updatedGift: GiftSuggestion) => void;
   recipient: Profile | null;
-}) => {
+}): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleFeedbackSubmit = async (feedback: string) => {
+  /**
+   * Updates gift recommendations based on user feedback.
+   * @param {string} feedback - The feedback to submit.
+   * @returns {Promise<void>} - A promise that resolves when the gift suggestion is updated. It returns a promise because it's an async function.
+   */
+  const handleFeedbackSubmit = async (feedback: string): Promise<void> => {
     setIsLoading(true);
     try {
       const updatedGift = await generateAndUpdateNewGiftSuggestion(
@@ -32,7 +51,6 @@ const FeedbackView = ({
         gift,
         recipient,
       );
-
       if (updatedGift) {
         onGiftUpdate(updatedGift);
       } else {
@@ -50,7 +68,7 @@ const FeedbackView = ({
       {isLoading ? (
         <>
           <div className="flex justify-center items-center h-full">
-            <div className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin"></div>
+            <div className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin" />
           </div>
         </>
       ) : (
@@ -67,9 +85,10 @@ const FeedbackView = ({
               { title: 'Too Expensive', subtitle: 'Show lower price range' },
               { title: 'Not Their Style', subtitle: 'Try different interests' },
               { title: 'They Might Have This', subtitle: 'Show alternatives' },
-            ].map(({ title, subtitle }, index) => (
+            ].map(({ title, subtitle }) => (
               <button
-                key={index}
+                type="button"
+                key={title}
                 className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
                 onClick={() => handleFeedbackSubmit(`${title}: ${subtitle}`)}
               >
