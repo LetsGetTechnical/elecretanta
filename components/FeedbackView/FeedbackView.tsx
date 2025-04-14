@@ -11,13 +11,14 @@ import { JSX } from 'react';
 
 /**
  * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx. 
- * @param {GiftSuggestion[]} allGiftSuggestions - The list of all gift suggestions for this recipient.
- * @param {string} budget - The budget for the gift to be passed on to AI to generate suggestions.
- * @param {GiftSuggestion} gift - The selected gift that the user is providing feedback on.
- * @param {() => void} handleFeedback - The function to update gift recommendations based on user feedback.
- * @param {(updatedGift: GiftSuggestion) => void} onGiftUpdate - The function to update the gift suggestion.
- * @param {Profile | null} recipient - Contains the recipients info to pass on to AI to generate suggestions.
- * @returns {Promise<void>} - It returns a promise that resolves when the gift suggestion is updated because it's an async function and all async functions return promises.
+ * @param {object} props - The component props
+ * @param {GiftSuggestion[]} props.allGiftSuggestions - The list of all gift suggestions for this recipient.
+ * @param {string} props.budget - The budget for the gift to be passed on to AI to generate suggestions.
+ * @param {GiftSuggestion} props.gift - The selected gift that the user is providing feedback on.
+ * @param {() => void} props.handleFeedback - The function to update gift recommendations based on user feedback.
+ * @param {(updatedGift: GiftSuggestion) => void} props.onGiftUpdate - The function to update the gift suggestion.
+ * @param {Profile | null} props.recipient - Contains the recipients info to pass on to AI to generate suggestions.
+ * @returns {JSX.Element} The rendered feedback view component
  */
 const FeedbackView = ({
   allGiftSuggestions,
@@ -39,7 +40,7 @@ const FeedbackView = ({
   /**
    * Updates gift recommendations based on user feedback.
    * @param {string} feedback - The feedback to submit.
-   * @returns {Promise<void>} - A promise that resolves when the gift suggestion is updated. It returns a promise because it's an async function.
+   * @returns {Promise<void>} - It returns a promise that resolves when the gift suggestion is updated because it's an async function and all async functions return promises.
    */
   const handleFeedbackSubmit = async (feedback: string): Promise<void> => {
     setIsLoading(true);
