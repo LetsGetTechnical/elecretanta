@@ -4,6 +4,7 @@
 'use client';
 
 import * as React from 'react';
+import { HTMLAttributes, JSX } from 'react';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 
 import { cn } from '@/lib/utils';
@@ -14,6 +15,7 @@ const AlertDialog = AlertDialogPrimitive.Root;
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 
 const AlertDialogPortal = AlertDialogPrimitive.Portal;
+
 
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
@@ -48,10 +50,16 @@ const AlertDialogContent = React.forwardRef<
 ));
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName;
 
+/**
+ * A custom header for use in the AlertDialog Component.
+ * @param {HTMLAttributes<HTMLDivElement>} props - Props for function.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered dialog header element.
+ */
 const AlertDialogHeader = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: HTMLAttributes<HTMLDivElement>): JSX.Element => (
   <div
     className={cn(
       'flex flex-col space-y-2 text-center sm:text-left',
