@@ -1,6 +1,10 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import * as React from 'react';
+import { JSX } from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
 import {
@@ -32,8 +36,8 @@ const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
-  ...props
-}: ControllerProps<TFieldValues, TName>) => {
+    ...props
+  }: ControllerProps<TFieldValues, TName>): JSX.Element => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -41,7 +45,8 @@ const FormField = <
   );
 };
 
-const useFormField = () => {
+
+const useFormField = (): FormFieldContextValue => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
   const { getFieldState, formState } = useFormContext();
