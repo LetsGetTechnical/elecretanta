@@ -9,6 +9,15 @@ import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGi
 import { useState } from 'react';
 import { JSX } from 'react';
 
+
+interface IFeedbackViewProps {
+  allGiftSuggestions: GiftSuggestion[];
+  budget: string;
+  gift: GiftSuggestion;
+  handleFeedback: () => void;
+  onGiftUpdate: (updatedGift: GiftSuggestion) => void;
+  recipient: Profile | null;
+}
 /**
  * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx. 
  * @param {object} props - The component props
@@ -27,14 +36,7 @@ const FeedbackView = ({
   handleFeedback,
   onGiftUpdate,
   recipient,
-}: {
-  allGiftSuggestions: GiftSuggestion[];
-  budget: string;
-  gift: GiftSuggestion;
-  handleFeedback: () => void;
-  onGiftUpdate: (updatedGift: GiftSuggestion) => void;
-  recipient: Profile | null;
-}): JSX.Element => {
+}: IFeedbackViewProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   /**
@@ -83,13 +85,13 @@ const FeedbackView = ({
           </h1>
           <div className="flex flex-col justify-center mt-4 gap-4">
             {[
-              { title: 'Too Expensive', subtitle: 'Show lower price range' },
-              { title: 'Not Their Style', subtitle: 'Try different interests' },
-              { title: 'They Might Have This', subtitle: 'Show alternatives' },
-            ].map(({ title, subtitle }) => (
+              { title: 'Too Expensive', subtitle: 'Show lower price range', id:1 },
+              { title: 'Not Their Style', subtitle: 'Try different interests', id:2 },
+              { title: 'They Might Have This', subtitle: 'Show alternatives', id:3 },
+            ].map(({ title, subtitle, id }) => (
               <button
                 type="button"
-                key={title}
+                key={id}
                 className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
                 onClick={() => handleFeedbackSubmit(`${title}: ${subtitle}`)}
               >
