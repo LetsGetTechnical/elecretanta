@@ -7,8 +7,8 @@ export interface GiftExchange {
   drawing_date: string;
   exchange_date: string;
   owner_id: string;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string;
+  updated_at?: string;
   status: string;
 }
 

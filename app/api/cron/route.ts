@@ -3,8 +3,9 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
-import { drawGiftExchange } from '@/lib/drawGiftExchange';
 import { checkAuthorization } from './functions/checkAuthorization/checkAuthorization';
+import { fetchGiftExchanges } from './functions/fetchGiftExchanges/fetchGiftExchanges';
+import { processGiftExchanges } from './functions/processGiftExchanges/processGiftExchanges';
 
 /**
  * Checks the dates to know how to update gift exchange status.
@@ -19,37 +20,12 @@ export async function GET(request: Request): Promise<Response> {
   try {
     const supabase = await createClient();
 
-    const { data: giftExchanges, error: giftExchangesError } = await supabase
-      .from('gift_exchanges')
-      .select('*');
-
-    if (giftExchangesError) {
-      return NextResponse.json(
-        { error: 'Error fetching gift exchanges' },
-        { status: 500 },
-      );
-    }
+    const giftExchanges = await fetchGiftExchanges({ supabase });
 
     const currentDay = new Date().toISOString().split('T')[0];
 
     for (const exchange of giftExchanges) {
-      const drawDate = new Date(exchange.drawing_date)
-        .toISOString()
-        .split('T')[0];
-      const exchangeDate = new Date(exchange.exchange_date)
-        .toISOString()
-        .split('T')[0];
-
-      if (drawDate === currentDay && exchange.status === 'pending') {
-        await drawGiftExchange(supabase, exchange.id);
-      }
-
-      if (currentDay > exchangeDate && exchange.status !== 'completed') {
-        await supabase
-          .from('gift_exchanges')
-          .update({ status: 'completed' })
-          .eq('id', exchange.id);
-      }
+      await processGiftExchanges({ supabase, exchange, currentDay });
     }
     return NextResponse.json({ success: true });
   } catch (error) {
