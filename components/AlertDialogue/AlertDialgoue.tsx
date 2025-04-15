@@ -70,10 +70,16 @@ const AlertDialogHeader = ({
 );
 AlertDialogHeader.displayName = 'AlertDialogHeader';
 
+/**
+ * A custom footer for use in the AlertDialogFooter Component.
+ * @param {HTMLAttributes<HTMLDivElement>} props - Props for function.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered dialog header element.
+ */
 const AlertDialogFooter = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element => (
   <div
     className={cn(
       'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
