@@ -7,8 +7,11 @@ import { SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * Checks the dates to know how to update gift exchange status.
- * @param {SupabaseClient} supabase - The .
- * @returns {Promise<void>} Returns true if the 'Authorization' header matches the expected secret, false otherwise.
+ * @param {object} props - The function props.
+ * @param {SupabaseClient} props.supabase - An instance of the Supabase client used to query the database.
+ * @param {GiftExchange} props.exchange - The gift exchange record to process.
+ * @param {string} props.currentDay - The current date in 'YYYY-MM-DD' format.
+ * @returns {Promise<void>} A promise that resolves when the processing is complete. Does not return a value.
  */
 export const processGiftExchanges = async ({
   supabase,

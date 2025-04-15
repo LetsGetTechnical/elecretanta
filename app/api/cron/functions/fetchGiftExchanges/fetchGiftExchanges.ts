@@ -5,9 +5,9 @@ import { GiftExchange } from '@/app/types/giftExchange';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 /**
- * Checks the dates to know how to update gift exchange status.
- * @param {SupabaseClient} supabase - The .
- * @returns {Promise<GiftExchange[]>} Returns true if the 'Authorization' header matches the expected secret, false otherwise.
+ * Fetches all gift exchanges in the database.
+ * @param {SupabaseClient} supabase - An instance of the Supabase client used to query the database.
+ * @returns {Promise<GiftExchange[]>} All gift exchanges in the form of an array of objects.
  */
 export const fetchGiftExchanges = async ({
   supabase,
