@@ -14,7 +14,7 @@ const config: Config = {
   },
   testEnvironment: 'jest-environment-jsdom',
   // Add more setup options before each test is run
-//   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   preset: 'ts-jest',
   testPathIgnorePatterns: ['<rootDir>/tests/playwright-tests/'],
   testMatch: ['**/?(*.)+(test).[t]s?(x)'],
