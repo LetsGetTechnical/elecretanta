@@ -4,7 +4,6 @@
 import { GET } from '@/app/api/cron/route';
 import { createClient } from '@/lib/supabase/server';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
-import { beforeEach } from 'node:test';
 
 jest.mock('@/lib/supabase/server');
 jest.mock('@/lib/drawGiftExchange');
