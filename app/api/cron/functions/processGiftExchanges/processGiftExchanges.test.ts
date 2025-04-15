@@ -1,0 +1,71 @@
+import { SupabaseClient } from '@supabase/supabase-js';
+import { processGiftExchanges } from './processGiftExchanges';
+import { drawGiftExchange } from '@/lib/drawGiftExchange';
+
+jest.mock('@/lib/drawGiftExchange', () => ({
+  drawGiftExchange: jest.fn(),
+}));
+
+const mockEq = jest.fn();
+const mockUpdate = jest.fn(() => ({
+  eq: mockEq,
+}));
+
+const mockSupabase = {
+  from: jest.fn(() => ({
+    update: mockUpdate,
+  })),
+} as unknown as SupabaseClient;
+
+describe('processGiftExchanges', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('successfully draws the gift exchange if current day matches the drawing date and the gift exchange status if pending', async () => {
+    const mockGiftExchange = {
+      id: '123',
+      name: 'Office Exchange',
+      group_image: '',
+      budget: '20',
+      owner_id: 'owner123',
+      drawing_date: new Date().toISOString(),
+      exchange_date: new Date(Date.now() + 86400000).toISOString(),
+      status: 'pending',
+    };
+
+    const currentDay = new Date().toISOString().split('T')[0];
+    await processGiftExchanges({
+      supabase: mockSupabase,
+      exchange: mockGiftExchange,
+      currentDay,
+    });
+
+    expect(drawGiftExchange).toHaveBeenCalledWith(mockSupabase, '123');
+  });
+
+  it('updates gift exchange status to completed if exchange_date has passed and status is not set as completed yet', async () => {
+    const mockPastGiftExchange = {
+      id: '456',
+      name: 'Old Exchange',
+      group_image: '',
+      budget: '20',
+      owner_id: 'owner456',
+      drawing_date: new Date(Date.now() - 86400000 * 2).toISOString(),
+      exchange_date: new Date(Date.now() - 86400000).toISOString(),
+      status: 'active',
+    };
+
+    const currentDay = new Date().toISOString().split('T')[0];
+
+    await processGiftExchanges({
+      supabase: mockSupabase,
+      exchange: mockPastGiftExchange,
+      currentDay,
+    });
+
+    expect(mockSupabase.from).toHaveBeenCalledWith('gift_exchanges');
+    expect(mockUpdate).toHaveBeenCalledWith({ status: 'completed' });
+    expect(mockEq).toHaveBeenCalledWith('id', '456');
+  });
+});
