@@ -13,7 +13,7 @@ import { processGiftExchanges } from './functions/processGiftExchanges/processGi
  * @returns {Promise<Response>} The rendered weekly picks page.
  */
 export async function GET(request: Request): Promise<Response> {
-  if (!checkAuthorization({ request })) {
+  if (!checkAuthorization(request)) {
     return new Response('Unauthorized', { status: 401 });
   }
 
