@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { GET as get } from '@/app/api/cron/route';
+import { GET } from '@/app/api/cron/route';
 import { createClient } from '@/lib/supabase/server';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
 import { beforeEach } from 'node:test';
@@ -50,7 +50,7 @@ describe('GET /api/cron', () => {
       headers: { authorization: 'Bearer invalid-secret' },
     });
 
-    const response = await get(request);
+    const response = await GET(request);
     expect(response.status).toBe(401);
   });
 
@@ -59,7 +59,7 @@ describe('GET /api/cron', () => {
       headers: { authorization: `Bearer ${process.env.CRON_SECRET}` },
     });
 
-    const response = await get(request);
+    const response = await GET(request);
     const json = await response.json();
 
     expect(mockDrawGiftExchange).toHaveBeenCalledWith(mockSupabase, '123');
@@ -83,7 +83,8 @@ describe('GET /api/cron', () => {
       headers: { authorization: `Bearer ${process.env.CRON_SECRET}` },
     });
 
-    const response = await get(request);
+    const response = await GET(request);
+    const json = await response.json();
 
     expect(response.status).toBe(500);
     expect(json.error).toBe('Simulated fetch error');
