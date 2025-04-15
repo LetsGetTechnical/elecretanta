@@ -1,6 +1,9 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, JSX } from 'react';
 import {
   Card,
   CardContent,
@@ -15,16 +18,31 @@ interface CompletedExchangeCardProps {
   members: GiftExchangeMember[];
 }
 
+/**
+ * Function that shows up after gift exchange completes and shows confetti.
+ * @param {CompletedExchangeCardProps} props - Props for function
+ * @param {GiftExchangeMember[]} props.members - Gift exchange members.
+ * @returns {JSX.Element} The rendered card component with confetti animation.
+ */
 export const CompletedExchangeCard = ({
   members,
-}: CompletedExchangeCardProps) => {
+}: CompletedExchangeCardProps): JSX.Element => {
   const [showConfetti, setShowConfetti] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowConfetti(false);
-    }, 1000);
 
-    return () => clearTimeout(timer);
+  /**
+   * Function that triggers the confetti.
+   * @returns {Promise<void>} - A promise that resolves after confetti is turned off.
+   */
+  const triggerConfetti = (): Promise<void> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        setShowConfetti(false);
+        resolve();
+      }, 1000);
+    });
+  };
+  useEffect(() => {
+    triggerConfetti();
   }, []);
 
   return (
@@ -42,8 +60,8 @@ export const CompletedExchangeCard = ({
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {members.map((member, index) => (
-            <div key={index} className="grid grid-cols-[auto_1fr_auto]">
+          {members.map((member) => (
+            <div key={member.id} className="grid grid-cols-[auto_1fr_auto]">
               <div className="flex items-center">
                 <Avatar
                   userAvatar={
