@@ -1,6 +1,6 @@
-import { SupabaseClient } from '@supabase/supabase-js';
-import { processGiftExchanges } from './processGiftExchanges';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
+import { processGiftExchanges } from './processGiftExchanges';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 jest.mock('@/lib/drawGiftExchange', () => ({
   drawGiftExchange: jest.fn(),

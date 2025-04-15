@@ -1,10 +1,10 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { createClient } from '@/lib/supabase/server';
-import { NextResponse } from 'next/server';
 import { checkAuthorization } from './functions/checkAuthorization/checkAuthorization';
+import { createClient } from '@/lib/supabase/server';
 import { fetchGiftExchanges } from './functions/fetchGiftExchanges/fetchGiftExchanges';
+import { NextResponse } from 'next/server';
 import { processGiftExchanges } from './functions/processGiftExchanges/processGiftExchanges';
 
 /**
@@ -25,7 +25,7 @@ export async function GET(request: Request): Promise<Response> {
     const currentDay = new Date().toISOString().split('T')[0];
 
     for (const exchange of giftExchanges) {
-      await processGiftExchanges({ supabase, exchange, currentDay });
+      await processGiftExchanges({ currentDay, exchange, supabase });
     }
     return NextResponse.json({ success: true });
   } catch (error) {

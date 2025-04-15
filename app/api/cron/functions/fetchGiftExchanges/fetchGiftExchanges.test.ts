@@ -1,6 +1,6 @@
-import { SupabaseClient } from '@supabase/supabase-js';
-import { fetchGiftExchanges } from './fetchGiftExchanges';
 import { createClient } from '@/lib/supabase/server';
+import { fetchGiftExchanges } from './fetchGiftExchanges';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 jest.mock('@/lib/supabase/server');
 
