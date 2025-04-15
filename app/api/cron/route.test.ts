@@ -46,7 +46,7 @@ describe('GET /api/cron', () => {
   });
 
   it('returns a 401 error if the CRON_SECRET is invalid', async () => {
-    const request = new Request('http://localhost:4000/api/cron', {
+    const request = new Request('/api/cron', {
       headers: { authorization: 'Bearer invalid-secret' },
     });
 
@@ -55,7 +55,7 @@ describe('GET /api/cron', () => {
   });
 
   it('processes gift exchanges and returns a success', async () => {
-    const request = new Request('http://localhost:4000/api/cron', {
+    const request = new Request('/api/cron', {
       headers: { authorization: `Bearer ${process.env.CRON_SECRET}` },
     });
 
@@ -79,7 +79,7 @@ describe('GET /api/cron', () => {
         data: null,
         error: { message: 'Simulated fetch error' },
       });
-    const request = new Request('http://localhost:4000/api/cron', {
+    const request = new Request('/api/cron', {
       headers: { authorization: `Bearer ${process.env.CRON_SECRET}` },
     });
 
