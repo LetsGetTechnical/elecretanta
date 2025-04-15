@@ -4,6 +4,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
+import { checkAuthorization } from './functions/checkAuthorization/checkAuthorization';
 
 /**
  * Checks the dates to know how to update gift exchange status.
@@ -11,11 +12,8 @@ import { drawGiftExchange } from '@/lib/drawGiftExchange';
  * @returns {Promise<Response>} The rendered weekly picks page.
  */
 export async function GET(request: Request): Promise<Response> {
-  const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response('Unauthorized', {
-      status: 401,
-    });
+  if (!checkAuthorization(request)) {
+    return new Response('Unauthorized', { status: 401 });
   }
 
   try {

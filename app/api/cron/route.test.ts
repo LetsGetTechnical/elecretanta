@@ -45,11 +45,13 @@ describe('GET /api/cron', () => {
   });
 
   it('returns a 401 error if the CRON_SECRET is invalid', async () => {
-    const request = new Request('/api/cron', {
-      headers: { authorization: 'Bearer invalid-secret' },
-    });
+    const mockRequest = {
+      headers: {
+        get: jest.fn().mockReturnValue(`Bearer inavlid-secret`),
+      },
+    };
 
-    const response = await GET(request);
+    const response = await GET(mockRequest as any);
     expect(response.status).toBe(401);
   });
 
