@@ -15,9 +15,13 @@ describe('Badge', () => {
   for (let i = 0; i < variantTestCases.length; i++) {
     const variant = variantTestCases[i];
 
-    it(`renders variant: ${variant}`, () => {
-      render(<Badge variant={variant}>{variant}</Badge>);
-      const badge = screen.getByText(variant);
+    it(`renders with variant: ${variant}`, () => {
+      render(
+        <Badge variant={variant} data-testid={`badge-${variant}`}>
+          {variant}
+        </Badge>,
+      );
+      const badge = screen.getByTestId(`badge-${variant}`);
       expect(badge).toBeInTheDocument();
 
       const classNames = badgeVariants({ variant });
@@ -26,8 +30,8 @@ describe('Badge', () => {
   }
 
   it('renders with default variant when none is provided', () => {
-    render(<Badge>default</Badge>);
-    const badge = screen.getByText('default');
+    render(<Badge data-testid="badge-default">default</Badge>);
+    const badge = screen.getByTestId('badge-default');
     expect(badge).toBeInTheDocument();
 
     const classNames = badgeVariants({ variant: 'default' });
@@ -35,11 +39,14 @@ describe('Badge', () => {
   });
 
   it('applies custom className alongside variant styles', () => {
-    render(<Badge className="custom-class">custom</Badge>);
-    const badge = screen.getByText('custom');
-    expect(badge).toBeInTheDocument();
-
+    render(
+      <Badge className="custom-class" data-testid="badge-custom-class">
+        custom
+      </Badge>,
+    );
+    const badge = screen.getByTestId('badge-custom-class');
     const classNames = badgeVariants({ variant: 'default' });
+
     expect(badge).toHaveClass(classNames);
     expect(badge).toHaveClass('custom-class');
   });
