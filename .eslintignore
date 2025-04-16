@@ -1,9 +1,5 @@
 # Ignored files due to ESLINT errors
 
-**/*.test.ts
-**/*.test.tsx
-**/*.test.js
-**/*.test.jsx
 app/api/gift-exchanges/route.ts
 app/api/gift-exchanges/\[id\]/draw/route.ts
 app/api/gift-exchanges/\[id\]/giftSuggestions/route.ts
