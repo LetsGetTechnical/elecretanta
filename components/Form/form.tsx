@@ -36,15 +36,14 @@ const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
-    ...props
-  }: ControllerProps<TFieldValues, TName>): JSX.Element => {
+  ...props
+}: ControllerProps<TFieldValues, TName>): JSX.Element => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
     </FormFieldContext.Provider>
   );
 };
-
 
 const useFormField = (): FormFieldContextValue => {
   const fieldContext = React.useContext(FormFieldContext);
@@ -91,9 +90,14 @@ const FormItem = React.forwardRef<
 });
 FormItem.displayName = 'FormItem';
 
+type FormLabelProps = React.ComponentPropsWithoutRef<
+  typeof LabelPrimitive.Root
+> & {
+  className?: string; // I'm adding className as an optional prop to fix prop validation error
+};
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
+  FormLabelProps
 >(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
