@@ -30,7 +30,6 @@ Card.displayName = 'Card';
  * Header portion of Card component.
  * @param {object} props - Props for CardHeader component.
  * @param {string} [props.className] - Additional class names for styling.
- * @param {HTMLAttributes<HTMLDivElement>} ref - ref forwarded for header container.
  * @returns {JSX.Element} - Rendered card header element. 
  */
 const CardHeader = forwardRef<
@@ -49,7 +48,6 @@ CardHeader.displayName = 'CardHeader';
  * Card title component used within Card.
  * @param {object} props - Props for CardTitle component. 
  * @param {string} [props.className] - Additional class names for styling. 
- * @param {HTMLAttributes<HTMLDivElement>} ref - Ref forwarded to title div.
  * @returns {JSX.Element} - Rendered card title element. 
  */
 const CardTitle = forwardRef<
@@ -68,7 +66,6 @@ CardTitle.displayName = 'CardTitle';
  * Card description component used within Card.
  * @param {object} props - Props for CardDescription component. 
  * @param {string} [props.className] - Additional class names for styling.
- * @param {HTMLAttributes<HTMLDivElement>} ref - Ref forwarded to description div.
  * @returns {JSX.Element} - Rendered card description element. 
  */
 const CardDescription = forwardRef<
@@ -87,7 +84,6 @@ CardDescription.displayName = 'CardDescription';
  * Container wrapping content within Card. 
  * @param {object} props - Div props passed to content container.
  * @param {string} [props.className] - Additional class names for styling. 
- * @param {HTMLAttributes<HTMLDivElement>} ref - Ref forwarded to content div. 
  * @returns {JSX.Element} - Rendered card content element. 
  */
 const CardContent = forwardRef<
@@ -102,7 +98,6 @@ CardContent.displayName = 'CardContent';
  * Card footer component wrapping content within Card.
  * @param {object} props - Div props passed to the footer container.
  * @param {string} [props.className] - Additional class names for styling.
- * @param {HTMLAttributes<HTMLDivElement>} ref - Ref forwarded to div element.
  * @returns {JSX.Element} - The rendered card footer element. 
  */
 const CardFooter = forwardRef<
