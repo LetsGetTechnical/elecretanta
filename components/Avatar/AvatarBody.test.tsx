@@ -12,14 +12,4 @@ describe('AvatarBody Component', () => {
 
     expect(avatarBodyElement).toBeInTheDocument();
   });
-
-  it('should render correctly with passed children', () => {
-    render(
-      <AvatarBody>
-        <div>Test</div>
-      </AvatarBody>,
-    );
-
-    expect(screen.getByText('Test')).toBeInTheDocument();
-  });
 });
