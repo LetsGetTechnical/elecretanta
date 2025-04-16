@@ -4,7 +4,7 @@ import ProfileCard from '../../components/ProfileCard/ProfileCard';
 import Avatar from '../../components/Avatar/Avatar';
 
 export default {
-  title: 'Organisms/UserProfile',
+  title: 'Components/Organisms/UserProfile',
   component: ProfileCard,
   parameters: {
     docs: {

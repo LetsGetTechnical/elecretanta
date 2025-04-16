@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react';
 import ProfileCard from '../../components/ProfileCard/ProfileCard';
 
 export default {
-  title: 'Molecules/ProfileCard',
+  title: 'Components/Molecules/ProfileCard',
   component: ProfileCard,
   parameters: {
     docs: {
