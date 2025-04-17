@@ -35,13 +35,15 @@ describe('processGiftExchanges', () => {
     };
 
     const currentDate = new Date().toISOString().split('T')[0];
-    await processGiftExchanges({
+    const { drawnCount, completedCount } = await processGiftExchanges({
       supabase: mockSupabase,
       exchange: mockGiftExchange,
       currentDate,
     });
 
     expect(drawGiftExchange).toHaveBeenCalledWith(mockSupabase, '123');
+    expect(drawnCount).toBe(1);
+    expect(completedCount).toBe(0);
   });
 
   it('updates gift exchange status to completed if exchange_date has passed and status is not set as completed yet', async () => {
@@ -58,7 +60,7 @@ describe('processGiftExchanges', () => {
 
     const currentDate = new Date().toISOString().split('T')[0];
 
-    await processGiftExchanges({
+    const { drawnCount, completedCount } = await processGiftExchanges({
       supabase: mockSupabase,
       exchange: mockPastGiftExchange,
       currentDate,
@@ -67,5 +69,7 @@ describe('processGiftExchanges', () => {
     expect(mockSupabase.from).toHaveBeenCalledWith('gift_exchanges');
     expect(mockUpdate).toHaveBeenCalledWith({ status: 'completed' });
     expect(mockEq).toHaveBeenCalledWith('id', '456');
+    expect(drawnCount).toBe(0);
+    expect(completedCount).toBe(1);
   });
 });
