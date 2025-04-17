@@ -1,3 +1,5 @@
+import { SupabaseClient } from "@supabase/supabase-js";
+
 export interface GiftExchange {
   id: string;
   name: string;
@@ -41,4 +43,10 @@ export interface UpdateGiftExchangeRequest {
   drawing_date?: string;
   exchange_date?: string;
   status?: string;
+}
+
+export interface GiftProcess {
+  currentDate: string;
+  exchange: GiftExchange;
+  supabase: SupabaseClient;
 }

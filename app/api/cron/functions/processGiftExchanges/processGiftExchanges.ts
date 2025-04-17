@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
-import { GiftExchange } from '@/app/types/giftExchange';
+import { GiftExchange, GiftProcess } from '@/app/types/giftExchange';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 /**
@@ -17,11 +17,7 @@ export const processGiftExchanges = async ({
   currentDate,
   exchange,
   supabase,
-}: {
-  currentDate: string;
-  exchange: GiftExchange;
-  supabase: SupabaseClient;
-}): Promise<void> => {
+}: GiftProcess): Promise<void> => {
   const drawDate = new Date(exchange.drawing_date).toISOString().split('T')[0];
   const exchangeDate = new Date(exchange.exchange_date)
     .toISOString()
