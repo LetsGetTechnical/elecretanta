@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import Avatar from './Avatar';
+import Avatar from '../Avatar';
 import { render, screen } from '@testing-library/react';
 
 describe('AvatarFallback Component', () => {
