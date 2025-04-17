@@ -8,17 +8,17 @@ import { SupabaseClient } from '@supabase/supabase-js';
 /**
  * Checks the dates to know how to update gift exchange status.
  * @param {object} props - The function props.
- * @param {string} props.currentDay - The current date in 'YYYY-MM-DD' format.
+ * @param {string} props.currentDate - The current date in 'YYYY-MM-DD' format.
  * @param {GiftExchange} props.exchange - The gift exchange record to process.
  * @param {SupabaseClient} props.supabase - An instance of the Supabase client used to query the database.
  * @returns {Promise<void>} A promise that resolves when the processing is complete. Does not return a value.
  */
 export const processGiftExchanges = async ({
-  currentDay,
+  currentDate,
   exchange,
   supabase,
 }: {
-  currentDay: string;
+  currentDate: string;
   exchange: GiftExchange;
   supabase: SupabaseClient;
 }): Promise<void> => {
@@ -27,11 +27,11 @@ export const processGiftExchanges = async ({
     .toISOString()
     .split('T')[0];
 
-  if (drawDate === currentDay && exchange.status === 'pending') {
+  if (drawDate === currentDate && exchange.status === 'pending') {
     await drawGiftExchange(supabase, exchange.id);
   }
 
-  if (currentDay > exchangeDate && exchange.status !== 'completed') {
+  if (currentDate > exchangeDate && exchange.status !== 'completed') {
     await supabase
       .from('gift_exchanges')
       .update({ status: 'completed' })

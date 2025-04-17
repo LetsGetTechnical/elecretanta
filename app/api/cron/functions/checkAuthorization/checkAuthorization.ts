@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Checks the dates to know how to update gift exchange status.
+ * Checks the header to make sure it is valid.
  * @param {Request} request - The incoming request object containing the headers.
  * @returns {boolean} Returns true if the 'Authorization' header matches the expected secret, false otherwise.
  */

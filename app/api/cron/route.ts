@@ -8,7 +8,7 @@ import { NextResponse } from 'next/server';
 import { processGiftExchanges } from './functions/processGiftExchanges/processGiftExchanges';
 
 /**
- * Checks the dates to know how to update gift exchange status.
+ * API function that gets the cron job header to execute once daily.
  * @param {Request} request - API request.
  * @returns {Promise<Response>} The rendered weekly picks page.
  */
@@ -22,10 +22,10 @@ export async function GET(request: Request): Promise<Response> {
 
     const giftExchanges = await fetchGiftExchanges({ supabase });
 
-    const currentDay = new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toISOString().split('T')[0];
 
     for (const exchange of giftExchanges) {
-      await processGiftExchanges({ currentDay, exchange, supabase });
+      await processGiftExchanges({ currentDate, exchange, supabase });
     }
     return NextResponse.json({ success: true });
   } catch (error) {

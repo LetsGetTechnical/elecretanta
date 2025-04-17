@@ -34,11 +34,11 @@ describe('processGiftExchanges', () => {
       status: 'pending',
     };
 
-    const currentDay = new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toISOString().split('T')[0];
     await processGiftExchanges({
       supabase: mockSupabase,
       exchange: mockGiftExchange,
-      currentDay,
+      currentDate,
     });
 
     expect(drawGiftExchange).toHaveBeenCalledWith(mockSupabase, '123');
@@ -56,12 +56,12 @@ describe('processGiftExchanges', () => {
       status: 'active',
     };
 
-    const currentDay = new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toISOString().split('T')[0];
 
     await processGiftExchanges({
       supabase: mockSupabase,
       exchange: mockPastGiftExchange,
-      currentDay,
+      currentDate,
     });
 
     expect(mockSupabase.from).toHaveBeenCalledWith('gift_exchanges');
