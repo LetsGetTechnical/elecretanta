@@ -6,8 +6,7 @@ import { ChevronLeft } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
-import { useState } from 'react';
-import { JSX } from 'react';
+import { useState, JSX } from 'react';
 
 
 interface IFeedbackViewProps {
@@ -39,10 +38,15 @@ const FeedbackView = ({
 }: IFeedbackViewProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const buttonVariants = [
+    { title: 'Too Expensive', subtitle: 'Show lower price range', id:1 },
+    { title: 'Not Their Style', subtitle: 'Try different interests', id:2 },
+    { title: 'They Might Have This', subtitle: 'Show alternatives', id:3 },
+  ]
   /**
    * Updates gift recommendations based on user feedback.
    * @param {string} feedback - The feedback to submit.
-   * @returns {Promise<void>} - It returns a promise that resolves when the gift suggestion is updated because it's an async function and all async functions return promises.
+   * @returns {Promise<void>} - A promise that resolves to void when the gift suggestion is updated.
    */
   const handleFeedbackSubmit = async (feedback: string): Promise<void> => {
     setIsLoading(true);
@@ -66,6 +70,7 @@ const FeedbackView = ({
     }
   };
 
+
   return (
     <div className="flex flex-col m-4 h-full">
       {isLoading ? (
@@ -84,11 +89,7 @@ const FeedbackView = ({
             Give Us Feedback
           </h1>
           <div className="flex flex-col justify-center mt-4 gap-4">
-            {[
-              { title: 'Too Expensive', subtitle: 'Show lower price range', id:1 },
-              { title: 'Not Their Style', subtitle: 'Try different interests', id:2 },
-              { title: 'They Might Have This', subtitle: 'Show alternatives', id:3 },
-            ].map(({ title, subtitle, id }) => (
+            {buttonVariants.map(({ title, subtitle, id }) => (
               <button
                 type="button"
                 key={id}
