@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { checkAuthorization } from './functions/checkAuthorization/checkAuthorization';
+import { checkCronAuthorization } from './functions/checkAuthorization/checkCronAuthorization';
 import { createClient } from '@/lib/supabase/server';
 import { fetchGiftExchanges } from './functions/fetchGiftExchanges/fetchGiftExchanges';
 import { NextResponse } from 'next/server';
@@ -13,7 +13,7 @@ import { processGiftExchanges } from './functions/processGiftExchanges/processGi
  * @returns {Promise<Response>} The rendered weekly picks page.
  */
 export async function GET(request: Request): Promise<Response> {
-  if (!checkAuthorization(request)) {
+  if (!checkCronAuthorization(request)) {
     return new Response('Unauthorized', { status: 401 });
   }
 

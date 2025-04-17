@@ -1,6 +1,6 @@
-import { checkAuthorization } from './checkAuthorization';
+import { checkCronAuthorization } from "./checkCronAuthorization";
 
-describe('checkAuthorization', () => {
+describe('checkCronAuthorization', () => {
   const validSecret = process.env.CRON_SECRET;
 
   it('should return true if the authorization header is correct', async () => {
@@ -10,7 +10,7 @@ describe('checkAuthorization', () => {
       },
     };
 
-    const result = await checkAuthorization(mockRequest as any);
+    const result = await checkCronAuthorization(mockRequest as any);
     expect(result).toBe(true);
   });
 
@@ -21,7 +21,7 @@ describe('checkAuthorization', () => {
       },
     };
 
-    const result = await checkAuthorization(mockRequest as any);
+    const result = await checkCronAuthorization(mockRequest as any);
     expect(result).toBe(false);
   });
 
@@ -32,7 +32,7 @@ describe('checkAuthorization', () => {
       },
     };
 
-    const result = await checkAuthorization(mockRequest as any);
+    const result = await checkCronAuthorization(mockRequest as any);
     expect(result).toBe(false);
   });
 });
