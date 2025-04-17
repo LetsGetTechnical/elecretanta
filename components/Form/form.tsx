@@ -14,6 +14,7 @@ import {
   FieldValues,
   FormProvider,
   useFormContext,
+  FieldError,
 } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
@@ -26,25 +27,45 @@ type FormFieldContextValue<
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
   name: TName;
+  id?: string;
+  formItemId?: string;
+  formDescriptionId?: string;
+  formMessageId?: string;
+  error?: FieldError;
+  isTouched?: boolean;
+  isDirty?: boolean;
 };
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
 );
 
+/**
+ * A form field component that wraps react-hook-form's Controller.
+ * @template TFieldValues - Type for the form values object
+ * @template TName - Type for the field name, must be a valid path in TFieldValues
+ * @param {ControllerProps<TFieldValues, TName>} props - Props for the Controller component
+ * @returns {JSX.Element} A form field component
+ */
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
-  ...props
-}: ControllerProps<TFieldValues, TName>): JSX.Element => {
+    ...props
+  }: ControllerProps<TFieldValues, TName>): JSX.Element => {
+  const value = React.useMemo(() => ({ name: props.name }), [props.name]);
+  
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContext.Provider value={value}>
       <Controller {...props} />
     </FormFieldContext.Provider>
   );
 };
 
+/**
+ * Custom hook that provides form field context and state information.
+ * @returns {FormFieldContextValue} Form field information object
+ */
 const useFormField = (): FormFieldContextValue => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
@@ -81,9 +102,10 @@ const FormItem = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const id = React.useId();
+  const value = React.useMemo(() => ({ id }), [id]);
 
   return (
-    <FormItemContext.Provider value={{ id }}>
+    <FormItemContext.Provider value={value}>
       <div ref={ref} className={cn('space-y-2', className)} {...props} />
     </FormItemContext.Provider>
   );
@@ -95,6 +117,7 @@ type FormLabelProps = React.ComponentPropsWithoutRef<
 > & {
   className?: string; // I'm adding className as an optional prop to fix prop validation error
 };
+
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   FormLabelProps
