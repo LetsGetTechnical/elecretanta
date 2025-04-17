@@ -1,6 +1,6 @@
 import { AvatarImage } from './AvatarImage';
 import { AvatarFallback } from './AvatarFallback';
-import { AvatarBody } from './AvatarBody';
+import { AvatarBody } from './AvatarBody/AvatarBody';
 
 const Avatar = ({ userAvatar }: { userAvatar: string | undefined }) => {
   return (
