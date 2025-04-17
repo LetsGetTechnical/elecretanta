@@ -39,7 +39,6 @@ components/Avatar/AvatarBody.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/Card/card.tsx
-components/Command/command.tsx
 components/FeedbackView/FeedbackView.tsx
 components/Form/form.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
