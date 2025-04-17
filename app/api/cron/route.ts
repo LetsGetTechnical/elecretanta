@@ -38,19 +38,6 @@ export async function GET(request: Request): Promise<Response> {
 
     return NextResponse.json({ success: true, drawnMessage, completedMessage });
   } catch (error) {
-    console.error(error);
-    const message =
-      error instanceof Error ? error.message : 'Internal server error';
-    let status = 500; // default status
-    if (message.includes('not found')) {
-      status = 404;
-    } else if (
-      message.includes('already been drawn') ||
-      message.includes('3 members')
-    ) {
-      status = 400;
-    }
-
-    return NextResponse.json({ error: message }, { status });
+    return NextResponse.json({ error });
   }
 }
