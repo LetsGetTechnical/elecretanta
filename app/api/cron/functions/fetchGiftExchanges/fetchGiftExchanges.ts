@@ -17,7 +17,11 @@ export const fetchGiftExchanges = async ({
   const { data, error } = await supabase.from('gift_exchanges').select('*');
 
   if (error) {
-    throw error;
+    throw new Error(`Error fetching gift exchanges: ${error.message}`);
+  }
+
+  if (!data) {
+    throw new Error('No gift exchanges found.')
   }
 
   return data;

@@ -24,10 +24,19 @@ export async function GET(request: Request): Promise<Response> {
 
     const currentDate = new Date().toISOString().split('T')[0];
 
+    let totalDrawn = 0;
+    let totalCompleted = 0;
+
     for (const exchange of giftExchanges) {
-      await processGiftExchanges({ currentDate, exchange, supabase });
+      const { drawnCount, completedCount } = await processGiftExchanges({ currentDate, exchange, supabase });
+      totalDrawn += drawnCount;
+      totalCompleted += completedCount;
     }
-    return NextResponse.json({ success: true });
+
+    const drawnMessage = totalDrawn > 0 ? `${totalDrawn} gift exchanges were drawn today.` : 'No gift exchanges were drawn today.';
+    const completedMessage = totalCompleted > 0 ? `${totalCompleted} gift exchanges were completed today.` : 'No gift exchanges were completed today.';
+
+    return NextResponse.json({ success: true, drawnMessage, completedMessage });
   } catch (error) {
     console.error(error);
     const message =
