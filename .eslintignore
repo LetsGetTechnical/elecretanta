@@ -71,7 +71,6 @@ components/Slider/slider.tsx
 components/SnowOverlayToggle/SnowOverlayToggle.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 components/SnowOverlayWrapper/SnowOverlayWrapper.tsx
-components/TextArea/textarea.tsx
 components/WarningModal/WarningModal.tsx
 lib/drawGiftExchange.ts
 lib/generateAndStoreSuggestion.ts
