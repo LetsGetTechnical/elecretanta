@@ -21,7 +21,7 @@ describe('Input', () => {
         type="email"
         name="test-name"
         aria-label="test-aria-label"
-        value="test-value"
+        defaultValue="test-value"
       />,
     );
     const input = screen.getByTestId('input');
