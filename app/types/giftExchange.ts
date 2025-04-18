@@ -45,7 +45,7 @@ export interface UpdateGiftExchangeRequest {
   status?: string;
 }
 
-export interface GiftProcess {
+export interface IGiftProcess {
   currentDate: string;
   exchange: GiftExchange;
   supabase: SupabaseClient;
