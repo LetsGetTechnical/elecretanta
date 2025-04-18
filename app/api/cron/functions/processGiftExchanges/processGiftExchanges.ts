@@ -37,5 +37,6 @@ export const processGiftExchanges = async ({
       .eq('id', exchange.id);
     completedCount += 1;
   }
+
   return { drawnCount, completedCount };
 };
