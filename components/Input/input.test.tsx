@@ -1,25 +1,33 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Input } from './input';
 
 describe('Input', () => {
   it('renders input correctly', () => {
-    const { getByPlaceholderText } = render(
-      <Input placeholder="Placeholder text" />,
+    render(<Input />);
+    const testInput = screen.getByTestId('test-input');
+    expect(testInput).toBeInTheDocument();
+  });
+  it('renders an input with a custom class name', () => {
+    render(<Input className="my-custom" />);
+    const input = screen.getByTestId('test-input');
+    expect(input).toHaveClass('my-custom');
+  });
+  it('forwards child props to the input', () => {
+    render(
+      <Input
+        type="email"
+        name="test-name"
+        aria-label="test-aria-label"
+        value="test-value"
+      />,
     );
-    expect(getByPlaceholderText('Placeholder text')).toBeInTheDocument();
-  });
-  it('renders correct input type', () => {
-    const { getByRole } = render(<Input type="email" />);
-    const input = getByRole('textbox');
+    const input = screen.getByTestId('test-input');
     expect(input).toHaveAttribute('type', 'email');
-  });
-  it('renders an input with correct class names', () => {
-    const { getByRole } = render(<Input className="my-custom"/>);
-    const input = getByRole("textbox")
-    expect(input).toHaveClass("my-custom")
-    expect(input).toHaveClass("rounded-md")
+    expect(input).toHaveAttribute('name', 'test-name');
+    expect(input).toHaveAttribute('aria-label', 'test-aria-label');
+    expect(input).toHaveValue('test-value');
   });
 });
