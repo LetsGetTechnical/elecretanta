@@ -9,8 +9,6 @@ import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGi
 import { useState, JSX } from 'react';
 import { IFeedbackViewProps } from './FeedbackViewProps';
 
-
-
 /**
  * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx. 
  * @param {object} props - The component props
