@@ -21,7 +21,7 @@ export const fetchGiftExchanges = async ({
   }
 
   if (!data) {
-    throw new Error('No gift exchanges found.')
+    throw new Error('No gift exchanges found.');
   }
 
   return data;
