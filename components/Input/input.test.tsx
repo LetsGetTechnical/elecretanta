@@ -7,12 +7,12 @@ import { Input } from './input';
 describe('Input', () => {
   it('renders input correctly', () => {
     render(<Input />);
-    const testInput = screen.getByTestId('test-input');
+    const testInput = screen.getByTestId('input');
     expect(testInput).toBeInTheDocument();
   });
   it('renders an input with a custom class name', () => {
     render(<Input className="my-custom" />);
-    const input = screen.getByTestId('test-input');
+    const input = screen.getByTestId('input');
     expect(input).toHaveClass('my-custom');
   });
   it('forwards child props to the input', () => {
@@ -24,10 +24,11 @@ describe('Input', () => {
         value="test-value"
       />,
     );
-    const input = screen.getByTestId('test-input');
+    const input = screen.getByTestId('input');
     expect(input).toHaveAttribute('type', 'email');
     expect(input).toHaveAttribute('name', 'test-name');
     expect(input).toHaveAttribute('aria-label', 'test-aria-label');
     expect(input).toHaveValue('test-value');
   });
+ 
 });
