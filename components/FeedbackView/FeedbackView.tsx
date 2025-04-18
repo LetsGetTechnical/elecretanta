@@ -7,16 +7,10 @@ import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
 import { useState, JSX } from 'react';
+import { IFeedbackViewProps } from './FeedbackViewProps';
 
 
-interface IFeedbackViewProps {
-  allGiftSuggestions: GiftSuggestion[];
-  budget: string;
-  gift: GiftSuggestion;
-  handleFeedback: () => void;
-  onGiftUpdate: (updatedGift: GiftSuggestion) => void;
-  recipient: Profile | null;
-}
+
 /**
  * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx. 
  * @param {object} props - The component props
