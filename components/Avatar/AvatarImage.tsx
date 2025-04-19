@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils';
 /**
  * AvatarImage component, part of the Avatar component.
  * @param {typeof Image} props - Avatar image props.
- * @param {string} props.src - Source URL for the avatar image.
  * @param {string} props.alt - Alt text for the avatar image.
  * @param {string} [props.className] - Optional custom class name.
  * @returns {JSX.Element} Avatar image element.
@@ -19,13 +18,11 @@ const AvatarImage = forwardRef<
   ElementRef<typeof Image>,
   ComponentPropsWithoutRef<typeof Image>
 >(
-  ({ alt, src, className, ...props }, ref): JSX.Element => (
+  ({ alt, className, ...props }, ref): JSX.Element => (
     <Image
       ref={ref}
-      src={src}
       alt={alt}
       className={cn('aspect-square h-full w-full', className)}
-      data-testid="avatar-image"
       {...props}
     />
   ),

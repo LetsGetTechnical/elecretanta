@@ -8,6 +8,16 @@ jest.mock('@radix-ui/react-avatar', () => ({
 }));
 
 describe('AvatarImage', () => {
+  it('renders without crashing', () => {
+    render(
+      <AvatarPrimativeRoot>
+        <AvatarImage />
+      </AvatarPrimativeRoot>,
+    );
+    const avatarImage = screen.getByTestId('avatar-image');
+    expect(avatarImage).toBeInTheDocument();
+  });
+
   it('renders with correct src and alt attributes', () => {
     render(
       <AvatarPrimativeRoot>
@@ -16,7 +26,6 @@ describe('AvatarImage', () => {
     );
 
     const avatarImage = screen.getByTestId('avatar-image');
-    expect(avatarImage).toBeInTheDocument();
     expect(avatarImage).toHaveAttribute('src', 'user-avatar.jpg');
     expect(avatarImage).toHaveAttribute('alt', 'User Avatar');
   });
