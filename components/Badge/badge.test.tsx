@@ -49,7 +49,7 @@ describe('Badge', () => {
     expect(badge).toHaveTextContent('children');
   });
 
-  it('applies custom className alongside variant styles', () => {
+  it('renders with custom className alongside variant styles', () => {
     render(<Badge className="custom-class" />);
 
     const badge = screen.getByTestId('badge');
