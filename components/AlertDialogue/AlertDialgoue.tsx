@@ -15,7 +15,12 @@ const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 
 const AlertDialogPortal = AlertDialogPrimitive.Portal;
 
-
+/**
+ * A custom overlay for use in the AlertDialog Component.
+ * @param {object} props - Props for the component.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered AlertDialogOverlay element.
+ */
 const AlertDialogOverlay = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
@@ -31,6 +36,12 @@ const AlertDialogOverlay = forwardRef<
 ));
 AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName;
 
+/**
+ * Contains content to be rendered when the AlertDialog component is open.
+ * @param {object} props - Props for the component.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered AlertDialogContent element.
+ */
 const AlertDialogContent = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Content>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
@@ -53,7 +64,7 @@ AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName;
  * A custom header for use in the AlertDialog Component.
  * @param {HTMLAttributes<HTMLDivElement>} props - Props for function.
  * @param {string} props.className - Additional CSS classes for custom styling.
- * @returns {JSX.Element} - The rendered dialog header element.
+ * @returns {JSX.Element} - The rendered AlertDialogHeader element.
  */
 const AlertDialogHeader = ({
   className,
@@ -73,7 +84,7 @@ AlertDialogHeader.displayName = 'AlertDialogHeader';
  * A custom footer for use in the AlertDialogFooter Component.
  * @param {HTMLAttributes<HTMLDivElement>} props - Props for function.
  * @param {string} props.className - Additional CSS classes for custom styling.
- * @returns {JSX.Element} - The rendered dialog header element.
+ * @returns {JSX.Element} - The rendered AlertDialogFooter element.
  */
 const AlertDialogFooter = ({
   className,
@@ -89,6 +100,12 @@ const AlertDialogFooter = ({
 );
 AlertDialogFooter.displayName = 'AlertDialogFooter';
 
+/**
+ * An accessible title announced when the AlertDialog component is opened.
+ * @param {object} props - Props for the component.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered AlertDialogTitle element.
+ */
 const AlertDialogTitle = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Title>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
@@ -101,6 +118,12 @@ const AlertDialogTitle = forwardRef<
 ));
 AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName;
 
+/**
+ * An accessible description announced when the AlertDialog component is opened.
+ * @param {object} props - Props for the component.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered AlertDialogDescription element.
+ */
 const AlertDialogDescription = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Description>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
@@ -114,6 +137,12 @@ const AlertDialogDescription = forwardRef<
 AlertDialogDescription.displayName =
   AlertDialogPrimitive.Description.displayName;
 
+/**
+ * A button that closes the AlertDialog component. Should be distinguished visually from the Cancel button.
+ * @param {object} props - Props for the component.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered AlertDialogAction element.
+ */  
 const AlertDialogAction = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Action>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
@@ -126,6 +155,12 @@ const AlertDialogAction = forwardRef<
 ));
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName;
 
+/**
+ * A button that closes the AlertDialog component. Should be distinguished visually from the Action button.
+ * @param {object} props - Props for the component.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} - The rendered AlertDialogCancel element.
+ */ 
 const AlertDialogCancel = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Cancel>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
