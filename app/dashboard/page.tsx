@@ -42,7 +42,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 h-40">
         <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
         <Button
-          className="hover:bg-primaryButtonYelow70 bg-primaryButtonYellow h-10 w-36 font-semibold text-sm"
+          className="hover:bg-primaryButtonYelow70 bg-primaryButtonYellow h-10 w-36 font-semibold text-sm text-foreground"
           asChild
         >
           <Link href="/create-group-page">Create Group</Link>
