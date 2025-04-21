@@ -12,32 +12,47 @@ const variantTestCases = [
 ] as NonNullable<BadgeProps['variant']>[];
 
 describe('Badge', () => {
+  it('renders without crashing', () => {
+    render(<Badge />);
+
+    const badge = screen.getByTestId('badge');
+
+    expect(badge).toBeInTheDocument();
+  });
+
+  it('renders with default variant when none is provided', () => {
+    render(<Badge />);
+
+    const badge = screen.getByTestId('badge');
+
+    const classNames = badgeVariants({ variant: 'default' });
+    expect(badge).toHaveClass(classNames);
+  });
+
   for (let i = 0; i < variantTestCases.length; i++) {
     const variant = variantTestCases[i];
+    it(`renders with variant: ${variant}`, () => {
+      render(<Badge variant={variant} />);
 
-    it(`renders variant: ${variant}`, () => {
-      render(<Badge variant={variant}>{variant}</Badge>);
-      const badge = screen.getByText(variant);
-      expect(badge).toBeInTheDocument();
+      const badge = screen.getByTestId('badge');
 
       const classNames = badgeVariants({ variant });
       expect(badge).toHaveClass(classNames);
     });
   }
 
-  it('renders with default variant when none is provided', () => {
-    render(<Badge>default</Badge>);
-    const badge = screen.getByText('default');
-    expect(badge).toBeInTheDocument();
+  it('renders with children', () => {
+    render(<Badge>children</Badge>);
 
-    const classNames = badgeVariants({ variant: 'default' });
-    expect(badge).toHaveClass(classNames);
+    const badge = screen.getByTestId('badge');
+
+    expect(badge).toHaveTextContent('children');
   });
 
-  it('applies custom className alongside variant styles', () => {
-    render(<Badge className="custom-class">custom</Badge>);
-    const badge = screen.getByText('custom');
-    expect(badge).toBeInTheDocument();
+  it('renders with custom className alongside variant styles', () => {
+    render(<Badge className="custom-class" />);
+
+    const badge = screen.getByTestId('badge');
 
     const classNames = badgeVariants({ variant: 'default' });
     expect(badge).toHaveClass(classNames);
