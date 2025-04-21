@@ -16,5 +16,5 @@ export interface Profile {
 }
 
 export type ProfileUpdate = Partial<
-  Omit<Profile, "id" | "created_at" | "updated_at">
+  Omit<Profile, 'id' | 'created_at' | 'updated_at'>
 >;

@@ -1,19 +1,19 @@
-"use server";
-import { openai } from "@/app/api/openaiConfig/config";
-import { GiftSuggestion } from "@/app/types/giftSuggestion";
-import { Profile } from "@/app/types/profile";
-import { createClient } from "./supabase/server";
-import { getAmazonImage } from "./getAmazonImage";
+'use server';
+import { openai } from '@/app/api/openaiConfig/config';
+import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { Profile } from '@/app/types/profile';
+import { createClient } from './supabase/server';
+import { getAmazonImage } from './getAmazonImage';
 
 export async function generateAndUpdateNewGiftSuggestion(
   allGiftSuggestions: GiftSuggestion[],
   budget: string,
   feedback: string,
   gift: GiftSuggestion,
-  recipient: Profile | null
+  recipient: Profile | null,
 ) {
   if (!recipient) {
-    throw new Error("Recipient profile is missing");
+    throw new Error('Recipient profile is missing');
   }
 
   try {
@@ -22,11 +22,11 @@ export async function generateAndUpdateNewGiftSuggestion(
     Gift Budget: $${budget}
 
     Recipient's Profile:
-    - Age Group: ${recipient.age_group || "Not specified"}
-    - Hobbies: ${recipient.hobbies || "Not specified"}
-    - Things to Avoid: ${recipient.avoid || "Not specified"}
+    - Age Group: ${recipient.age_group || 'Not specified'}
+    - Hobbies: ${recipient.hobbies || 'Not specified'}
+    - Things to Avoid: ${recipient.avoid || 'Not specified'}
     - Categories of Interest: ${
-      recipient.categories?.join(",") || "Not specified"
+      recipient.categories?.join(',') || 'Not specified'
     }
 
     Preference Scales (0-100):
@@ -46,10 +46,10 @@ export async function generateAndUpdateNewGiftSuggestion(
       - Price: $${suggestion.price}
       - Description: ${suggestion.description}
       - Match Score: ${suggestion.matchScore}
-      - Match Reasons: ${suggestion.matchReasons.join(", ")}
-      `
+      - Match Reasons: ${suggestion.matchReasons.join(', ')}
+      `,
       )
-      .join("\n")}
+      .join('\n')}
     - Feedback: ${feedback}
 
     For the replacement suggestion, provide:
@@ -62,8 +62,8 @@ export async function generateAndUpdateNewGiftSuggestion(
     Format as JSON array with fields: title, price, description, matchReasons (array), matchScore (number)`;
 
     const completion = await openai.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
-      model: "gpt-3.5-turbo",
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
       temperature: 0.7,
     });
 
@@ -73,11 +73,11 @@ export async function generateAndUpdateNewGiftSuggestion(
     } = await supabase.auth.getUser();
 
     if (!user) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
     const parsedResponse = JSON.parse(
-      completion.choices[0].message.content || ""
+      completion.choices[0].message.content || '',
     );
 
     const suggestion = parsedResponse[0];
@@ -96,12 +96,12 @@ export async function generateAndUpdateNewGiftSuggestion(
     };
 
     const { error: suggestionError } = await supabase
-      .from("gift_suggestions")
+      .from('gift_suggestions')
       .update({ suggestion: cleanSuggestion })
-      .eq("id", gift.id);
+      .eq('id', gift.id);
 
     if (suggestionError) {
-      console.error("Failed to update suggestion:", suggestionError);
+      console.error('Failed to update suggestion:', suggestionError);
     }
     return cleanSuggestion;
   } catch (error) {

@@ -1,76 +1,122 @@
-import * as React from "react"
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
 
-import { cn } from "@/lib/utils"
+import { HTMLAttributes, forwardRef } from 'react';
 
-const Card = React.forwardRef<
+import { cn } from '@/lib/utils';
+
+/**
+ * Card component - container for card.
+ * @param {object} props - Props for the Card copmonent.
+ * @param {string} [props.className] - Additional class names.
+ * @returns {JSX.Element} - Rendered card container.
+ */
+const Card = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
-      "rounded-xl border bg-card text-card-foreground shadow",
-      className
+      'rounded-xl border bg-card text-card-foreground shadow',
+      className,
     )}
     {...props}
   />
-))
-Card.displayName = "Card"
+));
+Card.displayName = 'Card';
 
-const CardHeader = React.forwardRef<
+/**
+ * Header portion of Card component.
+ * @param {object} props - Props for CardHeader component.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} - Rendered card header element. 
+ */
+const CardHeader = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    className={cn('flex flex-col space-y-1.5 p-6', className)}
     {...props}
   />
-))
-CardHeader.displayName = "CardHeader"
+));
+CardHeader.displayName = 'CardHeader';
 
-const CardTitle = React.forwardRef<
+/**
+ * Card title component used within Card.
+ * @param {object} props - Props for CardTitle component. 
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} - Rendered card title element. 
+ */
+const CardTitle = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("font-semibold leading-none tracking-tight", className)}
+    className={cn('font-semibold leading-none tracking-tight', className)}
     {...props}
   />
-))
-CardTitle.displayName = "CardTitle"
+));
+CardTitle.displayName = 'CardTitle';
 
-const CardDescription = React.forwardRef<
+/**
+ * Card description component used within Card.
+ * @param {object} props - Props for CardDescription component. 
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} - Rendered card description element. 
+ */
+const CardDescription = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn('text-sm text-muted-foreground', className)}
     {...props}
   />
-))
-CardDescription.displayName = "CardDescription"
+));
+CardDescription.displayName = 'CardDescription';
 
-const CardContent = React.forwardRef<
+/**
+ * Container wrapping content within Card. 
+ * @param {object} props - Div props passed to content container.
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} - Rendered card content element. 
+ */
+const CardContent = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
+  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+));
+CardContent.displayName = 'CardContent';
 
-const CardFooter = React.forwardRef<
+/**
+ * Card footer component wrapping content within Card.
+ * @param {object} props - Div props passed to the footer container.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} - The rendered card footer element. 
+ */
+const CardFooter = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
+    className={cn('flex items-center p-6 pt-0', className)}
     {...props}
   />
-))
-CardFooter.displayName = "CardFooter"
+));
+CardFooter.displayName = 'CardFooter';
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+};

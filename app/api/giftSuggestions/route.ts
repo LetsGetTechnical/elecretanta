@@ -1,5 +1,5 @@
-import { openai } from "../openaiConfig/config";
-import { NextResponse } from "next/server";
+import { openai } from '../openaiConfig/config';
+import { NextResponse } from 'next/server';
 
 export async function POST() {
   // const requestBody = await req.json();
@@ -8,10 +8,10 @@ export async function POST() {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: 'gpt-3.5-turbo',
       messages: [
         {
-          role: "system",
+          role: 'system',
           content: `Take on the role of a Secret Santa. Generate 3 personalized gift suggestions based on this profile information that I will provide you with:
           
           Recipient:
@@ -33,7 +33,7 @@ export async function POST() {
           `,
         },
         {
-          role: "user",
+          role: 'user',
           // content: `Name: ${profile.name}, Age: ${profile.age}, Interests: ${profile.interests}, Style: ${profile.style}, Budget: ${profile.budget}, Avoid: ${profile.avoid}`,
           content: `Name: Jack, Age: 25, Interests: Cooking and Athletics, Style: Practicall, Budget: $50, Avoid: Candy and Peanuts`,
         },

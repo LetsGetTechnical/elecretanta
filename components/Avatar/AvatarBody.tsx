@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import { cn } from '@/lib/utils';
 
 const AvatarBody = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -11,8 +11,8 @@ const AvatarBody = React.forwardRef<
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
+      'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
+      className,
     )}
     {...props}
   />

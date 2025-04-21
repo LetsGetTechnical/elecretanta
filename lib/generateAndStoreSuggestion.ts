@@ -1,23 +1,23 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { openai } from "../app/api/openaiConfig/config";
-import { getAmazonImage } from "./getAmazonImage";
+import { SupabaseClient } from '@supabase/supabase-js';
+import { openai } from '../app/api/openaiConfig/config';
+import { getAmazonImage } from './getAmazonImage';
 
 export async function generateAndStoreSuggestions(
   supabase: SupabaseClient,
   exchangeId: string,
   giverId: string,
   recipientId: string,
-  budget: number
+  budget: number,
 ) {
   // Get recipient's profile
   const { data: recipientProfile, error: profileError } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", recipientId)
+    .from('profiles')
+    .select('*')
+    .eq('id', recipientId)
     .single();
 
   if (profileError || !recipientProfile) {
-    throw new Error("Failed to fetch recipient profile");
+    throw new Error('Failed to fetch recipient profile');
   }
 
   const prompt = `Take on the role of a Secret Santa. Generate 3 personalized gift suggestions based on this profile information that I will provide you with: 
@@ -25,11 +25,11 @@ export async function generateAndStoreSuggestions(
     Gift Budget: $${budget}
     
     Recipient's Profile:
-    - Age Group: ${recipientProfile.age_group || "Not specified"}
-    - Hobbies: ${recipientProfile.hobbies || "Not specified"}
-    - Things to Avoid: ${recipientProfile.avoid || "None specified"}
+    - Age Group: ${recipientProfile.age_group || 'Not specified'}
+    - Hobbies: ${recipientProfile.hobbies || 'Not specified'}
+    - Things to Avoid: ${recipientProfile.avoid || 'None specified'}
     - Categories of Interest: ${
-      recipientProfile.categories?.join(", ") || "Not specified"
+      recipientProfile.categories?.join(', ') || 'Not specified'
     }
     
     Preference Scales (0-100):
@@ -47,20 +47,20 @@ export async function generateAndStoreSuggestions(
     Respond with only the JSON array without any markdown formatting or additional text. The array should contain objects with fields: title, price, description, matchReasons (array), matchScore (number)`;
 
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "user", content: prompt }],
-    model: "gpt-3.5-turbo",
+    messages: [{ role: 'user', content: prompt }],
+    model: 'gpt-3.5-turbo',
     temperature: 0.7,
   });
 
   try {
-    let jsonContent = completion.choices[0].message.content || "";
-    
+    let jsonContent = completion.choices[0].message.content || '';
+
     // Clean up the response if it contains markdown or extra text
     if (jsonContent.includes('```')) {
       const match = jsonContent.match(/```(?:json)?\s*([\s\S]*?)```/);
       jsonContent = match ? match[1] : jsonContent;
     }
-    
+
     jsonContent = jsonContent.trim();
     if (!jsonContent.startsWith('[')) {
       const startIndex = jsonContent.indexOf('[');
@@ -92,23 +92,23 @@ export async function generateAndStoreSuggestions(
         imageUrl: amazonData.imageUrl || null,
       };
 
-      console.log("Cleaned suggestion:", cleanSuggestion);
+      console.log('Cleaned suggestion:', cleanSuggestion);
       const { error: suggestionError } = await supabase
-      .from("gift_suggestions")
-      .insert({
-        gift_exchange_id: exchangeId,
-        giver_id: giverId,
-        recipient_id: recipientId,
-        suggestion: cleanSuggestion,
-      });
+        .from('gift_suggestions')
+        .insert({
+          gift_exchange_id: exchangeId,
+          giver_id: giverId,
+          recipient_id: recipientId,
+          suggestion: cleanSuggestion,
+        });
 
-    if (suggestionError) {
-      console.error("Failed to store suggestion:", suggestionError);
-    }
+      if (suggestionError) {
+        console.error('Failed to store suggestion:', suggestionError);
+      }
     }
     return { success: true };
   } catch (error) {
-    console.error("Failed to parse or store suggestions:", error);
-    throw new Error("Failed to generate gift suggestions");
+    console.error('Failed to parse or store suggestions:', error);
+    throw new Error('Failed to generate gift suggestions');
   }
 }
