@@ -12,7 +12,7 @@ const variantTestCases = [
 ] as NonNullable<BadgeProps['variant']>[];
 
 describe('Badge', () => {
-  it('renders without crashing', () => {
+  it('renders the component in the document', () => {
     render(<Badge />);
 
     const badge = screen.getByTestId('badge');
@@ -31,7 +31,7 @@ describe('Badge', () => {
 
   for (let i = 0; i < variantTestCases.length; i++) {
     const variant = variantTestCases[i];
-    it(`renders with variant: ${variant}`, () => {
+    it(`renders with the "${variant}" variant and applies correct styles`, () => {
       render(<Badge variant={variant} />);
 
       const badge = screen.getByTestId('badge');
@@ -41,7 +41,7 @@ describe('Badge', () => {
     });
   }
 
-  it('renders with children', () => {
+  it('renders the provided children inside the badge', () => {
     render(<Badge>children</Badge>);
 
     const badge = screen.getByTestId('badge');
