@@ -3,7 +3,17 @@
 
 'use client';
 
-import { JSX, createContext, useMemo, useContext, forwardRef, useId } from 'react';
+import { 
+  HTMLAttributes, 
+  ElementRef, 
+  ComponentPropsWithoutRef, 
+  forwardRef, 
+  useId, 
+  createContext, 
+  useMemo, 
+  useContext, 
+  JSX 
+} from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
 import {
@@ -19,8 +29,19 @@ import {
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/Label/label';
 
+/**
+ * The root form component function that provides form context to all form fields.
+ * This is an alias for react-hook-form's FormProvider function.
+ * @param {Object} props - Props for the form provider
+ * @returns {JSX.Element} A form context provider component
+ */
 const Form = FormProvider;
 
+/**
+ * Context for form field values and state.
+ * @template TFieldValues - Type for the form values object
+ * @template TName - Type for the field name, must be a valid path in TFieldValues
+ */
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -53,7 +74,6 @@ const FormField = <
     ...props
   }: ControllerProps<TFieldValues, TName>): JSX.Element => {
   const value = useMemo(() => ({ name: props.name }), [props.name]);
-  
   return (
     <FormFieldContext.Provider value={value}>
       <Controller {...props} />
@@ -96,9 +116,14 @@ const FormItemContext = createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 );
 
+/**
+ * A form item component that wraps a div element.
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - Props for the div element
+ * @returns {JSX.Element} A form item component
+ */
 const FormItem = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const id = useId();
   const value = useMemo(() => ({ id }), [id]);
@@ -111,14 +136,19 @@ const FormItem = forwardRef<
 });
 FormItem.displayName = 'FormItem';
 
-type FormLabelProps = React.ComponentPropsWithoutRef<
+type FormLabelProps = ComponentPropsWithoutRef<
   typeof LabelPrimitive.Root
 > & {
-  className?: string; // I'm adding className as an optional prop to fix prop validation error
+  className?: string;
 };
 
+/**
+ * A form label component that wraps a label element.
+ * @param {React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>} props - Props for the label element
+ * @returns {JSX.Element} A form label component
+ */
 const FormLabel = forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
+  ElementRef<typeof LabelPrimitive.Root>,
   FormLabelProps
 >(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField();
@@ -134,9 +164,14 @@ const FormLabel = forwardRef<
 });
 FormLabel.displayName = 'FormLabel';
 
+/**
+ * A form control component that wraps a slot element. This is where the actual input element is rendered. 
+ * @param {React.ComponentPropsWithoutRef<typeof Slot>} props - Props for the slot element
+ * @returns {JSX.Element} A form control component
+ */
 const FormControl = forwardRef<
-  React.ElementRef<typeof Slot>,
-  React.ComponentPropsWithoutRef<typeof Slot>
+  ElementRef<typeof Slot>,
+  ComponentPropsWithoutRef<typeof Slot>
 >(({ ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
@@ -157,9 +192,14 @@ const FormControl = forwardRef<
 });
 FormControl.displayName = 'FormControl';
 
+/**
+ * A form description component that displays helper text for a form field.
+ * @param {React.HTMLAttributes<HTMLParagraphElement>} props - Props for the paragraph element
+ * @returns {JSX.Element} A form description component
+ */
 const FormDescription = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
+  HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
   const { formDescriptionId } = useFormField();
 
@@ -174,9 +214,14 @@ const FormDescription = forwardRef<
 });
 FormDescription.displayName = 'FormDescription';
 
+/**
+ * A form message component that displays error or success messages for a form field.
+ * @param {React.HTMLAttributes<HTMLParagraphElement>} props - Props for the paragraph element
+ * @returns {JSX.Element} A form message component
+ */
 const FormMessage = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
+  HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
