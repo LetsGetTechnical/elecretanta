@@ -24,22 +24,9 @@ describe('FeedbackView', () => {
     onboarding_complete: true,
   };
 
-  it('should render', () => {
-    render(
-      <FeedbackView
-        allGiftSuggestions={[]}
-        budget={''}
-        gift={mockGiftSuggestion}
-        handleFeedback={() => {}}
-        onGiftUpdate={() => {}}
-        recipient={null}
-      />
-    );
-  });
-
-  describe('Loading State', () => {
-    it('should show loading spinner and hide buttons when isLoading is true', () => {
-      const { rerender } = render(
+  const renderFeedbackView = () => {
+    return render(
+      <div data-testid="feedback-view">
         <FeedbackView
           allGiftSuggestions={[]}
           budget={''}
@@ -48,24 +35,40 @@ describe('FeedbackView', () => {
           onGiftUpdate={() => {}}
           recipient={mockProfile}
         />
-      );
+      </div>
+    );
+  };
+
+  it('should render', () => {
+    renderFeedbackView();
+    expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
+  });
+
+  
+
+  describe('Loading State', () => {
+    it('should show loading spinner and hide buttons when isLoading is true', () => {
+      const { rerender } = renderFeedbackView();
 
       // Initially, loading spinner should not be visible
-      expect(screen.queryByRole('status')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       
       // Buttons should be visible
-      expect(screen.getByText('Too Expensive')).toBeInTheDocument();
-      expect(screen.getByText('Not Their Style')).toBeInTheDocument();
-      expect(screen.getByText('They Might Have This')).toBeInTheDocument();
+      const expensiveButton = screen.getByText('Too Expensive').closest('button');
+      const styleButton = screen.getByText('Not Their Style').closest('button');
+      const haveButton = screen.getByText('They Might Have This').closest('button');
+
+      expect(expensiveButton).toBeInTheDocument();
+      expect(styleButton).toBeInTheDocument();
+      expect(haveButton).toBeInTheDocument();
 
       // Simulate loading state by clicking a button
-      const button = screen.getByText('Too Expensive').closest('button');
-      if (button) {
-        button.click();
+      if (expensiveButton) {
+        expensiveButton.click();
       }
 
       // After clicking, loading spinner should be visible
-      expect(screen.getByRole('status')).toBeInTheDocument();
+      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
       
       // Buttons should not be visible
       expect(screen.queryByText('Too Expensive')).not.toBeInTheDocument();
@@ -74,30 +77,28 @@ describe('FeedbackView', () => {
     });
 
     it('should show buttons and hide loading spinner when isLoading is false', () => {
-      render(
-        <FeedbackView
-          allGiftSuggestions={[]}
-          budget={''}
-          gift={mockGiftSuggestion}
-          handleFeedback={() => {}}
-          onGiftUpdate={() => {}}
-          recipient={mockProfile}
-        />
-      );
+      renderFeedbackView();
 
       // Initially, loading spinner should not be visible
-      expect(screen.queryByRole('status')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       
       // Buttons should be visible
-      expect(screen.getByText('Too Expensive')).toBeInTheDocument();
-      expect(screen.getByText('Not Their Style')).toBeInTheDocument();
-      expect(screen.getByText('They Might Have This')).toBeInTheDocument();
+      const expensiveButton = screen.getByText('Too Expensive').closest('button');
+      const styleButton = screen.getByText('Not Their Style').closest('button');
+      const haveButton = screen.getByText('They Might Have This').closest('button');
+
+      expect(expensiveButton).toBeInTheDocument();
+      expect(styleButton).toBeInTheDocument();
+      expect(haveButton).toBeInTheDocument();
+
+      // Feedback title and chevron should be visible
+      expect(screen.getByText('Give Us Feedback')).toBeInTheDocument();
+      expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
     });
   });
 
   // if isLoading is true, no buttons should be rendered and loading spinner should be rendered
   // if isLoading is false, 3 buttons should be rendered and "Give Us Feedback" and the Chevron should be rendered 
-  // when a button is clicked, the handleFeedbackSubmit function should be called
   // when a button is clicked, the handleFeedbackSubmit function should be called with the correct argument
   // when a button is clicked, isLoading should switch to true (it may take a second though) and then back to false after it loads.
   // each button should have a title and a subtitle 

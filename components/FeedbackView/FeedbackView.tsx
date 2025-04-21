@@ -50,16 +50,17 @@ const FeedbackView = ({
       {isLoading ? (
         <>
           <div className="flex justify-center items-center h-full">
-            <div className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin"></div>
+            <div data-testid="loading-spinner" className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin"></div>
           </div>
         </>
       ) : (
         <>
           <ChevronLeft
+            data-testid="back-chevron"
             className="hover:cursor-pointer"
             onClick={handleFeedback}
           />
-          <h1 className="text-sm text-[#21443D] font-bold mx-auto mt-4">
+          <h1 data-testid="feedback-title" className="text-sm text-[#21443D] font-bold mx-auto mt-4">
             Give Us Feedback
           </h1>
           <div className="flex flex-col justify-center mt-4 gap-4">
@@ -70,6 +71,7 @@ const FeedbackView = ({
             ].map(({ title, subtitle }, index) => (
               <button
                 key={index}
+                data-testid={`feedback-button-${index}`}
                 className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
                 onClick={() => handleFeedbackSubmit(`${title}: ${subtitle}`)}
               >
