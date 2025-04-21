@@ -11,6 +11,12 @@ import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent } from '@/components/Dialogue/dialog';
 
+/**
+ * Command component - styled container for commands. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive>} props - Props passed to the CommandPrimitive component. 
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} Rendered command container.
+ */
 const Command = forwardRef<
   ElementRef<typeof CommandPrimitive>,
   ComponentPropsWithoutRef<typeof CommandPrimitive>
@@ -29,7 +35,7 @@ Command.displayName = CommandPrimitive.displayName;
 /**
  * Component that renders a styled command dialog. 
  * @param {DialogProps} props - Props for the Dialog component, including children (content to be displayed within the dialog).
- * @returns {JSX.Element} - Rendered command dialog component.  
+ * @returns {JSX.Element} Rendered command dialog component.  
  */
 const CommandDialog = ({ children, ...props }: DialogProps): JSX.Element => {
   return (
@@ -43,6 +49,12 @@ const CommandDialog = ({ children, ...props }: DialogProps): JSX.Element => {
   );
 };
 
+/**
+ * Component that renders styled input field within Command. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Input>} props - Props passed to the CommandPrimitive.Input component.
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} Rendered input container. 
+ */
 const CommandInput = forwardRef<
   ElementRef<typeof CommandPrimitive.Input>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
@@ -62,6 +74,12 @@ const CommandInput = forwardRef<
 
 CommandInput.displayName = CommandPrimitive.Input.displayName;
 
+/**
+ * CommandList component - scrollable container for command items. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.List>} props - Props passed to CommandPrimitive.List. 
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} Rendered command list container. 
+ */
 const CommandList = forwardRef<
   ElementRef<typeof CommandPrimitive.List>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.List>
@@ -75,6 +93,11 @@ const CommandList = forwardRef<
 
 CommandList.displayName = CommandPrimitive.List.displayName;
 
+/**
+ * Component that displays a message when the command list has no matching results. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>} props - Props passed to CommandPrimitive.Empty.
+ * @returns {JSX.Element} Renders empty state element. 
+ */
 const CommandEmpty = forwardRef<
   ElementRef<typeof CommandPrimitive.Empty>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
@@ -136,7 +159,7 @@ CommandItem.displayName = CommandPrimitive.Item.displayName;
  * Component that renders styled span for keyboard shortcuts or inline commands. 
  * @param {object} props - Props for CommandShortcut component. 
  * @param {string} [props.className] - Additional class names for styling. 
- * @returns {JSX.Element} - Span element with applied props and class names.
+ * @returns {JSX.Element} Span element with applied props and class names.
  */
 const CommandShortcut = ({
   className,
