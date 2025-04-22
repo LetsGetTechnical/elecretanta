@@ -4,7 +4,7 @@
 import { forwardRef, ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 
-/**
+/***
  * Textarea component
  * @param {ComponentProps<'textarea'>} props
  * @param {string} [props.className]
