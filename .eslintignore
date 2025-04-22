@@ -36,10 +36,8 @@ components/AlertDialogue/AlertDialgoue.tsx
 components/Avatar/Avatar.tsx
 components/Avatar/AvatarFallback.tsx
 components/Avatar/AvatarBody.tsx
-components/Avatar/AvatarImage.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
-components/Card/card.tsx
 components/Command/command.tsx
 components/FeedbackView/FeedbackView.tsx
 components/Form/form.tsx
