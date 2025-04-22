@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { AvatarImage } from './AvatarImage';
 import { AvatarFallback } from './AvatarFallback';
 import { AvatarBody } from './AvatarBody';
