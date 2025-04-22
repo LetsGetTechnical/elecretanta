@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/Card/card';
 import LoginButton from '@/components/LoginButton/LoginButton';
+import SnowOverlayToggle from '@/components/SnowOverlayToggle/SnowOverlayToggle';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { Calendar, Gift, Sparkles, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -50,11 +51,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <header className="p-8 flex items-center">
-        <Gift className="bg-logoWhite h-8 w-8 p-1 rounded-lg text-red-600" />
-        <p className="font-bold ml-2 italic text-green-200 text-2xl">
-          Elf<span className="text-white font-semibold">gorithm</span>
-        </p>
+      <header className="p-8 flex items-center justify-between">
+        <div className="flex items-center">
+          <Gift className="bg-logoWhite h-8 w-8 p-1 rounded-lg text-red-600" />
+          <p className="font-bold ml-2 italic text-green-200 text-2xl">
+            Elf<span className="text-white font-semibold">gorithm</span>
+          </p>
+        </div>
+        <SnowOverlayToggle />
       </header>
       <main className="container mx-auto px-4 py-16">
         {/* Hero Section */}
