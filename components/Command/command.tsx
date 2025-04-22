@@ -136,7 +136,7 @@ CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
 /**
  * Component that adds border between command groups. 
- * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>} - Props passed to CommandPrimitive.Separator. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>} props - Props passed to CommandPrimitive.Separator. 
  * @param {string} [props.className] - Additional class names for styling. 
  * @returns {JSX.Element} Rendered command separator. 
  */
@@ -154,7 +154,7 @@ CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
 /**
  * Component that renders individual command items. 
- * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Item>} - props - Props passed to CommandPrimitive.Item
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Item>} props - Props passed to CommandPrimitive.Item
  * @param {string} [props.className] - Additional class names for styling.
  * @returns {JSX.Element} Rendered command item. 
  */
