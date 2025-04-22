@@ -105,7 +105,7 @@ export default function CreateGroupPage() {
   }
   const giftDrawingDate = form.watch('drawing_date');
   return (
-    <div className=" flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
+    <div className="create-group-page flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       <div className="flex flex-row">
         <LinkCustom href="/dashboard">
           <ChevronLeft size={16} strokeWidth={2.25} />

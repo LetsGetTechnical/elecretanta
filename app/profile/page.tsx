@@ -37,7 +37,7 @@ export default function PersonalProfile() {
   }
 
   return (
-    <section className="h-svh flex flex-col items-center py-16 px-4 md:px-16 lg:px-32 xl:px-52">
+    <section className="profile-page h-svh flex flex-col items-center py-16 px-4 md:px-16 lg:px-32 xl:px-52">
       <div className="flex flex-row w-full">
         <LinkCustom href="/dashboard">
           <ChevronLeft size={16} strokeWidth={2.25} />

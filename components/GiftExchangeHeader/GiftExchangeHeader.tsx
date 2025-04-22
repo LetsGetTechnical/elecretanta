@@ -166,7 +166,7 @@ export const GiftExchangeHeader = ({
         )}
       </div>
 
-      <section className="flex flex-col grow-0 gap-8 sm:flex-row">
+      <section className="gift-exchange-header flex flex-col grow-0 gap-8 sm:flex-row">
         <div className="w-36 h-36 grow-0 shrink-0">
           <img
             className="w-full h-full rounded-xl ring-4 ring-white"
