@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Profile } from '@/app/types/profile';
 import LoadingCard from '@/components/LoadingCard/LoadingCard';
 import { ChevronLeft } from 'lucide-react';
-import LinkCustom from '@/components/NavLink/LinkCustom';
+import LinkCustom from '@/components/LinkCustom/LinkCustom';
 
 export default function PersonalProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);

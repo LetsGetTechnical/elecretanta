@@ -26,7 +26,7 @@ import {
 } from '../AlertDialogue/AlertDialgoue';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 import { Button } from '@/components/Button/button';
-import LinkCustom from '../NavLink/LinkCustom';
+import LinkCustom from '../LinkCustom/LinkCustom';
 // initialize type for exchange data response
 
 interface MembersListProps {

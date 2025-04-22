@@ -27,7 +27,7 @@ const LinkCustom = ({
       href={href}
       data-testid="link-custom"
       className={cn(
-        'flex items-center gap-1 text-sm text-primary-foreground m-5',
+        'LinkCustom flex items-center gap-1 text-sm text-primary-foreground m-5',
         className,
       )}
     >

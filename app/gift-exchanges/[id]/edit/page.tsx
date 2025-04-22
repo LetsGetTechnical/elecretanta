@@ -39,7 +39,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { GiftExchange } from '@/app/types/giftExchange';
-import LinkCustom from '@/components/NavLink/LinkCustom';
+import LinkCustom from '@/components/LinkCustom/LinkCustom';
 
 const priceRanges = [
   { label: '$10 - $20', value: '10-20' },

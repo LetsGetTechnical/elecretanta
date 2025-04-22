@@ -35,7 +35,7 @@ import {
 import { Textarea } from '@/components/TextArea/textarea';
 import { ImageSelector } from '@/components/ImageSelector/ImageSelector';
 import { useRouter } from 'next/navigation';
-import LinkCustom from '@/components/NavLink/LinkCustom';
+import LinkCustom from '@/components/LinkCustom/LinkCustom';
 
 const priceRanges = [
   { label: '$10 - $20', value: '10-20' },
