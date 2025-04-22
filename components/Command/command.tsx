@@ -96,6 +96,7 @@ CommandList.displayName = CommandPrimitive.List.displayName;
 /**
  * Component that displays a message when the command list has no matching results. 
  * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>} props - Props passed to CommandPrimitive.Empty.
+ * @param {string} [props.className] - Additional class names for styling.
  * @returns {JSX.Element} Renders empty state element. 
  */
 const CommandEmpty = forwardRef<
@@ -111,6 +112,12 @@ const CommandEmpty = forwardRef<
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
+/**
+ * Container wrapping related command items. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Group>} props - Props passed to CommandPrimitive.Group. 
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} Renders styled command group. 
+ */
 const CommandGroup = forwardRef<
   ElementRef<typeof CommandPrimitive.Group>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
@@ -127,6 +134,12 @@ const CommandGroup = forwardRef<
 
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
+/**
+ * Component that adds border between command groups. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>} - Props passed to CommandPrimitive.Separator. 
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} Rendered command separator. 
+ */
 const CommandSeparator = forwardRef<
   ElementRef<typeof CommandPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
@@ -139,6 +152,12 @@ const CommandSeparator = forwardRef<
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
+/**
+ * Component that renders individual command items. 
+ * @param {ComponentPropsWithoutRef<typeof CommandPrimitive.Item>} - props - Props passed to CommandPrimitive.Item
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} Rendered command item. 
+ */
 const CommandItem = forwardRef<
   ElementRef<typeof CommandPrimitive.Item>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
