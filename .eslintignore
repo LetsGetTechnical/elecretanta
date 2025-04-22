@@ -40,7 +40,6 @@ components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/Command/command.tsx
 components/FeedbackView/FeedbackView.tsx
-components/Form/form.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftExchangeHeader/GiftExchangeHeader.tsx
 components/GiftSuggestionCard/GiftSuggestionCard.tsx
