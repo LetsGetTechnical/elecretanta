@@ -32,7 +32,7 @@ const WarningModal = ({
   const { session } = useAuthContext();
 
   /**
-   * A function that handles the sign-in with google authentication.
+   * A function that handles the sign-in process.
    * @returns {Promise<void>} Promise that resolves after the sign-in process is complete.
    */
   const signIn = async (): Promise<void> => {
@@ -46,7 +46,7 @@ const WarningModal = ({
   };
 
   /**
-   * A function that handles the joining a gift exchange.
+   * A function that handles the joining a gift exchange process.
    * @returns {Promise<void>} Promise that resolves after the join process is complete.
    */
   const joinExchange = async (): Promise<void> => {
