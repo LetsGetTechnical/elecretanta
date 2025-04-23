@@ -7,6 +7,12 @@ import { JSX, ElementRef, ComponentPropsWithoutRef, forwardRef } from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { cn } from '@/lib/utils';
 
+/**
+ * The AvatarBody component.
+ * @param {object} props - The props passed.
+ * @param {string} props.className - Styles for component.
+ * @returns {JSX.Element} - The AvatarBody component.
+ */
 const AvatarBody = forwardRef<
   ElementRef<typeof AvatarPrimitive.Root>,
   ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
