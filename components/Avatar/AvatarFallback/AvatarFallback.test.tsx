@@ -1,7 +1,8 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import Avatar from '../Avatar';
+import { AvatarFallback } from './AvatarFallback';
+import { Root as AvatarPrimitiveRoot } from '@radix-ui/react-avatar';
 import { render, screen } from '@testing-library/react';
 
 describe('AvatarFallback Component', () => {
