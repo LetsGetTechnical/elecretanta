@@ -6,15 +6,33 @@ import { Root as AvatarPrimitiveRoot } from '@radix-ui/react-avatar';
 import { render, screen } from '@testing-library/react';
 
 describe('AvatarFallback Component', () => {
-  it('should render correctly with an image', () => {
-    // Avatarfallback must be used within Avatar
-    render(<Avatar userAvatar={''} />);
+  it('renders the component with image as child', () => {
+    render(
+      <AvatarPrimitiveRoot>
+        <AvatarFallback>
+          <img src="fallback-image.jpg" alt="default avatar" />
+        </AvatarFallback>
+      </AvatarPrimitiveRoot>,
+    );
 
-    const avatarFallbackElement = screen.getByTestId('avatar-fallback');
-    const imgElement = screen.getByAltText("default avatar");
-    
+    const avatarFallbackElement = screen.queryByTestId('avatar-fallback');
+    const imgElement = screen.queryByRole('img');
+
     expect(avatarFallbackElement).toBeInTheDocument();
     expect(imgElement).toBeInTheDocument();
-    expect(imgElement).toHaveAttribute('src', 'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg');
+  });
+
+  it('renders the component with no children', () => {
+    render(
+      <AvatarPrimitiveRoot>
+        <AvatarFallback />
+      </AvatarPrimitiveRoot>,
+    );
+
+    const avatarFallbackElement = screen.queryByTestId('avatar-fallback');
+    const imgElement = screen.queryByRole('img');
+
+    expect(avatarFallbackElement).toBeInTheDocument();
+    expect(imgElement).not.toBeInTheDocument();
   });
 });
