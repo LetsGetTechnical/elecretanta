@@ -7,6 +7,12 @@ import { JSX, ElementRef, ComponentPropsWithoutRef, forwardRef } from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { cn } from '@/lib/utils';
 
+/**
+ * The AvatarFallback component with a fallback image.
+ * @param {object} props - The props passed.
+ * @param {string} props.className - Styles for component.
+ * @returns {JSX.Element} - The AvatarFallback component.
+ */
 const AvatarFallback = forwardRef<
   ElementRef<typeof AvatarPrimitive.Fallback>,
   ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
