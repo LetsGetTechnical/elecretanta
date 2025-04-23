@@ -32,7 +32,6 @@ app/types/giftExchangeMember.ts
 app/types/giftSuggestion.ts
 app/types/profile.ts
 app/types/tailwindcss-motion.d.ts
-components/Avatar/Avatar.tsx
 components/Avatar/AvatarFallback.tsx
 components/Avatar/AvatarBody.tsx
 components/Button/button.tsx
