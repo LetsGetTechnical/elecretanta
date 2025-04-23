@@ -30,9 +30,7 @@ describe('AvatarFallback Component', () => {
     );
 
     const avatarFallbackElement = screen.queryByTestId('avatar-fallback');
-    const imgElement = screen.queryByRole('img');
 
-    expect(avatarFallbackElement).toBeInTheDocument();
-    expect(imgElement).not.toBeInTheDocument();
+    expect(avatarFallbackElement).toBeEmptyDOMElement();
   });
 });
