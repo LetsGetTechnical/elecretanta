@@ -5,11 +5,25 @@ import { AvatarBody } from './AvatarBody';
 import { render, screen } from '@testing-library/react';
 
 describe('AvatarBody Component', () => {
-  it('should render correctly', () => {
+  it('renders correctly with passed children', () => {
+    render(
+      <AvatarBody>
+        <div>Test child</div>
+      </AvatarBody>,
+    );
+
+    const avatarBodyElement = screen.getByTestId('avatar-body');
+    const testChild = screen.getByText('Test child');
+
+    expect(avatarBodyElement).toBeInTheDocument();
+    expect(testChild).toBeInTheDocument();
+  });
+
+  it('renders correctly with no children', () => {
     render(<AvatarBody />);
 
     const avatarBodyElement = screen.getByTestId('avatar-body');
 
-    expect(avatarBodyElement).toBeInTheDocument();
+    expect(avatarBodyElement).toBeEmptyDOMElement();
   });
 });
