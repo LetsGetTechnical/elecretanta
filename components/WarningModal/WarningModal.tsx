@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 import { GiftExchange } from '@/app/types/giftExchange';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
@@ -5,6 +8,7 @@ import { Button } from '@/components/Button/button';
 import { LogIn } from 'lucide-react';
 import { signInWithGoogle } from '@/lib/utils';
 import { useAuthContext } from '@/context/AuthContextProvider';
+import { JSX } from 'react';
 
 interface WarningModalProps {
   giftExchangeData: GiftExchange;
@@ -12,13 +16,26 @@ interface WarningModalProps {
   updateGiftExchangeMembers: () => Promise<void>;
 }
 
+/**
+ * WarningModal component.
+ * @param {WarningModalProps} props - Component props.
+ * @param {GiftExchange} props.giftExchangeData - Gift exchange data.
+ * @param {GiftExchangeMember[]} props.members - Gift exchange members.
+ * @param {() => Promise<void>} props.updateGiftExchangeMembers - Function to update gift exchange members.
+ * @returns {JSX.Element} The rendered WarningModal component.
+ */
 const WarningModal = ({
   giftExchangeData,
   members,
   updateGiftExchangeMembers,
-}: WarningModalProps) => {
+}: WarningModalProps): JSX.Element => {
   const { session } = useAuthContext();
-  const signIn = async () => {
+
+  /**
+   * A function that handles the sign-in process.
+   * @returns {Promise<void>} Promise that resolves after the sign-in process is complete.
+   */
+  const signIn = async (): Promise<void> => {
     try {
       await signInWithGoogle({
         redirectPath: `/gift-exchanges/${giftExchangeData.id}`,
@@ -27,7 +44,12 @@ const WarningModal = ({
       console.error(error);
     }
   };
-  const joinExchange = async () => {
+
+  /**
+   * A function that handles the joining a gift exchange process.
+   * @returns {Promise<void>} Promise that resolves after the join process is complete.
+   */
+  const joinExchange = async (): Promise<void> => {
     try {
       await fetch(`/api/gift-exchanges/${giftExchangeData.id}/members`, {
         method: 'POST',
