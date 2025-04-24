@@ -19,6 +19,18 @@ describe('AvatarBody Component', () => {
     expect(testChild).toBeInTheDocument();
   });
 
+  it('renders the component with custom classes', () => {
+    render(
+      <AvatarBody className="custom-class">
+        <div>Test child</div>
+      </AvatarBody>,
+    );
+
+    const avatarBodyElement = screen.getByTestId('avatar-body');
+
+    expect(avatarBodyElement).toHaveClass('custom-class');
+  });
+
   it('renders correctly with no children', () => {
     render(<AvatarBody />);
 
