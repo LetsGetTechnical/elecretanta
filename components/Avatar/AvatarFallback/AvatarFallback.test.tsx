@@ -22,6 +22,20 @@ describe('AvatarFallback Component', () => {
     expect(imgElement).toBeInTheDocument();
   });
 
+  it('renders the component with custom classes', () => {
+    render(
+      <AvatarPrimitiveRoot>
+        <AvatarFallback className="custom-class">
+          <img src="fallback-image.jpg" alt="default avatar" />
+        </AvatarFallback>
+      </AvatarPrimitiveRoot>,
+    );
+
+    const avatarFallbackElement = screen.queryByTestId('avatar-fallback');
+
+    expect(avatarFallbackElement).toHaveClass('custom-class');
+  });
+
   it('renders the component with no children', () => {
     render(
       <AvatarPrimitiveRoot>
