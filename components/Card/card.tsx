@@ -1,10 +1,19 @@
-import * as React from 'react';
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
+import { HTMLAttributes, forwardRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
-const Card = React.forwardRef<
+/**
+ * Card component - container for card.
+ * @param {object} props - Props for the Card copmonent.
+ * @param {string} [props.className] - Additional class names.
+ * @returns {JSX.Element} - Rendered card container.
+ */
+const Card = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
@@ -17,9 +26,15 @@ const Card = React.forwardRef<
 ));
 Card.displayName = 'Card';
 
-const CardHeader = React.forwardRef<
+/**
+ * Header portion of Card component.
+ * @param {object} props - Props for CardHeader component.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} - Rendered card header element. 
+ */
+const CardHeader = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
@@ -29,9 +44,15 @@ const CardHeader = React.forwardRef<
 ));
 CardHeader.displayName = 'CardHeader';
 
-const CardTitle = React.forwardRef<
+/**
+ * Card title component used within Card.
+ * @param {object} props - Props for CardTitle component. 
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} - Rendered card title element. 
+ */
+const CardTitle = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
@@ -41,9 +62,15 @@ const CardTitle = React.forwardRef<
 ));
 CardTitle.displayName = 'CardTitle';
 
-const CardDescription = React.forwardRef<
+/**
+ * Card description component used within Card.
+ * @param {object} props - Props for CardDescription component. 
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} - Rendered card description element. 
+ */
+const CardDescription = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
@@ -53,17 +80,29 @@ const CardDescription = React.forwardRef<
 ));
 CardDescription.displayName = 'CardDescription';
 
-const CardContent = React.forwardRef<
+/**
+ * Container wrapping content within Card. 
+ * @param {object} props - Div props passed to content container.
+ * @param {string} [props.className] - Additional class names for styling. 
+ * @returns {JSX.Element} - Rendered card content element. 
+ */
+const CardContent = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
 ));
 CardContent.displayName = 'CardContent';
 
-const CardFooter = React.forwardRef<
+/**
+ * Card footer component wrapping content within Card.
+ * @param {object} props - Div props passed to the footer container.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @returns {JSX.Element} - The rendered card footer element. 
+ */
+const CardFooter = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}

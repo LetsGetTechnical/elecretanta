@@ -26,6 +26,7 @@ import {
 } from '../AlertDialogue/AlertDialgoue';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 import { Button } from '@/components/Button/button';
+import LinkCustom from '../LinkCustom/LinkCustom';
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -150,10 +151,10 @@ export const GiftExchangeHeader = ({
   return (
     <>
       <div className="flex justify-between mb-6">
-        <Link href={'/dashboard'} className="flex items-center gap-1 text-sm">
+        <LinkCustom href="/dashboard">
           <ChevronLeft size={16} strokeWidth={2.25} />
-          <span>Back to Dashboard</span>
-        </Link>
+          Back to Dashboard
+        </LinkCustom>
         {isOwner && (
           <Link
             href={`/gift-exchanges/${giftExchangeData.id}/edit`}
@@ -165,7 +166,7 @@ export const GiftExchangeHeader = ({
         )}
       </div>
 
-      <section className="flex flex-col grow-0 gap-8 sm:flex-row">
+      <section className="gift-exchange-header flex flex-col grow-0 gap-8 sm:flex-row">
         <div className="w-36 h-36 grow-0 shrink-0">
           <img
             className="w-full h-full rounded-xl ring-4 ring-white"
