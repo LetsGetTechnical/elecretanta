@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=development jest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
