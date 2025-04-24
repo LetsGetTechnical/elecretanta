@@ -79,14 +79,6 @@ describe('Dialog', () => {
         key: 'Space',
         code: 'Space',
       });
-
-      fireEvent.keyUp(trigger, {
-        key: 'Enter',
-        code: 'Enter',
-        keyCode: 13,
-        which: 13,
-        bubbles: true,
-      });
     });
 
     expect(screen.getByTestId('dialog-content')).toBeInTheDocument();
