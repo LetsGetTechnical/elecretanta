@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import {
   Dialog,
   DialogTrigger,
@@ -8,13 +8,16 @@ import {
   DialogDescription,
   DialogClose,
 } from './dialog';
-import React from 'react';
 
 describe('Dialog', () => {
   it('should render correctly with content when open', () => {
     render(
       <Dialog open={true}>
-        <DialogContent data-testid="dialog-content">Content</DialogContent>
+        <DialogContent data-testid="dialog-content">
+          <DialogTitle>Title</DialogTitle>
+          Content
+          <DialogDescription>Description</DialogDescription>
+        </DialogContent>
       </Dialog>,
     );
 
@@ -24,7 +27,11 @@ describe('Dialog', () => {
   it('should not render the content when closed', () => {
     render(
       <Dialog open={false}>
-        <DialogContent data-testid="dialog-content">Content</DialogContent>
+        <DialogContent data-testid="dialog-content">
+          <DialogTitle>Title</DialogTitle>
+          Content
+          <DialogDescription>Description</DialogDescription>
+        </DialogContent>
       </Dialog>,
     );
 
@@ -33,18 +40,56 @@ describe('Dialog', () => {
 
   it('should close the dialog if the Escape key is pressed', () => {
     render(
-      <Dialog open={true}>
-        <DialogContent data-testid="dialog-content">Content</DialogContent>
+      <Dialog defaultOpen={true}>
+        <DialogContent data-testid="dialog-content">
+          <DialogTitle>Title</DialogTitle>
+          Content
+          <DialogDescription>Description</DialogDescription>
+        </DialogContent>
       </Dialog>,
     );
+
     expect(screen.getByTestId('dialog-content')).toBeInTheDocument();
 
-    fireEvent.keyDown(window, {
+    fireEvent.keyDown(screen.getByTestId('dialog-content'), {
       key: 'Escape',
       code: 'Escape',
     });
 
     expect(screen.queryByTestId('dialog-content')).toBeNull();
+  });
+
+  it('should open the dialog with the keyboard', () => {
+    render(
+      <Dialog defaultOpen={false}>
+        <DialogTrigger data-testid="dialog-trigger">Trigger</DialogTrigger>
+        <DialogContent data-testid="dialog-content">
+          <DialogTitle>Title</DialogTitle>
+          Content
+          <DialogDescription>Description</DialogDescription>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    const trigger = screen.getByTestId('dialog-trigger');
+    trigger.focus();
+
+    act(() => {
+      fireEvent.keyDown(trigger, {
+        key: 'Space',
+        code: 'Space',
+      });
+
+      fireEvent.keyUp(trigger, {
+        key: 'Enter',
+        code: 'Enter',
+        keyCode: 13,
+        which: 13,
+        bubbles: true,
+      });
+    });
+
+    expect(screen.getByTestId('dialog-content')).toBeInTheDocument();
   });
 
   describe('DialogTrigger', () => {
@@ -62,7 +107,11 @@ describe('Dialog', () => {
       render(
         <Dialog>
           <DialogTrigger data-testid="dialog-trigger">Trigger</DialogTrigger>
-          <DialogContent data-testid="dialog-content">Content</DialogContent>
+          <DialogContent data-testid="dialog-content">
+            <DialogTitle>Title</DialogTitle>
+            Content
+            <DialogDescription>Description</DialogDescription>
+          </DialogContent>
         </Dialog>,
       );
 
@@ -108,8 +157,13 @@ describe('Dialog', () => {
 
     it('should close the dialog when the close button is clicked', () => {
       render(
-        <Dialog open={true}>
+        <Dialog>
           <DialogClose data-testid="dialog-close">Close</DialogClose>
+          <DialogContent data-testid="dialog-content">
+            <DialogTitle>Title</DialogTitle>
+            Content
+            <DialogDescription>Description</DialogDescription>
+          </DialogContent>
         </Dialog>,
       );
 
