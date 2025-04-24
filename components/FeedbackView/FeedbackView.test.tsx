@@ -1,20 +1,25 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import FeedbackView from './FeedbackView';
+import userEvent from '@testing-library/user-event';
+import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
 
 // Mock the generateAndUpdateNewGiftSuggestion function
-jest.mock('@/lib/generateAndUpdateNewGiftSuggestion', () => ({
-  generateAndUpdateNewGiftSuggestion: jest.fn().mockResolvedValue({
-    id: '1',
-    title: 'New Test Gift',
-    price: '50',
-    description: 'New Test Description',
-    matchReasons: ['new test reason'],
-    matchScore: 0.9,
-    imageUrl: 'new-test.jpg',
-  }),
-}));
+// jest.mock('@/lib/generateAndUpdateNewGiftSuggestion', () => ({
+//   generateAndUpdateNewGiftSuggestion: jest.fn().mockResolvedValue({
+//     id: '1',
+//     title: 'New Test Gift',
+//     price: '50',
+//     description: 'New Test Description',
+//     matchReasons: ['new test reason'],
+//     matchScore: 0.9,
+//     imageUrl: 'new-test.jpg',
+//   }),
+// }));
+
+jest.mock('@/lib/generateAndUpdateNewGiftSuggestion');
+
 
 describe('FeedbackView', () => {
   const mockGiftSuggestion: GiftSuggestion = {
@@ -52,60 +57,68 @@ describe('FeedbackView', () => {
     );
   };
 
-  it('should render', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders the feedback interface with all buttons', () => {
     renderFeedbackView();
     expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
   });
 
   describe('Loading State', () => {
-    it('should show loading spinner and hide buttons when isLoading is true', async () => {
-      renderFeedbackView();
+    describe('when loading starts', () => {
+      it('the loading spinner should be displayed and buttons should be hidden', async () => {
+        renderFeedbackView();
 
-      // Initially, loading spinner should not be visible
-      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+        // Initially, loading spinner should not be visible
+        expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       
-      // Buttons should be visible
-      const expensiveButton = screen.getByTestId('feedback-button-0');
-      const styleButton = screen.getByTestId('feedback-button-1');
-      const haveButton = screen.getByTestId('feedback-button-2');
+        // Buttons should be visible
+        const expensiveButton = screen.getByTestId('feedback-button-0');
+        const styleButton = screen.getByTestId('feedback-button-1');
+        const haveButton = screen.getByTestId('feedback-button-2');
 
-      expect(expensiveButton).toBeInTheDocument();
-      expect(styleButton).toBeInTheDocument();
-      expect(haveButton).toBeInTheDocument();
+        expect(expensiveButton).toBeInTheDocument();
+        expect(styleButton).toBeInTheDocument();
+        expect(haveButton).toBeInTheDocument();
 
-      // Simulate loading state by clicking a button
-      expensiveButton.click();
+        // Simulate loading state by clicking a button
+        expensiveButton.click();
 
-      // Wait for loading state to change
-      await waitFor(() => {
-        // After clicking, loading spinner should be visible
-        expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+        // Wait for loading state to change
+        await waitFor(() => {
+          // After clicking, loading spinner should be visible
+          expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
         
-        // Buttons should not be visible
-        expect(screen.queryByTestId('feedback-button-0')).not.toBeInTheDocument();
-        expect(screen.queryByTestId('feedback-button-1')).not.toBeInTheDocument();
-        expect(screen.queryByTestId('feedback-button-2')).not.toBeInTheDocument();
+          // Buttons should not be visible
+          expect(screen.queryByTestId('feedback-button-0')).not.toBeInTheDocument();
+          expect(screen.queryByTestId('feedback-button-1')).not.toBeInTheDocument();
+          expect(screen.queryByTestId('feedback-button-2')).not.toBeInTheDocument();
+        });
       });
-    });
 
-    it('should show buttons and hide loading spinner when isLoading is false', () => {
-      renderFeedbackView();
+      describe('when loading ends', () => {
+        it('should show buttons and hide loading spinner when isLoading is false', () => {
+          renderFeedbackView();
 
-      // Initially, loading spinner should not be visible
-      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+          // Initially, loading spinner should not be visible
+          expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       
-      // Buttons should be visible
-      const expensiveButton = screen.getByTestId('feedback-button-0');
-      const styleButton = screen.getByTestId('feedback-button-1');
-      const haveButton = screen.getByTestId('feedback-button-2');
+          // Buttons should be visible
+          const expensiveButton = screen.getByTestId('feedback-button-0');
+          const styleButton = screen.getByTestId('feedback-button-1');
+          const haveButton = screen.getByTestId('feedback-button-2');
 
-      expect(expensiveButton).toBeInTheDocument();
-      expect(styleButton).toBeInTheDocument();
-      expect(haveButton).toBeInTheDocument();
+          expect(expensiveButton).toBeInTheDocument();
+          expect(styleButton).toBeInTheDocument();
+          expect(haveButton).toBeInTheDocument();
 
-      // Feedback title and chevron should be visible
-      expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
-      expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
+          // Feedback title and chevron should be visible
+          expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
+          expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
+        });
+      });
     });
   });
 
@@ -167,7 +180,9 @@ describe('FeedbackView', () => {
   });
 
   describe('Button Content and Layout', () => {
-    it('should render each button with correct title and subtitle', () => {
+    it('should render each button with correct title and corresponding subtitle', () => {
+
+      // I think this test has a very low chance of failing so they may be unnecessary.
       renderFeedbackView();
 
       const buttonVariants = [
@@ -187,9 +202,9 @@ describe('FeedbackView', () => {
       renderFeedbackView();
 
       const buttons = [
-        screen.getByText('Too Expensive').closest('button'),
-        screen.getByText('Not Their Style').closest('button'),
-        screen.getByText('They Might Have This').closest('button'),
+        screen.getByTestId('feedback-button-0'),
+        screen.getByTestId('feedback-button-1'),
+        screen.getByTestId('feedback-button-2'),
       ];
 
       // Get the x-coordinates of all buttons
@@ -237,47 +252,262 @@ describe('FeedbackView', () => {
       });
     });
   });
+
+  describe('Accessibility Tests', () => {
+    it('should handle keyboard navigation correctly', async () => {
+      render(
+      <FeedbackView
+        allGiftSuggestions={[]}
+        budget={''}
+        gift={mockGiftSuggestion}
+        handleFeedback={() => {}}
+        onGiftUpdate={() => {}}
+        recipient={mockProfile}
+      />
+    );
+
+    // Focus the first feedback button
+    const buttons = screen.getAllByRole('button');
+    const firstFeedbackButton = buttons[1]; // Skip back button
+    firstFeedbackButton.focus();
+
+    // Test tab navigation
+    await userEvent.tab();
+    expect(buttons[2]).toHaveFocus();
+
+    await userEvent.tab();
+    expect(buttons[3]).toHaveFocus();
+
+    // Test enter key submission
+    await userEvent.keyboard('{Enter}');
+      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should handle handleFeedback errors gracefully', async () => {
+      const mockHandleFeedback = jest.fn().mockImplementation(() => {
+        throw new Error('Navigation error');
+      });
+
+      render(
+        <FeedbackView
+          allGiftSuggestions={[]}
+          budget={''}
+          gift={mockGiftSuggestion}
+          handleFeedback={mockHandleFeedback}
+          onGiftUpdate={() => {}}
+          recipient={mockProfile}
+        />
+      );
+
+      // Click the back chevron which triggers handleFeedback
+      const backButton = screen.getByTestId('back-chevron');
+      await userEvent.click(backButton);
+
+      // Verify the error was thrown but didn't crash the component
+      expect(mockHandleFeedback).toHaveBeenCalled();
+      // Component should still be rendered
+      expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
+    });
+
+    it('should handle onGiftUpdate errors gracefully', async () => {
+      const mockOnGiftUpdate = jest.fn().mockImplementation(() => {
+        throw new Error('Update error');
+      });
+
+      render(
+        <FeedbackView
+          allGiftSuggestions={[]}
+          budget={''}
+          gift={mockGiftSuggestion}
+          handleFeedback={() => {}}
+          onGiftUpdate={mockOnGiftUpdate}
+          recipient={mockProfile}
+        />
+      );
+
+      // Click a feedback button
+      const feedbackButton = screen.getByTestId('feedback-button-0');
+      await userEvent.click(feedbackButton);
+
+      // Wait for loading to complete
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+      });
+
+      // Verify the error was thrown but didn't crash the component
+      expect(mockOnGiftUpdate).toHaveBeenCalled();
+      // Component should still be rendered and interactive
+      expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
+      expect(feedbackButton).toBeInTheDocument();
+    });
+
+    it('should not call onGiftUpdate when gift suggestion generation fails', async () => {
+      // Mock the API to throw an error
+      jest.spyOn(require('@/lib/generateAndUpdateNewGiftSuggestion'), 'generateAndUpdateNewGiftSuggestion')
+        .mockRejectedValueOnce(new Error('API error'));
+
+      const mockOnGiftUpdate = jest.fn();
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(
+        <FeedbackView
+          allGiftSuggestions={[]}
+          budget={''}
+          gift={mockGiftSuggestion}
+          handleFeedback={() => {}}
+          onGiftUpdate={mockOnGiftUpdate}
+          recipient={mockProfile}
+        />
+      );
+
+      // Click a feedback button
+      const feedbackButton = screen.getByTestId('feedback-button-0');
+      await userEvent.click(feedbackButton);
+
+      // Wait for loading to complete
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+      });
+
+      // Verify the error was handled properly
+      expect(mockOnGiftUpdate).not.toHaveBeenCalled(); // Should not update gift on API failure
+      expect(consoleSpy).toHaveBeenCalledWith('Failed to update gift suggestion');
+      
+      // Component should still be rendered and interactive
+      expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
+      expect(feedbackButton).toBeInTheDocument();
+
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe('Error Handling', () => {
+    const mockGift: GiftSuggestion = {
+      id: '1',
+      title: 'Test Gift',
+      price: '100',
+      description: 'Test Description',
+      matchReasons: ['test reason'],
+      matchScore: 0.8,
+      imageUrl: 'test.jpg'
+    };
+    const mockProps = {
+      allGiftSuggestions: [],
+      budget: '100',
+      gift: mockGift,
+      handleFeedback: jest.fn(),
+      onGiftUpdate: jest.fn(),
+      recipient: null,
+    };
+
+    test('Successful Gift Update', async () => {
+      // Arrange
+      (generateAndUpdateNewGiftSuggestion as jest.Mock).mockResolvedValue(mockGift);
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      // Act
+      render(<FeedbackView {...mockProps} />);
+      const button = screen.getByTestId('feedback-button-0');
+      fireEvent.click(button);
+
+      // Assert
+      await expect(generateAndUpdateNewGiftSuggestion).toHaveBeenCalledWith(
+        mockProps.allGiftSuggestions,
+        mockProps.budget,
+        'Too Expensive: Show lower price range',
+        mockProps.gift,
+        mockProps.recipient
+      );
+      expect(mockProps.onGiftUpdate).toHaveBeenCalledWith(mockGift);
+      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    });
+
+    test('Failed Gift Update (Null Response)', async () => {
+      // Arrange
+      (generateAndUpdateNewGiftSuggestion as jest.Mock).mockResolvedValue(null);
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      // Act
+      render(<FeedbackView {...mockProps} />);
+      const button = screen.getByTestId('feedback-button-0');
+      fireEvent.click(button);
+
+      // Assert
+      await expect(generateAndUpdateNewGiftSuggestion).toHaveBeenCalled();
+      expect(mockProps.onGiftUpdate).not.toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalledWith('Failed to update gift suggestion');
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    });
+
+    test('Error During Gift Update', async () => {
+      // Arrange
+      const mockError = new Error('Test error');
+      (generateAndUpdateNewGiftSuggestion as jest.Mock).mockRejectedValue(mockError);
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      // Act
+      render(<FeedbackView {...mockProps} />);
+      const button = screen.getByTestId('feedback-button-0');
+      
+      // Assert
+      await expect(async () => {
+        fireEvent.click(button);
+      }).rejects.toThrow('Test error');
+      
+      expect(generateAndUpdateNewGiftSuggestion).toHaveBeenCalled();
+      expect(mockProps.onGiftUpdate).not.toHaveBeenCalled();
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    });
+  });
 });
 
+// Loading State Tests:
+// - Test loading state visibility (spinner vs buttons)
+// - Test loading state transitions
+// - Test mutual exclusivity of spinner and buttons
 
-  // Loading State Tests:
-  // - Test loading state visibility (spinner vs buttons)
-  // - Test loading state transitions
-  // - Test mutual exclusivity of spinner and buttons
+// Button Click Behavior Tests:
+// - Test handleFeedbackSubmit function calls
+// - Test correct argument passing
+// - Test loading state changes during button clicks
 
-  // Button Click Behavior Tests:
-  // - Test handleFeedbackSubmit function calls
-  // - Test correct argument passing
-  // - Test loading state changes during button clicks
+// Button Content Tests:
+// - Test presence of title and subtitle
+// - Test correct buttonVariants array mapping
+// - Test completeness of button set
 
-  // Button Content Tests:
-  // - Test presence of title and subtitle
-  // - Test correct buttonVariants array mapping
-  // - Test completeness of button set
+// Layout Tests:
+// - Test vertical alignment of flexCol items
+// - Test vertical alignment of buttons
 
-  // Layout Tests:
-  // - Test vertical alignment of flexCol items
-  // - Test vertical alignment of buttons
+// Gift Update Tests:
+// - Test onGiftUpdate function calls
+// - Test updatedGift initialization and changes
 
-  // Gift Update Tests:
-  // - Test onGiftUpdate function calls
-  // - Test updatedGift initialization and changes
-
-
-
+// Accessibility Tests:
+// - Test button accessibility attributes
+// - Test keyboard navigation
 
 // My original list of tests:
 
-  // if isLoading is true, no buttons should be rendered and loading spinner should be rendered
-  // if isLoading is false, 3 buttons should be rendered and "Give Us Feedback" and the Chevron should be rendered 
-  // when a button is clicked, the handleFeedbackSubmit function should be called with the correct argument
-  // when a button is clicked, isLoading should switch to true (it may take a second though) and then back to false after it loads.
-  // each button should have a title and a subtitle 
-  // each title and corresponding subtitle should be from the same index in the buttonVariants array
-  // there should exist a button with each title and subtitle. 
-  // the loading spinner and buttons should never be rendered at the same time
-  // the items in a flexCol container should have matching starting x values (be vertically aligned)
-  // the 3 buttons should have matching starting x values (be vertically aligned)
-  // if the user clicks one of the buttons, onGiftUpdate should be called
-  // if the user clicks one of the buttons, updatedGift should be initialized and not equal to gift.
+// if isLoading is true, no buttons should be rendered and loading spinner should be rendered
+// if isLoading is false, 3 buttons should be rendered and "Give Us Feedback" and the Chevron should be rendered
+// when a button is clicked, the handleFeedbackSubmit function should be called with the correct argument
+// when a button is clicked, isLoading should switch to true (it may take a second though) and then back to false after it loads.
+// each button should have a title and a subtitle
+// each title and corresponding subtitle should be from the same index in the buttonVariants array
+// there should exist a button with each title and subtitle.
+// the loading spinner and buttons should never be rendered at the same time
+// the items in a flexCol container should have matching starting x values (be vertically aligned)
+// the 3 buttons should have matching starting x values (be vertically aligned)
+// if the user clicks one of the buttons, onGiftUpdate should be called
+// if the user clicks one of the buttons, updatedGift should be initialized and not equal to gift.
 
+// Missing test cases:
+// - Error state handling
+// - Empty states
+// - Different budget scenarios
+// - Edge cases (e.g., 0 price, missing image)
