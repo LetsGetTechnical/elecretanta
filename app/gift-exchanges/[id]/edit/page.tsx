@@ -39,6 +39,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { GiftExchange } from '@/app/types/giftExchange';
+import LinkCustom from '@/components/LinkCustom/LinkCustom';
 
 const priceRanges = [
   { label: '$10 - $20', value: '10-20' },
@@ -174,15 +175,12 @@ export default function CreateGroupPage() {
 
   const giftDrawingDate = form.watch('drawing_date');
   return (
-    <div className=" flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
+    <div className="edit-group-page flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       <div className="flex flex-row">
-        <Link
-          href={'/dashboard'}
-          className="flex items-center gap-1 text-sm text-primary-foreground m-5"
-        >
+        <LinkCustom href="/dashboard">
           <ChevronLeft size={16} strokeWidth={2.25} />
           <span>Back to Dashboard</span>
-        </Link>
+        </LinkCustom>
       </div>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white w-full xl:w-1/2 mb-5 flex justify-center align-center rounded flex-col ">
