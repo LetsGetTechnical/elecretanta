@@ -15,8 +15,8 @@ describe('AvatarFallback Component', () => {
       </AvatarPrimitiveRoot>,
     );
 
-    const avatarFallbackElement = screen.queryByTestId('avatar-fallback');
-    const imgElement = screen.queryByRole('img');
+    const avatarFallbackElement = screen.getByTestId('avatar-fallback');
+    const imgElement = screen.getByRole('img');
 
     expect(avatarFallbackElement).toBeInTheDocument();
     expect(imgElement).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe('AvatarFallback Component', () => {
       </AvatarPrimitiveRoot>,
     );
 
-    const avatarFallbackElement = screen.queryByTestId('avatar-fallback');
+    const avatarFallbackElement = screen.getByTestId('avatar-fallback');
 
     expect(avatarFallbackElement).toHaveClass('custom-class');
   });
@@ -43,7 +43,7 @@ describe('AvatarFallback Component', () => {
       </AvatarPrimitiveRoot>,
     );
 
-    const avatarFallbackElement = screen.queryByTestId('avatar-fallback');
+    const avatarFallbackElement = screen.getByTestId('avatar-fallback');
 
     expect(avatarFallbackElement).toBeEmptyDOMElement();
   });
