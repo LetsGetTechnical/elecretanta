@@ -1,4 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
+window.HTMLElement.prototype.scrollIntoView = jest.fn();
+
+import { render, screen, fireEvent, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   Select,
   SelectGroup,
@@ -64,50 +70,82 @@ describe('Select - prop forwarding & child rendering', () => {
   it('forwards custom props to trigger and item', () => {
     render(
       <Select defaultValue="cookie">
-        <SelectTrigger
-          data-testid="custom-trigger"
-          aria-label="Dessert picker"
-          className="my-trigger"
-        >
+        <SelectTrigger aria-label="Dessert picker" className="my-trigger">
           <SelectValue placeholder="Pick your favorite dessert..." />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem
-            data-testid="custom-item"
-            value="cookie"
-            aria-label="Cookie"
-            className="my-item"
-          >
+          <SelectItem value="cookie" aria-label="Cookie" className="my-item">
             Cookie
           </SelectItem>
         </SelectContent>
       </Select>,
     );
 
-    const trigger = screen.getByTestId('custom-trigger');
+    const trigger = screen.getByTestId('select-trigger');
     expect(trigger).toHaveAttribute('aria-label', 'Dessert picker');
     expect(trigger).toHaveClass('my-trigger');
 
     fireEvent.click(trigger);
-    const item = screen.getByTestId('custom-item');
+    const item = screen.getByRole('option', { name: 'Cookie' });
     expect(item).toHaveAttribute('aria-label', 'Cookie');
     expect(item).toHaveClass('my-item');
   });
   it('renders arbitrary children inside trigger and items', () => {
     render(
       <Select defaultValue="cookie">
-        <SelectTrigger data-testid="child-trigger">
-          <span data-testid="trigger-span">Choose a dessert:</span>
+        <SelectTrigger>
+          <span>Choose a dessert:</span>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="cookie">
-            <span data-testid="item-span">Yummy</span> Cookie
+            <span>Yummy</span> Cookie
           </SelectItem>
         </SelectContent>
       </Select>,
     );
-    expect(screen.getByTestId("trigger-span")).toBeInTheDocument();
-    fireEvent.click(screen.getByTestId("child-trigger"))
-    expect(screen.getByTestId("item-span")).toBeInTheDocument();
+    const selectTrigger = screen.getByTestId('select-trigger');
+    const triggerSpan = within(selectTrigger).getByText('Choose a dessert:');
+    expect(triggerSpan).toBeInTheDocument();
+
+    fireEvent.click(selectTrigger);
+    const selectItem = screen.getByRole('option', { name: 'Yummy Cookie' });
+    const itemSpan = within(selectItem).getByText('Yummy');
+    expect(itemSpan).toBeInTheDocument();
+  });
+});
+
+describe('Select - keyboard accessibility', () => {
+  let user: ReturnType<typeof userEvent.setup>;
+  let trigger: HTMLElement;
+
+  beforeEach(() => {
+    user = userEvent.setup();
+    render(
+      <Select defaultValue="apple">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick a fruit..." />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Fruits</SelectLabel>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>,
+    );
+    trigger = screen.getByTestId('select-trigger');
+    trigger.focus();
+  });
+
+  it('opens the dropdown menu with the Enter key', async () => {
+    await user.keyboard('{Enter}');
+    expect(screen.getByTestId('select-content')).toBeVisible();
+  });
+
+  it('navigates with ArrowDown, selects Banana with Enter, and closes the dropdown', async () => {
+    await user.keyboard('{Enter}{ArrowDown}{ArrowDown}{Enter}');
+    expect(screen.queryByTestId('select-content')).toBeNull();
+    expect(trigger).toHaveTextContent('Banana');
   });
 });
