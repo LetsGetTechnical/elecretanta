@@ -10,13 +10,17 @@ describe('AvatarFallback Component', () => {
     render(
       <AvatarPrimitiveRoot>
         <AvatarFallback>
-          <img src="fallback-image.jpg" alt="default avatar" />
+          <img
+            src="fallback-image.jpg"
+            alt="default avatar"
+            data-testid="fallback-image"
+          />
         </AvatarFallback>
       </AvatarPrimitiveRoot>,
     );
 
     const avatarFallbackElement = screen.getByTestId('avatar-fallback');
-    const imgElement = screen.getByRole('img');
+    const imgElement = screen.getByTestId('fallback-image');
 
     expect(avatarFallbackElement).toBeInTheDocument();
     expect(imgElement).toBeInTheDocument();
