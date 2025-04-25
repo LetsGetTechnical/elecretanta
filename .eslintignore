@@ -38,7 +38,6 @@ components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/Command/command.tsx
 components/Form/form.tsx
-components/FeedbackView/FeedbackView.tsx
 components/CompletedExchangeCard/CompletedExchangeCard.tsx
 components/Form/form.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
