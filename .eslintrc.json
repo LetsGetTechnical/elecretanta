@@ -1,45 +1,24 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "jsdoc",
-    "header"
-  ],
+  "plugins": ["@typescript-eslint", "jsdoc", "header"],
   "extends": [
     "plugin:jsx-a11y/recommended",
     "next/core-web-vitals",
     "prettier",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:jsdoc/recommended",
-    "plugin:storybook/recommended"
+    "plugin:jsdoc/recommended"
   ],
   "rules": {
-    "no-console": [
-      "error",
-      {
-        "allow": [
-          "error"
-        ]
-      }
-    ],
+    "no-console": ["error", { "allow": ["error"] }],
     "no-undef": "error",
     "no-undefined": "error",
     "curly": "error",
-    "eqeqeq": [
-      "error",
-      "allow-null"
-    ],
+    "eqeqeq": ["error", "allow-null"],
     "new-cap": "error",
     "no-caller": "error",
     "no-cond-assign": "error",
-    "no-multiple-empty-lines": [
-      2,
-      {
-        "max": 2,
-        "maxEOF": 1
-      }
-    ],
+    "no-multiple-empty-lines": [2, { "max": 2, "maxEOF": 1 }],
     "prefer-spread": "error",
     "react/button-has-type": "error",
     "react/no-unused-prop-types": 2,
@@ -55,27 +34,11 @@
     ],
     "react/sort-prop-types": 2,
     "wrap-iife": "error",
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "max-len": [
-      "off"
-    ],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "max-len": ["off"],
     "no-param-reassign": "error",
-    "no-plusplus": [
-      "error",
-      {
-        "allowForLoopAfterthoughts": true
-      }
-    ],
-    "object-curly-spacing": [
-      "error",
-      "always"
-    ],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "object-curly-spacing": ["error", "always"],
     "react/destructuring-assignment": 2,
     "react/no-array-index-key": "error",
     "react/no-danger": "error",
@@ -89,22 +52,10 @@
     ],
     "react/jsx-filename-extension": [
       1,
-      {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".tsx"
-        ]
-      }
+      { "extensions": [".js", ".jsx", ".tsx"] }
     ],
-    "react/jsx-indent": [
-      "error",
-      2
-    ],
-    "react/jsx-indent-props": [
-      "error",
-      2
-    ],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-indent-props": ["error", 2],
     "react/jsx-no-constructed-context-values": "error",
     "react/default-props-match-prop-types": 2,
     "react/sort-comp": [
@@ -120,8 +71,7 @@
       }
     ],
     "no-extra-semi": "off",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
+    "no-unused-vars": ["error", { "args": "all" }],
     "no-unused-expressions": "off",
     "semi": "off",
     "import/extensions": 0,
@@ -142,10 +92,7 @@
     "header/header": [
       2,
       "line",
-      [
-        " Copyright (c) Gridiron Survivor.",
-        " Licensed under the MIT License."
-      ],
+      [" Copyright (c) Gridiron Survivor.", " Licensed under the MIT License."],
       2
     ],
     "jsdoc/require-param-name": [
@@ -184,25 +131,19 @@
   },
   "overrides": [
     {
-      "files": [
-        "**/*.enum.*"
-      ],
+      "files": ["**/*.enum.*"],
       "rules": {
         "no-unused-vars": "off"
       }
     },
     {
-      "files": [
-        "playwright.config.ts"
-      ],
+      "files": ["playwright.config.ts"],
       "rules": {
         "no-undefined": "off"
       }
     },
     {
-      "files": [
-        "functions/userAuth.js"
-      ],
+      "files": ["functions/userAuth.js"],
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-var-requires": "off"
