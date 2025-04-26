@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { render, screen } from '@testing-library/react';
 import { CardHeader, CardTitle } from './card'; 
 import React from 'react';
@@ -11,21 +14,21 @@ describe('renders heading with default styling', () => {
         // Did CardHeader render?
         expect(cardHeader).toBeInTheDocument();
         // Is default styling present?
-        expect(cardHeader).toHaveClass('flex', 'flex-col', 'space-y-1.5 p-6')
+        expect(cardHeader).toHaveClass('flex', 'flex-col', 'space-y-1.5 p-6');
     })
 
     it('renders child component (e.g. CardTitle)', () => {
         render(
-            <CardHeader data-testid="header">
-                <CardTitle data-testid="title"></CardTitle>
+            <CardHeader data-testid="card-header">
+                <CardTitle data-testid="card-title"></CardTitle>
             </CardHeader>
         );
 
         // Are both components rendered? 
-        const header = screen.getByTestId('header');
-        const title = screen.getByTestId('title');
-        expect(title).toBeInTheDocument();
-        expect(header).toContainElement(title);
+        const cardHeader = screen.getByTestId('card-header');
+        const cardTitle = screen.getByTestId('card-title');
+        expect(cardTitle).toBeInTheDocument();
+        expect(cardHeader).toContainElement(cardTitle);
     } )
 })
 
