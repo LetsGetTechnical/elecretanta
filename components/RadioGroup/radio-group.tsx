@@ -15,6 +15,7 @@ const RadioGroup = forwardRef<
       className={cn('grid gap-2', className)}
       {...props}
       ref={ref}
+      data-testid="radio-group"
     />
   );
 });
