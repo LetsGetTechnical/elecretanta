@@ -8,9 +8,9 @@ describe ('Card is rendered with basic styling', () => {
                 
         const card = screen.getByTestId('card');
                 
-        // is Card rendered? 
+        // Is Card rendered? 
         expect(card).toBeInTheDocument();
-        // is default styling present? 
+        // Is default styling present? 
         expect(card).toHaveClass('rounded-xl', 'border', 'bg-card', 'text-card-foreground', 'shadow');
         });
 
@@ -21,12 +21,12 @@ describe ('Card is rendered with basic styling', () => {
             </Card>
         );
 
-        // are Card and CardHeader components rendered? 
+        // Are Card and CardHeader components rendered? 
         const card = screen.getByTestId('card');
         const header = screen.getByTestId('header');
         expect(header).toBeInTheDocument();
 
-        // is header present inside card?
+        // Is header present inside card?
         expect(card).toContainElement(header);
     })
 })
@@ -39,7 +39,7 @@ describe('Card - prop forwarding', () => {
 
         const card = screen.getByTestId('card');
 
-        // was custom class forwarded?
+        // Was custom class forwarded?
         expect(card).toHaveClass('customClass')
     })
 })
