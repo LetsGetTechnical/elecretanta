@@ -40,3 +40,53 @@ describe('Radio Group Component', () => {
   });
 });
 
+describe('Radio Group Item Component', () => {
+  it('renders radio group item correctly with default classes and passed children and value', () => {
+    render(
+      <RadioGroupPrimitiveRoot>
+        <RadioGroupItem value="test value">
+          <div>Test child</div>
+        </RadioGroupItem>
+      </RadioGroupPrimitiveRoot>,
+    );
+
+    const radioGroupItemElement = screen.getByTestId('radio-group-item');
+
+    expect(radioGroupItemElement).toBeInTheDocument();
+    expect(radioGroupItemElement).toHaveAttribute('value', 'test value');
+    expect(radioGroupItemElement).toHaveClass(
+      'aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+    );
+  });
+
+  it('renders radio group item correctly with additional custom classes', () => {
+    render(
+      <RadioGroupPrimitiveRoot>
+        <RadioGroupItem
+          value="test value"
+          className="custom-class-1 custom-class-2"
+        />
+      </RadioGroupPrimitiveRoot>,
+    );
+
+    const radioGroupItemElement = screen.getByTestId('radio-group-item');
+
+    expect(radioGroupItemElement).toBeInTheDocument();
+    expect(radioGroupItemElement).toHaveClass(
+      'aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+    );
+    expect(radioGroupItemElement).toHaveClass('custom-class-1 custom-class-2');
+  });
+
+  it('renders an empty radio group item', () => {
+    render(
+      <RadioGroupPrimitiveRoot>
+        <RadioGroupItem value="test value" />
+      </RadioGroupPrimitiveRoot>,
+    );
+
+    const radioGroupItemElement = screen.getByTestId('radio-group-item');
+
+    expect(radioGroupItemElement).toBeEmptyDOMElement();
+  });
+});
