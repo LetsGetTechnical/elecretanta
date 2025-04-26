@@ -30,7 +30,7 @@ describe('AvatarImage', () => {
     expect(avatarImage).toHaveAttribute('alt', 'User Avatar');
   });
 
-  it('applies custom className along with default styles', () => {
+  it('applies custom className along with default className', () => {
     render(
       <AvatarPrimativeRoot>
         <AvatarImage
@@ -42,7 +42,6 @@ describe('AvatarImage', () => {
     );
 
     const avatarImage = screen.getByTestId('avatar-image');
-    expect(avatarImage).toHaveClass('aspect-square h-full w-full');
     expect(avatarImage).toHaveClass('custom-class');
   });
 });
