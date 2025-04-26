@@ -9,6 +9,12 @@ import { Circle } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * The RadioGroup component.
+ * @param {object} props - The props passed.
+ * @param {string} props.className - Styles for the component.
+ * @returns {JSX.Element} - The RadioGroup component.
+ */
 const RadioGroup = forwardRef<
   ElementRef<typeof RadioGroupPrimitive.Root>,
   ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
