@@ -29,6 +29,12 @@ const RadioGroup = forwardRef<
 });
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
+/**
+ * The RadioGroupItem component.
+ * @param {object} props - The props passed.
+ * @param {string} props.className - Styles for the component.
+ * @returns {JSX.Element} - The RadioGroupItem component.
+ */
 const RadioGroupItem = forwardRef<
   ElementRef<typeof RadioGroupPrimitive.Item>,
   ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
