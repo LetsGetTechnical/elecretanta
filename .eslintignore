@@ -55,7 +55,6 @@ components/LoadingSpinner/LoadingSpinner.tsx
 components/LoginButton/LoginButton.tsx
 components/MembersList/MembersList.tsx
 components/MultiSelect/multi-select-input.tsx
-components/NavLogo/NavLogo.tsx
 components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
 components/Progress/progress.tsx

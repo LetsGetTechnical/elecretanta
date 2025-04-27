@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { Gift } from 'lucide-react';
 import Link from 'next/link';
 
