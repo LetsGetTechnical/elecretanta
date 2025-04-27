@@ -7,7 +7,7 @@ import { JSX } from 'react';
 
 /**
  * Renders the logo in the navigation bar, which redirects to the dashboard when clicked.
- * @returns { JSX.Element } The rendered navigation logo. 
+ * @returns { JSX.Element } The rendered logo within the navigation bar. 
  */
 const NavLogo = (): JSX.Element => {
   return (
