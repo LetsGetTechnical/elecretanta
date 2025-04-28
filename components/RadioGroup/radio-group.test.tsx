@@ -172,22 +172,65 @@ describe('Radio Group Item functionality', () => {
     expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
   });
 
-    fireEvent.click(third_radioGroupItemElement);
-    fireEvent.click(second_radioGroupItemElement);
-    fireEvent.click(first_radioGroupItemElement);
-    fireEvent.click(second_radioGroupItemElement);
+  it('tests for selecting the first radio group item with keyboard interaction', async () => {
+    render(
+      <RadioGroupPrimitiveRoot defaultValue="1">
+        <RadioGroupItem value="1" aria-label="first" />
+        <RadioGroupItem value="2" aria-label="second" />
+        <RadioGroupItem value="3" aria-label="third" />
+      </RadioGroupPrimitiveRoot>,
+    );
 
-    expect(first_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'unchecked',
+    const radioGroupItemElement = screen.getAllByRole('radio');
+
+    await userEvent.tab();
+
+    screen.debug();
+
+    expect(radioGroupItemElement[0]).toHaveAttribute('data-state', 'checked');
+    expect(radioGroupItemElement[1]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
+  });
+
+  it('tests for selecting the third radio group item with keyboard interaction', async () => {
+    render(
+      <RadioGroupPrimitiveRoot defaultValue="1">
+        <RadioGroupItem value="1" aria-label="first" />
+        <RadioGroupItem value="2" aria-label="second" />
+        <RadioGroupItem value="3" aria-label="third" />
+      </RadioGroupPrimitiveRoot>,
     );
-    expect(second_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'checked',
+
+    const radioGroupItemElement = screen.getAllByRole('radio');
+
+    await userEvent.tab();
+    await userEvent.keyboard('{ArrowDown}');
+    await userEvent.keyboard('{ArrowDown}');
+    await userEvent.keyboard('{ }'); // Selects item
+
+    expect(radioGroupItemElement[0]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[1]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'checked');
+  });
+
+  it('tests for selecting the correct radio group item after multiple keyboard interaction', async () => {
+    render(
+      <RadioGroupPrimitiveRoot defaultValue="1">
+        <RadioGroupItem value="1" aria-label="first" />
+        <RadioGroupItem value="2" aria-label="second" />
+        <RadioGroupItem value="3" aria-label="third" />
+      </RadioGroupPrimitiveRoot>,
     );
-    expect(third_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'unchecked',
-    );
+
+    const radioGroupItemElement = screen.getAllByRole('radio');
+
+    await userEvent.tab();
+    await userEvent.keyboard('{ArrowDown>5}');
+    await userEvent.keyboard('{ArrowUp>4}');
+    await userEvent.keyboard('{ }'); // Selects item
+
+    expect(radioGroupItemElement[0]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[1]).toHaveAttribute('data-state', 'checked');
+    expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
   });
 });
