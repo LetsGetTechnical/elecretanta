@@ -247,7 +247,7 @@ function Onboarding() {
         if (editing) {
           router.push('/profile');
         } else {
-          router.push('/dashboard');
+          window.location.href = '/dashboard';
         }
       } catch (error) {
         console.error('Error updating profile: ', error);
