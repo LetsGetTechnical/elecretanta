@@ -44,13 +44,13 @@ describe('Radio Group Item Component', () => {
   it('renders radio group item correctly with default classes and passed children and value', () => {
     render(
       <RadioGroupPrimitiveRoot>
-        <RadioGroupItem value="test value">
-          <div>Test child</div>
-        </RadioGroupItem>
+        <RadioGroupItem value="test value" aria-label="test" />
       </RadioGroupPrimitiveRoot>,
     );
 
-    const radioGroupItemElement = screen.getByTestId('radio-group-item');
+    const radioGroupItemElement = screen.getByRole('radio', {
+      name: 'test',
+    });
 
     expect(radioGroupItemElement).toBeInTheDocument();
     expect(radioGroupItemElement).toHaveAttribute('value', 'test value');
@@ -64,12 +64,15 @@ describe('Radio Group Item Component', () => {
       <RadioGroupPrimitiveRoot>
         <RadioGroupItem
           value="test value"
+          aria-label="test"
           className="custom-class-1 custom-class-2"
         />
       </RadioGroupPrimitiveRoot>,
     );
 
-    const radioGroupItemElement = screen.getByTestId('radio-group-item');
+    const radioGroupItemElement = screen.getByRole('radio', {
+      name: 'test',
+    });
 
     expect(radioGroupItemElement).toBeInTheDocument();
     expect(radioGroupItemElement).toHaveClass(
@@ -81,11 +84,13 @@ describe('Radio Group Item Component', () => {
   it('renders an empty radio group item', () => {
     render(
       <RadioGroupPrimitiveRoot>
-        <RadioGroupItem value="test value" />
+        <RadioGroupItem value="test value" aria-label="test" />
       </RadioGroupPrimitiveRoot>,
     );
 
-    const radioGroupItemElement = screen.getByTestId('radio-group-item');
+    const radioGroupItemElement = screen.getByRole('radio', {
+      name: 'test',
+    });
 
     expect(radioGroupItemElement).toBeEmptyDOMElement();
   });
