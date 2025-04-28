@@ -1,13 +1,13 @@
 {
   "name": "elecretanta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=4000 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=development jest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
