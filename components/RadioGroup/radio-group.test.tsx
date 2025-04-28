@@ -142,30 +142,13 @@ describe('Radio Group Item functionality', () => {
       </RadioGroupPrimitiveRoot>,
     );
 
-    const first_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'first',
-    });
-    const second_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'second',
-    });
-    const third_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'third',
-    });
+    const radioGroupItemElement = screen.getAllByRole('radio');
 
-    fireEvent.click(third_radioGroupItemElement);
+    fireEvent.click(radioGroupItemElement[2]);
 
-    expect(first_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'unchecked',
-    );
-    expect(second_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'unchecked',
-    );
-    expect(third_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'checked',
-    );
+    expect(radioGroupItemElement[0]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[1]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'checked');
   });
 
   it('tests for multiple radio groups item being clicked and only last clicked gets selected', () => {
@@ -177,15 +160,17 @@ describe('Radio Group Item functionality', () => {
       </RadioGroupPrimitiveRoot>,
     );
 
-    const first_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'first',
-    });
-    const second_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'second',
-    });
-    const third_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'third',
-    });
+    const radioGroupItemElement = screen.getAllByRole('radio');
+
+    fireEvent.click(radioGroupItemElement[2]);
+    fireEvent.click(radioGroupItemElement[1]);
+    fireEvent.click(radioGroupItemElement[0]);
+    fireEvent.click(radioGroupItemElement[1]);
+
+    expect(radioGroupItemElement[0]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[1]).toHaveAttribute('data-state', 'checked');
+    expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
+  });
 
     fireEvent.click(third_radioGroupItemElement);
     fireEvent.click(second_radioGroupItemElement);
