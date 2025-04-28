@@ -98,7 +98,7 @@ describe('Radio Group Item Component', () => {
 });
 
 describe('Radio Group Item functionality', () => {
-  it('tests for first radio group items getting selected', () => {
+  it('tests for first radio group items getting clicked', () => {
     render(
       <RadioGroupPrimitiveRoot>
         <RadioGroupItem value="1" aria-label="first" />
@@ -133,7 +133,7 @@ describe('Radio Group Item functionality', () => {
     );
   });
 
-  it('tests for third radio group items getting selected', () => {
+  it('tests for third radio group items getting clicked', () => {
     render(
       <RadioGroupPrimitiveRoot>
         <RadioGroupItem value="1" aria-label="first" />
