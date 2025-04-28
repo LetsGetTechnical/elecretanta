@@ -4,6 +4,7 @@
 import { Root as RadioGroupPrimitiveRoot } from '@radix-ui/react-radio-group';
 import { RadioGroup, RadioGroupItem } from './radio-group';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 describe('Radio Group Component', () => {
   it('renders radio group correctly with passed children and default classes', () => {
