@@ -8,7 +8,7 @@ import {
   DialogDescription,
   DialogClose,
 } from './dialog';
-
+import userEvent from '@testing-library/user-event';
 describe('Dialog', () => {
   it('should render correctly with content when open', () => {
     render(
@@ -59,7 +59,30 @@ describe('Dialog', () => {
     expect(screen.queryByTestId('dialog-content')).toBeNull();
   });
 
-  it('should open the dialog with the keyboard', () => {
+  it('should close the dialog when clicking outside', async () => {
+    const user = userEvent.setup();
+    render(
+      <Dialog defaultOpen={true}>
+        <DialogTrigger data-testid="dialog-trigger">Trigger</DialogTrigger>
+        <DialogContent data-testid="dialog-content">
+          <DialogTitle>Title</DialogTitle>
+          Content
+          <DialogDescription>Description</DialogDescription>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    expect(screen.getByTestId('dialog-content')).toBeInTheDocument();
+
+    expect(screen.getByTestId('dialog-overlay')).toBeInTheDocument();
+
+    await user.click(screen.getByTestId('dialog-overlay'));
+
+    expect(screen.queryByTestId('dialog-content')).toBeNull();
+  });
+
+  it('should open the dialog with Enter key', async () => {
+    const user = userEvent.setup();
     render(
       <Dialog defaultOpen={false}>
         <DialogTrigger data-testid="dialog-trigger">Trigger</DialogTrigger>
@@ -73,13 +96,8 @@ describe('Dialog', () => {
 
     const trigger = screen.getByTestId('dialog-trigger');
     trigger.focus();
-
-    act(() => {
-      fireEvent.keyDown(trigger, {
-        key: 'Space',
-        code: 'Space',
-      });
-    });
+    expect(trigger).toHaveFocus();
+    await user.keyboard('{Enter}');
 
     expect(screen.getByTestId('dialog-content')).toBeInTheDocument();
   });

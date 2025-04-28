@@ -3,7 +3,13 @@
 
 'use client';
 
-import { HTMLAttributes, forwardRef, ElementRef, ComponentPropsWithoutRef, JSX } from 'react';
+import {
+  HTMLAttributes,
+  forwardRef,
+  ElementRef,
+  ComponentPropsWithoutRef,
+  JSX,
+} from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 
@@ -27,6 +33,7 @@ const DialogOverlay = forwardRef<
       'fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className,
     )}
+    data-testid="dialog-overlay"
     {...props}
   />
 ));
