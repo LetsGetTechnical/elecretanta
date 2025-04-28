@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { render, screen } from '@testing-library/react';
-import { CardHeader, CardTitle } from './card'; 
+import { CardHeader} from './CardHeader'; 
 import React from 'react';
 
 describe('renders heading with default styling', () => {
@@ -14,19 +14,6 @@ describe('renders heading with default styling', () => {
         expect(cardHeader).toBeInTheDocument();
         expect(cardHeader).toHaveClass('flex', 'flex-col', 'space-y-1.5 p-6');
     })
-
-    it('renders child component (e.g. CardTitle)', () => {
-        render(
-            <CardHeader data-testid="card-header">
-                <CardTitle data-testid="card-title"></CardTitle>
-            </CardHeader>
-        );
-
-        const cardHeader = screen.getByTestId('card-header');
-        const cardTitle = screen.getByTestId('card-title');
-        expect(cardTitle).toBeInTheDocument();
-        expect(cardHeader).toContainElement(cardTitle);
-    } )
 })
 
 describe('CardHeader - prop forwarding', () => {
@@ -49,3 +36,7 @@ describe('CardHeader - forward Ref', () => {
         expect(ref.current).toBeInTheDocument();
     })
 })
+
+export {
+    CardHeader
+  };

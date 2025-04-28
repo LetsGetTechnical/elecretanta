@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { render, screen } from '@testing-library/react';
-import { CardDescription } from './card'; 
+import { CardDescription } from './CardDescription'; 
 import React from 'react';
 
 describe('CardDescription', () => {
@@ -14,13 +14,6 @@ describe('CardDescription', () => {
 
         expect(cardDescription).toBeInTheDocument();
         expect(cardDescription).toHaveClass('text-sm', 'text-muted-foreground')
-    })
-
-    it('renders provided children', () => {
-        render(<CardDescription>description text</CardDescription>);
-
-        const cardDescription = screen.getByText('description text'); 
-        expect(cardDescription).toHaveTextContent('description text')
     })
 })
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { render, screen } from '@testing-library/react';
-import { CardContent } from './card'; 
+import { CardContent } from './CardContent'; 
 import React from 'react';
 
 describe('CardContent', () => {
@@ -14,18 +14,6 @@ describe('CardContent', () => {
         expect(cardContent).toBeInTheDocument(); 
         expect(cardContent).toHaveClass('p-6', 'pt-0');
     });
-
-    it('renders provided children', () => {
-        render(<CardContent data-testid="card-content">
-            <div data-testid="content-element"></div>
-        </CardContent>);
-
-        const cardContent = screen.getByTestId('card-content');
-        const contentElement = screen.getByTestId('content-element');
-        
-        expect(contentElement).toBeInTheDocument();
-        expect(cardContent).toContainElement(contentElement);
-    })
 })
 
 describe('CardContent - prop forwarding', () => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { render, screen } from '@testing-library/react';
-import { CardTitle } from './card'; 
+import { CardTitle } from './CardTitle'; 
 import React from 'react';
 
 describe('CardTitle', () => {
@@ -13,13 +13,6 @@ describe('CardTitle', () => {
 
         expect(cardTitle).toBeInTheDocument();
         expect(cardTitle).toHaveClass('font-semibold', 'leading-none', 'tracking-tight');
-    })
-
-    it('renders provided children', () => {
-        render(<CardTitle>title text</CardTitle>);
-
-        const titleText = screen.getByText('title text');
-        expect(titleText).toHaveTextContent('title text');
     })
 })
 

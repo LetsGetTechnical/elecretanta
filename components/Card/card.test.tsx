@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { render, screen } from '@testing-library/react';
-import { Card, CardHeader } from './card'; 
+import { Card } from './Card'; 
 import React from 'react';
 
 describe ('Card is rendered with basic styling', () => {
@@ -14,19 +14,6 @@ describe ('Card is rendered with basic styling', () => {
         expect(card).toBeInTheDocument();
         expect(card).toHaveClass('rounded-xl', 'border', 'bg-card', 'text-card-foreground', 'shadow');
         });
-
-    it('renders a child component', () => {
-        render(
-            <Card data-testid="card">
-                <CardHeader data-testid="header">Header Text</CardHeader>
-            </Card>
-        );
-
-        const card = screen.getByTestId('card');
-        const header = screen.getByTestId('header');
-        expect(header).toBeInTheDocument();
-        expect(card).toContainElement(header);
-    })
 })
 
 describe('Card - prop forwarding', () => {

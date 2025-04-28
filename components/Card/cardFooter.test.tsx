@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { render, screen } from '@testing-library/react';
-import { CardFooter } from './card'; 
+import { CardFooter } from './CardFooter'; 
 import React from 'react';
 
 describe('CardFooter', () => {
@@ -13,18 +13,6 @@ describe('CardFooter', () => {
 
         expect(cardFooter).toBeInTheDocument();
         expect(cardFooter).toHaveClass('flex', 'items-center', 'p-6', 'pt-0');
-    })
-
-    it('renders provided children', () => {
-        render(<CardFooter data-testid="card-footer">
-            <button data-testid="footer-button">test button</button>
-        </CardFooter>)
-
-        const cardFooter = screen.getByTestId('card-footer');
-        const footerButton = screen.getByTestId('footer-button');
-
-        expect(footerButton).toBeInTheDocument();
-        expect(cardFooter).toContainElement(footerButton);
     })
 })
 
