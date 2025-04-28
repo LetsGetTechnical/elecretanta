@@ -95,3 +95,113 @@ describe('Radio Group Item Component', () => {
     expect(radioGroupItemElement).toBeEmptyDOMElement();
   });
 });
+
+describe('Radio Group Item functionality', () => {
+  it('tests for first radio group items getting selected', () => {
+    render(
+      <RadioGroupPrimitiveRoot>
+        <RadioGroupItem value="1" aria-label="first" />
+        <RadioGroupItem value="2" aria-label="second" />
+        <RadioGroupItem value="3" aria-label="third" />
+      </RadioGroupPrimitiveRoot>,
+    );
+
+    const first_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'first',
+    });
+    const second_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'second',
+    });
+    const third_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'third',
+    });
+
+    fireEvent.click(first_radioGroupItemElement);
+
+    expect(first_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'checked',
+    );
+    expect(second_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'unchecked',
+    );
+    expect(third_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'unchecked',
+    );
+  });
+
+  it('tests for third radio group items getting selected', () => {
+    render(
+      <RadioGroupPrimitiveRoot>
+        <RadioGroupItem value="1" aria-label="first" />
+        <RadioGroupItem value="2" aria-label="second" />
+        <RadioGroupItem value="3" aria-label="third" />
+      </RadioGroupPrimitiveRoot>,
+    );
+
+    const first_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'first',
+    });
+    const second_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'second',
+    });
+    const third_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'third',
+    });
+
+    fireEvent.click(third_radioGroupItemElement);
+
+    expect(first_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'unchecked',
+    );
+    expect(second_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'unchecked',
+    );
+    expect(third_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'checked',
+    );
+  });
+
+  it('tests for multiple radio groups item being clicked and only last clicked gets selected', () => {
+    render(
+      <RadioGroupPrimitiveRoot>
+        <RadioGroupItem value="1" aria-label="first" />
+        <RadioGroupItem value="2" aria-label="second" />
+        <RadioGroupItem value="3" aria-label="third" />
+      </RadioGroupPrimitiveRoot>,
+    );
+
+    const first_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'first',
+    });
+    const second_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'second',
+    });
+    const third_radioGroupItemElement = screen.getByRole('radio', {
+      name: 'third',
+    });
+
+    fireEvent.click(third_radioGroupItemElement);
+    fireEvent.click(second_radioGroupItemElement);
+    fireEvent.click(first_radioGroupItemElement);
+    fireEvent.click(second_radioGroupItemElement);
+
+    expect(first_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'unchecked',
+    );
+    expect(second_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'checked',
+    );
+    expect(third_radioGroupItemElement).toHaveAttribute(
+      'data-state',
+      'unchecked',
+    );
+  });
+});
