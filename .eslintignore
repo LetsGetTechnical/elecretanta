@@ -36,7 +36,6 @@ components/Avatar/AvatarFallback.tsx
 components/Avatar/AvatarBody.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
-components/Command/command.tsx
 components/FeedbackView/FeedbackView.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftExchangeHeader/GiftExchangeHeader.tsx
@@ -64,7 +63,6 @@ components/Select/select.tsx
 components/Skeleton/Skeleton.tsx
 components/Slider/slider.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
-components/SnowOverlayWrapper/SnowOverlayWrapper.tsx
 lib/drawGiftExchange.ts
 lib/generateAndStoreSuggestion.ts
 lib/generateAndUpdateNewGiftSuggestion.ts
