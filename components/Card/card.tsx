@@ -32,11 +32,10 @@ const Card = forwardRef<
 Card.displayName = 'Card';
 
 export {
-  Card
+  Card, 
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
 };
-
-export { CardContent } from './CardContent';
-export { CardDescription } from './CardDescription';
-export { CardFooter } from './CardFooter';
-export { CardHeader } from './CardHeader';
-export { CardTitle } from './CardTitle';
