@@ -11,9 +11,7 @@ describe('CardTitle', () => {
 
         const cardTitle = screen.getByTestId('card-title');
 
-        // Did CardTitle render?
         expect(cardTitle).toBeInTheDocument();
-        // Is the default styling present? 
         expect(cardTitle).toHaveClass('font-semibold', 'leading-none', 'tracking-tight');
     })
 
@@ -30,9 +28,7 @@ describe('CardTitle - prop forwarding', () => {
         render(<CardTitle data-testid="card-title" className="custom-class">Card Title</CardTitle>);
         
         const cardTitle = screen.getByTestId('card-title');
-        // Was custom class forwarded? 
         expect(cardTitle).toHaveClass('custom-class');
-        // Are default styles still present? 
         expect(cardTitle).toHaveClass('font-semibold', 'leading-none', 'tracking-tight');
     })
 })
@@ -41,13 +37,9 @@ describe('CardTitle - forward Ref', () => {
     it('forwards ref to DOM element (div)', () => {
         const ref = React.createRef<HTMLDivElement>();
 
-        // Render CardTitle component with ref
         render(<CardTitle ref={ref}>Ref test</CardTitle>);
-
-        // Is ref assigned to div element? 
+        
         expect(ref.current).toBeInstanceOf(HTMLDivElement);
-
-        // Is the div in the document?
         expect(ref.current).toBeInTheDocument();
     })
 })

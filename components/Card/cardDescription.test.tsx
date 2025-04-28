@@ -12,9 +12,7 @@ describe('CardDescription', () => {
 
         const cardDescription = screen.getByTestId('card-description'); 
 
-        // Did CardDescription render? 
         expect(cardDescription).toBeInTheDocument();
-        // Is the default styling present? 
         expect(cardDescription).toHaveClass('text-sm', 'text-muted-foreground')
     })
 
@@ -31,9 +29,7 @@ describe('CardDescription - prop forwarding', () => {
         render(<CardDescription data-testid="card-description" className="custom-class"></CardDescription>);
         
         const cardDescription = screen.getByTestId('card-description');
-        // Was custom class forwarded? 
         expect(cardDescription).toHaveClass('custom-class');
-        // Are default styles still present? 
         expect(cardDescription).toHaveClass('text-sm', 'text-muted-foreground')
     })
 })
@@ -42,13 +38,8 @@ describe('CardDescription - forward Ref', () => {
     it('forwards ref to DOM element (div)', () => {
         const ref = React.createRef<HTMLDivElement>();
 
-        // Render CardDescription component with ref
         render(<CardDescription ref={ref}>Ref test</CardDescription>);
-
-        // Is ref assigned to div element? 
         expect(ref.current).toBeInstanceOf(HTMLDivElement);
-
-        // Is the div in the document?
         expect(ref.current).toBeInTheDocument();
     })
 })

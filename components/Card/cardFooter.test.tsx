@@ -11,9 +11,7 @@ describe('CardFooter', () => {
 
         const cardFooter = screen.getByTestId('card-footer');
 
-        // Did CardFooter render?
         expect(cardFooter).toBeInTheDocument();
-        // Is the default styling present?
         expect(cardFooter).toHaveClass('flex', 'items-center', 'p-6', 'pt-0');
     })
 
@@ -35,9 +33,7 @@ describe('CardFooter - prop forwarding', () => {
         render(<CardFooter data-testid="card-footer" className="custom-class">Card Title</CardFooter>);
 
         const cardFooter = screen.getByTestId('card-footer');
-        // Was custom class forwarded? 
         expect(cardFooter).toHaveClass('custom-class');
-        // Are default styles still present?
         expect(cardFooter).toHaveClass('flex', 'items-center', 'p-6', 'pt-0');
     })
 })
@@ -46,13 +42,8 @@ describe('CardFooter - forward Ref', () => {
     it('forwards ref to DOM element (div)', () => {
         const ref = React.createRef<HTMLDivElement>();
 
-        // Render CardFooter component with ref
         render(<CardFooter ref={ref}>Ref test</CardFooter>);
-
-        // Is ref assigned to div element? 
         expect(ref.current).toBeInstanceOf(HTMLDivElement);
-
-        // Is the div in the document?
         expect(ref.current).toBeInTheDocument();
     })
 })
