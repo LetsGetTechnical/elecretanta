@@ -4,6 +4,12 @@
 import { HTMLAttributes, forwardRef, JSX } from 'react';
 import { cn } from '@/lib/utils';
 
+import { CardContent } from './CardContent';
+import { CardDescription } from './CardDescription';
+import { CardFooter } from './CardFooter';
+import { CardHeader } from './CardHeader';
+import { CardTitle } from './CardTitle';
+
 /**
  * Card component - container for card.
  * @param {object} props - Props for the Card copmonent.
