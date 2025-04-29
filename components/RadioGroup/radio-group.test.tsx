@@ -36,13 +36,11 @@ describe('Radio Group Item Component', () => {
   it('renders radio group item correctly with default classes and passed children and value', () => {
     render(
       <RadioGroupPrimitiveRoot>
-        <RadioGroupItem value="test value" aria-label="test" />
+        <RadioGroupItem value="test value" />
       </RadioGroupPrimitiveRoot>,
     );
 
-    const radioGroupItemElement = screen.getByRole('radio', {
-      name: 'test',
-    });
+    const radioGroupItemElement = screen.getByRole('radio');
 
     expect(radioGroupItemElement).toBeInTheDocument();
     expect(radioGroupItemElement).toHaveAttribute('value', 'test value');
@@ -56,15 +54,12 @@ describe('Radio Group Item Component', () => {
       <RadioGroupPrimitiveRoot>
         <RadioGroupItem
           value="test value"
-          aria-label="test"
           className="custom-class-1 custom-class-2"
         />
       </RadioGroupPrimitiveRoot>,
     );
 
-    const radioGroupItemElement = screen.getByRole('radio', {
-      name: 'test',
-    });
+    const radioGroupItemElement = screen.getByRole('radio');
 
     expect(radioGroupItemElement).toBeInTheDocument();
     expect(radioGroupItemElement).toHaveClass(
@@ -76,13 +71,11 @@ describe('Radio Group Item Component', () => {
   it('renders an empty radio group item', () => {
     render(
       <RadioGroupPrimitiveRoot>
-        <RadioGroupItem value="test value" aria-label="test" />
+        <RadioGroupItem value="test value" />
       </RadioGroupPrimitiveRoot>,
     );
 
-    const radioGroupItemElement = screen.getByRole('radio', {
-      name: 'test',
-    });
+    const radioGroupItemElement = screen.getByRole('radio');
 
     expect(radioGroupItemElement).toBeEmptyDOMElement();
   });
@@ -92,44 +85,27 @@ describe('Radio Group Item functionality', () => {
   it('tests for first radio group items getting clicked', () => {
     render(
       <RadioGroupPrimitiveRoot>
-        <RadioGroupItem value="1" aria-label="first" />
-        <RadioGroupItem value="2" aria-label="second" />
-        <RadioGroupItem value="3" aria-label="third" />
+        <RadioGroupItem value="1" />
+        <RadioGroupItem value="2" />
+        <RadioGroupItem value="3" />
       </RadioGroupPrimitiveRoot>,
     );
 
-    const first_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'first',
-    });
-    const second_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'second',
-    });
-    const third_radioGroupItemElement = screen.getByRole('radio', {
-      name: 'third',
-    });
+    const radioGroupItemElement = screen.getAllByRole('radio');
 
-    fireEvent.click(first_radioGroupItemElement);
+    fireEvent.click(radioGroupItemElement[0]);
 
-    expect(first_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'checked',
-    );
-    expect(second_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'unchecked',
-    );
-    expect(third_radioGroupItemElement).toHaveAttribute(
-      'data-state',
-      'unchecked',
-    );
+    expect(radioGroupItemElement[0]).toHaveAttribute('data-state', 'checked');
+    expect(radioGroupItemElement[1]).toHaveAttribute('data-state', 'unchecked');
+    expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
   });
 
   it('tests for third radio group items getting clicked', () => {
     render(
       <RadioGroupPrimitiveRoot>
-        <RadioGroupItem value="1" aria-label="first" />
-        <RadioGroupItem value="2" aria-label="second" />
-        <RadioGroupItem value="3" aria-label="third" />
+        <RadioGroupItem value="1" />
+        <RadioGroupItem value="2" />
+        <RadioGroupItem value="3" />
       </RadioGroupPrimitiveRoot>,
     );
 
@@ -145,9 +121,9 @@ describe('Radio Group Item functionality', () => {
   it('tests for multiple radio groups item being clicked and only last clicked gets selected', () => {
     render(
       <RadioGroupPrimitiveRoot>
-        <RadioGroupItem value="1" aria-label="first" />
-        <RadioGroupItem value="2" aria-label="second" />
-        <RadioGroupItem value="3" aria-label="third" />
+        <RadioGroupItem value="1" />
+        <RadioGroupItem value="2" />
+        <RadioGroupItem value="3" />
       </RadioGroupPrimitiveRoot>,
     );
 
@@ -166,9 +142,9 @@ describe('Radio Group Item functionality', () => {
   it('tests for selecting the first radio group item with keyboard interaction', async () => {
     render(
       <RadioGroupPrimitiveRoot defaultValue="1">
-        <RadioGroupItem value="1" aria-label="first" />
-        <RadioGroupItem value="2" aria-label="second" />
-        <RadioGroupItem value="3" aria-label="third" />
+        <RadioGroupItem value="1" />
+        <RadioGroupItem value="2" />
+        <RadioGroupItem value="3" />
       </RadioGroupPrimitiveRoot>,
     );
 
@@ -184,9 +160,9 @@ describe('Radio Group Item functionality', () => {
   it('tests for selecting the third radio group item with keyboard interaction', async () => {
     render(
       <RadioGroupPrimitiveRoot defaultValue="1">
-        <RadioGroupItem value="1" aria-label="first" />
-        <RadioGroupItem value="2" aria-label="second" />
-        <RadioGroupItem value="3" aria-label="third" />
+        <RadioGroupItem value="1" />
+        <RadioGroupItem value="2" />
+        <RadioGroupItem value="3" />
       </RadioGroupPrimitiveRoot>,
     );
 
@@ -205,9 +181,9 @@ describe('Radio Group Item functionality', () => {
   it('tests for selecting the correct radio group item after multiple keyboard interaction', async () => {
     render(
       <RadioGroupPrimitiveRoot defaultValue="1">
-        <RadioGroupItem value="1" aria-label="first" />
-        <RadioGroupItem value="2" aria-label="second" />
-        <RadioGroupItem value="3" aria-label="third" />
+        <RadioGroupItem value="1" />
+        <RadioGroupItem value="2" />
+        <RadioGroupItem value="3" />
       </RadioGroupPrimitiveRoot>,
     );
 
