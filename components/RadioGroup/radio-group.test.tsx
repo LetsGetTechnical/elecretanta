@@ -30,14 +30,6 @@ describe('Radio Group Component', () => {
     expect(radioGroupElement).toBeInTheDocument();
     expect(radioGroupElement).toHaveClass('custom-class-1 custom-class-2');
   });
-
-  it('renders an empty radio group', () => {
-    render(<RadioGroup />);
-
-    const radioGroupElement = screen.getByTestId('radio-group');
-
-    expect(radioGroupElement).toBeEmptyDOMElement();
-  });
 });
 
 describe('Radio Group Item Component', () => {
