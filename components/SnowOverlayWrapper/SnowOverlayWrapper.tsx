@@ -15,7 +15,7 @@ const SnowOverlayWrapper = (): JSX.Element => {
   const { isSnowing } = useSnowOverlay();
   return (
     <div data-testid="snowOverlayWrapper">
-      <SnowOverlay disabledOnSingleCpuDevices disabled={!isSnowing} />;
+      <SnowOverlay disabledOnSingleCpuDevices disabled={!isSnowing} />
     </div>
   )
 }
