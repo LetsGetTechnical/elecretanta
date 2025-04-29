@@ -36,11 +36,6 @@ components/Avatar/AvatarFallback.tsx
 components/Avatar/AvatarBody.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
-components/Command/command.tsx
-components/Form/form.tsx
-components/CompletedExchangeCard/CompletedExchangeCard.tsx
-components/Form/form.tsx
-components/FeedbackView/FeedbackView.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftExchangeHeader/GiftExchangeHeader.tsx
 components/GiftSuggestionCard/GiftSuggestionCard.tsx
