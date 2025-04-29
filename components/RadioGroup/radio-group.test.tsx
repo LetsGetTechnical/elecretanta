@@ -79,9 +79,7 @@ describe('Radio Group Item Component', () => {
 
     expect(radioGroupItemElement).toBeEmptyDOMElement();
   });
-});
 
-describe('Radio Group Item functionality', () => {
   it('recognizes first radio group item being clicked', () => {
     render(
       <RadioGroupPrimitiveRoot>
