@@ -82,7 +82,7 @@ describe('Radio Group Item Component', () => {
 });
 
 describe('Radio Group Item functionality', () => {
-  it('tests for first radio group items getting clicked', () => {
+  it('recognizes first radio group item being clicked', () => {
     render(
       <RadioGroupPrimitiveRoot>
         <RadioGroupItem value="1" />
@@ -100,7 +100,7 @@ describe('Radio Group Item functionality', () => {
     expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
   });
 
-  it('tests for third radio group items getting clicked', () => {
+  it('recognizes third radio group item being clicked', () => {
     render(
       <RadioGroupPrimitiveRoot>
         <RadioGroupItem value="1" />
@@ -118,7 +118,7 @@ describe('Radio Group Item functionality', () => {
     expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'checked');
   });
 
-  it('tests for multiple radio groups item being clicked and only last clicked gets selected', () => {
+  it('recognizes the last radio group item clicked to be checked', () => {
     render(
       <RadioGroupPrimitiveRoot>
         <RadioGroupItem value="1" />
@@ -139,7 +139,7 @@ describe('Radio Group Item functionality', () => {
     expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
   });
 
-  it('tests for selecting the first radio group item with keyboard interaction', async () => {
+  it('recognizes the first radio group item being selected with keyboard interaction', async () => {
     render(
       <RadioGroupPrimitiveRoot defaultValue="1">
         <RadioGroupItem value="1" />
@@ -157,7 +157,7 @@ describe('Radio Group Item functionality', () => {
     expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
   });
 
-  it('tests for selecting the third radio group item with keyboard interaction', async () => {
+  it('recognizes the third radio group item being selected with keyboard interaction', async () => {
     render(
       <RadioGroupPrimitiveRoot defaultValue="1">
         <RadioGroupItem value="1" />
@@ -178,7 +178,7 @@ describe('Radio Group Item functionality', () => {
     expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'checked');
   });
 
-  it('tests for selecting the correct radio group item after multiple keyboard interaction', async () => {
+  it('recognizes selecting the correct radio group item after multiple keyboard interactions', async () => {
     render(
       <RadioGroupPrimitiveRoot defaultValue="1">
         <RadioGroupItem value="1" />
