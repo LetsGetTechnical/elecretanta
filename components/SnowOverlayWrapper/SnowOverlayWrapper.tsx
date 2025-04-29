@@ -13,8 +13,11 @@ import { SnowOverlay } from 'react-snow-overlay';
  */
 const SnowOverlayWrapper = (): JSX.Element => {
   const { isSnowing } = useSnowOverlay();
-  return <SnowOverlay disabledOnSingleCpuDevices disabled={!isSnowing} />;
+  return (
+    <div data-testid="snowOverlayWrapper">
+      <SnowOverlay disabledOnSingleCpuDevices disabled={!isSnowing} />;
+    </div>
+  )
 }
 
 export default SnowOverlayWrapper
-
