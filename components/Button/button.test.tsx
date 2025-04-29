@@ -23,32 +23,32 @@ describe("Button", () => {
       it('renders with variant', () => {
         render(<Button variant="destructive">Test</Button>);
         const button = screen.getByRole('button', {name: /test/i});
-        expect(button).toHaveClass('bg-destructive');
+        expect(button).toHaveClass('bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90');
       });
 
       it('renders with variant', () => {
         render(<Button variant="outline">Test</Button>);
         const button = screen.getByRole('button', {name: /test/i});
-        expect(button).toHaveClass('bg-destructive');
+        expect(button).toHaveClass('border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground');
       });
 
       it('renders with variant', () => {
         render(<Button variant="ghost">Test</Button>);
         const button = screen.getByRole('button', {name: /test/i});
-        expect(button).toHaveClass('bg-destructive');
+        expect(button).toHaveClass('hover:bg-accent hover:text-accent-foreground');
 
       });
 
       it('renders with variant', () => {
         render(<Button variant="secondary">Test</Button>);
         const button = screen.getByRole('button', {name: /test/i});
-        expect(button).toHaveClass('bg-destructive');
+        expect(button).toHaveClass('bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80');
       });
 
       it('renders with variant', () => {
         render(<Button variant="link">Test</Button>);
         const button = screen.getByRole('button', {name: /test/i});
-        expect(button).toHaveClass('bg-destructive');
+        expect(button).toHaveClass('text-primary underline-offset-4 hover:underline');
       });
 
       it('renders with size', () => {
