@@ -61,7 +61,6 @@ components/Progress/progress.tsx
 components/RadioGroup/radio-group.tsx
 components/Select/select.tsx
 components/Skeleton/Skeleton.tsx
-components/Slider/slider.tsx
 components/SnowOverlayToggle/SnowOverlayToggle.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 lib/drawGiftExchange.ts
