@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
  * @param {string} [props.variant="default"] - CSS styling of button such as color, border, drop shadow ("defauly", "destructive", "outline", "secondary", "ghost", "link")
  * @param {string} [props.size="default"] - Size of button ("default", "sm", "m", "lg", "icon")
  * @param {boolean} [props.asChild="false"] - Renders as child component if true
- * @returns {JSX.Element} - returns Button component.
+ * @returns {Button} - returns Button component.
  */
 
 const buttonVariants = cva(
