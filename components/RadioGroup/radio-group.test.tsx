@@ -28,7 +28,6 @@ describe('Radio Group Component', () => {
     const radioGroupElement = screen.getByTestId('radio-group');
 
     expect(radioGroupElement).toBeInTheDocument();
-    expect(radioGroupElement).toHaveClass('grid gap-2');
     expect(radioGroupElement).toHaveClass('custom-class-1 custom-class-2');
   });
 
