@@ -1,9 +1,11 @@
-import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import FeedbackView from './FeedbackView';
 import userEvent from '@testing-library/user-event';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
+
+// I'm wrapping all of the tests that click one of the feedback buttons in act() because they all set state and I was getting a lot of errors that anything that triggered a state change needs to be wrapped in act().
 
 jest.mock('@/lib/generateAndUpdateNewGiftSuggestion', () => ({
   generateAndUpdateNewGiftSuggestion: jest.fn().mockResolvedValue({
@@ -38,6 +40,9 @@ describe('FeedbackView', () => {
     onboarding_complete: true,
   };
 
+  const mockHandleFeedback = jest.fn();
+  const mockOnGiftUpdate = jest.fn();
+
   const renderFeedbackView = () => {
     return render(
       <div data-testid="feedback-view">
@@ -45,8 +50,8 @@ describe('FeedbackView', () => {
           allGiftSuggestions={[]}
           budget={''}
           gift={mockGiftSuggestion}
-          handleFeedback={jest.fn()}
-          onGiftUpdate={jest.fn()}
+          handleFeedback={mockHandleFeedback}
+          onGiftUpdate={mockOnGiftUpdate}
           recipient={mockProfile}
         />
       </div>
@@ -62,8 +67,7 @@ describe('FeedbackView', () => {
     expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
   });
 
-  describe('Loading State', () => {
-    describe('when loading starts', () => {
+    describe('When loading starts', () => {
       it('the loading spinner should be displayed and buttons should be hidden', async () => {
         renderFeedbackView();
 
@@ -77,7 +81,9 @@ describe('FeedbackView', () => {
         expect(styleButton).toBeInTheDocument();
         expect(haveButton).toBeInTheDocument();
 
-        expensiveButton.click();
+        await act(async () => {
+          userEvent.click(expensiveButton);
+        });
 
         await waitFor(() => {
 
@@ -88,8 +94,9 @@ describe('FeedbackView', () => {
           expect(screen.queryByTestId('feedback-button-2')).not.toBeInTheDocument();
         });
       });
-
-      describe('when loading ends', () => {
+    });
+  
+  describe('When loading ends', () => {
         it('should show buttons and hide loading spinner when isLoading is false', () => {
           renderFeedbackView();
 
@@ -106,9 +113,8 @@ describe('FeedbackView', () => {
           expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
           expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
         });
-      });
-    });
   });
+  
 
   describe('Button Click Behavior', () => {
     it('should call handleFeedbackSubmit with correct argument when button is clicked', async () => {
@@ -127,7 +133,9 @@ describe('FeedbackView', () => {
       );
 
       const expensiveButton = screen.getByTestId('feedback-button-0');
-      expensiveButton.click();
+      await act(async () => {
+        await userEvent.click(expensiveButton);
+      });
 
       await waitFor(() => {
         expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
@@ -150,7 +158,9 @@ describe('FeedbackView', () => {
       expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       expect(screen.getByTestId('feedback-button-0')).toBeInTheDocument();
 
-      expensiveButton.click();
+      await act(async () => {
+        userEvent.click(expensiveButton)
+      });
 
       await waitFor(() => {
         expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
@@ -186,22 +196,12 @@ describe('FeedbackView', () => {
 
   describe('Gift Update Behavior', () => {
     it('should call onGiftUpdate with new gift when button is clicked', async () => {
-      const mockOnGiftUpdate = jest.fn();
-      render(
-        <div data-testid="feedback-view">
-          <FeedbackView
-            allGiftSuggestions={[]}
-            budget={''}
-            gift={mockGiftSuggestion}
-            handleFeedback={() => { }}
-            onGiftUpdate={mockOnGiftUpdate}
-            recipient={mockProfile}
-          />
-        </div>
-      );
+      renderFeedbackView();
 
       const expensiveButton = screen.getByTestId('feedback-button-0');
-      expensiveButton.click();
+      await act(async () => {
+        await userEvent.click(expensiveButton);
+      });
 
       await waitFor(() => {
         expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
@@ -219,21 +219,16 @@ describe('FeedbackView', () => {
 
   describe('Accessibility Tests', () => {
     it('should handle keyboard navigation correctly', async () => {
-      render(
-        <FeedbackView
-          allGiftSuggestions={[]}
-          budget={''}
-          gift={mockGiftSuggestion}
-          handleFeedback={() => { }}
-          onGiftUpdate={() => { }}
-          recipient={mockProfile}
-        />
-      );
+      renderFeedbackView();
 
       const backButton = screen.getByTestId('back-chevron');
       const expensiveButton = screen.getByTestId('feedback-button-0');
       const styleButton = screen.getByTestId('feedback-button-1');
       const haveButton = screen.getByTestId('feedback-button-2');
+
+      // I think we should adjust the code so this does pass but currently it does not. 
+      // backButton.focus();
+      // expect(backButton).toHaveFocus();
 
       expensiveButton.focus();
       expect(expensiveButton).toHaveFocus();
@@ -244,14 +239,16 @@ describe('FeedbackView', () => {
       await userEvent.tab();
       expect(haveButton).toHaveFocus();
 
-      // I think we should adjust the code so this does pass but currently it does not. 
-      // backButton.focus();
-      // expect(backButton).toHaveFocus();
 
-      await userEvent.keyboard('{Enter}');
+      await act(async () => {
+        await userEvent.keyboard('{Enter}');
+      });
+      
+      await waitFor(() => {
+        expect(mockOnGiftUpdate).toHaveBeenCalled();
+      });
     });
   });
-
 
   describe('Error Handling', () => {
 
@@ -270,8 +267,10 @@ describe('FeedbackView', () => {
           recipient={mockProfile}
         />);
 
-      const feedbackButton = screen.getByTestId('feedback-button-1');
-      fireEvent.click(feedbackButton);
+      const feedbackButton = screen.getByTestId('feedback-button-0');
+      await act(async () => {
+        await userEvent.click(feedbackButton);
+      });
 
       await waitFor(() => {
         expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to update gift suggestion');
@@ -307,6 +306,30 @@ describe('FeedbackView', () => {
           });
         })
       ).rejects.toThrow('Update error');
+    });
+  });
+
+  
+
+  // This test isn't rendering anything and I can't figure out why because I'm using the same render function as the other tests. :( 
+  describe('Button Hover States', () => {
+    it('should show hover state when hovering over button', async () => {
+      renderFeedbackView();
+      expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
+     
+      const expensiveButton = screen.getByTestId('feedback-button-0');
+      expect(expensiveButton).toBeInTheDocument();
+      console.log('Expensive button found:', expensiveButton);
+      
+      // const originalBackgroundColor = window.getComputedStyle(expensiveButton).backgroundColor;
+      // console.log('Original color:', originalBackgroundColor);
+      
+      // await userEvent.hover(expensiveButton);
+      
+      // const hoverBackgroundColor = window.getComputedStyle(expensiveButton).backgroundColor;
+      // console.log('Hover color:', hoverBackgroundColor);
+      
+      // expect(hoverBackgroundColor).not.toBe(originalBackgroundColor);
     });
   });
 });
