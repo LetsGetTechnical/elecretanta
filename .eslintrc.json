@@ -120,12 +120,8 @@
       }
     ],
     "no-extra-semi": "off",
-    "no-unused-vars": [
-      "error",
-      {
-        "args": "all"
-      }
-    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     "no-unused-expressions": "off",
     "semi": "off",
     "import/extensions": 0,
