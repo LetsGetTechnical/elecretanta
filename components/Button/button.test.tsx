@@ -52,9 +52,27 @@ describe("Button", () => {
       });
 
       it('renders with size', () => {
+        render(<Button size="default">Test</Button>);
+        const button = screen.getByRole('button', {name: /test/i});
+        expect(button).toHaveClass('h-9 px-4 py-2');
+      });
+
+      it('renders with size', () => {
         render(<Button size="sm">Test</Button>);
         const button = screen.getByRole('button', {name: /test/i});
-        expect(button).toHaveClass('h-8');
+        expect(button).toHaveClass('h-8 rounded-md px-3 text-xs');
+      });
+
+      it('renders with size', () => {
+        render(<Button size="lg">Test</Button>);
+        const button = screen.getByRole('button', {name: /test/i});
+        expect(button).toHaveClass('h-10 rounded-md px-8');
+      });
+
+      it('renders with size', () => {
+        render(<Button size="icon">Test</Button>);
+        const button = screen.getByRole('button', {name: /test/i});
+        expect(button).toHaveClass('h-9 w-9');
       });
 
     it("triggers onClick behavior", () => {
