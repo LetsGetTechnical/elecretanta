@@ -185,8 +185,6 @@ describe('Radio Group Item functionality', () => {
 
     await userEvent.tab();
 
-    screen.debug();
-
     expect(radioGroupItemElement[0]).toHaveAttribute('data-state', 'checked');
     expect(radioGroupItemElement[1]).toHaveAttribute('data-state', 'unchecked');
     expect(radioGroupItemElement[2]).toHaveAttribute('data-state', 'unchecked');
