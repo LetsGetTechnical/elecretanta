@@ -41,7 +41,7 @@ describe('LoginButton', () => {
           }); 
 
           expect(loginButton).toBeDisabled();
-          expect(loginButton.querySelector('svg[class*="animate-spin"]')).toBeInTheDocument();
+          expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
           expect(signInWithGoogle).toHaveBeenCalled();
 
           await act(async () => {
