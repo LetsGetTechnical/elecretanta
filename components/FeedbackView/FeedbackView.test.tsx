@@ -45,14 +45,14 @@ describe('FeedbackView', () => {
 
   const renderFeedbackView = () => {
     return render(
-        <FeedbackView
-          allGiftSuggestions={[]}
-          budget={''}
-          gift={mockGiftSuggestion}
-          handleFeedback={mockHandleFeedback}
-          onGiftUpdate={mockOnGiftUpdate}
-          recipient={mockProfile}
-        />
+      <FeedbackView
+        allGiftSuggestions={[]}
+        budget={''}
+        gift={mockGiftSuggestion}
+        handleFeedback={mockHandleFeedback}
+        onGiftUpdate={mockOnGiftUpdate}
+        recipient={mockProfile}
+      />
     );
   };
 
@@ -60,275 +60,201 @@ describe('FeedbackView', () => {
     jest.clearAllMocks();
   });
 
-  it('renders the feedback interface with all buttons', () => {
+  it('renders the feedback interface', () => {
     renderFeedbackView();
     expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
   });
 
-    describe('When loading starts', () => {
-      it('the loading spinner should be displayed and buttons should be hidden', async () => {
-        renderFeedbackView();
+  it('When isLoading is false, the loading spinner is hidden and the buttons are visible', () => {
+    renderFeedbackView();
 
-        expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       
-        const expensiveButton = screen.getByTestId('feedback-button-0');
-        const styleButton = screen.getByTestId('feedback-button-1');
-        const haveButton = screen.getByTestId('feedback-button-2');
+    const expensiveButton = screen.getByTestId('feedback-button-0');
+    const styleButton = screen.getByTestId('feedback-button-1');
+    const haveButton = screen.getByTestId('feedback-button-2');
 
-        expect(expensiveButton).toBeInTheDocument();
-        expect(styleButton).toBeInTheDocument();
-        expect(haveButton).toBeInTheDocument();
+    expect(expensiveButton).toBeInTheDocument();
+    expect(styleButton).toBeInTheDocument();
+    expect(haveButton).toBeInTheDocument();
 
-        await act(async () => {
-          userEvent.click(expensiveButton);
-        });
-
-        await waitFor(() => {
-
-          expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
-
-          expect(screen.queryByTestId('feedback-button-0')).not.toBeInTheDocument();
-          expect(screen.queryByTestId('feedback-button-1')).not.toBeInTheDocument();
-          expect(screen.queryByTestId('feedback-button-2')).not.toBeInTheDocument();
-        });
-      });
-    });
-  
-  describe('When loading ends', () => {
-        it('should show buttons and hide loading spinner when isLoading is false', () => {
-          renderFeedbackView();
-
-          expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-      
-          const expensiveButton = screen.getByTestId('feedback-button-0');
-          const styleButton = screen.getByTestId('feedback-button-1');
-          const haveButton = screen.getByTestId('feedback-button-2');
-
-          expect(expensiveButton).toBeInTheDocument();
-          expect(styleButton).toBeInTheDocument();
-          expect(haveButton).toBeInTheDocument();
-
-          expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
-          expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
-        });
+    expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
+    expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
   });
-  
+ 
 
-  describe('Button Click Behavior', () => {
-    it('should call handleFeedbackSubmit with correct argument when button is clicked', async () => {
-      const mockOnGiftUpdate = jest.fn();
-      render(
-        <div data-testid="feedback-view">
-          <FeedbackView
-            allGiftSuggestions={[]}
-            budget={''}
-            gift={mockGiftSuggestion}
-            handleFeedback={() => { }}
-            onGiftUpdate={mockOnGiftUpdate}
-            recipient={mockProfile}
-          />
-        </div>
-      );
+  // I can't access handleFeedbackSubmit directly since it's not a prop so this tests whether onGiftUpdate is called inside of it. 
+  it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
+    renderFeedbackView();
 
-      const expensiveButton = screen.getByTestId('feedback-button-0');
-      await act(async () => {
-        await userEvent.click(expensiveButton);
-      });
-
-      await waitFor(() => {
-        expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
-          id: '1',
-          title: 'New Test Gift',
-          price: '50',
-          description: 'New Test Description',
-          matchReasons: ['new test reason'],
-          matchScore: 0.9,
-          imageUrl: 'new-test.jpg',
-        }));
-      });
+    const expensiveButton = screen.getByTestId('feedback-button-0');
+    await act(async () => {
+      await userEvent.click(expensiveButton);
     });
 
-    it('should transition loading state correctly during button click', async () => {
-      renderFeedbackView();
+    await waitFor(() => {
+      expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
+        id: '1',
+        title: 'New Test Gift',
+        price: '50',
+        description: 'New Test Description',
+        matchReasons: ['new test reason'],
+        matchScore: 0.9,
+        imageUrl: 'new-test.jpg',
+      }));
+    });
+  });
 
-      const expensiveButton = screen.getByTestId('feedback-button-0');
+  it('When button is clicked, loading spinner appears and buttons are hidden, then loading spinner disappears and buttons are shown again', async () => {
+    renderFeedbackView();
+
+    const expensiveButton = screen.getByTestId('feedback-button-0');
       
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    expect(screen.getByTestId('feedback-button-0')).toBeInTheDocument();
+
+    await act(async () => {
+      userEvent.click(expensiveButton)
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+      expect(screen.queryByTestId('feedback-button-0')).not.toBeInTheDocument();
+    });
+
+    await waitFor(() => {
       expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       expect(screen.getByTestId('feedback-button-0')).toBeInTheDocument();
-
-      await act(async () => {
-        userEvent.click(expensiveButton)
-      });
-
-      await waitFor(() => {
-        expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
-        expect(screen.queryByTestId('feedback-button-0')).not.toBeInTheDocument();
-      });
-
-      await waitFor(() => {
-        expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-        expect(screen.getByTestId('feedback-button-0')).toBeInTheDocument();
-      });
     });
   });
 
-  describe('Button Content and Layout', () => {
-    it('should render each button with correct title and corresponding subtitle', () => {
 
-      // I think this test has a very low chance of failing so it may be unnecessary.
-      renderFeedbackView();
+  it('Each button renders with the correct title and corresponding subtitle', () => {
+    renderFeedbackView();
 
-      const buttonVariants = [
-        { title: 'Too Expensive', subtitle: 'Show lower price range' },
-        { title: 'Not Their Style', subtitle: 'Try different interests' },
-        { title: 'They Might Have This', subtitle: 'Show alternatives' },
-      ];
+    const buttonVariants = [
+      { title: 'Too Expensive', subtitle: 'Show lower price range' },
+      { title: 'Not Their Style', subtitle: 'Try different interests' },
+      { title: 'They Might Have This', subtitle: 'Show alternatives' },
+    ];
 
-      buttonVariants.forEach(({ title, subtitle }) => {
-        const button = screen.getByText(title).closest('button');
-        expect(button).toBeInTheDocument();
-        expect(button).toHaveTextContent(subtitle);
-      });
+    buttonVariants.forEach(({ title, subtitle }) => {
+      const button = screen.getByText(title).closest('button');
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveTextContent(subtitle);
     });
   });
 
-  describe('Gift Update Behavior', () => {
-    it('should call onGiftUpdate with new gift when button is clicked', async () => {
-      renderFeedbackView();
 
-      const expensiveButton = screen.getByTestId('feedback-button-0');
-      await act(async () => {
-        await userEvent.click(expensiveButton);
-      });
 
-      await waitFor(() => {
-        expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
-          id: '1',
-          title: 'New Test Gift',
-          price: '50',
-          description: 'New Test Description',
-          matchReasons: ['new test reason'],
-          matchScore: 0.9,
-          imageUrl: 'new-test.jpg',
-        }));
-      });
+  it('When button is clicked, onGiftUpdate is called with new gift', async () => {
+    renderFeedbackView();
+
+    const expensiveButton = screen.getByTestId('feedback-button-0');
+    await act(async () => {
+      await userEvent.click(expensiveButton);
+    });
+
+    await waitFor(() => {
+      expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
+        id: '1',
+        title: 'New Test Gift',
+        price: '50',
+        description: 'New Test Description',
+        matchReasons: ['new test reason'],
+        matchScore: 0.9,
+        imageUrl: 'new-test.jpg',
+      }));
     });
   });
 
-  describe('Accessibility Tests', () => {
-    it('should handle keyboard navigation correctly', async () => {
-      renderFeedbackView();
+  it('All buttons are focusable, tabbable, and clickable.', async () => {
+    renderFeedbackView();
 
-      const backButton = screen.getByTestId('back-chevron');
-      const expensiveButton = screen.getByTestId('feedback-button-0');
-      const styleButton = screen.getByTestId('feedback-button-1');
-      const haveButton = screen.getByTestId('feedback-button-2');
+    const backButton = screen.getByTestId('back-chevron');
+    const expensiveButton = screen.getByTestId('feedback-button-0');
+    const styleButton = screen.getByTestId('feedback-button-1');
+    const haveButton = screen.getByTestId('feedback-button-2');
 
-      // I think we should adjust the code so this does pass but currently it does not. 
-      // backButton.focus();
-      // expect(backButton).toHaveFocus();
+    // I think we should eventually adjust the component so this does pass (by wrapping it in a button?) but currently it does not. 
+    // backButton.focus();
+    // expect(backButton).toHaveFocus();
 
-      expensiveButton.focus();
-      expect(expensiveButton).toHaveFocus();
+    expensiveButton.focus();
+    expect(expensiveButton).toHaveFocus();
 
-      await userEvent.tab();
-      expect(styleButton).toHaveFocus();
+    await userEvent.tab();
+    expect(styleButton).toHaveFocus();
 
-      await userEvent.tab();
-      expect(haveButton).toHaveFocus();
+    await userEvent.tab();
+    expect(haveButton).toHaveFocus();
 
 
-      await act(async () => {
-        await userEvent.keyboard('{Enter}');
-      });
+    await act(async () => {
+      await userEvent.keyboard('{Enter}');
+    });
       
-      await waitFor(() => {
-        expect(mockOnGiftUpdate).toHaveBeenCalled();
-      });
+    await waitFor(() => {
+      expect(mockOnGiftUpdate).toHaveBeenCalled();
     });
   });
 
-  describe('Error Handling', () => {
 
-    it('logs error and does not call onGiftUpdate if updatedGift is null', async () => {
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
-      const mockOnGiftUpdate = jest.fn();
-      (generateAndUpdateNewGiftSuggestion as jest.Mock).mockResolvedValue(null);
 
-      render(
-        <FeedbackView
-          allGiftSuggestions={[]}
-          budget={''}
-          gift={mockGiftSuggestion}
-          handleFeedback={jest.fn()}
-          onGiftUpdate={mockOnGiftUpdate}
-          recipient={mockProfile}
-        />);
+  it('If updatedGift is null, an error should be logged and onGiftUpdate is not called.', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    const mockOnGiftUpdate = jest.fn();
+    (generateAndUpdateNewGiftSuggestion as jest.Mock).mockResolvedValue(null);
 
-      const feedbackButton = screen.getByTestId('feedback-button-0');
-      await act(async () => {
+    render(
+      <FeedbackView
+        allGiftSuggestions={[]}
+        budget={''}
+        gift={mockGiftSuggestion}
+        handleFeedback={mockHandleFeedback}
+        onGiftUpdate={mockOnGiftUpdate}
+        recipient={mockProfile}
+      />);
+
+    const feedbackButton = screen.getByTestId('feedback-button-0');
+    await act(async () => {
+      await userEvent.click(feedbackButton);
+    });
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to update gift suggestion');
+    });
+
+    consoleErrorSpy.mockRestore();
+
+    expect(mockOnGiftUpdate).not.toHaveBeenCalled();
+  });
+
+  // I'm not entirely sure if this is even testing whether an error is thrown or not because it passes even when I just use my renderFeedbackView() function without using the mockOnGiftUpdate function with the mockRejectedValue. I'm not able to get it to pass any other way and still test that it throws an error. When I check test coverage it says the only line not covered is line 42 (which throws this error)
+  it('When onGiftUpdate fails, an error is thrown', async () => {
+    const mockOnGiftUpdate = jest.fn().mockRejectedValue(new Error('Update error'));
+
+    render(
+      <FeedbackView
+        allGiftSuggestions={[]}
+        budget={''}
+        gift={mockGiftSuggestion}
+        handleFeedback={mockHandleFeedback}
+        onGiftUpdate={mockOnGiftUpdate}
+        recipient={mockProfile}
+      />
+    );
+
+    const feedbackButton = screen.getByTestId('feedback-button-0');
+      
+    await expect(
+      act(async () => {
         await userEvent.click(feedbackButton);
-      });
 
-      await waitFor(() => {
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to update gift suggestion');
-      });
-
-      consoleErrorSpy.mockRestore();
-
-      expect(mockOnGiftUpdate).not.toHaveBeenCalled();
-    });
-
-    it('should throw an error when onGiftUpdate fails', async () => {
-      const mockOnGiftUpdate = jest.fn().mockRejectedValue(new Error('Update error'));
-
-      render(
-        <FeedbackView
-          allGiftSuggestions={[]}
-          budget={''}
-          gift={mockGiftSuggestion}
-          handleFeedback={jest.fn()}
-          onGiftUpdate={mockOnGiftUpdate}
-          recipient={mockProfile}
-        />
-      );
-
-      const feedbackButton = screen.getByTestId('feedback-button-0');
-      
-      await expect(
-        act(async () => {
-          await userEvent.click(feedbackButton);
-
-          await waitFor(() => {
-            expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-          });
-        })
-      ).rejects.toThrow('Update error');
-    });
-  });
-
-  
-
-  // This test isn't rendering anything and I can't figure out why because I'm using the same render function as the other tests. :( 
-  describe('Button Hover States', () => {
-    it('should show hover state when hovering over button', async () => {
-      renderFeedbackView();
-      expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
-     
-      const expensiveButton = screen.getByTestId('feedback-button-0');
-      expect(expensiveButton).toBeInTheDocument();
-      console.log('Expensive button found:', expensiveButton);
-      
-      // const originalBackgroundColor = window.getComputedStyle(expensiveButton).backgroundColor;
-      // console.log('Original color:', originalBackgroundColor);
-      
-      // await userEvent.hover(expensiveButton);
-      
-      // const hoverBackgroundColor = window.getComputedStyle(expensiveButton).backgroundColor;
-      // console.log('Hover color:', hoverBackgroundColor);
-      
-      // expect(hoverBackgroundColor).not.toBe(originalBackgroundColor);
-    });
+        await waitFor(() => {
+          expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+        });
+      })
+    ).rejects.toThrow('Update error');
   });
 });
-
