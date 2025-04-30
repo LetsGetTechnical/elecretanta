@@ -21,11 +21,20 @@ const SnowOverlayToggle = (): React.JSX.Element => {
       variant={'ghost'}
       className="text-white p-1 transition-all ease-in-out w-auto h-auto"
       onClick={toggleSnowSetting}
+      data-testid="snow-overlay-toggle"
     >
       {isSnowing ? (
-        <Sun size={24} className="text-orange-300 text-xl" />
+        <Sun
+          data-testid="sun-icon"
+          size={24}
+          className="text-orange-300 text-xl"
+        />
       ) : (
-        <Snowflake size={24} className="text-blue-300 text-xl" />
+        <Snowflake
+          data-testid="snow-icon"
+          size={24}
+          className="text-blue-300 text-xl"
+        />
       )}
     </Button>
   );
