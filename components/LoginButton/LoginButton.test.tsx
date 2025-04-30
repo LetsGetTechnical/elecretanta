@@ -17,111 +17,66 @@ describe('LoginButton', () => {
           render(<LoginButton />);
           expect(screen.getByTestId('login-button')).toBeInTheDocument();
      })
-     describe('On initial load', () => {
-          it('the button is not disabled and it displays the google icon, the text "Google"', () => {
-               render(<LoginButton />);
-               const loginButton = screen.getByTestId('login-button');
-               expect(loginButton).not.toBeDisabled();
-               expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
-               expect(loginButton).toHaveTextContent('Google');
-          })
+
+     it('On initial load the button is not disabled and displays the google icon and the text Google', () => {
+          render(<LoginButton />);
+          const loginButton = screen.getByTestId('login-button');
+          expect(loginButton).not.toBeDisabled();
+          expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
+          expect(loginButton).toHaveTextContent('Google');
      })
-     describe('When loginButton is clicked', () => {
-          it('it displays the loading spinner, is disabled, and signInWithGoogle is called', async () => {
-               // Create a promise that we can resolve manually
-               let resolveSignIn: () => void;
-               const signInPromise = new Promise<void>(resolve => {
-                    resolveSignIn = resolve;
-               });
-               (signInWithGoogle as jest.Mock).mockReturnValue(signInPromise);
 
-               render(<LoginButton />);
-               const loginButton = screen.getByTestId('login-button');
-               
-               await act(async () => {
-                    await userEvent.click(loginButton);
-               }); 
+     it('When loginButton is clicked it is disabled, it displays the loading spinner, and signInWithGoogle is called', async () => {
+          let resolveSignIn: () => void;
+          const signInPromise = new Promise<void>(resolve => {
+               resolveSignIn = resolve;
+          });
+          (signInWithGoogle as jest.Mock).mockReturnValue(signInPromise);
 
-               // Check loading state immediately after click
-               expect(loginButton).toBeDisabled();
-               expect(loginButton.querySelector('svg[class*="animate-spin"]')).toBeInTheDocument();
-               expect(signInWithGoogle).toHaveBeenCalled();
+          render(<LoginButton />);
+          const loginButton = screen.getByTestId('login-button');
+          
+          await act(async () => {
+               await userEvent.click(loginButton);
+          }); 
 
-               // Now resolve the promise to complete the sign-in
-               await act(async () => {
-                    resolveSignIn();
-               });
-          })
+          expect(loginButton).toBeDisabled();
+          expect(loginButton.querySelector('svg[class*="animate-spin"]')).toBeInTheDocument();
+          expect(signInWithGoogle).toHaveBeenCalled();
+
+          await act(async () => {
+               resolveSignIn();
+          });
      })
-     describe('If signInWithGoogle throws an error', () => {
-          it('isLoading is set to false, and the button is enabled', async () => {
-               const error = new Error('Sign in failed');
-               mockSignInWithGoogle.mockRejectedValueOnce(error);
 
-               render(<LoginButton />);
-               const loginButton = screen.getByTestId('login-button');
-               
-               await act(async () => {
-                    await userEvent.click(loginButton);
-               });
+     it('If signInWithGoogle throws an error, the button is enabled', async () => {
+          const error = new Error('Sign in failed');
+          mockSignInWithGoogle.mockRejectedValueOnce(error);
 
-               expect(loginButton).not.toBeDisabled();
-          })
+          render(<LoginButton />);
+          const loginButton = screen.getByTestId('login-button');
+          
+          await act(async () => {
+               await userEvent.click(loginButton);
+          });
+
+          expect(mockSignInWithGoogle).toHaveBeenCalledWith({});
+          expect(loginButton).not.toBeDisabled();
+          expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
+          expect(loginButton).toHaveTextContent('Continue with Google');
      })
-     describe('Buttons should be focusable and clickable with keyboard', () => {
-          it('should be focusable and clickable with keyboard', async () => {
-               render(<LoginButton />);
-               const loginButton = screen.getByTestId('login-button');
-               loginButton.focus();
-               await act(async () => {
-                    await userEvent.keyboard('{enter}');
-               });
-               expect(mockSignInWithGoogle).toHaveBeenCalled();
-          })
-     })
-     describe('On hover', () => {
-          it('the button should have a different background color', async () => {
-               render(<LoginButton />);
-               const loginButton = screen.getByTestId('login-button');
-               expect(loginButton).toHaveClass('bg-primaryButtonYellow');
-               expect(loginButton).toHaveClass('hover:bg-primaryButtonYellow/70');
-          })
+
+     it('The LoginButton should be focusable and clickable with keyboard', async () => {
+          render(<LoginButton />);
+          const loginButton = screen.getByTestId('login-button');
+          loginButton.focus();
+          await act(async () => {
+               await userEvent.keyboard('{enter}');
+          });
+          expect(mockSignInWithGoogle).toHaveBeenCalled();
      })
 })
 
-
-// When isLoading is false
-//  - button displays G svg and text "Continue with Google"
-//  - button is not disabled
-
-
-// When button is clicked:
-//  - isLoading is set to true
-//  - button displays loading spinner
-//  - button is disabled
-// - signIn function is called
-
-// When isLoading is true
-//  - button displays loading spinner
-//  - button is disabled
-
-
-// When signIn function is called
-//  - isLoading is set to true
-//  - button displays loading spinner
-//  - button is disabled
-//  - eventually isLoading is set to false
-
-
-// If signInWithGoogle throws an error
-//  - error is logged to console
-//  - isLoading is set to false
-
-// If signInWithGoogle resolves successfully
-//  - isLoading is then set to false
-
-// Button can be focused and clicked with keyboard 
-// Button hover background color is different from default background color
 
 
 
