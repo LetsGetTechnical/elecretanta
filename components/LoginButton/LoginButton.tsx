@@ -4,7 +4,7 @@
 'use client';
 
 import { Button } from '../Button/button';
-import { useState, type JSX } from 'react';
+import { useState, JSX } from 'react';
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner';
 import { signInWithGoogle } from '@/lib/utils';
 
