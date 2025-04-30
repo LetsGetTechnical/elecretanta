@@ -46,7 +46,7 @@ const FeedbackView = ({
   };
 
   return (
-    <div className="flex flex-col m-4 h-full">
+    <div className="flex flex-col m-4 h-full" data-testid="feedback-view">
       {isLoading ? (
         <>
           <div className="flex justify-center items-center h-full">

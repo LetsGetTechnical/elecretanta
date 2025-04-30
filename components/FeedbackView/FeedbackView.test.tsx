@@ -45,7 +45,6 @@ describe('FeedbackView', () => {
 
   const renderFeedbackView = () => {
     return render(
-      <div data-testid="feedback-view">
         <FeedbackView
           allGiftSuggestions={[]}
           budget={''}
@@ -54,7 +53,6 @@ describe('FeedbackView', () => {
           onGiftUpdate={mockOnGiftUpdate}
           recipient={mockProfile}
         />
-      </div>
     );
   };
 
