@@ -49,7 +49,7 @@ describe('LoginButton', () => {
           });
      })
 
-     it('If signInWithGoogle throws an error, the button is enabled', async () => {
+     it('If signInWithGoogle throws an error, the LoginButton is re-enabled', async () => {
           const error = new Error('Sign in failed');
           mockSignInWithGoogle.mockRejectedValueOnce(error);
 
