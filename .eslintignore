@@ -32,7 +32,7 @@ app/types/giftExchangeMember.ts
 app/types/giftSuggestion.ts
 app/types/profile.ts
 app/types/tailwindcss-motion.d.ts
-components/Avatar/AvatarFallback.tsx
+components/Avatar/Avatar.tsx
 components/Avatar/AvatarBody.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
@@ -56,7 +56,6 @@ components/NavLogo/NavLogo.tsx
 components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
 components/Progress/progress.tsx
-components/RadioGroup/radio-group.tsx
 components/Select/select.tsx
 components/Skeleton/Skeleton.tsx
 components/Slider/slider.tsx
