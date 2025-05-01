@@ -38,4 +38,12 @@ describe('AvatarBody Component', () => {
 
     expect(avatarBodyElement).toBeEmptyDOMElement();
   });
+
+  it('renders with custom attributes', () => {
+    render(<AvatarBody custom-prop="customProp" />);
+
+    const avatarBodyElement = screen.getByTestId('avatar-body');
+
+    expect(avatarBodyElement).toHaveAttribute('custom-prop', 'customProp');
+  });
 });
