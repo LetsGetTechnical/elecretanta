@@ -40,10 +40,10 @@ describe('AvatarBody Component', () => {
   });
 
   it('renders with custom attributes', () => {
-    render(<AvatarBody custom-prop="customProp" />);
+    render(<AvatarBody data-custom-prop="customProp" />);
 
     const avatarBodyElement = screen.getByTestId('avatar-body');
 
-    expect(avatarBodyElement).toHaveAttribute('custom-prop', 'customProp');
+    expect(avatarBodyElement).toHaveAttribute('data-custom-prop', 'customProp');
   });
 });
