@@ -10,33 +10,12 @@ import { Circle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
- * The RadioGroup component.
- * @param {object} props - The props passed.
- * @param {string} props.className - Styles for the component.
- * @returns {JSX.Element} - The RadioGroup component.
- */
-const RadioGroup = forwardRef<
-  ElementRef<typeof RadioGroupPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
->(({ className, ...props }, ref) => {
-  return (
-    <RadioGroupPrimitive.Root
-      className={cn('grid gap-2', className)}
-      {...props}
-      ref={ref}
-      data-testid="radio-group"
-    />
-  );
-});
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
-
-/**
  * The RadioGroupItem component.
  * @param {object} props - The props passed.
  * @param {string} props.className - Styles for the component.
  * @returns {JSX.Element} - The RadioGroupItem component.
  */
-const RadioGroupItem = forwardRef<
+export const RadioGroupItem = forwardRef<
   ElementRef<typeof RadioGroupPrimitive.Item>,
   ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
 >(({ className, ...props }, ref) => {
@@ -56,5 +35,3 @@ const RadioGroupItem = forwardRef<
   );
 });
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
-
-export { RadioGroup, RadioGroupItem };
