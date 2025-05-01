@@ -120,12 +120,7 @@
       }
     ],
     "no-extra-semi": "off",
-    "no-unused-vars": [
-      "error",
-      {
-        "args": "all"
-      }
-    ],
+    "no-unused-vars": "off",
     "no-unused-expressions": "off",
     "semi": "off",
     "import/extensions": 0,
@@ -184,7 +179,8 @@
     "jsdoc/require-property-type": 0,
     "jsdoc/no-types": 0,
     "jsdoc/valid-types": 2,
-    "@typescript-eslint/explicit-function-return-type": "error"
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-unused-vars": "error"
   },
   "overrides": [
     {
