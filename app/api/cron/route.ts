@@ -28,13 +28,23 @@ export async function GET(request: Request): Promise<Response> {
     let totalCompleted = 0;
 
     for (const exchange of giftExchanges) {
-      const { drawnCount, completedCount } = await processGiftExchanges({ currentDate, exchange, supabase });
+      const { drawnCount, completedCount } = await processGiftExchanges({
+        currentDate,
+        exchange,
+        supabase,
+      });
       totalDrawn += drawnCount;
       totalCompleted += completedCount;
     }
 
-    const drawnMessage = totalDrawn > 0 ? `${totalDrawn} gift exchanges were drawn today.` : 'No gift exchanges were drawn today.';
-    const completedMessage = totalCompleted > 0 ? `${totalCompleted} gift exchanges were completed today.` : 'No gift exchanges were completed today.';
+    const drawnMessage =
+      totalDrawn > 0
+        ? `${totalDrawn} gift exchanges were drawn today.`
+        : 'No gift exchanges were drawn today.';
+    const completedMessage =
+      totalCompleted > 0
+        ? `${totalCompleted} gift exchanges were completed today.`
+        : 'No gift exchanges were completed today.';
 
     return NextResponse.json({ success: true, drawnMessage, completedMessage });
   } catch (error) {
