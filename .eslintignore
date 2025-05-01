@@ -36,7 +36,6 @@ components/Avatar/AvatarFallback.tsx
 components/Avatar/AvatarBody.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
-components/Command/command.tsx
 components/FeedbackView/FeedbackView.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftExchangeHeader/GiftExchangeHeader.tsx
@@ -52,7 +51,6 @@ components/Label/label.tsx
 components/LoadingCard/LoadingCard.tsx
 components/LoadingSkeleton/LoadingSkeleton.tsx
 components/LoadingSpinner/LoadingSpinner.tsx
-components/LoginButton/LoginButton.tsx
 components/MembersList/MembersList.tsx
 components/MultiSelect/multi-select-input.tsx
 components/Popover/popover.tsx
