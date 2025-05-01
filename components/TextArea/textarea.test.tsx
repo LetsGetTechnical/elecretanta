@@ -10,4 +10,9 @@ describe("Textarea", () => {
         const textarea = screen.getByRole("textbox")
         expect(textarea).toBeInTheDocument()
     })
+    it("renders the Textarea with custom className", ()=>{
+        render(<Textarea className="custom-cn" />)
+        const textarea = screen.getByRole("textbox")
+        expect(textarea).toHaveClass("custom-cn")
+    })
 })
