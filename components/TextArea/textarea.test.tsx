@@ -7,7 +7,7 @@ import { Textarea } from './textarea';
 describe("Textarea", () => {
     it("renders the Textarea correctly", () => {
         render(<Textarea />)
-        const textarea = screen.getByTestId("textarea")
+        const textarea = screen.getByRole("textbox")
         expect(textarea).toBeInTheDocument()
     })
 })
