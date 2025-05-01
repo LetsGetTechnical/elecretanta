@@ -56,7 +56,6 @@ components/MultiSelect/multi-select-input.tsx
 components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
 components/Progress/progress.tsx
-components/RadioGroup/radio-group.tsx
 components/Select/select.tsx
 components/Skeleton/Skeleton.tsx
 components/Slider/slider.tsx
