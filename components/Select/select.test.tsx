@@ -16,7 +16,7 @@ import {
 } from '@/components/Select';
 
 describe('Select', () => {
-  it("Select renders it's children", () => {
+  it("renders provided children", () => {
     render(
       <Select defaultValue="default-select-value">
         <SelectGroup>

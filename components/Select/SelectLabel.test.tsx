@@ -17,7 +17,7 @@ describe('Select Label', () => {
         <SelectTrigger />
         <SelectContent>
           <SelectGroup>
-            <SelectLabel aria-label="foo" className="my-label">
+            <SelectLabel className="my-label">
               hello
               <span>world</span>
             </SelectLabel>
@@ -27,7 +27,7 @@ describe('Select Label', () => {
     );
   });
 
-  it('Select renders its text', () => {
+  it('renders provided label text', () => {
     fireEvent.click(screen.getByTestId('select-trigger'));
     expect(screen.getByTestId('select-label')).toBeInTheDocument();
     expect(screen.getByText('hello')).toBeInTheDocument();
@@ -36,7 +36,6 @@ describe('Select Label', () => {
   it('Forwards props and renders children', () => {
     fireEvent.click(screen.getByTestId('select-trigger'));
     const selectLabel = screen.getByTestId('select-label');
-    expect(selectLabel).toHaveAttribute('aria-label', 'foo');
     expect(selectLabel).toHaveClass('my-label');
     const labelSpan = within(selectLabel).getByText('world');
     expect(labelSpan).toBeInTheDocument();

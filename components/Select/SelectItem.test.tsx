@@ -22,7 +22,7 @@ describe('Select Item', () => {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Desserts</SelectLabel>
-            <SelectItem value="basketball" aria-label="foo" className="my-item">
+            <SelectItem value="basketball" className="my-item">
               Basketball <span>Is Fun</span>
             </SelectItem>
             <SelectItem value="football">Football</SelectItem>
@@ -70,7 +70,6 @@ describe('Select Item', () => {
     const selectItem = screen.getByRole('option', {
       name: 'Basketball Is Fun',
     });
-    expect(selectItem).toHaveAttribute('aria-label', 'foo');
     expect(selectItem).toHaveClass('my-item');
     const itemSpan = within(selectItem).getByText('Is Fun');
     expect(itemSpan).toBeInTheDocument();

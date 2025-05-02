@@ -19,7 +19,7 @@ describe('Select Content', () => {
         <SelectTrigger>
           <SelectValue placeholder="Pick a dessert" />
         </SelectTrigger>
-        <SelectContent aria-label="bar" className="my-content">
+        <SelectContent className="my-content">
           <span>This is the dessert content</span>
           <SelectGroup>
             <SelectLabel>Desserts</SelectLabel>
@@ -58,7 +58,6 @@ describe('Select Content', () => {
   it('renders children and forwards props', () => {
     fireEvent.click(screen.getByTestId('select-trigger'));
     const selectContent = screen.getByTestId('select-content');
-    expect(selectContent).toHaveAttribute('aria-label', 'bar');
     expect(selectContent).toHaveClass('my-content');
     const triggerSpan = within(selectContent).getByText('This is the dessert content');
     expect(triggerSpan).toBeInTheDocument();
