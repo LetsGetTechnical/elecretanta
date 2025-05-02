@@ -8,7 +8,7 @@ jest.mock('@radix-ui/react-avatar', () => ({
 }));
 
 describe('AvatarImage', () => {
-  it('renders without crashing', () => {
+  it('renders the component', () => {
     render(
       <AvatarPrimativeRoot>
         <AvatarImage />
