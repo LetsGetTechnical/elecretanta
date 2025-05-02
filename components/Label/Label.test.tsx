@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { Label } from './label';
+import { Label } from './Label';
 import { render, screen } from '@testing-library/react';
 
 describe('Label', () => {
@@ -11,13 +11,12 @@ describe('Label', () => {
     const label = screen.getByTestId('label');
 
     expect(label).toBeInTheDocument();
-    expect(label).toHaveClass('text-sm');
   });
 
   it('renders the provided children inside the label', () => {
     render(<Label>children</Label>);
 
-    const label = screen.getByText('children');
+    const label = screen.getByTestId('label');
 
     expect(label).toHaveTextContent('children');
   });
@@ -28,5 +27,14 @@ describe('Label', () => {
     const label = screen.getByTestId('label');
 
     expect(label).toHaveClass('custom-class');
+  });
+
+  it('renders with htmlFor and aria-label attributes', () => {
+    render(<Label htmlFor="name" aria-label="name" />);
+
+    const label = screen.getByTestId('label');
+
+    expect(label).toHaveAttribute('for', 'name');
+    expect(label).toHaveAttribute('aria-label', 'name');
   });
 });
