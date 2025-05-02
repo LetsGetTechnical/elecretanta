@@ -1,9 +1,9 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { Badge, BadgeProps, badgeVariants } from './badge';
+import { Badge, BadgeProps, badgeVariants } from './Badge';
 import { render, screen } from '@testing-library/react';
-import { variants } from './badge';
+import { variants } from './Badge';
 
 const variantNames = Object.keys(variants.variant) as NonNullable<
   BadgeProps['variant']
@@ -49,5 +49,13 @@ describe('Badge', () => {
     const classNames = badgeVariants({ variant: 'default' });
     expect(badge).toHaveClass(classNames);
     expect(badge).toHaveClass('custom-class');
+  });
+
+  it('renders with aria-label attribute', () => {
+    render(<Badge aria-label="test" />);
+
+    const badge = screen.getByTestId('badge');
+
+    expect(badge).toHaveAttribute('aria-label', 'test');
   });
 });
