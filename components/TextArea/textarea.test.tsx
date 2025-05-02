@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Textarea } from './textarea';
 
 describe("Textarea", () => {
@@ -26,5 +26,11 @@ describe("Textarea", () => {
         expect(textarea).toHaveAttribute("placeholder", "test-placeholder")
         expect(textarea).toHaveAttribute("name", "test-name")
         expect(textarea).toHaveValue("test-value")
+    })
+    it("Should be able to type into Textarea", () => {
+        render(<Textarea />)
+        const textareaElement = screen.getByRole<HTMLTextAreaElement>("textbox")
+        fireEvent.change(textareaElement, {target: { value: "testing the textarea element" }})
+        expect(textareaElement.value).toBe("testing the textarea element")
     })
 })
