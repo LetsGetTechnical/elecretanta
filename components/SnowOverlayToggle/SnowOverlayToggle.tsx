@@ -1,10 +1,21 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
+import { JSX } from 'react';
 import { Snowflake, Sun } from 'lucide-react';
 import { useSnowOverlay } from '@/providers/SnowOverlayProvider';
 import { Button } from '../Button/button';
 
-export default function SnowOverlayToggle() {
+
+
+/**
+ * SnowOverlayToggle component
+ * A button that toggles snowfall overlay
+ * @returns {JSX.Element} button element that toggles between sun and snowflake
+ */
+const SnowOverlayToggle = (): JSX.Element => {
   const { isSnowing, toggleSnowSetting } = useSnowOverlay();
   return (
     <Button
@@ -20,3 +31,5 @@ export default function SnowOverlayToggle() {
     </Button>
   );
 }
+
+export { SnowOverlayToggle };

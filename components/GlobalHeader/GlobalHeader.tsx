@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Avatar from '../Avatar/Avatar';
 import NavLogo from '../NavLogo/NavLogo';
-import SnowOverlayToggle from '../SnowOverlayToggle/SnowOverlayToggle';
+import {SnowOverlayToggle} from '../SnowOverlayToggle/SnowOverlayToggle';
 import getUserAvatar from '@/lib/getUserAvatar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
