@@ -12,9 +12,13 @@ import { AvatarBody } from './AvatarBody';
  * @param {string} userAvatar - URL string for the avatar image. If undefined, the AvatarFallback img will be used.
  * @returns {JSX.Element} - The rendered Avatar element.
  */
-const Avatar = ({ userAvatar }: { userAvatar: string | undefined }) : JSX.Element => {
+const Avatar = ({
+  userAvatar,
+}: {
+  userAvatar: string | undefined;
+}): JSX.Element => {
   return (
-    <AvatarBody>
+    <AvatarBody data-testid="avatar">
       <AvatarImage src={userAvatar} alt="" />
       <AvatarFallback>
         <img
