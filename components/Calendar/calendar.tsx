@@ -11,7 +11,12 @@ import { JSX } from 'react';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/Button/button';
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  className: string;
+  classNames: string;
+  showOutsideDays? : boolean;
+  mode: string;
+};
 
 /**
  * Calendar component,
