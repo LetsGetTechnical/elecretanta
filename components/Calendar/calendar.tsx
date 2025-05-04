@@ -1,20 +1,32 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import * as React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { DayPicker } from 'react-day-picker';
+import { JSX } from 'react';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/Button/button';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-function Calendar({
+/**
+ * Calendar component,
+ * @param {CalendarProps} props - Calendar props passed for configuring calendar.
+ * @param {string} [props.className] - Additinoal class name.
+ * @param {object} [props.classNames] - Additional custom class names,
+ * @param {boolean} [props.showOutsideDays] - To show days outside the current month. Default is set to 'true'
+ * @returns {JSX.Element} Rendered Calendar element.
+ */
+const Calendar = ({
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}: CalendarProps) {
+}: CalendarProps): JSX.Element => {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -63,13 +75,23 @@ function Calendar({
         // The lack of props is causing a linter error, but we will need them when setting up the fetch logic later. For now I'm commenting out the error as a temporary fix.
         // IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
         // IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        /**
+         * Custom component for rendering the left icon
+         * @returns {JSX.Element} The rendered ChevronLeft icon with class `h-4 w-4`.
+         */
         IconLeft: () => <ChevronLeft className="h-4 w-4" />,
+        /**
+         * Custom component for rendering the right icon
+         * @returns {JSX.Element} The rendered ChevronRight icon with class `h-4 w-4`.
+         */
         IconRight: () => <ChevronRight className="h-4 w-4" />,
       }}
       {...props}
     />
   );
 }
+
+
 Calendar.displayName = 'Calendar';
 
 export { Calendar };
