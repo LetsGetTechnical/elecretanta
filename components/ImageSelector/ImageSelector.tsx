@@ -6,7 +6,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@/components/RadioGroup/radio-group';
-import { Label } from '@/components/Label/label';
+import { Label } from '@/components/Label/Label';
 
 interface ImageSelectorProps {
   value?: string;
