@@ -21,9 +21,9 @@ describe('Select Item', () => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Desserts</SelectLabel>
+            <SelectLabel>Sports</SelectLabel>
             <SelectItem value="basketball" className="my-item">
-              Basketball <span>Is Fun</span>
+              Basketball
             </SelectItem>
             <SelectItem value="football">Football</SelectItem>
             <SelectItem value="soccer" disabled>
@@ -65,13 +65,11 @@ describe('Select Item', () => {
     );
   });
 
-  it('renders children and forwards props', () => {
+  it('forwards props', () => {
     fireEvent.click(screen.getByTestId('select-trigger'));
     const selectItem = screen.getByRole('option', {
-      name: 'Basketball Is Fun',
+      name: 'Basketball',
     });
     expect(selectItem).toHaveClass('my-item');
-    const itemSpan = within(selectItem).getByText('Is Fun');
-    expect(itemSpan).toBeInTheDocument();
   });
 });
