@@ -5,4 +5,5 @@
 
 import { Root } from '@radix-ui/react-dialog';
 
+// Export the base Dialog component
 export const Dialog = Root;

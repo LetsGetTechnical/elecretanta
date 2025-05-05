@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import {
   Dialog,
   DialogTrigger,
@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-} from './dialog';
+} from './index';
 import userEvent from '@testing-library/user-event';
 describe('Dialog', () => {
   it('should render correctly with content when open', () => {
