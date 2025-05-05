@@ -76,11 +76,12 @@ describe("Button", () => {
         expect(button).toHaveClass('h-9 w-9');
       });
 
-    it("triggers onClick behavior with mouse click", () => {
+    it("triggers onClick behavior with mouse click", async () => {
         const handleClick = jest.fn(); 
         render(<Button data-testid="button" onClick={handleClick} />);
         const testButton = screen.getByTestId('button');
-        fireEvent.click(testButton);
+        // fireEvent.click(testButton);
+        await userEvent.click(testButton);
         expect(handleClick).toHaveBeenCalledTimes(1); 
     });
 
