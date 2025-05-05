@@ -1,10 +1,19 @@
-import * as React from 'react';
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
 
+import { forwardRef, ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 
-const Textarea = React.forwardRef<
+/***
+ * Textarea component
+ * @param {ComponentProps<'textarea'>} props
+ * @param {string} [props.className]
+ * @returns {JSX.Element}
+ **/
+
+const Textarea = forwardRef<
   HTMLTextAreaElement,
-  React.ComponentProps<'textarea'>
+  ComponentProps<'textarea'>
 >(({ className, ...props }, ref) => {
   return (
     <textarea

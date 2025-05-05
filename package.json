@@ -1,6 +1,6 @@
 {
   "name": "elecretanta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=4000 next dev",
@@ -51,12 +51,6 @@
     "@babel/preset-typescript": "^7.27.0",
     "@chromatic-com/storybook": "3",
     "@playwright/test": "^1.51.1",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-onboarding": "^8.6.12",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/nextjs": "^8.6.12",
-    "@storybook/react": "^8.6.12",
-    "@storybook/test": "^8.6.12",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^29.5.14",
