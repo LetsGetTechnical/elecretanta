@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/Card/card';
 import LoginButton from '@/components/LoginButton/LoginButton';
-import SnowOverlayToggle from '@/components/SnowOverlayToggle/SnowOverlayToggle';
+import { SnowOverlayToggle } from '@/components/SnowOverlayToggle/SnowOverlayToggle';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { Calendar, Gift, Sparkles, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
