@@ -1,4 +1,4 @@
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import LoginButton from './LoginButton';
 import { signInWithGoogle } from '@/lib/utils';
@@ -23,7 +23,7 @@ describe('LoginButton', () => {
           const loginButton = screen.getByTestId('login-button');
           expect(loginButton).not.toBeDisabled();
           expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
-          expect(loginButton).toHaveTextContent('Google');
+          expect(loginButton).toHaveTextContent('Continue with Google');
      })
 
      it('When loginButton is clicked it is disabled, it displays the loading spinner, and signInWithGoogle is called', async () => {
