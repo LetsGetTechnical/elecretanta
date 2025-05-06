@@ -5,8 +5,6 @@ import FeedbackView from './FeedbackView';
 import userEvent from '@testing-library/user-event';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
 
-// I'm wrapping all of the tests that click one of the feedback buttons in act() because they all set state and I was getting a lot of errors that anything that triggered a state change needs to be wrapped in act().
-
 jest.mock('@/lib/generateAndUpdateNewGiftSuggestion', () => ({
   generateAndUpdateNewGiftSuggestion: jest.fn().mockResolvedValue({
     id: '1',
@@ -98,8 +96,6 @@ describe('FeedbackView', () => {
     });
   });
 
-
-  // I can't access handleFeedbackSubmit directly since it's not a prop so this tests whether onGiftUpdate is called as a result of handleFeedbackSubmit running. 
   it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
     renderFeedbackView();
 
@@ -172,10 +168,6 @@ describe('FeedbackView', () => {
     const styleButton = screen.getByTestId('feedback-button-2');
     const haveButton = screen.getByTestId('feedback-button-3');
 
-    // I think we should eventually adjust the component so this does pass (by wrapping it in a button?) but currently it does not. 
-    // backButton.focus();
-    // expect(backButton).toHaveFocus();
-
     expensiveButton.focus();
     expect(expensiveButton).toHaveFocus();
 
@@ -224,7 +216,6 @@ describe('FeedbackView', () => {
     expect(mockOnGiftUpdate).not.toHaveBeenCalled();
   });
 
-  // I'm not entirely sure if this is even testing whether an error is thrown or not because it passes even when I just use my renderFeedbackView() function without using the mockOnGiftUpdate function with the mockRejectedValue. I'm not able to get it to pass any other way and still test that it throws an error. When I check test coverage it says the only line not covered is line 42 (which throws this error)
   it('When onGiftUpdate fails, an error is thrown', async () => {
     const mockOnGiftUpdate = jest.fn().mockRejectedValue(new Error('Update error'));
 
