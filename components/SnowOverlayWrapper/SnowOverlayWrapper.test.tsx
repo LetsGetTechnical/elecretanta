@@ -31,7 +31,7 @@ describe('SnowOverlayWrapper', ()=>{
         const testSnowWrapper = screen.getByTestId("snowOverlayWrapper")
         expect(testSnowWrapper).toBeInTheDocument()
     })
-    it('passes down disabled=true prop to SnowOverlay when isSnowing=false', ()=>{
+    it('When isSnowing=false, SnowOverlay disabled prop will be true', ()=>{
         mockSnowState.isSnowing = false
         render(<SnowOverlayWrapper />)
         expect(mockSnowOverlay).toHaveBeenCalledWith(
@@ -41,7 +41,7 @@ describe('SnowOverlayWrapper', ()=>{
             })
         );
     })
-    it('passes down disabled=false prop to SnowOverlay when isSnowing=true', ()=>{
+    it('When isSnowing=true, SnowOverlay disabled prop will be false', ()=>{
         mockSnowState.isSnowing = true
         render(<SnowOverlayWrapper />)
         expect(mockSnowOverlay).toHaveBeenCalledWith(
