@@ -17,6 +17,7 @@ const CardFooter = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
+    data-testid="card-footer"
     className={cn('flex items-center p-6 pt-0', className)}
     {...props}
   />

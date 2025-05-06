@@ -22,6 +22,7 @@ const Card = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
+    data-testid="card"
     className={cn(
       'rounded-xl border bg-card text-card-foreground shadow',
       className,

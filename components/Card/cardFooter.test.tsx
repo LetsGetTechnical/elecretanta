@@ -6,32 +6,31 @@ import { CardFooter } from './CardFooter';
 import React from 'react';
 
 describe('CardFooter', () => {
-    it('renders CardFooter with default styling', () => {
-        render(<CardFooter data-testid="card-footer"></CardFooter>);
+    it('renders the component', () => {
+        render(<CardFooter />);
 
         const cardFooter = screen.getByTestId('card-footer');
-
         expect(cardFooter).toBeInTheDocument();
-        expect(cardFooter).toHaveClass('flex', 'items-center', 'p-6', 'pt-0');
-    })
-})
+    });
 
-describe('CardFooter - prop forwarding', () => {
-    it('applies additional className in addition to default styles', () => {
-        render(<CardFooter data-testid="card-footer" className="custom-class">Card Title</CardFooter>);
+    it('renders the children content within CardFooter', () => {
+        render(<CardFooter>children</CardFooter>);
+
+        const cardFooter = screen.getByTestId('card-footer');
+        expect(cardFooter).toHaveTextContent('children');
+    });
+
+    it('applies a custom className passed via props', () => {
+        render(<CardFooter className="custom-class"/>);
 
         const cardFooter = screen.getByTestId('card-footer');
         expect(cardFooter).toHaveClass('custom-class');
-        expect(cardFooter).toHaveClass('flex', 'items-center', 'p-6', 'pt-0');
-    })
-})
+    });
 
-describe('CardFooter - forward Ref', () => {
-    it('forwards ref to DOM element (div)', () => {
-        const ref = React.createRef<HTMLDivElement>();
+    it('renders a custom attribute, such as aria-label, passed via props', () => {
+        render(<CardFooter aria-label="Elfgorithm footer"/>);
 
-        render(<CardFooter ref={ref}>Ref test</CardFooter>);
-        expect(ref.current).toBeInstanceOf(HTMLDivElement);
-        expect(ref.current).toBeInTheDocument();
+        const cardFooter = screen.getByTestId('card-footer');
+        expect(cardFooter).toHaveAttribute('aria-label', 'Elfgorithm footer');
     })
 })

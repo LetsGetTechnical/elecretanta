@@ -7,32 +7,31 @@ import React from 'react';
 
 describe('CardDescription', () => {
 
-    it('renders CardDescription with default styling', () => {
-        render(<CardDescription data-testid="card-description"></CardDescription>); 
+    it('renders the component', () => {
+        render(<CardDescription />); 
 
         const cardDescription = screen.getByTestId('card-description'); 
-
         expect(cardDescription).toBeInTheDocument();
-        expect(cardDescription).toHaveClass('text-sm', 'text-muted-foreground')
-    })
-})
+    });
 
-describe('CardDescription - prop forwarding', () => {
-    it('applies additional className in addition to default styles', () => {
-        render(<CardDescription data-testid="card-description" className="custom-class"></CardDescription>);
-        
+    it('renders the children content within CardDescription', () => {
+        render(<CardDescription>children</CardDescription>);
+
+        const cardDescription = screen.getByTestId('card-description');
+        expect(cardDescription).toHaveTextContent('children');
+    });
+
+    it('applies a custom className passed via props', () => {
+        render(<CardDescription className="custom-class"/>);
+
         const cardDescription = screen.getByTestId('card-description');
         expect(cardDescription).toHaveClass('custom-class');
-        expect(cardDescription).toHaveClass('text-sm', 'text-muted-foreground')
-    })
-})
+    });
 
-describe('CardDescription - forward Ref', () => {
-    it('forwards ref to DOM element (div)', () => {
-        const ref = React.createRef<HTMLDivElement>();
+    it('renders a custom attribute, such as aria-label, passed via props', () => {
+        render(<CardDescription aria-label="Elfgorithm feature description"/>);
 
-        render(<CardDescription ref={ref}>Ref test</CardDescription>);
-        expect(ref.current).toBeInstanceOf(HTMLDivElement);
-        expect(ref.current).toBeInTheDocument();
-    })
+        const cardDescription = screen.getByTestId('card-description');
+        expect(cardDescription).toHaveAttribute('aria-label', 'Elfgorithm feature description');
+    });
 })

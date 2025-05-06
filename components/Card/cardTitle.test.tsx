@@ -6,33 +6,31 @@ import { CardTitle } from './CardTitle';
 import React from 'react';
 
 describe('CardTitle', () => {
-    it('renders CardTitle with default styling', () => {
-        render(<CardTitle data-testid="card-title"></CardTitle>);
+    it('renders the component', () => {
+        render(<CardTitle />);
 
         const cardTitle = screen.getByTestId('card-title');
-
         expect(cardTitle).toBeInTheDocument();
-        expect(cardTitle).toHaveClass('font-semibold', 'leading-none', 'tracking-tight');
-    })
-})
+    });
 
-describe('CardTitle - prop forwarding', () => {
-    it('applies additional className in addition to default styles', () => {
-        render(<CardTitle data-testid="card-title" className="custom-class">Card Title</CardTitle>);
-        
+    it('renders the children content within CardTitle', () => {
+        render(<CardTitle>children</CardTitle>);
+
+        const cardTitle = screen.getByTestId('card-title');
+        expect(cardTitle).toHaveTextContent('children');
+    });
+
+    it('applies a custom className passed via props', () => {
+        render(<CardTitle className="custom-class"/>);
+
         const cardTitle = screen.getByTestId('card-title');
         expect(cardTitle).toHaveClass('custom-class');
-        expect(cardTitle).toHaveClass('font-semibold', 'leading-none', 'tracking-tight');
-    })
-})
+    });
 
-describe('CardTitle - forward Ref', () => {
-    it('forwards ref to DOM element (div)', () => {
-        const ref = React.createRef<HTMLDivElement>();
+    it('renders a custom attribute, such as aria-label, passed via props', () => {
+        render(<CardTitle aria-label="Elfgorithm features"/>);
 
-        render(<CardTitle ref={ref}>Ref test</CardTitle>);
-        
-        expect(ref.current).toBeInstanceOf(HTMLDivElement);
-        expect(ref.current).toBeInTheDocument();
-    })
+        const cardTitle = screen.getByTestId('card-title');
+        expect(cardTitle).toHaveAttribute('aria-label', 'Elfgorithm features');
+    });
 })

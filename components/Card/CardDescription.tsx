@@ -17,6 +17,7 @@ const CardDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
+    data-testid="card-description"
     className={cn('text-sm text-muted-foreground', className)}
     {...props}
   />

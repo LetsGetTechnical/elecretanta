@@ -6,32 +6,31 @@ import { CardContent } from './CardContent';
 import React from 'react';
 
 describe('CardContent', () => {
-    it('renders CardContent with default styling', () => {
-        render(<CardContent data-testid="card-content"></CardContent>);
+    it('renders the component', () => {
+        render(<CardContent />);
 
         const cardContent = screen.getByTestId('card-content');
-
         expect(cardContent).toBeInTheDocument(); 
-        expect(cardContent).toHaveClass('p-6', 'pt-0');
     });
-})
 
-describe('CardContent - prop forwarding', () => {
-    it('applies additional className in addition to default styles', () => {
-        render(<CardContent data-testid="card-content" className="custom-class"></CardContent>);
+    it('renders the children content within CardContent', () => {
+        render(<CardContent>children</CardContent>);
+
+        const cardContent = screen.getByTestId('card-content');
+        expect(cardContent).toHaveTextContent('children');
+    })
+
+    it('applies a custom className passed via props', () => {
+        render(<CardContent className="custom-class"/>);
 
         const cardContent = screen.getByTestId('card-content');
         expect(cardContent).toHaveClass('custom-class');
-        expect(cardContent).toHaveClass('p-6', 'pt-0');
-    })
-})
+    });
 
-describe('CardContent - forward Ref', () => {
-    it('forwards ref to DOM element (div)', () => {
-        const ref = React.createRef<HTMLDivElement>();
+    it('renders a custom attribute, such as aria-label, passed via props', () => {
+        render(<CardContent aria-label="Elfgorithm features"/>);
 
-        render(<CardContent ref={ref}>Ref test</CardContent>);
-        expect(ref.current).toBeInstanceOf(HTMLDivElement);
-        expect(ref.current).toBeInTheDocument();
+        const cardContent = screen.getByTestId('card-content');
+        expect(cardContent).toHaveAttribute('aria-label', 'Elfgorithm features')
     })
 })

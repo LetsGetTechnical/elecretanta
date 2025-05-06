@@ -17,6 +17,7 @@ const CardTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
+    data-testid="card-title"
     className={cn('font-semibold leading-none tracking-tight', className)}
     {...props}
   />
