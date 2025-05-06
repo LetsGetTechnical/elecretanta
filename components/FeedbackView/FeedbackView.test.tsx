@@ -70,9 +70,9 @@ describe('FeedbackView', () => {
 
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
       
-    const expensiveButton = screen.getByTestId('feedback-button-0');
-    const styleButton = screen.getByTestId('feedback-button-1');
-    const haveButton = screen.getByTestId('feedback-button-2');
+    const expensiveButton = screen.getByTestId('feedback-button-1');
+    const styleButton = screen.getByTestId('feedback-button-2');
+    const haveButton = screen.getByTestId('feedback-button-3');
 
     expect(expensiveButton).toBeInTheDocument();
     expect(styleButton).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe('FeedbackView', () => {
   it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
     renderFeedbackView();
 
-    const expensiveButton = screen.getByTestId('feedback-button-0');
+    const expensiveButton = screen.getByTestId('feedback-button-1');
     
     await userEvent.click(expensiveButton);
 
@@ -106,10 +106,10 @@ describe('FeedbackView', () => {
   it('When button is clicked, loading spinner appears and buttons are hidden, then loading spinner disappears and buttons are shown again', async () => {
     renderFeedbackView();
 
-    const expensiveButton = screen.getByTestId('feedback-button-0');
+    const expensiveButton = screen.getByTestId('feedback-button-1');
       
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-    expect(screen.getByTestId('feedback-button-0')).toBeInTheDocument();
+    expect(screen.getByTestId('feedback-button-1')).toBeInTheDocument();
 
     await act(async () => {
       userEvent.click(expensiveButton)
@@ -117,12 +117,12 @@ describe('FeedbackView', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
-      expect(screen.queryByTestId('feedback-button-0')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('feedback-button-1')).not.toBeInTheDocument();
     });
 
     await waitFor(() => {
       expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-      expect(screen.getByTestId('feedback-button-0')).toBeInTheDocument();
+      expect(screen.getByTestId('feedback-button-1')).toBeInTheDocument();
     });
   });
 
@@ -146,7 +146,7 @@ describe('FeedbackView', () => {
   it('When button is clicked, onGiftUpdate is called with new gift', async () => {
     renderFeedbackView();
 
-    const expensiveButton = screen.getByTestId('feedback-button-0');
+    const expensiveButton = screen.getByTestId('feedback-button-1');
     await act(async () => {
       userEvent.click(expensiveButton);
     });
@@ -168,9 +168,9 @@ describe('FeedbackView', () => {
     renderFeedbackView();
 
     const backButton = screen.getByTestId('back-chevron');
-    const expensiveButton = screen.getByTestId('feedback-button-0');
-    const styleButton = screen.getByTestId('feedback-button-1');
-    const haveButton = screen.getByTestId('feedback-button-2');
+    const expensiveButton = screen.getByTestId('feedback-button-1');
+    const styleButton = screen.getByTestId('feedback-button-2');
+    const haveButton = screen.getByTestId('feedback-button-3');
 
     // I think we should eventually adjust the component so this does pass (by wrapping it in a button?) but currently it does not. 
     // backButton.focus();
@@ -210,7 +210,7 @@ describe('FeedbackView', () => {
         recipient={mockProfile}
       />);
 
-    const feedbackButton = screen.getByTestId('feedback-button-0');
+    const feedbackButton = screen.getByTestId('feedback-button-1');
     await act(async () => {
       userEvent.click(feedbackButton);
     });
@@ -239,7 +239,7 @@ describe('FeedbackView', () => {
       />
     );
 
-    const feedbackButton = screen.getByTestId('feedback-button-0');
+    const feedbackButton = screen.getByTestId('feedback-button-3');
       
     await expect(
       act(async () => {
