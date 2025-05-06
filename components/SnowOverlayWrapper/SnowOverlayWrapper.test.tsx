@@ -4,6 +4,7 @@
 import { JSX } from 'react';
 import SnowOverlayWrapper from "./SnowOverlayWrapper";
 import { render, screen } from '@testing-library/react'
+import { SnowOverlayProps } from 'react-snow-overlay';
 
 const mockSnowState = { isSnowing: false}
 
@@ -12,11 +13,6 @@ jest.mock('@/providers/SnowOverlayProvider', ()=>({
 }))
 
 const mockSnowOverlay = jest.fn()
-
-interface SnowOverlayProps {
-    disabled: boolean;
-    disabledOnSingleCpuDevices: boolean;
-}
 
 jest.mock("react-snow-overlay", ()=>({
     SnowOverlay: (props: SnowOverlayProps): JSX.Element => {
