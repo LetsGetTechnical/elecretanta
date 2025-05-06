@@ -1,14 +1,26 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import { Button } from '../Button/button';
-import { useState } from 'react';
+import { useState, JSX } from 'react';
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner';
 import { signInWithGoogle } from '@/lib/utils';
 
-export default function LoginButton() {
+/**
+ * A button component that allows users to sign in with Google.
+ * @returns {JSX.Element} - The rendered LoginButton component.
+ */
+const LoginButton = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const signIn = async () => {
+  /**
+   * Handles the Google sign-in process.
+   * Sets loading state and attempts to sign in with Google.
+   * @returns {Promise<void>} - A promise that resolves when the sign-in process is complete.
+   */
+  const signIn = async (): Promise<void> => {
     setIsLoading(true);
     try {
       await signInWithGoogle({});
@@ -42,4 +54,5 @@ export default function LoginButton() {
       <span>Continue with Google</span>
     </Button>
   );
-}
+};
+export default LoginButton;
