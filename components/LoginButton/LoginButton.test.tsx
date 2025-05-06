@@ -11,7 +11,6 @@ jest.mock('@/lib/utils', () => ({
 
 const mockSignInWithGoogle = signInWithGoogle as jest.Mock;
 
-
 describe('LoginButton', () => {
      it('Renders the LoginButton', () => {
           render(<LoginButton />);
@@ -55,56 +54,13 @@ describe('LoginButton', () => {
           render(<LoginButton />);
           const loginButton = screen.getByTestId('login-button');
           
-          await act(async () => {
-               userEvent.click(loginButton);
-          });
+          await userEvent.click(loginButton);
           
-          // Wait for the loading state to finish and the button to be re-enabled
-          await waitFor(() => {
-               expect(loginButton).not.toBeDisabled();
-          });
-          // Check that the sign-in function was called
+          expect(loginButton).not.toBeDisabled();
           expect(mockSignInWithGoogle).toHaveBeenCalledWith({});
           expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
           expect(loginButton).toHaveTextContent('Continue with Google');
      });
-
-     // it('If signInWithGoogle throws an error, the LoginButton is re-enabled', async () => {
-     //      const error = new Error('Sign in failed');
-     //      mockSignInWithGoogle.mockRejectedValueOnce(error);
-
-     //      render(<LoginButton />);
-     //      const loginButton = screen.getByTestId('login-button');
-          
-     //      await act(async () => {
-     //           userEvent.click(loginButton);
-     //      });
-          
-     //      expect(mockSignInWithGoogle).toHaveBeenCalledWith({});
-     //      expect(loginButton).not.toBeDisabled();
-     //      expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
-     //      expect(loginButton).toHaveTextContent('Continue with Google');
-     // })
-
-//      it('If signInWithGoogle throws an error, the LoginButton is re-enabled', async () => {
-//     const error = new Error('Sign in failed');
-//     mockSignInWithGoogle.mockRejectedValueOnce(error);
-
-//     render(<LoginButton />);
-//     const loginButton = screen.getByTestId('login-button');
-    
-//     await userEvent.click(loginButton);
-    
-//     // Wait for the button to be re-enabled after the error
-//     await waitFor(() => {
-//         expect(loginButton).not.toBeDisabled();
-//     });
-
-//     expect(mockSignInWithGoogle).toHaveBeenCalledWith({});
-//     expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
-//     expect(loginButton).toHaveTextContent('Continue with Google');
-// });
-
 
      it('The LoginButton should be focusable and clickable with keyboard', async () => {
           render(<LoginButton />);
