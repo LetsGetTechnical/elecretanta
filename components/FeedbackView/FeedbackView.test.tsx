@@ -81,16 +81,14 @@ describe('FeedbackView', () => {
     expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
     expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
   });
- 
 
-  // I can't access handleFeedbackSubmit directly since it's not a prop so this tests whether onGiftUpdate is called inside of it. 
+  // I can't access handleFeedbackSubmit directly since it's not a prop so this tests whether onGiftUpdate is called as a result of handleFeedbackSubmit running. 
   it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
     renderFeedbackView();
 
     const expensiveButton = screen.getByTestId('feedback-button-0');
-    await act(async () => {
-      await userEvent.click(expensiveButton);
-    });
+    
+    await userEvent.click(expensiveButton);
 
     await waitFor(() => {
       expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
@@ -103,7 +101,7 @@ describe('FeedbackView', () => {
         imageUrl: 'new-test.jpg',
       }));
     });
-  });
+  }); 
 
   it('When button is clicked, loading spinner appears and buttons are hidden, then loading spinner disappears and buttons are shown again', async () => {
     renderFeedbackView();
@@ -145,14 +143,12 @@ describe('FeedbackView', () => {
     });
   });
 
-
-
   it('When button is clicked, onGiftUpdate is called with new gift', async () => {
     renderFeedbackView();
 
     const expensiveButton = screen.getByTestId('feedback-button-0');
     await act(async () => {
-      await userEvent.click(expensiveButton);
+      userEvent.click(expensiveButton);
     });
 
     await waitFor(() => {
@@ -191,15 +187,13 @@ describe('FeedbackView', () => {
 
 
     await act(async () => {
-      await userEvent.keyboard('{Enter}');
+      userEvent.keyboard('{Enter}');
     });
       
     await waitFor(() => {
       expect(mockOnGiftUpdate).toHaveBeenCalled();
     });
   });
-
-
 
   it('If updatedGift is null, an error should be logged and onGiftUpdate is not called.', async () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
@@ -218,7 +212,7 @@ describe('FeedbackView', () => {
 
     const feedbackButton = screen.getByTestId('feedback-button-0');
     await act(async () => {
-      await userEvent.click(feedbackButton);
+      userEvent.click(feedbackButton);
     });
 
     await waitFor(() => {
