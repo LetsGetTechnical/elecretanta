@@ -3,7 +3,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/Card/Card';
+} from '@/components/Card2/Card';
 import { formatDate } from '@/lib/utils';
 import { Gift, UserCircle, Sparkles, PartyPopper } from 'lucide-react';
 

@@ -9,7 +9,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/Card/Card';
+} from '@/components/Card2/Card';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 import Avatar from '@/components/Avatar/Avatar';
 import { ArrowRight, Gift, PartyPopper } from 'lucide-react';

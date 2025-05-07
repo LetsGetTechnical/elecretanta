@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Card } from '@/components/Card/Card';
+import { Card } from '@/components/Card2/Card';
 import {
   RadioGroup,
   RadioGroupItem,
