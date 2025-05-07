@@ -4,7 +4,7 @@
 import { JSX } from 'react';
 
 import { AvatarImage } from './AvatarImage';
-import { AvatarFallback } from './AvatarFallback';
+import { AvatarFallback } from './AvatarFallback/AvatarFallback';
 import { AvatarBody } from './AvatarBody';
 
 /**
