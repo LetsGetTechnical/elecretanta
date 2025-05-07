@@ -49,12 +49,6 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.0",
-    "@storybook/test": "^8.6.12",
-    "@storybook/react": "^8.6.12",
-    "@storybook/nextjs": "^8.6.12",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/addon-onboarding": "^8.6.12",
-    "@storybook/addon-essentials": "^8.6.12",
     "@chromatic-com/storybook": "3",
     "@playwright/test": "^1.51.1",
     "@testing-library/jest-dom": "^6.6.3",
