@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/Card2/Card';
+} from '@/components/Card/Card';
 import { Input } from '@/components/Input/input';
 import { Progress } from '@/components/Progress/progress';
 import { ChevronLeft, ChevronRight, Gift } from 'lucide-react';

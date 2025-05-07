@@ -1,4 +1,4 @@
-import { Card } from '../Card2/Card';
+import { Card } from '../Card/Card';
 import { useState } from 'react';
 import FeedbackView from '../FeedbackView/FeedbackView';
 import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';

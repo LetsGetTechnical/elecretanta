@@ -5,7 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/Card2/Card';
+} from '@/components/Card/Card';
 import { UsersRound } from 'lucide-react';
 import Avatar from '@/components/Avatar/Avatar';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
