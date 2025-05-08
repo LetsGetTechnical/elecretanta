@@ -1,10 +1,22 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
+import { ReactElement } from 'react';
 
-export default function GlobalGiftSpinner() {
-  const draw = {
+/**
+ * A loading spinner component that displays an animated gift icon using Framer Motion
+ * @returns {ReactElement} A div containing an animated SVG gift icon
+ */
+export const GlobalGiftSpinner = (): ReactElement => {
+  const draw: Variants = {
     hidden: { pathLength: 0, opacity: 0 },
+    /**
+     * Animation configuration for the visible state of the gift icon
+     * @returns {Variants} Animation properties including pathLength, opacity, and transition settings
+     */
     visible: () => ({
       pathLength: 1,
       opacity: 1,
