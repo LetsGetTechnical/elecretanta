@@ -1,6 +1,3 @@
-// Copyright (c) Gridiron Survivor.
-// Licensed under the MIT License.
-
 import { render, screen } from '@testing-library/react';
 import { CardHeader} from './CardHeader'; 
 import React from 'react';
