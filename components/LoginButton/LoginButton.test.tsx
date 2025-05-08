@@ -1,10 +1,7 @@
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import LoginButton from './LoginButton';
 import { signInWithGoogle } from '@/lib/utils';
-import * as React from 'react';
-
-const mockSetIsLoading = jest.fn();
 
 jest.mock('@/lib/utils', () => ({
   ...jest.requireActual('@/lib/utils'),
@@ -26,24 +23,43 @@ describe('LoginButton', () => {
         expect(loginButton.querySelector('[data-testid="google-icon"]')).toBeInTheDocument();
         expect(loginButton).toHaveTextContent('Continue with Google');
     });
+     
+     
+     it('When loginButton is clicked it is disabled, it displays the loading spinner, and signInWithGoogle is called', async () => {
+          // let resolveSignIn: () => void;
+          // const signInPromise = new Promise<void>(resolve => {
+          //      resolveSignIn = resolve;
+          // });
+          (signInWithGoogle as jest.Mock).mockImplementation(
+            () => new Promise(() => {}),
+           );
+          render(<LoginButton />);
+          const loginButton = screen.getByTestId('login-button');
+          
+          await userEvent.click(loginButton);
+          
+          expect(loginButton).toBeDisabled();
+          expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+          expect(signInWithGoogle).toHaveBeenCalledTimes(1);
+     })
+     
+    it('If signInWithGoogle throws an error, the LoginButton is re-enabled', async () => {
+    const error = new Error('Sign in failed');
+    mockSignInWithGoogle.mockRejectedValueOnce(error);
 
-    it('When isLoading is true, the button is disabled and the loading spinner is displayed', () => {
-        jest.spyOn(React, 'useState').mockImplementationOnce(() => [true, mockSetIsLoading]);
-        
-        render(<LoginButton />);
-        const loginButton = screen.getByTestId('login-button');
-        expect(loginButton).toBeDisabled();
-        expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
-    });
+    const { getByTestId } = render(<LoginButton />);
+    const loginButton = getByTestId('login-button'); // Ensures the `<button>` is rendered
 
-    it('When isLoading is false, the button is enabled and the Google icon is displayed', () => {
-         jest.spyOn(React, 'useState').mockImplementationOnce(() => [false, mockSetIsLoading]);
-        
-        render(<LoginButton />);
-        const loginButton = screen.getByTestId('login-button');
+    await userEvent.click(loginButton);
+
+    await waitFor(() => {
         expect(loginButton).not.toBeDisabled();
-        expect(screen.getByTestId('google-icon')).toBeInTheDocument();
     });
+
+    expect(mockSignInWithGoogle).toHaveBeenCalledTimes(1);
+    expect(getByTestId('google-icon')).toBeInTheDocument();
+    expect(loginButton).toHaveTextContent('Continue with Google');
+});
 
     it('The LoginButton should be focusable and clickable with keyboard', async () => {
         render(<LoginButton />);
@@ -51,22 +67,6 @@ describe('LoginButton', () => {
         loginButton.focus();
         
         await userEvent.keyboard('{enter}');
-        
         expect(mockSignInWithGoogle).toHaveBeenCalled();
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
