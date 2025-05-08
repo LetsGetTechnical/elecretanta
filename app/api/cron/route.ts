@@ -14,7 +14,7 @@ import { processGiftExchanges } from './functions/processGiftExchanges/processGi
  */
 export async function GET(request: Request): Promise<Response> {
   if (!checkCronAuthorization(request)) {
-    return new Response('Unauthorized', { status: 401 });
+    return NextResponse.json({ status: false });
   }
 
   try {
