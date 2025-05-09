@@ -8,7 +8,7 @@ describe('NavLogo', () => {
     it('renders the logo and links to the dashboard', () => {
         render(<NavLogo/>);
 
-        const navLogoIcon = screen.getByTestId('nav-logo');
+        const navLogoIcon = screen.getByTestId('nav-logo-icon');
         expect(navLogoIcon).toBeInTheDocument();
         
         const navLogoText = screen.getByTestId('nav-logo-text');

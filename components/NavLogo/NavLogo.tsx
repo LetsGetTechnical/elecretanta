@@ -18,7 +18,7 @@ const NavLogo = (): JSX.Element => {
     >
       <Gift 
         className="bg-logoWhite h-8 w-8 p-1 rounded-lg text-red-600" 
-        data-testid="nav-logo"
+        data-testid="nav-logo-icon"
       />
       <p 
         className="font-bold ml-2 italic text-green-200"
