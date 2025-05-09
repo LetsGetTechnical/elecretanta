@@ -16,10 +16,9 @@ describe('LoginButton', () => {
     });
 
      it('On initial load the button is not disabled and displays the google icon and the text Continue with Google', () => {
-        const { getByTestId } = render(<LoginButton />);
-        const loginButton = getByTestId('login-button');
-        const googleIcon = getByTestId('google-icon');
-
+        render(<LoginButton />);
+        const loginButton = screen.getByTestId('login-button');
+        const googleIcon = screen.getByTestId('google-icon');
         expect(loginButton).toBeInTheDocument();
         expect(loginButton).not.toBeDisabled();
         expect(googleIcon).toBeInTheDocument();
@@ -50,12 +49,12 @@ describe('LoginButton', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {});    
 
-    const { getByTestId } = render(<LoginButton />);
-    const loginButton = getByTestId('login-button');
+    render(<LoginButton />);
+    const loginButton = screen.getByTestId('login-button');
     
     await userEvent.click(loginButton);
     
-    const googleIcon = getByTestId('google-icon');
+    const googleIcon = screen.getByTestId('google-icon');
     await waitFor(() => {
         expect(loginButton).not.toBeDisabled();
     });
