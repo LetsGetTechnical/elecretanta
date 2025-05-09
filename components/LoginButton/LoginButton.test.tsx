@@ -8,7 +8,7 @@ jest.mock('@/lib/utils', () => ({
   signInWithGoogle: jest.fn(),
 }));
 
-const mockSignInWithGoogle = signInWithGoogle as jest.Mock;
+const mockSignInWithGoogle = jest.mocked(signInWithGoogle);
 
 describe('LoginButton', () => {
     beforeEach(() => {
