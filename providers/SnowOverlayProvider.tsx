@@ -1,23 +1,12 @@
-// Copyright (c) Gridiron Survivor.
-// Licensed under the MIT License.
-
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
 export const SnowOverlayContext = createContext({
   isSnowing: false,
-  /**
-   *
-   */
   toggleSnowSetting: () => {},
 });
 
-/**
- *
- * @param root0
- * @param root0.children
- */
 export const SnowOverlayProvider = ({
   children,
 }: {
@@ -34,9 +23,6 @@ export const SnowOverlayProvider = ({
     }
   }, []);
 
-  /**
-   *
-   */
   const toggleSnowSetting = () => {
     const newValue = !isSnowing;
     setIsSnowing(newValue);
@@ -55,9 +41,6 @@ export const SnowOverlayProvider = ({
   );
 };
 
-/**
- *
- */
 export const useSnowOverlay = () => {
   const context = useContext(SnowOverlayContext);
   if (context === undefined) {
