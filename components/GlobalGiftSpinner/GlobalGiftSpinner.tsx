@@ -4,13 +4,13 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import { ReactElement } from 'react';
+import { JSX } from 'react';
 
 /**
  * A loading spinner component that displays an animated gift icon using Framer Motion
- * @returns {ReactElement} A div containing an animated SVG gift icon
+ * @returns {JSX.Element} A div containing an animated SVG gift icon
  */
-export const GlobalGiftSpinner = (): ReactElement => {
+export const GlobalGiftSpinner = () : JSX.Element => {
   const draw: Variants = {
     hidden: { pathLength: 0, opacity: 0 },
     /**
@@ -21,7 +21,7 @@ export const GlobalGiftSpinner = (): ReactElement => {
       pathLength: 1,
       opacity: 1,
       transition: {
-        pathLength: {
+        pathLength: { 
           type: 'tween',
           duration: 1.5,
           bounce: 0,
