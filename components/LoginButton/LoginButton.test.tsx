@@ -46,6 +46,10 @@ describe('LoginButton', () => {
     const error = new Error('Sign in failed');
     mockSignInWithGoogle.mockRejectedValueOnce(error);
 
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});    
+
     const { getByTestId } = render(<LoginButton />);
     const loginButton = getByTestId('login-button');
     
