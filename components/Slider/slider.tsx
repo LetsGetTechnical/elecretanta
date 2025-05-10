@@ -1,13 +1,22 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
-import * as React from 'react';
+import { forwardRef, ElementRef, ComponentPropsWithoutRef, JSX } from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 
 import { cn } from '@/lib/utils';
 
-const Slider = React.forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+/**
+ * The Slider component.
+ * @param {ComponentPropsWithoutRef<typeof SliderPrimitive>} props - Props for the component.
+ * @param {string} props.className - Additional CSS classes for custom styling.
+ * @returns {JSX.Element} The rendered Slider element.
+ */
+const Slider = forwardRef<
+  ElementRef<typeof SliderPrimitive.Root>,
+  ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 >(({ className, ...props }, ref) => (
   <SliderPrimitive.Root
     ref={ref}
