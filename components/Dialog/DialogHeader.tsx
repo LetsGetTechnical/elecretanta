@@ -15,6 +15,7 @@ export const DialogHeader = ({
   ...props
 }: HTMLAttributes<HTMLDivElement>): JSX.Element => (
   <div
+    data-testid="dialog-header"
     className={cn(
       'flex flex-col space-y-1.5 text-center sm:text-left',
       className,

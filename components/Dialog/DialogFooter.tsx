@@ -15,6 +15,7 @@ export const DialogFooter = ({
   ...props
 }: HTMLAttributes<HTMLDivElement>): JSX.Element => (
   <div
+    data-testid="dialog-footer"
     className={cn(
       'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
       className,

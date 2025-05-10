@@ -11,6 +11,7 @@ export const DialogDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <RadixDescription
     ref={ref}
+    data-testid="dialog-description"
     className={cn('text-sm text-muted-foreground', className)}
     {...props}
   />

@@ -11,6 +11,7 @@ export const DialogTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <RadixTitle
     ref={ref}
+    data-testid="dialog-title"
     className={cn(
       'text-lg font-semibold leading-none tracking-tight',
       className,
