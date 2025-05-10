@@ -9,12 +9,31 @@ import {
   DialogDescription,
 } from './index';
 
-const TestDialogComponents: React.FC<{
+interface TestDialogComponentsProps {
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
   defaultOpen?: boolean;
   controlled?: boolean;
-}> = ({ onOpenChange, open, defaultOpen, controlled = false }) => {
+}
+
+/**
+ * Test component that renders a Dialog with all its subcomponents.
+ * Used to test both controlled and uncontrolled dialog behavior.
+ *
+ * @param {Object} props - Component props
+ * @param {(open: boolean) => void} [props.onOpenChange] - Callback fired when dialog open state changes
+ * @param {boolean} [props.open] - Controls the open state (for controlled mode)
+ * @param {boolean} [props.defaultOpen] - Sets initial open state (for uncontrolled mode)
+ * @param {boolean} [props.controlled=false] - Whether to use controlled or uncontrolled mode
+ * @returns {JSX.Element} The test dialog component
+ */
+
+const TestDialogComponents = ({
+  onOpenChange,
+  open,
+  defaultOpen,
+  controlled = false,
+}: TestDialogComponentsProps) => {
   const dialogProps = controlled
     ? { open, onOpenChange }
     : { defaultOpen, onOpenChange };
@@ -22,7 +41,7 @@ const TestDialogComponents: React.FC<{
   return (
     <Dialog {...dialogProps}>
       <DialogTrigger asChild data-testid="dialog-trigger">
-        Dialog Trigger
+        <button>Dialog Trigger</button>
       </DialogTrigger>
       <DialogContent data-testid="dialog-content" aria-describedby={undefined}>
         <DialogTitle>Dialog Title</DialogTitle>
@@ -51,8 +70,10 @@ describe('Dialog (Root Component)', () => {
       const triggerButton = screen.getByTestId('dialog-trigger');
       expect(triggerButton).toBeInTheDocument();
 
-      expect(screen.getByTestId('dialog-title')).not.toBeInTheDocument();
-      expect(screen.getByTestId('dialog-description')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('dialog-title')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('dialog-description'),
+      ).not.toBeInTheDocument();
 
       await user.click(triggerButton);
 
