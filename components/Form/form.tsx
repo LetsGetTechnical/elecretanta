@@ -3,16 +3,16 @@
 
 'use client';
 
-import { 
-  HTMLAttributes, 
-  ElementRef, 
-  ComponentPropsWithoutRef, 
-  forwardRef, 
-  useId, 
-  createContext, 
-  useMemo, 
-  useContext, 
-  JSX 
+import {
+  HTMLAttributes,
+  ElementRef,
+  ComponentPropsWithoutRef,
+  forwardRef,
+  useId,
+  createContext,
+  useMemo,
+  useContext,
+  JSX,
 } from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
@@ -27,12 +27,12 @@ import {
 } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { Label } from '@/components/Label/label';
+import { Label } from '@/components/Label/Label';
 
 /**
  * The root form component function that provides form context to all form fields.
  * This is an alias for react-hook-form's FormProvider function.
- * @param {Object} props - Props for the form provider
+ * @param {object} props - Props for the form provider
  * @returns {JSX.Element} A form context provider component
  */
 const Form = FormProvider;
@@ -121,24 +121,21 @@ const FormItemContext = createContext<FormItemContextValue>(
  * @param {React.HTMLAttributes<HTMLDivElement>} props - Props for the div element
  * @returns {JSX.Element} A form item component
  */
-const FormItem = forwardRef<
-  HTMLDivElement,
-  HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const id = useId();
-  const value = useMemo(() => ({ id }), [id]);
+const FormItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => {
+    const id = useId();
+    const value = useMemo(() => ({ id }), [id]);
 
-  return (
-    <FormItemContext.Provider value={value}>
-      <div ref={ref} className={cn('space-y-2', className)} {...props} />
-    </FormItemContext.Provider>
-  );
-});
+    return (
+      <FormItemContext.Provider value={value}>
+        <div ref={ref} className={cn('space-y-2', className)} {...props} />
+      </FormItemContext.Provider>
+    );
+  },
+);
 FormItem.displayName = 'FormItem';
 
-type FormLabelProps = ComponentPropsWithoutRef<
-  typeof LabelPrimitive.Root
-> & {
+type FormLabelProps = ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & {
   className?: string;
 };
 
@@ -165,7 +162,7 @@ const FormLabel = forwardRef<
 FormLabel.displayName = 'FormLabel';
 
 /**
- * A form control component that wraps a slot element. This is where the actual input element is rendered. 
+ * A form control component that wraps a slot element. This is where the actual input element is rendered.
  * @param {React.ComponentPropsWithoutRef<typeof Slot>} props - Props for the slot element
  * @returns {JSX.Element} A form control component
  */

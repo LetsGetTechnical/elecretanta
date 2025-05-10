@@ -3,13 +3,13 @@
 
 'use client';
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef, JSX } from 'react';
-import { Image, AvatarImageProps } from '@radix-ui/react-avatar';
+import { forwardRef, ElementRef, JSX, ComponentPropsWithoutRef } from 'react';
+import { Image } from '@radix-ui/react-avatar';
 import { cn } from '@/lib/utils';
 
 /**
  * AvatarImage component, part of the Avatar component.
- * @param {AvatarImageProps} props - Avatar image props.
+ * @param {typeof Image} props - Avatar image props.
  * @param {string} props.alt - Alt text for the avatar image.
  * @param {string} [props.className] - Optional custom class name.
  * @returns {JSX.Element} Avatar image element.
