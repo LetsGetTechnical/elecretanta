@@ -5,24 +5,14 @@ import { render, screen } from '@testing-library/react';
 import { DialogHeader } from './DialogHeader';
 import { Dialog } from './Dialog';
 import { DialogContent } from './DialogContent';
-
-jest.mock('./Dialog', () => ({
-  Dialog: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="dialog-root">{children}</div>
-  ),
-}));
-
-jest.mock('./DialogContent', () => ({
-  DialogContent: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="dialog-content">{children}</div>
-  ),
-}));
+import { DialogTitle } from './DialogTitle';
 
 describe('DialogHeader', () => {
   it('should render with default props', () => {
     render(
-      <Dialog>
-        <DialogContent>
+      <Dialog defaultOpen={true}>
+        <DialogContent aria-describedby={undefined}>
+          <DialogTitle>Dialog Title</DialogTitle>
           <DialogHeader>
             <div>Header Content</div>
           </DialogHeader>
@@ -40,8 +30,9 @@ describe('DialogHeader', () => {
 
   it('should render with custom className', () => {
     render(
-      <Dialog>
-        <DialogContent>
+      <Dialog defaultOpen={true}>
+        <DialogContent aria-describedby={undefined}>
+          <DialogTitle>Dialog Title</DialogTitle>
           <DialogHeader className="custom-header-class">
             <div>Header Content</div>
           </DialogHeader>
@@ -58,8 +49,9 @@ describe('DialogHeader', () => {
 
   it('should apply additional props to the header element', () => {
     render(
-      <Dialog>
-        <DialogContent>
+      <Dialog defaultOpen={true}>
+        <DialogContent aria-describedby={undefined}>
+          <DialogTitle>Dialog Title</DialogTitle>
           <DialogHeader aria-label="Dialog header" role="heading">
             <div>Header Content</div>
           </DialogHeader>
@@ -74,8 +66,9 @@ describe('DialogHeader', () => {
 
   it('should render children correctly', () => {
     render(
-      <Dialog>
-        <DialogContent>
+      <Dialog defaultOpen={true}>
+        <DialogContent aria-describedby={undefined}>
+          <DialogTitle>Dialog Title</DialogTitle>
           <DialogHeader>
             <h2>Title</h2>
             <p>Description</p>

@@ -3,10 +3,15 @@
 
 import { render, screen } from '@testing-library/react';
 import { DialogOverlay } from './DialogOverlay';
+import { Dialog } from './Dialog';
 
 describe('DialogOverlay', () => {
   it('should render with default props', () => {
-    render(<DialogOverlay />);
+    render(
+      <Dialog defaultOpen={true}>
+        <DialogOverlay />
+      </Dialog>,
+    );
 
     const overlay = screen.getByTestId('dialog-overlay');
     expect(overlay).toBeInTheDocument();
@@ -16,7 +21,11 @@ describe('DialogOverlay', () => {
   });
 
   it('should render with custom className', () => {
-    render(<DialogOverlay className="custom-overlay-class" />);
+    render(
+      <Dialog defaultOpen={true}>
+        <DialogOverlay className="custom-overlay-class" />
+      </Dialog>,
+    );
 
     const overlay = screen.getByTestId('dialog-overlay');
     expect(overlay).toHaveClass('custom-overlay-class');
@@ -27,7 +36,9 @@ describe('DialogOverlay', () => {
 
   it('should apply additional props to the overlay element', () => {
     render(
-      <DialogOverlay data-custom="custom-value" aria-label="Dialog overlay" />,
+      <Dialog defaultOpen={true}>
+        <DialogOverlay data-custom="custom-value" aria-label="Dialog overlay" />
+      </Dialog>,
     );
 
     const overlay = screen.getByTestId('dialog-overlay');
@@ -37,13 +48,21 @@ describe('DialogOverlay', () => {
 
   it('should forward ref to the overlay element', () => {
     const ref = jest.fn();
-    render(<DialogOverlay ref={ref} />);
+    render(
+      <Dialog defaultOpen={true}>
+        <DialogOverlay ref={ref} />
+      </Dialog>,
+    );
 
     expect(ref).toHaveBeenCalled();
   });
 
   it('should handle animation states through data attributes', () => {
-    render(<DialogOverlay data-state="open" />);
+    render(
+      <Dialog defaultOpen={true}>
+        <DialogOverlay data-state="open" />
+      </Dialog>,
+    );
 
     const overlay = screen.getByTestId('dialog-overlay');
     expect(overlay).toHaveAttribute('data-state', 'open');

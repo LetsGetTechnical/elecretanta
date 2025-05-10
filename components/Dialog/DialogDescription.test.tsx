@@ -5,12 +5,6 @@ import { render, screen } from '@testing-library/react';
 import { DialogDescription } from './DialogDescription';
 import { Dialog } from './Dialog';
 
-jest.mock('./Dialog', () => ({
-  Dialog: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="dialog-root">{children}</div>
-  ),
-}));
-
 describe('DialogDescription', () => {
   it('should render with default props', () => {
     render(
