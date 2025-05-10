@@ -17,7 +17,7 @@ import { JSX } from 'react';
 /**
  * A GiftDetailsView compoennt
  * @param {GiftSuggestion} gift - Gift suggestion being passed
- * @param {() => void} props.handleFeedback - Callback function triggered when feedback is provided
+ * @param {() => void} handleFeedback - Callback function triggered when feedback is provided
  * @returns {JSX.Element} - the rendered GiftDetailsView
  */
 const GiftDetailsView = ({
