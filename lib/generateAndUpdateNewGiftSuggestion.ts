@@ -11,11 +11,11 @@ import { getAmazonImage } from './getAmazonImage';
 /**
  *
  * Function to generate a gift suggestion, and update the gift suggestion with the generated suggestion
- * @param allGiftSuggestions - List of gift suggestions.
- * @param budget - Gift budget.
- * @param feedback - Feedback for new gift suggestion.
- * @param gift - Single gift suggestion.
- * @param recipient - Profile of recipient.
+ * @param {GiftSuggestion[]} allGiftSuggestions - List of gift suggestions.
+ * @param {string} budget - Gift budget.
+ * @param {string} feedback - Feedback for new gift suggestion.
+ * @param {GiftSuggestion} gift - Single gift suggestion.
+ * @param {Profile} recipient - Profile of recipient.
  * @returns {GiftSuggestion} - Updated gift suggestion.
  */
 export async function generateAndUpdateNewGiftSuggestion(
