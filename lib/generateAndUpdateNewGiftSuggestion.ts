@@ -1,15 +1,15 @@
 'use server';
 import { openai } from '@/app/api/openaiConfig/config';
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { createClient } from './supabase/server';
 import { getAmazonImage } from './getAmazonImage';
 
 export async function generateAndUpdateNewGiftSuggestion(
-  allGiftSuggestions: GiftSuggestion[],
+  allGiftSuggestions: IGiftSuggestion[],
   budget: string,
   feedback: string,
-  gift: GiftSuggestion,
+  gift: IGiftSuggestion,
   recipient: Profile | null,
 ) {
   if (!recipient) {
@@ -83,7 +83,7 @@ export async function generateAndUpdateNewGiftSuggestion(
     const suggestion = parsedResponse[0];
     const amazonData = await getAmazonImage(suggestion.title);
 
-    const cleanSuggestion: GiftSuggestion = {
+    const cleanSuggestion: IGiftSuggestion = {
       id: gift.id,
       title: String(suggestion.title),
       price: String(suggestion.price),
