@@ -15,7 +15,7 @@ import { getAmazonImage } from './getAmazonImage';
  * @param {string} budget - Gift budget.
  * @param {string} feedback - Feedback for new gift suggestion.
  * @param {GiftSuggestion} gift - Single gift suggestion.
- * @param {Profile} recipient - Profile of recipient.
+ * @param {Profile | null} recipient - Profile of recipient.
  * @returns {GiftSuggestion} - Updated gift suggestion.
  */
 export async function generateAndUpdateNewGiftSuggestion(
