@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-export interface GiftSuggestion {
+export interface IGiftSuggestion {
   id: string;
   title: string;
   price: string;
