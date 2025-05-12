@@ -12,32 +12,26 @@ import {
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback, JSX } from 'react';
+import { IGiftDetailsViewProps } from './IGiftDetailsViewProps';
 
 /**
  * A GiftDetailsView compoennt
- * @param {GiftSuggestion} gift - Gift suggestion being passed
- * @param {() => void} handleFeedback - Callback function triggered when feedback is provided
+ * @param {object} props - The component props
+ * @param {GiftSuggestion} props.gift - Gift suggestion being passed
+ * @param {() => void} props.handleFeedback - Callback function triggered when feedback is provided
  * @returns {JSX.Element} - the rendered GiftDetailsView
  */
 const GiftDetailsView = ({
   gift,
   handleFeedback,
-}: {
-  gift: GiftSuggestion;
-  handleFeedback: () => void;
-}): JSX.Element => {
+}: IGiftDetailsViewProps): JSX.Element => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = useCallback(() => {
     setImageError(true);
   }, []);
 
-  /**
-   * Search Term details
-   * @param {string} searchTerm - search term being passed in to search amazon list
-   * @returns {string} - returns an encoded search string with the search term
-   */
-  const handleAmazonLink = ({ searchTerm }: { searchTerm: string }): string => {
+  const handleAmazonLink = (searchTerm) => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
     return `https://www.amazon.com/s?k=${encodedSearch}`;
   };
