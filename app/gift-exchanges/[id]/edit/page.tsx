@@ -31,7 +31,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/Command/command';
+} from '@/components/Command/Command';
 import { Textarea } from '@/components/TextArea/textarea';
 import { ImageSelector } from '@/components/ImageSelector/ImageSelector';
 import { useParams, useRouter } from 'next/navigation';
