@@ -9,7 +9,6 @@ import { useSnowOverlay } from '@/providers/SnowOverlayProvider';
 import { Button } from '../Button/button';
 
 
-
 /**
  * SnowOverlayToggle component
  * A button that toggles snowfall overlay
