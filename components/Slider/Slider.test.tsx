@@ -50,4 +50,42 @@ describe('Slider', () => {
     await user.keyboard('{ArrowRight}');
     expect(onValueChange).toHaveBeenCalledWith([10]);
   });
+
+  it("does not increment above the 'max' boundary", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+
+    render(
+      <Slider
+        defaultValue={[100]}
+        max={100}
+        step={10}
+        onValueChange={onValueChange}
+      />,
+    );
+
+    const thumb = screen.getByRole('slider');
+    await user.click(thumb);
+    await user.keyboard('{ArrowRight}');
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("does not decrement below the 'min' boundary", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+
+    render(
+      <Slider
+        defaultValue={[0]}
+        min={0}
+        step={10}
+        onValueChange={onValueChange}
+      />,
+    );
+
+    const thumb = screen.getByRole('slider');
+    await user.click(thumb);
+    await user.keyboard('{ArrowLeft}');
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
 });
