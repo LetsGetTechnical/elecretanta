@@ -4,7 +4,14 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-export async function updateSession(request: NextRequest) {
+/**
+ * Updates the session based on the incoming request and redirects if necessary.
+ * @param {NextRequest} request - The incoming request object.
+ * @returns {Promise<NextResponse>} A promise that resolves to a NextResponse object.
+ */
+export async function updateSession(
+  request: NextRequest,
+): Promise<NextResponse> {
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -14,9 +21,17 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
+        /**
+         * Retrieves all cookies from the request.
+         * @returns {Array} An array of cookies.
+         */
         getAll() {
           return request.cookies.getAll();
         },
+        /**
+         * Sets all cookies provided in the cookiesToSet array.
+         * @param {Array} cookiesToSet - An array of cookies to set, each containing name, value, and options.
+         */
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
