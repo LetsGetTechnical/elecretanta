@@ -90,7 +90,6 @@ describe("Button", () => {
       render(<Button data-testid="button" onClick={handleClick} />);
       const testButton = screen.getByTestId('button');
       testButton.focus()
-      // fireEvent.keyDown(testButton, { key: "Enter", code: "Enter", charCode: 13 });
       await userEvent.keyboard('{enter}');
       expect(handleClick).toHaveBeenCalledTimes(1); 
     });
