@@ -11,8 +11,7 @@ import {
 } from '../Card/card';
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
-import { useState, useCallback } from 'react';
-import { JSX } from 'react';
+import { useState, useCallback, JSX } from 'react';
 
 /**
  * A GiftDetailsView compoennt
