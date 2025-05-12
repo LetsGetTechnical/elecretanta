@@ -1,6 +1,6 @@
 {
   "name": "elecretanta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=4000 next dev",
