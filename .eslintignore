@@ -66,6 +66,5 @@ lib/getAmazonImage.ts
 lib/getUserAvatar.ts
 lib/getUserAvatar.ts
 lib/supabase/client.ts
-lib/supabase/middleware.ts
 lib/supabase/server.ts
 lib/utils.ts
