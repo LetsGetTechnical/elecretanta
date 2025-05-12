@@ -31,7 +31,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/Select/select';
+} from '@/components/Select';
 import { MultiSelect } from '@/components/MultiSelect/multi-select-input';
 import { Textarea } from '@/components/TextArea/textarea';
 import { Slider } from '@/components/Slider/Slider';
