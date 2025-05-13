@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { WaitingForSuggestions } from './WaitingForSuggestions';
+import userEvent from '@testing-library/user-event';
 
 describe('WaitingForSuggestions', () => {
   it('renders the component', () => {
@@ -22,7 +23,7 @@ describe('WaitingForSuggestions', () => {
 
     const button = screen.getByTestId('check-button');
 
-    fireEvent.click(button);
+    userEvent.click(button);
 
     await waitFor(() => {
       expect(reloadMock).toHaveBeenCalled();
