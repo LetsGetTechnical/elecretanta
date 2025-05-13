@@ -1,0 +1,37 @@
+Revert "merged develop"
+
+This reverts commit 5ea8eba58f6021be706d0d440b5ccde9502034ae.
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch luisA/258-GiftDetailsView-ESLint
+# Your branch is up to date with 'origin/luisA/258-GiftDetailsView-ESLint'.
+#
+# Changes to be committed:
+#	modified:   app/onboarding/page.tsx
+#	modified:   components/Button/button.tsx
+#	deleted:    components/NavLogo/NavLogo.test.tsx
+#	modified:   components/NavLogo/NavLogo.tsx
+#	deleted:    components/Select/Select.test.tsx
+#	deleted:    components/Select/Select.tsx
+#	deleted:    components/Select/SelectContent.test.tsx
+#	deleted:    components/Select/SelectContent.tsx
+#	deleted:    components/Select/SelectItem.test.tsx
+#	deleted:    components/Select/SelectItem.tsx
+#	deleted:    components/Select/SelectLabel.test.tsx
+#	deleted:    components/Select/SelectLabel.tsx
+#	deleted:    components/Select/SelectScrollDownButton.tsx
+#	deleted:    components/Select/SelectScrollUpButton.tsx
+#	deleted:    components/Select/SelectSeparator.test.tsx
+#	deleted:    components/Select/SelectSeparator.tsx
+#	deleted:    components/Select/SelectTrigger.test.tsx
+#	deleted:    components/Select/SelectTrigger.tsx
+#	deleted:    components/Select/index.ts
+#	new file:   components/Select/select.tsx
+#	modified:   package.json
+#	modified:   pnpm-lock.yaml
+#
+# Untracked files:
+#	.vscode/
+#
