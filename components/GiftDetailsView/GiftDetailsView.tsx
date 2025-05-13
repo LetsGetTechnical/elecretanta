@@ -31,7 +31,12 @@ const GiftDetailsView = ({
     setImageError(true);
   }, []);
 
-  const handleAmazonLink = (searchTerm) => {
+  /**
+   * Search Term details
+   * @param {string} searchTerm - search term being passed in to search amazon list
+   * @returns {string} - returns an encoded search string with the search term
+   */
+  const handleAmazonLink = (searchTerm: string): string => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
     return `https://www.amazon.com/s?k=${encodedSearch}`;
   };
@@ -80,13 +85,13 @@ const GiftDetailsView = ({
       <CardFooter className="flex flex-col">
         <div className="flex justify-between w-full">
           <a
-            href={handleAmazonLink({ searchTerm: gift.title })}
+            href={handleAmazonLink(gift.title)}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Button
               className="text-sm w-32 h-9 bg-primaryButtonYellow hover:bg-primaryButtonYelow70"
-              onClick={() => handleAmazonLink({ searchTerm: gift.title })}
+              onClick={() => handleAmazonLink(gift.title)}
             >
               <SquareArrowOutUpRight /> View
             </Button>
