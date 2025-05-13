@@ -11,17 +11,12 @@ import { JSX } from 'react';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/Button/button';
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-  className: string;
-  classNames: string;
-  showOutsideDays? : boolean;
-  mode: string;
-};
+export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
 /**
  * Calendar component,
  * @param {CalendarProps} props - Calendar props passed for configuring calendar.
- * @param {string} [props.className] - Additinoal class name.
+ * @param {string} [props.className] - Additional class name.
  * @param {object} [props.classNames] - Additional custom class names,
  * @param {boolean} [props.showOutsideDays] - To show days outside the current month. Default is set to 'true'
  * @returns {JSX.Element} Rendered Calendar element.
