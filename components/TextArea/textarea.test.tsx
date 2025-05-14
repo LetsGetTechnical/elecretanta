@@ -16,7 +16,7 @@ describe("Textarea", () => {
         const textarea = screen.getByTestId("textarea")
         expect(textarea).toHaveClass("custom-cn")
     })
-    it("Renders the Textarea with props", ()=>{
+    it("Renders the Textarea with HTML Attribute props", ()=>{
         render(
             <Textarea 
                 placeholder="test-placeholder"
