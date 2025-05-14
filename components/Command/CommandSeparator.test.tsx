@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { CommandSeparator } from './CommandSeparator';
-import { Command } from './command';
+import { Command } from './Command';
 import React from 'react';
 
 describe('CommandSeparator', () => {
