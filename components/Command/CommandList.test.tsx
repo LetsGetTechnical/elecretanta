@@ -50,8 +50,6 @@ describe('CommandList', () => {
             </Command>
         );
 
-        screen.debug();
-
         const commandList = screen.getByTestId('command-list');
         expect(commandList).toHaveAttribute('aria-label', 'Suggestions');
     });
