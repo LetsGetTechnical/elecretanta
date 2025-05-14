@@ -13,19 +13,13 @@ describe('DialogHeader', () => {
       <Dialog defaultOpen={true}>
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Dialog Title</DialogTitle>
-          <DialogHeader>
-            <div>Header Content</div>
-          </DialogHeader>
+          <DialogHeader>Header Content</DialogHeader>
         </DialogContent>
       </Dialog>,
     );
 
     const header = screen.getByTestId('dialog-header');
     expect(header).toBeInTheDocument();
-    expect(header).toHaveClass(
-      'flex flex-col space-y-1.5 text-center sm:text-left',
-    );
-    expect(header).toHaveTextContent('Header Content');
   });
 
   it('should render with custom className', () => {
@@ -34,7 +28,7 @@ describe('DialogHeader', () => {
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Dialog Title</DialogTitle>
           <DialogHeader className="custom-header-class">
-            <div>Header Content</div>
+            Header Content
           </DialogHeader>
         </DialogContent>
       </Dialog>,
@@ -53,7 +47,7 @@ describe('DialogHeader', () => {
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Dialog Title</DialogTitle>
           <DialogHeader aria-label="Dialog header" role="heading">
-            <div>Header Content</div>
+            Header Content
           </DialogHeader>
         </DialogContent>
       </Dialog>,

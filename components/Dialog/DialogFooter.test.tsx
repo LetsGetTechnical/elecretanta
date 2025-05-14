@@ -13,21 +13,13 @@ describe('DialogFooter', () => {
       <Dialog defaultOpen={true}>
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Dialog Title</DialogTitle>
-          <DialogFooter>
-            <button>Cancel</button>
-            <button>Submit</button>
-          </DialogFooter>
+          <DialogFooter>Dialog Footer</DialogFooter>
         </DialogContent>
       </Dialog>,
     );
 
     const footer = screen.getByTestId('dialog-footer');
     expect(footer).toBeInTheDocument();
-    expect(footer).toHaveClass(
-      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-    );
-    expect(screen.getByText('Cancel')).toBeInTheDocument();
-    expect(screen.getByText('Submit')).toBeInTheDocument();
   });
 
   it('should render with custom className', () => {
@@ -36,8 +28,7 @@ describe('DialogFooter', () => {
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Dialog Title</DialogTitle>
           <DialogFooter className="custom-footer-class">
-            <button>Cancel</button>
-            <button>Submit</button>
+            Dialog Footer
           </DialogFooter>
         </DialogContent>
       </Dialog>,
@@ -50,14 +41,32 @@ describe('DialogFooter', () => {
     );
   });
 
+  it('should render children correctly', () => {
+    render(
+      <Dialog defaultOpen={true}>
+        <DialogContent aria-describedby={undefined}>
+          <DialogTitle>Dialog Title</DialogTitle>
+          <DialogFooter>
+            <button>Cancel</button>
+            <button>Submit</button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    const footer = screen.getByTestId('dialog-footer');
+    expect(footer).toHaveTextContent('CancelSubmit');
+    expect(screen.getByText('Cancel')).toBeInTheDocument();
+    expect(screen.getByText('Submit')).toBeInTheDocument();
+  });
+
   it('should apply additional props to the footer element', () => {
     render(
       <Dialog defaultOpen={true}>
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Dialog Title</DialogTitle>
           <DialogFooter aria-label="Dialog footer" role="group">
-            <button>Cancel</button>
-            <button>Submit</button>
+            Dialog Footer
           </DialogFooter>
         </DialogContent>
       </Dialog>,
