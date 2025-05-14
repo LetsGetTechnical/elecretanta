@@ -9,7 +9,7 @@ import { userEvent } from "@storybook/test";
 
 
 describe('SnowOverlayToggle', () => {
-  it('Toggles the snowfall overlay', ()=> {
+  it('Toggles the snowfall overlay', async ()=> {
     render(
       <SnowOverlayProvider>
         <SnowOverlayToggle />
@@ -18,7 +18,7 @@ describe('SnowOverlayToggle', () => {
     const sunIcon = screen.getByTestId('sun-icon');
     expect(sunIcon).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('snow-overlay-toggle'));
+    await userEvent.click(screen.getByTestId('snow-overlay-toggle'));
 
     const snowIcon = screen.getByTestId('snow-icon');
     expect(snowIcon).toBeInTheDocument();
