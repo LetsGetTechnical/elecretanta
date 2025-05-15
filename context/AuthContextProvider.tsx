@@ -1,52 +1,59 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import { createClient } from '@/lib/supabase/client';
 import { Session, User } from '@supabase/supabase-js';
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
   useMemo,
   useState,
+  JSX,
 } from 'react';
+import { IAuthContext } from './IAuthContext.interface';
 
-const AuthContext = createContext<{
-  user: User | null;
-  session: Session | null;
-  isSignedIn: boolean | null;
-}>({
+const AuthContext = createContext<IAuthContext>({
   user: null,
   session: null,
   isSignedIn: null,
 });
 
-const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+/**
+ * Provides authentication context to the application.
+ * @param {object} props - The component props.
+ * @param {JSX.Element} props.children - The child components to render.
+ * @returns {JSX.Element} The rendered component.
+ */
+const AuthContextProvider = ({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element => {
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const supabase = createClient();
 
   useEffect(() => {
-    const grabSession = async () => {
-      try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        setSession(null);
+        setIsSignedIn(false);
+        setUser(null);
+      } else if (session) {
         setSession(session);
-
-        if (session) {
-          const {
-            data: { user },
-          } = await supabase.auth.getUser();
-          setUser(user);
-          setIsSignedIn(true);
-        }
-      } catch (error) {
-        throw error;
+        setIsSignedIn(true);
+        setUser(session.user);
       }
+    });
+    return (): void => {
+      subscription.unsubscribe();
     };
-
-    grabSession();
   }, [supabase]);
 
   const contextValue = useMemo(
@@ -55,7 +62,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       session,
       isSignedIn,
     }),
-    [isSignedIn],
+    [isSignedIn, session, user],
   );
 
   return (
@@ -65,12 +72,15 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
 export default AuthContextProvider;
 
-// custom hook to access the authentication context
-const useAuthContext = () => {
+/**
+ * Custom hook to access the authentication context.
+ * @returns {IAuthContext} The authentication context.
+ */
+const useAuthContext = (): IAuthContext => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error(
-      'useAuthContext must be used withing an AuthContextProvider',
+      'useAuthContext must be used within an AuthContextProvider',
     );
   }
   return context;
