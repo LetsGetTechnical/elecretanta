@@ -163,7 +163,6 @@ describe('FeedbackView', () => {
   it('All buttons are focusable, tabbable, and clickable.', async () => {
     renderFeedbackView();
 
-    const backButton = screen.getByTestId('back-chevron');
     const expensiveButton = screen.getByTestId('feedback-button-1');
     const styleButton = screen.getByTestId('feedback-button-2');
     const haveButton = screen.getByTestId('feedback-button-3');
