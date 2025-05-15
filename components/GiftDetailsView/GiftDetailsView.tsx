@@ -10,6 +10,15 @@ import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback } from 'react';
 
+const isValidUrl = (urlString: string) => {
+  try {
+    new URL(urlString);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 const GiftDetailsView = ({
   gift,
   handleFeedback,
@@ -31,7 +40,7 @@ const GiftDetailsView = ({
   return (
     <>
       <div className="relative w-full h-40 bg-white rounded-t-md">
-        {gift.imageUrl && !imageError ? (
+        {gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError ? (
           <img
             src={gift.imageUrl}
             alt={gift.title}
