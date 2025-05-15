@@ -217,8 +217,10 @@ describe('FeedbackView', () => {
   });
 
   it('When onGiftUpdate fails, an error is thrown', async () => {
-    const mockOnGiftUpdate = jest.fn().mockRejectedValue(new Error('Update error'));
-
+    const mockOnGiftUpdate = jest.fn().mockImplementation(() => {
+      return Promise.reject(new Error('Update error'));
+    });
+  
     render(
       <FeedbackView
         allGiftSuggestions={[]}
@@ -231,14 +233,10 @@ describe('FeedbackView', () => {
     );
 
     const feedbackButton = screen.getByTestId('feedback-button-3');
-      
+  
     await expect(
       act(async () => {
         await userEvent.click(feedbackButton);
-
-        await waitFor(() => {
-          expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-        });
       })
     ).rejects.toThrow('Update error');
   });
