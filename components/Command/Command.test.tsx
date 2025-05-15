@@ -23,7 +23,7 @@ describe('Command', () => {
         expect(command).toHaveClass('custom-class');
     });
 
-    it('renders a custom attribute, such as alt, passed via props', () => {
+    it('renders a custom attribute, such as aria-label, passed via props', () => {
         render(<Command aria-label="command container"/>)
     })
 })
