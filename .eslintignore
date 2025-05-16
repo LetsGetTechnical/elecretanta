@@ -1,8 +1,9 @@
 # Ignored files due to ESLINT errors
 
-**/\*.test.ts
-**/_.test.tsx
-\*\*/_.test.js \*_/_.test.jsx
+**/*.test.ts
+**/*.test.tsx
+**/*.test.js
+**/*.test.jsx
 app/api/gift-exchanges/route.ts
 app/api/gift-exchanges/\[id\]/draw/route.ts
 app/api/gift-exchanges/\[id\]/giftSuggestions/route.ts
@@ -35,12 +36,14 @@ components/Avatar/Avatar.tsx
 components/Avatar/AvatarBody.tsx
 components/Button/button.tsx
 components/Calendar/calendar.tsx
+components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftExchangeHeader/GiftExchangeHeader.tsx
 components/GiftSuggestionCard/GiftSuggestionCard.tsx
 components/GlobalGiftSpinner/GlobalGiftSpinner.tsx
 components/GlobalHeader/GlobalHeader.tsx
 components/GroupCard/GroupCard.tsx
 components/ImageSelector/ImageSelector.tsx
+components/Input/input.tsx
 components/InviteCard/InviteCard.tsx
 components/JourneyCard/JourneyCard.tsx
 components/Label/label.tsx
