@@ -50,7 +50,7 @@ describe('FeedbackView', () => {
         handleFeedback={mockHandleFeedback}
         onGiftUpdate={mockOnGiftUpdate}
         recipient={mockProfile}
-      />
+      />,
     );
   };
 
@@ -67,7 +67,7 @@ describe('FeedbackView', () => {
     renderFeedbackView();
 
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-      
+
     const expensiveButton = screen.getByTestId('feedback-button-1');
     const styleButton = screen.getByTestId('feedback-button-2');
     const haveButton = screen.getByTestId('feedback-button-3');
@@ -80,7 +80,7 @@ describe('FeedbackView', () => {
     expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
   });
 
-    it('Each button renders with the correct title and corresponding subtitle', () => {
+  it('Each button renders with the correct title and corresponding subtitle', () => {
     renderFeedbackView();
 
     const buttonVariants = [
@@ -100,32 +100,34 @@ describe('FeedbackView', () => {
     renderFeedbackView();
 
     const expensiveButton = screen.getByTestId('feedback-button-1');
-    
+
     await userEvent.click(expensiveButton);
 
     await waitFor(() => {
-      expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
-        id: '1',
-        title: 'New Test Gift',
-        price: '50',
-        description: 'New Test Description',
-        matchReasons: ['new test reason'],
-        matchScore: 0.9,
-        imageUrl: 'new-test.jpg',
-      }));
+      expect(mockOnGiftUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: '1',
+          title: 'New Test Gift',
+          price: '50',
+          description: 'New Test Description',
+          matchReasons: ['new test reason'],
+          matchScore: 0.9,
+          imageUrl: 'new-test.jpg',
+        }),
+      );
     });
-  }); 
+  });
 
   it('When button is clicked, loading spinner appears and buttons are hidden, then loading spinner disappears and buttons are shown again', async () => {
     renderFeedbackView();
 
     const expensiveButton = screen.getByTestId('feedback-button-1');
-      
+
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
     expect(screen.getByTestId('feedback-button-1')).toBeInTheDocument();
 
     await act(async () => {
-      userEvent.click(expensiveButton)
+      userEvent.click(expensiveButton);
     });
 
     await waitFor(() => {
@@ -148,15 +150,17 @@ describe('FeedbackView', () => {
     });
 
     await waitFor(() => {
-      expect(mockOnGiftUpdate).toHaveBeenCalledWith(expect.objectContaining({
-        id: '1',
-        title: 'New Test Gift',
-        price: '50',
-        description: 'New Test Description',
-        matchReasons: ['new test reason'],
-        matchScore: 0.9,
-        imageUrl: 'new-test.jpg',
-      }));
+      expect(mockOnGiftUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: '1',
+          title: 'New Test Gift',
+          price: '50',
+          description: 'New Test Description',
+          matchReasons: ['new test reason'],
+          matchScore: 0.9,
+          imageUrl: 'new-test.jpg',
+        }),
+      );
     });
   });
 
@@ -176,18 +180,19 @@ describe('FeedbackView', () => {
     await userEvent.tab();
     expect(haveButton).toHaveFocus();
 
-
     await act(async () => {
       userEvent.keyboard('{Enter}');
     });
-      
+
     await waitFor(() => {
       expect(mockOnGiftUpdate).toHaveBeenCalled();
     });
   });
 
   it('If updatedGift is null, an error should be logged and onGiftUpdate is not called.', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     const mockOnGiftUpdate = jest.fn();
     (generateAndUpdateNewGiftSuggestion as jest.Mock).mockResolvedValue(null);
 
@@ -199,7 +204,8 @@ describe('FeedbackView', () => {
         handleFeedback={mockHandleFeedback}
         onGiftUpdate={mockOnGiftUpdate}
         recipient={mockProfile}
-      />);
+      />,
+    );
 
     const feedbackButton = screen.getByTestId('feedback-button-1');
     await act(async () => {
@@ -207,7 +213,9 @@ describe('FeedbackView', () => {
     });
 
     await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to update gift suggestion');
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Failed to update gift suggestion',
+      );
     });
 
     consoleErrorSpy.mockRestore();
@@ -219,7 +227,7 @@ describe('FeedbackView', () => {
     const mockOnGiftUpdate = jest.fn().mockImplementation(() => {
       return Promise.reject(new Error('Update error'));
     });
-  
+
     render(
       <FeedbackView
         allGiftSuggestions={[]}
@@ -228,15 +236,15 @@ describe('FeedbackView', () => {
         handleFeedback={mockHandleFeedback}
         onGiftUpdate={mockOnGiftUpdate}
         recipient={mockProfile}
-      />
+      />,
     );
 
     const feedbackButton = screen.getByTestId('feedback-button-3');
-  
+
     await expect(
       act(async () => {
         await userEvent.click(feedbackButton);
-      })
+      }),
     ).rejects.toThrow('Update error');
   });
 });
