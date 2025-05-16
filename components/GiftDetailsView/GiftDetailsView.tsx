@@ -1,6 +1,3 @@
-// Copyright (c) Gridiron Survivor.
-// Licensed under the MIT License.
-
 import { Button } from '../Button/button';
 import {
   CardContent,
@@ -12,33 +9,21 @@ import {
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback } from 'react';
-import { JSX } from 'react';
 
-/**
- * A GiftDetailsView compoennt
- * @param {GiftSuggestion} gift - Gift suggestion being passed
- * @param {Function} handleFeedback - callback function when feedback is provided
- * @returns {JSX.Element} - The rendered GiftDetailsView element.
- */
 const GiftDetailsView = ({
   gift,
   handleFeedback,
 }: {
   gift: GiftSuggestion;
   handleFeedback: () => void;
-}): JSX.Element => {
+}) => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = useCallback(() => {
     setImageError(true);
   }, []);
 
-  /**
-   * Search Term details
-   * @param {string} searchTerm - search term being passed in to search amazon list
-   * @returns {string} - returns an encoded search string with the search term
-   */
-  const handleAmazonLink = ({ searchTerm }: { searchTerm: string }): string => {
+  const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
     return `https://www.amazon.com/s?k=${encodedSearch}`;
   };
