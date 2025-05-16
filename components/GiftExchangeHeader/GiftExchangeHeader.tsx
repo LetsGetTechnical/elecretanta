@@ -1,6 +1,9 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, JSX } from 'react';
 import { GiftExchange } from '@/app/types/giftExchange';
 import { createClient } from '@/lib/supabase/client';
 import { formatDate } from '@/lib/utils';
@@ -27,6 +30,7 @@ import {
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 import { Button } from '@/components/Button/button';
 import LinkCustom from '../LinkCustom/LinkCustom';
+import Image from 'next/image';
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -39,11 +43,20 @@ interface GiftExchangeHeaderProps {
 }
 type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps & MembersListProps;
 
+/**
+ * GiftExchangeHeader component displays the header section of a gift exchange,
+ * including group details, status, and action buttons.
+ * @param {object} props - Component props
+ * @param {GiftExchange} props.giftExchangeData - The gift exchange data containing details like name, status, and dates
+ * @param {GiftExchangeMember[]} props.members - Array of members participating in the gift exchange
+ * @param {string | string[] | undefined} props.id - The unique identifier of the gift exchange
+ * @returns {JSX.Element} The rendered gift exchange header component
+ */
 export const GiftExchangeHeader = ({
   giftExchangeData,
   members,
   id,
-}: GiftExchangeHeaderPropsUnion) => {
+}: GiftExchangeHeaderPropsUnion): JSX.Element => {
   const [membersData, setMembersData] = useState(members);
 
   useEffect(() => {
@@ -53,7 +66,12 @@ export const GiftExchangeHeader = ({
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
-    async function checkOwnerStatus() {
+    /**
+     * Checks if the current user is the owner of the gift exchange
+     * by comparing the user's ID with the gift exchange owner ID
+     * @returns {Promise<void>}
+     */
+    async function checkOwnerStatus(): Promise<void> {
       const supabase = createClient();
       const { data } = await supabase.auth.getUser();
       const id = data.user?.id;
@@ -63,7 +81,12 @@ export const GiftExchangeHeader = ({
     checkOwnerStatus();
   }, [giftExchangeData.owner_id]);
 
-  const getStatusIcon = (status: string) => {
+  /**
+   * Returns the appropriate icon component based on the gift exchange status
+   * @param {string} status - The current status of the gift exchange
+   * @returns {JSX.Element} The icon component corresponding to the status
+   */
+  const getStatusIcon = (status: string): JSX.Element => {
     switch (status) {
       case 'pending':
         return <Verified />;
@@ -77,7 +100,13 @@ export const GiftExchangeHeader = ({
         return <Verified />;
     }
   };
-  const getStatusText = (status: string) => {
+
+  /**
+   * Returns the human-readable text for a given gift exchange status
+   * @param {string} status - The current status of the gift exchange
+   * @returns {string} The formatted status text
+   */
+  const getStatusText = (status: string): string => {
     switch (status) {
       case 'pending':
         return 'Open';
@@ -92,38 +121,41 @@ export const GiftExchangeHeader = ({
     }
   };
 
-  // fetch call to thomas's matching logic
-  const call = async () => {
+  /**
+   * Initiates the gift exchange drawing process by calling the API
+   * and reloads the page on success
+   * @returns {Promise<void>}
+   */
+  const call = async (): Promise<void> => {
     try {
-      const response = await fetch(
-        // currently fetches memberslist from
-        `/api/gift-exchanges/${id}/draw`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            memberData: {
-              groupId: id,
-            },
-          }),
+      const response = await fetch(`/api/gift-exchanges/${id}/draw`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({
+          memberData: {
+            groupId: id,
+          },
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
 
-      const data = await response.json();
       location.reload();
-      console.log('data:', data);
     } catch (error) {
-      console.log('this is the error: ', error);
+      console.error('Failed to draw gift exchange:', error);
     }
   };
 
-  async function completeGiftExchange() {
+  /**
+   * Marks the gift exchange as completed by updating its status
+   * and reloads the page on success
+   * @returns {Promise<void>}
+   */
+  async function completeGiftExchange(): Promise<void> {
     try {
       const updatedGiftExchangeData = {
         ...giftExchangeData,
@@ -144,7 +176,7 @@ export const GiftExchangeHeader = ({
 
       window.location.reload();
     } catch (error) {
-      console.error('Failed to delete gift exchange:', error);
+      console.error('Failed to complete gift exchange:', error);
     }
   }
 
@@ -168,10 +200,12 @@ export const GiftExchangeHeader = ({
 
       <section className="gift-exchange-header flex flex-col grow-0 gap-8 sm:flex-row">
         <div className="w-36 h-36 grow-0 shrink-0">
-          <img
+          <Image
             className="w-full h-full rounded-xl ring-4 ring-white"
             src={giftExchangeData.group_image}
             alt="Group logo"
+            width={144}
+            height={144}
           />
         </div>
         <div className="w-full flex flex-col gap-2">
