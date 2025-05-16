@@ -43,7 +43,6 @@ components/GlobalGiftSpinner/GlobalGiftSpinner.tsx
 components/GlobalHeader/GlobalHeader.tsx
 components/GroupCard/GroupCard.tsx
 components/ImageSelector/ImageSelector.tsx
-components/Input/input.tsx
 components/InviteCard/InviteCard.tsx
 components/JourneyCard/JourneyCard.tsx
 components/Label/label.tsx
