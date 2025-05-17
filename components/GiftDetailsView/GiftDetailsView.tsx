@@ -7,14 +7,14 @@ import {
   CardTitle,
 } from '../Card/card';
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback } from 'react';
 
 const GiftDetailsView = ({
   gift,
   handleFeedback,
 }: {
-  gift: GiftSuggestion;
+  gift: IGiftSuggestion;
   handleFeedback: () => void;
 }) => {
   const [imageError, setImageError] = useState(false);
