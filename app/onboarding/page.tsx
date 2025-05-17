@@ -34,7 +34,7 @@ import {
 } from '@/components/Select';
 import { MultiSelect } from '@/components/MultiSelect/multi-select-input';
 import { Textarea } from '@/components/TextArea/textarea';
-import { Slider } from '@/components/Slider/slider';
+import { Slider } from '@/components/Slider/Slider';
 import { useRouter, useSearchParams } from 'next/navigation';
 import getUserAvatar from '@/lib/getUserAvatar';
 
