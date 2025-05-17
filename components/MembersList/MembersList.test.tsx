@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MembersList } from './MembersList';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
-import React from 'react';
 
 const mockMembers: GiftExchangeMember[] = [
     {
