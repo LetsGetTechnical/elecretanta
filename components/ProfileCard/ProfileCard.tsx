@@ -74,7 +74,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
         <div className="flex items-center gap-4">
           <Avatar userAvatar={profile?.avatar} />
           <div>
-            <h1 className="text-lg font-bold">
+            <h1 data-testid='profileName' className="text-lg font-bold">
               {formatDisplayName(profile?.display_name || 'No Name Provided')}
             </h1>
             <div className="flex items-center gap-2 text-sm font-medium">
