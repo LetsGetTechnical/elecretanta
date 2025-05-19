@@ -22,7 +22,7 @@ describe("Button", () => {
         ["outline", "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground"],
         ["ghost", "hover:bg-accent hover:text-accent-foreground"],
         ["link", "text-primary underline-offset-4 hover:underline"],
-      ])("Renders the Button Component with variant='%s'", (btnVariant, expectedClass) => {
+      ]as const)("Renders the Button Component with variant='%s'", (btnVariant, expectedClass) => {
         render(<Button variant={btnVariant} data-testid="button">Test</Button>);
         const button = screen.getByTestId('button');
         expect(button).toHaveClass(expectedClass);
@@ -33,7 +33,7 @@ describe("Button", () => {
         ["sm","h-8 rounded-md px-3 text-xs"],
         ["lg","h-10 rounded-md px-8"],
         ["icon","h-9 w-9"]
-      ])
+      ]as const)
         ('renders the Button Component with size="%s"', (btnSize, expectedClass) => {
         render(<Button size={btnSize} data-testid="button">Test</Button>);
         const button = screen.getByTestId('button');
