@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { CardDescription } from './CardDescription'; 
-import React from 'react';
 
 describe('CardDescription', () => {
 

@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { CardFooter } from './CardFooter'; 
-import React from 'react';
 
 describe('CardFooter', () => {
     it('renders the component', () => {

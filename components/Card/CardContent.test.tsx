@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { CardContent } from './CardContent'; 
-import React from 'react';
 
 describe('CardContent', () => {
     it('renders the component', () => {
