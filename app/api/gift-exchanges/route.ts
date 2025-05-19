@@ -1,10 +1,16 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { CreateGiftExchangeRequest } from '@/app/types/giftExchange';
 import { validateGroupExchangeDates } from '@/lib/utils';
 
-// Get all gift exchanges for the current user
-export async function GET() {
+/**
+ * Get all gift exchanges for the current user
+ * @returns {Promise<NextResponse>} Promise that resolved to a Response object
+ */
+export async function GET(): Promise<NextResponse> {
   try {
     const supabase = await createClient();
     const {
@@ -24,7 +30,7 @@ export async function GET() {
     }
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -33,7 +39,12 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+/**
+ * Create a new gift exchange
+ * @param {Request} req The request object
+ * @returns {Promise<NextResponse>} Promise that resolved to a Response object
+ */
+export async function POST(req: Request): Promise<NextResponse> {
   try {
     const supabase = await createClient();
     const {
@@ -77,7 +88,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -86,7 +97,12 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PATCH(req: Request) {
+/**
+ * Update a gift exchange
+ * @param {Request} req The request object
+ * @returns {Promise<NextResponse>} Promise that resolved to a Response object
+ */
+export async function PATCH(req: Request): Promise<NextResponse> {
   try {
     const supabase = await createClient();
     const {
@@ -132,7 +148,8 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },
