@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { CommandEmpty } from './CommandEmpty';
 import { Command } from './Command';
-import React from 'react';
 
 describe('CommandEmpty', () => {
     it('renders the component when there are no matching items', () => {

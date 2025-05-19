@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { CommandShortcut } from './CommandShortcut';
-import React from 'react';
 
 describe('CommandShortcut', () => {
     it('renders the component', () => {

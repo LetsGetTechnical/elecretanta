@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { CommandList } from './CommandList';
 import { Command } from './Command';
-import React from 'react';
 
 describe('CommandList', () => {
     global.ResizeObserver = class {

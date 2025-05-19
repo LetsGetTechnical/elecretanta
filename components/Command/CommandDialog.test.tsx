@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { CommandDialog } from './CommandDialog';
 import { DialogTitle, DialogDescription } from '../Dialogue/dialog';
-import React from 'react';
 
 describe('CommandDialog', () => {
     it('renders the component when open', () => {

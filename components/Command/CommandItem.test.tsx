@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { CommandItem } from './CommandItem';
 import { Command } from './Command';
-import React from 'react';
 
 describe('CommandItem', () => {
     it('renders the component', () => {
