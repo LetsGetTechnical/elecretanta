@@ -33,11 +33,7 @@ export const processGiftExchanges = async ({
     drawnCount += 1;
   }
 
-  if (
-    currentDate > exchangeDate &&
-    exchange.status !== 'completed' &&
-    exchange.status !== 'cancelled'
-  ) {
+  if (currentDate > exchangeDate && exchange.status === 'active') {
     await supabase
       .from('gift_exchanges')
       .update({ status: 'completed' })
