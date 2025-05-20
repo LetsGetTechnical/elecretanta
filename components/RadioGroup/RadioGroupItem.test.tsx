@@ -1,16 +1,16 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { Root as RadioGroupPrimitiveRoot } from '@radix-ui/react-radio-group';
+import { RadioGroup } from './RadioGroup';
 import { RadioGroupItem } from './RadioGroupItem';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('Radio Group Item Component', () => {
   it('renders radio group item correctly with default classes and passed children and value', () => {
     render(
-      <RadioGroupPrimitiveRoot>
+      <RadioGroup>
         <RadioGroupItem value="test value" />
-      </RadioGroupPrimitiveRoot>,
+      </RadioGroup>,
     );
 
     const radioGroupItemElement = screen.getByRole('radio');
@@ -24,12 +24,12 @@ describe('Radio Group Item Component', () => {
 
   it('renders radio group item correctly with additional custom classes', () => {
     render(
-      <RadioGroupPrimitiveRoot>
+      <RadioGroup>
         <RadioGroupItem
           value="test value"
           className="custom-class-1 custom-class-2"
         />
-      </RadioGroupPrimitiveRoot>,
+      </RadioGroup>,
     );
 
     const radioGroupItemElement = screen.getByRole('radio');
@@ -43,9 +43,9 @@ describe('Radio Group Item Component', () => {
 
   it('renders an empty radio group item', () => {
     render(
-      <RadioGroupPrimitiveRoot>
+      <RadioGroup>
         <RadioGroupItem value="test value" />
-      </RadioGroupPrimitiveRoot>,
+      </RadioGroup>,
     );
 
     const radioGroupItemElement = screen.getByRole('radio');
