@@ -6,21 +6,19 @@ import { HTMLAttributes, JSX } from 'react';
 
 import { cn } from '@/lib/utils';
 
-export const variants = {
-  variant: {
-    default: 'border-transparent bg-primary text-primary-foreground shadow',
-    secondary:
-      'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
-    destructive:
-      'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
-    outline: 'text-foreground',
-  },
-};
-
 const badgeVariants = cva(
   'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
   {
-    variants,
+    variants: {
+      variant: {
+        default: 'border-transparent bg-primary text-primary-foreground shadow',
+        secondary:
+          'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        destructive:
+          'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
+        outline: 'text-foreground',
+      },
+    },
     defaultVariants: {
       variant: 'default',
     },
@@ -40,11 +38,7 @@ export interface BadgeProps
  */
 const Badge = ({ className, variant, ...props }: BadgeProps): JSX.Element => {
   return (
-    <div
-      className={cn(badgeVariants({ variant }), className)}
-      data-testid="badge"
-      {...props}
-    />
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
   );
 };
 

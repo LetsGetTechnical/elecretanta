@@ -3,7 +3,7 @@ import { Cake, CircleX, Compass, Heart, Pencil } from 'lucide-react';
 import { Progress } from '@/components/Progress/progress';
 import Avatar from '@/components/Avatar/Avatar';
 import { Button } from '@/components/Button/button';
-import { Badge } from '@/components/Badge/Badge';
+import { Badge } from '@/components/Badge/badge';
 import { Profile } from '@/app/types/profile';
 import { useRouter } from 'next/navigation';
 

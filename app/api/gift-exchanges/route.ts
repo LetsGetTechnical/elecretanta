@@ -1,16 +1,10 @@
-// Copyright (c) Gridiron Survivor.
-// Licensed under the MIT License.
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { CreateGiftExchangeRequest } from '@/app/types/giftExchange';
 import { validateGroupExchangeDates } from '@/lib/utils';
 
-/**
- * Get all gift exchanges for the current user
- * @returns {Promise<NextResponse>} Promise that resolved to a Response object
- */
-export async function GET(): Promise<NextResponse> {
+// Get all gift exchanges for the current user
+export async function GET() {
   try {
     const supabase = await createClient();
     const {
@@ -30,7 +24,7 @@ export async function GET(): Promise<NextResponse> {
     }
     return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
+    console.log(error);
 
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -39,12 +33,7 @@ export async function GET(): Promise<NextResponse> {
   }
 }
 
-/**
- * Create a new gift exchange
- * @param {Request} req The request object
- * @returns {Promise<NextResponse>} Promise that resolved to a Response object
- */
-export async function POST(req: Request): Promise<NextResponse> {
+export async function POST(req: Request) {
   try {
     const supabase = await createClient();
     const {
@@ -88,7 +77,7 @@ export async function POST(req: Request): Promise<NextResponse> {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
+    console.log(error);
 
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -97,12 +86,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   }
 }
 
-/**
- * Update a gift exchange
- * @param {Request} req The request object
- * @returns {Promise<NextResponse>} Promise that resolved to a Response object
- */
-export async function PATCH(req: Request): Promise<NextResponse> {
+export async function PATCH(req: Request) {
   try {
     const supabase = await createClient();
     const {
@@ -148,8 +132,7 @@ export async function PATCH(req: Request): Promise<NextResponse> {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
-
+    console.log(error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

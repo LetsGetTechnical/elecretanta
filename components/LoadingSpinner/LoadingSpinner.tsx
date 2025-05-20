@@ -13,7 +13,6 @@ export const LoadingSpinner = ({ className }: { className?: string }) => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={cn('animate-spin', className)}
-      data-testid="loading-spinner"
     >
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>

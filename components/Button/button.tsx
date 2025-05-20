@@ -1,12 +1,8 @@
-// Copyright (c) Gridiron Survivor.
-// Licensed under the MIT License.
-
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
-
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -43,15 +39,6 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-/**
- * A customizable Button Component.
- * @param {object} props - Props for the button.
- * @param {string} props.className - Additional CSS classes
- * @param {string} [props.variant="default"] - CSS styling of button such as color, border, drop shadow ("defauly", "destructive", "outline", "secondary", "ghost", "link")
- * @param {string} [props.size="default"] - Size of button ("default", "sm", "m", "lg", "icon")
- * @param {boolean} [props.asChild="false"] - Renders as child component if true
- * @returns {Button} - returns Button component.
- */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
@@ -67,4 +54,3 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button';
 
 export { Button, buttonVariants };
-
