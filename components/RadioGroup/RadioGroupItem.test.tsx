@@ -3,7 +3,7 @@
 
 import { RadioGroup } from './RadioGroup';
 import { RadioGroupItem } from './RadioGroupItem';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 describe('Radio Group Item Component', () => {
   it('renders radio group item correctly with passed value', () => {
