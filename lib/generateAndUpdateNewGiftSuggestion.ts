@@ -11,12 +11,12 @@ import { getAmazonImage } from './getAmazonImage';
 /**
  *
  * Function to generate a gift suggestion, and update the gift suggestion with the generated suggestion
- * @param {GiftSuggestion[]} allGiftSuggestions - List of gift suggestions.
+ * @param {IGiftSuggestion[]} allGiftSuggestions - List of gift suggestions.
  * @param {string} budget - Gift budget.
  * @param {string} feedback - Feedback for new gift suggestion.
- * @param {GiftSuggestion} gift - Single gift suggestion.
+ * @param {IGiftSuggestion} gift - Single gift suggestion.
  * @param {Profile | null} recipient - Profile of recipient.
- * @returns {GiftSuggestion} - Updated gift suggestion.
+ * @returns {IGiftSuggestion} - Updated gift suggestion.
  */
 export async function generateAndUpdateNewGiftSuggestion(
   allGiftSuggestions: IGiftSuggestion[],
@@ -24,7 +24,7 @@ export async function generateAndUpdateNewGiftSuggestion(
   feedback: string,
   gift: IGiftSuggestion,
   recipient: Profile | null,
-): Promise<GiftSuggestion> {
+): Promise<IGiftSuggestion> {
   if (!recipient) {
     throw new Error('Recipient profile is missing');
   }
