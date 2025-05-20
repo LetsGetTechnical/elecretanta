@@ -16,7 +16,7 @@ import ProfileCard from '@/components/ProfileCard/ProfileCard';
 import GiftSuggestionCard from '@/components/GiftSuggestionCard/GiftSuggestionCard';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useAuthContext } from '@/context/AuthContextProvider';
-import WaitingForSuggestions from './WaitingForSuggestions';
+import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
