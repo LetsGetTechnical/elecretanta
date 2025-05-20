@@ -87,6 +87,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
         </div>
         {showEditButton && (
           <Button
+            data-testid='editProfileButton'
             className="bg-[#C5DBB2] text-black flex items-center gap-2 text-sm font-bold rounded-xl hover:bg-[#E4ECD9]"
             onClick={handleEditProfile}
           >
