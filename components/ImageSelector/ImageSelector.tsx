@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { Card } from '@/components/Card/card';
-import { RadioGroup } from '@/components/RadioGroup/RadioGroup/RadioGroup';
-import { RadioGroupItem } from '@/components/RadioGroup/RadioGroupItem/RadioGroupItem';
+import { RadioGroup } from '@/components/RadioGroup/RadioGroup';
+import { RadioGroupItem } from '@/components/RadioGroup/RadioGroupItem';
 import { Label } from '@/components/Label/Label';
 
 interface ImageSelectorProps {
