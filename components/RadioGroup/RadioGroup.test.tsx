@@ -2,22 +2,26 @@
 // Licensed under the MIT License.
 
 import { RadioGroup } from './RadioGroup';
+import { RadioGroupItem } from './RadioGroupItem';
 import { render, screen } from '@testing-library/react';
 
 describe('Radio Group Component', () => {
-  it('renders radio group correctly with passed children and default classes', () => {
+  it('renders radio group correctly with multiple radio group items', () => {
     render(
       <RadioGroup>
-        <div>Test child</div>
+        <RadioGroupItem value="option-1" data-testid="option-1" />
+        <RadioGroupItem value="option-2" data-testid="option-2" />
       </RadioGroup>,
     );
 
     const radioGroupElement = screen.getByTestId('radio-group');
-    const testChildElement = screen.getByText('Test child');
+    const optionOneElement = screen.getByTestId('option-1');
+    const optionTwoElement = screen.getByTestId('option-2');
 
     expect(radioGroupElement).toBeInTheDocument();
     expect(radioGroupElement).toHaveClass('grid gap-2');
-    expect(testChildElement).toBeInTheDocument();
+    expect(optionOneElement).toBeInTheDocument();
+    expect(optionTwoElement).toBeInTheDocument();
   });
 
   it('renders radio group with additional custom classes', () => {
