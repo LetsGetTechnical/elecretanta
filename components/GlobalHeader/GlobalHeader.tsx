@@ -1,25 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Avatar from '../Avatar/Avatar';
 import NavLogo from '../NavLogo/NavLogo';
 import SnowOverlayToggle from '../SnowOverlayToggle/SnowOverlayToggle';
-import getUserAvatar from '@/lib/getUserAvatar';
-import Link from 'next/link';
+import UserDropdownMenu from '../UserDropdownMenu/UserDropdownMenu';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const GlobalHeader = () => {
-  const [avatar, setAvatar] = useState<string>('');
   const pathname = usePathname();
-
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      const response = await getUserAvatar();
-      setAvatar(response);
-    };
-    fetchAvatar();
-  }, []);
 
   return (
     <nav
@@ -31,9 +19,7 @@ const GlobalHeader = () => {
       <NavLogo />
       <div className="flex gap-2 items-center">
         <SnowOverlayToggle />
-        <Link href={'/profile'}>
-          <Avatar userAvatar={avatar} />
-        </Link>
+        <UserDropdownMenu />
       </div>
     </nav>
   );
