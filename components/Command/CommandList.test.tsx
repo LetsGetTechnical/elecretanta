@@ -44,8 +44,8 @@ describe('CommandList', () => {
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
         render(
-            <Command aria-label="Suggestions">
-                <CommandList/>
+            <Command>
+                <CommandList aria-label="Suggestions"/>
             </Command>
         );
 
