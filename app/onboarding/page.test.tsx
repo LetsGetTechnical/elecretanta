@@ -21,6 +21,14 @@ jest.mock('@/lib/getUserAvatar', () => ({
 
 global.fetch = jest.fn();
 
+class MockResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+global.ResizeObserver = MockResizeObserver;
+
 describe('OnboardingPage', () => {
   const mockRouter = {
     push: jest.fn(),
