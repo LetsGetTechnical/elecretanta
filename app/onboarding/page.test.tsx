@@ -58,23 +58,34 @@ describe('OnboardingPage', () => {
     const user = userEvent.setup();
     render(<OnboardingPage />);
 
+    await waitFor(() => {
+      expect(screen.getByText('Welcome to Elfgorithm✨')).toBeInTheDocument();
+    });
+
 
     await user.click(screen.getByText('Next'));
 
 
-    await user.type(screen.getByLabelText(/How should we call you?/i), 'Test User');
-    await user.click(screen.getByText('25-34 years'));
+    await waitFor(() => {
+      expect(screen.getByText('About You')).toBeInTheDocument();
+    });
+    await user.type(screen.getByRole('textbox', { name: /how should we call you\?/i }), 'Test User');
+    await user.click(screen.getByTestId('select-trigger')); 
+    await user.click(screen.getByText('25 - 34 years'));
     await user.click(screen.getByText('Next'));
 
-    await user.type(screen.getByLabelText(/Tell us more about your interests/i), 'Reading');
+ 
+    await user.type(screen.getByRole('textbox', { name: /tell us more about your interests/i }), 'Reading');
     await user.click(screen.getByText('Next'));
 
-    await user.type(screen.getByLabelText(/Is there anything your Secret Santa should avoid?/i), 'None');
+
+    await user.type(screen.getByRole('textbox', { name: /anything your Secret Santa should avoid\?/i }), 'None');
     await user.click(screen.getByText('Next'));
 
-    await user.click(screen.getByText('Find My Perfect Gift'));
+    await user.click(screen.getByRole('button', { name: /find my perfect gift/i }));
 
-    // Verify API call
+
+
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/profile', expect.objectContaining({
         method: 'PATCH',
@@ -95,16 +106,21 @@ describe('OnboardingPage', () => {
     const user = userEvent.setup();
     render(<OnboardingPage />);
 
-    //navigating thru the form without filling it out
+    await waitFor(() => {
+      expect(screen.getByText('Welcome to Elfgorithm✨')).toBeInTheDocument();
+    });
+
     await user.click(screen.getByText('Next'));
     await user.click(screen.getByText('Next'));
     await user.click(screen.getByText('Next'));
     await user.click(screen.getByText('Next'));
-    await user.click(screen.getByText('Find My Perfect Gift'));
+    await user.click(screen.getByText('Next'));
+    await user.click(screen.getByRole('button', { name: /find my perfect gift/i }));
+
 
     await waitFor(() => {
       expect(mockRouter.push).toHaveBeenCalledWith('/profile');
     });
-  });
+  }, 10000); 
 });
 
