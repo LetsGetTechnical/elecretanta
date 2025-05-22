@@ -51,6 +51,7 @@ export const CompletedExchangeCard = ({
         showConfetti &&
         'motion-preset-confetti motion-delay-[0.5s] motion-duration-1000'
       }`}
+      data-testid="confetti-card"
     >
       <CardHeader>
         <CardTitle className="flex justify-center items-center gap-2">
@@ -62,7 +63,10 @@ export const CompletedExchangeCard = ({
         <div className="space-y-4">
           {members.map((member) => (
             <div key={member.id} className="grid grid-cols-[auto_1fr_auto]">
-              <div className="flex items-center">
+              <div
+                className="flex items-center"
+                data-testid={`member-${member.id}`}
+              >
                 <Avatar
                   userAvatar={
                     member.recipient.avatar ||
