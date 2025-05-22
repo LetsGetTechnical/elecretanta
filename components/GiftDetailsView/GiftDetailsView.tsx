@@ -41,37 +41,64 @@ const GiftDetailsView = ({
     return `https://www.amazon.com/s?k=${encodedSearch}`;
   };
 
+  /**
+   * Helper function to validate urlStrings
+   * @param {string} urlString - search string to validate
+   * @returns {boolean} - returns if string was valid or not
+   */
+  const isValidUrl = (urlString: string): boolean => {
+    try {
+      new URL(urlString);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   return (
     <>
       <div className="relative w-full h-40 bg-white rounded-t-md">
-        {gift.imageUrl && !imageError ? (
+        {gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError ? (
           <img
             src={gift.imageUrl}
             alt={gift.title}
             className="w-full h-full object-contain p-2"
             onError={handleImageError}
+            data-testid="valid-image"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Gift className="w-16 h-16 text-gray-300" />
+            <Gift className="w-16 h-16 text-gray-300" data-testid="gift-icon" />
           </div>
         )}
 
         <div className="absolute top-2 left-2 right-2 flex justify-between items-center">
-          <div className="text-xs px-3 py-1 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-full shadow-sm">
+          <div
+            data-testid="valid-matchScore"
+            className="text-xs px-3 py-1 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-full shadow-sm"
+          >
             {gift.matchScore}% Match
           </div>
-          <div className="px-3 py-1 font-semibold text-giftSuggestionDarkGreen bg-white/90 rounded-full shadow-sm">
+          <div
+            data-testid="valid-price"
+            className="px-3 py-1 font-semibold text-giftSuggestionDarkGreen bg-white/90 rounded-full shadow-sm"
+          >
             {gift.price}
           </div>
         </div>
       </div>
 
       <CardHeader className="p-0 mx-4">
-        <CardTitle className="text-base font-bold text-giftSuggestionDarkGreen">
+        <CardTitle
+          data-testid="valid-title"
+          className="text-base font-bold text-giftSuggestionDarkGreen"
+        >
           {gift.title}
         </CardTitle>
-        <CardDescription className="text-sm text-giftSuggestionTextLightGreen">
+        <CardDescription
+          data-testid="valid-description"
+          className="text-sm text-giftSuggestionTextLightGreen"
+        >
           {gift.description}
         </CardDescription>
       </CardHeader>
