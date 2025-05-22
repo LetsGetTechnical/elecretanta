@@ -15,6 +15,6 @@ interface ISkeletonProps {
  */
 export const Skeleton = ({ className }: ISkeletonProps): JSX.Element => {
   return (
-    <div className={`animate-pulse bg-gray-200 rounded-md ${className}`} />
+    <div className={`animate-pulse bg-gray-200 rounded-md ${className}`} data-testid="skeleton" />
   );
 };

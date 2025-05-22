@@ -1,14 +1,27 @@
-import React from 'react';
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
+import React, { JSX } from 'react';
 import { Gift, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/Button/button';
 
-const WaitingForSuggestions = () => {
-  const handleRefresh = () => {
+/**
+ * Custom loading component for when gifts are being fetched.
+ * @returns {JSX.Element} - The rendered WaitingForSuggestions element.
+ */
+export const WaitingForSuggestions = (): JSX.Element => {
+  /**
+   * Refreshes the page to fetch new suggestions.
+   */
+  const handleRefresh = (): void => {
     window.location.reload();
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center rounded-lg mt-8 bg-groupCardGreen">
+    <div
+      className="flex flex-col items-center justify-center p-8 text-center rounded-lg mt-8 bg-groupCardGreen"
+      data-testid="suggestions-waiting"
+    >
       <div className="animate-bounce mb-6">
         <Gift className="h-16 w-16 text-red-500" />
       </div>
@@ -27,12 +40,10 @@ const WaitingForSuggestions = () => {
         <span>Generating thoughtful suggestions...</span>
       </div>
 
-      <Button onClick={handleRefresh}>
+      <Button onClick={handleRefresh} data-testid="check-button">
         <RefreshCw className="h-4 w-4" />
         Check Again
       </Button>
     </div>
   );
 };
-
-export default WaitingForSuggestions;
