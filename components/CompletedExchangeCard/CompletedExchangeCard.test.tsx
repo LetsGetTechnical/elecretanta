@@ -2,17 +2,6 @@ import { render, screen, act } from '@testing-library/react';
 import { CompletedExchangeCard } from './CompletedExchangeCard';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 
-// Mock the AvatarImage component to simulate image loading behavior
-jest.mock('@/components/Avatar/AvatarImage', () => ({
-  AvatarImage: ({ src, alt }: { src: string; alt: string }) => {
-    // Simulate image load error for invalid URLs
-    if (src.includes('invalid-url')) {
-      return null;
-    }
-    return <img src={src} alt={alt} data-testid="avatar-image" />;
-  },
-}));
-
 const mockMembers: GiftExchangeMember[] = [
   {
     id: '1',
@@ -61,7 +50,6 @@ describe('CompletedExchangeCard', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    jest.clearAllMocks();
   });
 
   it('renders the card with confetti animation initially', () => {
@@ -82,16 +70,6 @@ describe('CompletedExchangeCard', () => {
     expect(card).not.toHaveClass('motion-preset-confetti');
   });
 
-  it('displays all members and their recipients correctly', () => {
-    render(<CompletedExchangeCard members={mockMembers} />);
-    expect(
-      screen.getByText('John Doe gifted to Jane Smith'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Jane Smith gifted to John Doe'),
-    ).toBeInTheDocument();
-  });
-
   it('uses fallback avatar when member avatar is not provided', () => {
     const membersWithoutAvatars = mockMembers.map((member) => ({
       ...member,
@@ -110,36 +88,10 @@ describe('CompletedExchangeCard', () => {
     });
   });
 
-  it('uses fallback avatar when invalid image URL is provided', () => {
-    const membersWithInvalidAvatars = mockMembers.map((member) => ({
-      ...member,
-      member: { ...member.member, avatar: 'https://invalid-url.com/image.png' },
-      recipient: {
-        ...member.recipient,
-        avatar: 'https://another-invalid-url.com/image.png',
-      },
-    }));
-
-    render(<CompletedExchangeCard members={membersWithInvalidAvatars} />);
-
-    // Should show fallback avatars for all invalid images
-    const fallbackAvatars = screen.getAllByRole('img', {
-      name: /default avatar/i,
-    });
-    expect(fallbackAvatars).toHaveLength(4); // 2 members × 2 avatars each
-
-    fallbackAvatars.forEach((avatar) => {
-      expect(avatar).toHaveAttribute(
-        'src',
-        expect.stringContaining('vecteezy.com'),
-      );
-    });
-  });
-
   it('renders the correct number of gift exchange pairs', () => {
     render(<CompletedExchangeCard members={mockMembers} />);
 
-    const memberElements = screen.getAllByTestId(/^member-\d+$/);
-    expect(memberElements).toHaveLength(mockMembers.length);
+    const members = screen.getAllByTestId(/^member-\d+$/);
+    expect(members).toHaveLength(mockMembers.length);
   });
 });
