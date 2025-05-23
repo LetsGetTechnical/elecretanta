@@ -18,12 +18,14 @@ jest.mock('./getAmazonImage', () => ({
 }));
 
 describe('generateAndStoreSuggestions', () => {
+  const mockSelect = jest.fn();
+  const mockEq = jest.fn();
   const mockSingle = jest.fn();
   const mockInsert = jest.fn();
 
   const mockFrom = jest.fn(() => ({
-    select: jest.fn().mockReturnThis(),
-    eq: jest.fn().mockReturnThis(),
+    select: mockSelect,
+    eq: mockEq,
     insert: mockInsert,
     single: mockSingle,
   }));
@@ -32,22 +34,28 @@ describe('generateAndStoreSuggestions', () => {
     from: mockFrom,
   } as unknown as SupabaseClient;
 
+  const mockValidProfile = {
+    data: {
+      age_group: '25-34',
+      hobbies: 'reading, hiking',
+      avoid: 'perfume',
+      categories: ['books', 'outdoors'],
+      practical_whimsical: 70,
+      cozy_adventurous: 50,
+      minimal_luxurious: 30,
+    },
+    error: null,
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('generates and stores suggestions', async () => {
-    mockSingle.mockResolvedValue({
-      data: {
-        age_group: '25-34',
-        hobbies: 'reading, hiking',
-        avoid: 'perfume',
-        categories: ['books', 'outdoors'],
-        practical_whimsical: 70,
-        cozy_adventurous: 50,
-        minimal_luxurious: 30,
-      },
-      error: null,
+    mockSelect.mockReturnValue({
+      eq: () => ({
+        single: () => Promise.resolve(mockValidProfile),
+      }),
     });
 
     (openai.chat.completions.create as jest.Mock).mockResolvedValue({
@@ -101,5 +109,55 @@ describe('generateAndStoreSuggestions', () => {
         }),
       }),
     );
+  });
+
+  it('throws an error when it fails to fetch the recipient profile', async () => {
+    mockSelect.mockReturnValue({
+      eq: () => ({
+        single: () =>
+          Promise.resolve({
+            data: null,
+            error: new Error('Failed to fetch recipient profile'),
+          }),
+      }),
+    });
+
+    await expect(
+      generateAndStoreSuggestions(
+        mockSupabase,
+        'Exchange2',
+        'Giver2',
+        'Recipient2',
+        100,
+      ),
+    ).rejects.toThrow('Failed to fetch recipient profile');
+  });
+
+  it('throws an error when OpenAI provides a bad response', async () => {
+    mockSelect.mockReturnValue({
+      eq: () => ({
+        single: () => Promise.resolve(mockValidProfile),
+      }),
+    });
+
+    (openai.chat.completions.create as jest.Mock).mockResolvedValue({
+      choices: [
+        {
+          message: {
+            content: 'Not a JSON string',
+          },
+        },
+      ],
+    });
+
+    await expect(
+      generateAndStoreSuggestions(
+        mockSupabase,
+        'Exchange3',
+        'Giver3',
+        'Recipient3',
+        50,
+      ),
+    ).rejects.toThrow('Failed to generate gift suggestions');
   });
 });
