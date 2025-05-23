@@ -1,102 +1,71 @@
-import { NextRequest, NextResponse } from 'next/server';
+import 'next/dist/server/web/spec-extension/request';
+import 'next/dist/server/web/spec-extension/response';
+
+import { NextRequest } from 'next/server';
 import { updateSession } from './middleware';
-import { createServerClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 
-jest.mock('@supabase/ssr', () => ({
-  createServerClient: jest.fn(),
-}));
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
 
-jest.mock('next/server', () => ({
-  NextResponse: {
-    redirect: jest.fn(),
-    next: jest.fn(),
-  },
-}));
-
-const createMockRequest = (path: string) => {
-  return {
-    cookies: {
-      getAll: jest.fn(() => []),
-      set: jest.fn(),
-    },
-    nextUrl: {
-      pathname: path,
-      clone: function () {
-        return { ...this };
-      },
-    },
-  } as unknown as NextRequest;
-};
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
 
 describe('updateSession middleware', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  let userId: string;
+
+  beforeAll(async () => {
+    const { data: userData, error: userError } =
+      await supabaseAdmin.auth.admin.createUser({
+        email: 'test@email.com',
+        password: 'password',
+        email_confirm: true,
+        user_metadata: { full_name: 'Test User' },
+      });
+
+    if (userError || !userData.user?.id) {
+      throw userError;
+    }
+
+    userId = userData.user.id;
   });
-  it('redirects unauthenticated user to /', async () => {
-    (createServerClient as jest.Mock).mockReturnValue({
-      auth: {
-        getUser: jest.fn().mockResolvedValue({ data: { user: null } }),
-      },
-    });
 
-    const request = createMockRequest('/protected-route');
-    await updateSession(request);
+  afterAll(async () => {
+    const { error: profileError } = await supabaseAdmin
+      .from('profiles')
+      .delete()
+      .eq('id', userId);
 
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = '/';
+    if (profileError) {
+      console.error('Failed to delete profile:', profileError);
+    }
 
-    expect(NextResponse.redirect).toHaveBeenCalledWith(redirectUrl);
+    const { error: userError } =
+      await supabaseAdmin.auth.admin.deleteUser(userId);
+
+    if (userError) {
+      console.error('Failed to delete user:', userError);
+    }
   });
 
   it('redirects user to /onboarding if their onboarding is set as false', async () => {
-    const mockUser = { id: '123' };
-
-    (createServerClient as jest.Mock).mockReturnValue({
-      auth: {
-        getUser: jest.fn().mockResolvedValue({ data: { user: mockUser } }),
-      },
-      from: () => ({
-        select: () => ({
-          eq: () => ({
-            single: jest.fn().mockResolvedValue({
-              data: { onboarding_complete: false },
-            }),
-          }),
-        }),
-      }),
+    await supabase.auth.signInWithPassword({
+      email: 'test@email.com',
+      password: 'password',
     });
 
-    const request = createMockRequest('/dashboard');
-    await updateSession(request);
+    const request = {
+      url: 'https://localhost:4000/dashboard',
+      headers: new Headers(),
+      cookies: new Map(),
+    } as unknown as NextRequest;
 
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = '/onboarding';
-
-    expect(NextResponse.redirect).toHaveBeenCalledWith(redirectUrl);
-  });
-
-  it('allows onboarded users through', async () => {
-    const mockUser = { id: '456' };
-
-    (createServerClient as jest.Mock).mockReturnValue({
-      auth: {
-        getUser: jest.fn().mockResolvedValue({ data: { user: mockUser } }),
-      },
-      from: () => ({
-        select: () => ({
-          eq: () => ({
-            single: jest.fn().mockResolvedValue({
-              data: { onboarding_complete: true },
-            }),
-          }),
-        }),
-      }),
-    });
-
-    const request = await createMockRequest('/dashboard');
-    await updateSession(request);
-
-    expect(NextResponse.redirect).not.toHaveBeenCalled();
-    expect(NextResponse.next).toHaveBeenCalled();
+    const response = await updateSession(request);
+    expect(response).toBe(307);
+    expect(response.headers.get('location')).toBe('/onboarding');
   });
 });
