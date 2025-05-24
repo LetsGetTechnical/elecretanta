@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@/components/Card/card';
+import { Card, CardContent, CardHeader } from '@/components/Card/Card';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 
 interface SkeletonCardProps {

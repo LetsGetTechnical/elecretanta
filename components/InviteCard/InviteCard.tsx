@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@/components/Card/card';
+import { Card, CardContent } from '@/components/Card/Card';
 import { Button } from '@/components/Button/button';
 import { Copy, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
