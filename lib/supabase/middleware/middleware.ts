@@ -1,7 +1,17 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-export async function updateSession(request: NextRequest) {
+/**
+ * Updates the session based on the incoming request and redirects if necessary.
+ * @param {NextRequest} request - The incoming request object.
+ * @returns {Promise<NextResponse>} A promise that resolves to a NextResponse object.
+ */
+export async function updateSession(
+  request: NextRequest,
+): Promise<NextResponse> {
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -11,9 +21,17 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
+        /**
+         * Retrieves all cookies from the request.
+         * @returns {Array} An array of cookies.
+         */
         getAll() {
           return request.cookies.getAll();
         },
+        /**
+         * Sets all cookies provided in the cookiesToSet array.
+         * @param {Array} cookiesToSet - An array of cookies to set, each containing name, value, and options.
+         */
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
@@ -37,7 +55,6 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // If the user is not authenticated redirect the user to the login page
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/auth/login') &&
@@ -46,23 +63,18 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname !== '/' &&
     !request.nextUrl.pathname.startsWith('/gift-exchanges')
   ) {
-    // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = '/';
     return NextResponse.redirect(url);
-    // Todo: Uncomment this to redirect unauthenticated users to the login page
   }
 
-  // if the user is authenticated check if they have already onboarded
   if (user) {
-    // Get the user's profile
     const { data: profile } = await supabase
       .from('profiles')
       .select('onboarding_complete')
       .eq('id', user.id)
       .single();
 
-    // If user is not onboarded and not already on the onboarding page, redirect to onboarding
     if (
       profile &&
       !profile.onboarding_complete &&
