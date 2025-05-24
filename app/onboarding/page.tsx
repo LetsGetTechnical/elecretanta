@@ -323,7 +323,7 @@ function Onboarding() {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger data-testid="select-trigger">
                                 <SelectValue placeholder="Select your age group" />
                               </SelectTrigger>
                             </FormControl>
