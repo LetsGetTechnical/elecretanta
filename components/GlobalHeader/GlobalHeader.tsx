@@ -23,6 +23,7 @@ const GlobalHeader = () => {
 
   return (
     <nav
+      data-testid="global-header"
       className={cn(
         'flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 bg-elfHeaderGreen h-20',
         pathname === '/' ? 'hidden' : '',
