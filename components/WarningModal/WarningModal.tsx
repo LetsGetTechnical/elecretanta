@@ -61,8 +61,12 @@ const WarningModal = ({
       console.error(error);
     }
   };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex backdrop-blur justify-center items-center z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex backdrop-blur justify-center items-center z-50"
+      data-testId="warning-modal"
+    >
       <div className="bg-white rounded-lg text-center">
         <div className="text-sm font-bold p-4 bg-groupCardArrow text-black rounded-lg">
           You&apos;re invited to join
@@ -87,11 +91,19 @@ const WarningModal = ({
             </div>
           </div>
           {session ? (
-            <Button className="w-full" onClick={joinExchange}>
+            <Button
+              className="w-full"
+              onClick={joinExchange}
+              data-testId="join-button"
+            >
               Join
             </Button>
           ) : (
-            <Button className="w-full flex items-center gap-2" onClick={signIn}>
+            <Button
+              className="w-full flex items-center gap-2"
+              onClick={signIn}
+              data-testId="google-button"
+            >
               Sign in with Google to Join <LogIn />
             </Button>
           )}
