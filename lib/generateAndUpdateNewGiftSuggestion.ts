@@ -3,7 +3,7 @@
 
 'use server';
 import { openai } from '@/app/api/openaiConfig/config';
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { createClient } from './supabase/server';
 import { getAmazonImage } from './getAmazonImage';
@@ -11,20 +11,20 @@ import { getAmazonImage } from './getAmazonImage';
 /**
  *
  * Function to generate a gift suggestion, and update the gift suggestion with the generated suggestion
- * @param {GiftSuggestion[]} allGiftSuggestions - List of gift suggestions.
+ * @param {IGiftSuggestion[]} allGiftSuggestions - List of gift suggestions.
  * @param {string} budget - Gift budget.
  * @param {string} feedback - Feedback for new gift suggestion.
- * @param {GiftSuggestion} gift - Single gift suggestion.
+ * @param {IGiftSuggestion} gift - Single gift suggestion.
  * @param {Profile | null} recipient - Profile of recipient.
- * @returns {GiftSuggestion} - Updated gift suggestion.
+ * @returns {IGiftSuggestion} - Updated gift suggestion.
  */
 export async function generateAndUpdateNewGiftSuggestion(
-  allGiftSuggestions: GiftSuggestion[],
+  allGiftSuggestions: IGiftSuggestion[],
   budget: string,
   feedback: string,
-  gift: GiftSuggestion,
+  gift: IGiftSuggestion,
   recipient: Profile | null,
-): Promise<GiftSuggestion> {
+): Promise<IGiftSuggestion> {
   if (!recipient) {
     throw new Error('Recipient profile is missing');
   }
@@ -95,7 +95,7 @@ export async function generateAndUpdateNewGiftSuggestion(
     const suggestion = parsedResponse[0];
     const amazonData = await getAmazonImage(suggestion.title);
 
-    const cleanSuggestion: GiftSuggestion = {
+    const cleanSuggestion: IGiftSuggestion = {
       id: gift.id,
       title: String(suggestion.title),
       price: String(suggestion.price),
