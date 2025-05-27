@@ -5,7 +5,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../Card/card';
+} from '../Card/Card';
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback } from 'react';
