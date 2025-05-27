@@ -70,29 +70,21 @@ describe('OnboardingPage', () => {
       expect(screen.getByText('Welcome to Elfgorithm✨')).toBeInTheDocument();
     });
 
-
-    await user.click(screen.getByText('Next'));
-
-
+    await user.click(screen.getByTestId('next-button'));
     await waitFor(() => {
       expect(screen.getByText('About You')).toBeInTheDocument();
     });
-    await user.type(screen.getByRole('textbox', { name: /how should we call you\?/i }), 'Test User');
-    await user.click(screen.getByTestId('select-trigger')); 
-    await user.click(screen.getByText('25 - 34 years'));
-    await user.click(screen.getByText('Next'));
+    await user.type(screen.getByRole('textbox', { name: /How should we call you\?/i }), 'Test User');
 
- 
+    await user.click(screen.getByTestId('next-button'));
+
     await user.type(screen.getByRole('textbox', { name: /tell us more about your interests/i }), 'Reading');
-    await user.click(screen.getByText('Next'));
-
+    await user.click(screen.getByTestId('next-button'));
 
     await user.type(screen.getByRole('textbox', { name: /anything your Secret Santa should avoid\?/i }), 'None');
-    await user.click(screen.getByText('Next'));
+    await user.click(screen.getByTestId('next-button'));
 
     await user.click(screen.getByRole('button', { name: /find my perfect gift/i }));
-
-
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/profile', expect.objectContaining({
@@ -118,11 +110,11 @@ describe('OnboardingPage', () => {
       expect(screen.getByText('Welcome to Elfgorithm✨')).toBeInTheDocument();
     });
 
-    await user.click(screen.getByText('Next'));
-    await user.click(screen.getByText('Next'));
-    await user.click(screen.getByText('Next'));
-    await user.click(screen.getByText('Next'));
-    await user.click(screen.getByText('Next'));
+    await user.click(screen.getByTestId('next-button'));
+    await user.click(screen.getByTestId('next-button'));
+    await user.click(screen.getByTestId('next-button'));
+    await user.click(screen.getByTestId('next-button'));
+    await user.click(screen.getByTestId('next-button'));
     await user.click(screen.getByRole('button', { name: /find my perfect gift/i }));
 
 

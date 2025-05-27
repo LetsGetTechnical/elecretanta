@@ -525,7 +525,7 @@ function Onboarding() {
                       Back
                     </Button>
                   )}
-                  <Button type="submit">
+                  <Button data-testid="next-button" type="submit">
                     {currentStep < steps.length - 1
                       ? 'Next'
                       : 'Find My Perfect Gift'}
