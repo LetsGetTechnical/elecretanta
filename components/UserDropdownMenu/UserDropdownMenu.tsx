@@ -10,6 +10,7 @@ import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 import { DropdownMenuContent } from '../DropdownMenu/DropdownMenuContent';
 import { DropdownMenuTrigger } from '../DropdownMenu/DropdownMenuTrigger';
 import { DropdownMenuItem } from '../DropdownMenu/DropdownMenuItem';
+import { LogOut, CircleUser } from 'lucide-react';
 import getUserAvatar from '@/lib/getUserAvatar';
 import Link from 'next/link';
 
@@ -42,11 +43,13 @@ const UserDropdownMenu = (): JSX.Element => {
             href="/profile"
             className="font-medium underline-offset-4 hover:underline cursor-pointer"
           >
+            <CircleUser />
             My profile
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Button variant="link" className="p-0 h-5">
+            <LogOut />
             Log out
           </Button>
         </DropdownMenuItem>
