@@ -4,6 +4,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useAuthContext } from '@/context/AuthContextProvider';
 import Avatar from '../Avatar/Avatar';
 import { Button } from '../Button/button';
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
@@ -21,6 +22,7 @@ import Link from 'next/link';
  */
 const UserDropdownMenu = (): JSX.Element => {
   const [avatar, setAvatar] = useState<string>('');
+  const { logOut } = useAuthContext();
 
   useEffect(() => {
     const fetchAvatar = async () => {
@@ -48,7 +50,7 @@ const UserDropdownMenu = (): JSX.Element => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Button variant="link" className="p-0 h-5">
+          <Button variant="link" className="p-0 h-5" onClick={logOut}>
             <LogOut />
             Log out
           </Button>
