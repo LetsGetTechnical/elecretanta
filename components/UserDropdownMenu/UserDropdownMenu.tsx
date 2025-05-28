@@ -35,9 +35,7 @@ const UserDropdownMenu = (): JSX.Element => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button asChild className="border-none hover:border-none">
-          <Avatar userAvatar={avatar} />
-        </Button>
+        <Avatar userAvatar={avatar} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
