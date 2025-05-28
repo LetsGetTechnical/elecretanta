@@ -6,13 +6,18 @@ import ProfileCard from './ProfileCard';
 import { Profile } from '@/app/types/profile';
 import { userEvent } from '@testing-library/user-event';
 
+jest.mock('@radix-ui/react-avatar', () => ({
+  ...jest.requireActual('@radix-ui/react-avatar'),
+  Image: (props: typeof Image) => <img data-testid="avatar-image" {...props} />,
+}));
+
 const testProfile: Profile = {
   id: '3',
   display_name: 'will cooley',
   email: 'will@aol.com',
   age_group: '65+',
   avatar:
-    'https://static.willcooley.com/will.jpg',
+    'https://unsplash.com/photos/a-man-wearing-glasses-and-a-black-shirt-iEEBWgY_6lA',
   categories: ['Music & Sound', 'Tech & Gadgets', 'Food & Cooking'],
   hobbies: 'unit testing',
   avoid: 'spiders',
@@ -43,15 +48,14 @@ describe('ProfileCard', () => {
     });
     it('Renders with profileName, avatar, age_group, hobbies, and avoid properties', () => {
       const profileName = screen.getByTestId('profileName');
-      const avatarImage = screen.getByRole('img');
+      const avatarImage = screen.getByTestId('avatar-image');
       const ageGroup = screen.getByTestId('ageGroup');
       const hobbies = screen.getByTestId('hobbies');
       const avoid = screen.getByTestId('avoid');
-
       expect(profileName).toHaveTextContent('Will Cooley');
       expect(avatarImage).toHaveAttribute(
         'src',
-        'https://static.willcooley.com/will.jpg',
+        'https://unsplash.com/photos/a-man-wearing-glasses-and-a-black-shirt-iEEBWgY_6lA',
       );
       expect(ageGroup).toHaveTextContent('65+');
       expect(hobbies).toHaveTextContent('unit testing');

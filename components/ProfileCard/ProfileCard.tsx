@@ -14,8 +14,6 @@ interface ProfileCardProps {
 
 const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
   
-    console.log('ProfileCard avatar prop:', profile?.avatar);
-  
   const router = useRouter();
 
   const handleEditProfile = () => {
