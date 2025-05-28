@@ -40,8 +40,11 @@ describe('GlobalHeader', () => {
       expect(screen.getByTestId('nav-logo-icon')).toBeInTheDocument();
       expect(screen.getByTestId('nav-logo-text')).toBeInTheDocument();
 
-      const sunButton = screen.getByRole('button');
-      expect(sunButton).toBeInTheDocument();
+      expect(screen.getByTestId('avatar-body')).toBeInTheDocument();
+      expect(screen.getByTestId('avatar-fallback')).toBeInTheDocument();
+
+      const snowOverlayToggleButton = screen.getByRole('button');
+      expect(snowOverlayToggleButton).toBeInTheDocument();
     });
   });
 
@@ -64,12 +67,9 @@ describe('GlobalHeader', () => {
     });
 
     await waitFor(() => {
-      const links = screen.getAllByRole('link');
-      const profileLink = links.find(
-        (link) => link.getAttribute('href') === '/profile',
-      );
-      expect(profileLink).toBeInTheDocument();
-      expect(profileLink).toHaveAttribute('href', '/profile');
+      const avatarLink = screen.getByTestId('avatar-link');
+      expect(avatarLink).toBeInTheDocument();
+      expect(avatarLink).toHaveAttribute('href', '/profile');
     });
   });
 
@@ -79,25 +79,9 @@ describe('GlobalHeader', () => {
     });
 
     await waitFor(() => {
-      const links = screen.getAllByRole('link');
-      const dashboardLink = links.find(
-        (link) => link.getAttribute('href') === '/dashboard',
-      );
+      const dashboardLink = screen.getByTestId('nav-logo-link');
       expect(dashboardLink).toBeInTheDocument();
       expect(dashboardLink).toHaveAttribute('href', '/dashboard');
-    });
-  });
-
-  it('fetches and displays user avatar', async () => {
-    await act(async () => {
-      render(<GlobalHeader />);
-    });
-
-    await waitFor(() => {
-      const profileLink = screen
-        .getAllByRole('link')
-        .find((link) => link.getAttribute('href') === '/profile');
-      expect(profileLink).toBeInTheDocument();
     });
   });
 

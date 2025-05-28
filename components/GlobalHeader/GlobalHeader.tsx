@@ -32,7 +32,7 @@ const GlobalHeader = () => {
       <NavLogo />
       <div className="flex gap-2 items-center">
         <SnowOverlayToggle />
-        <Link href={'/profile'}>
+        <Link href={'/profile'} data-testid="avatar-link">
           <Avatar userAvatar={avatar} />
         </Link>
       </div>
