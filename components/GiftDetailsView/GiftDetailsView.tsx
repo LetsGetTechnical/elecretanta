@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../Card/card';
+} from '../Card/Card';
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback, JSX } from 'react';
