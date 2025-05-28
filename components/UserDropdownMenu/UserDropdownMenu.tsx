@@ -48,7 +48,12 @@ const UserDropdownMenu = (): JSX.Element => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Button variant="link" className="p-0 h-5" onClick={logOut}>
+          <Button
+            variant="link"
+            className="p-0 h-5"
+            onClick={logOut}
+            data-testid="logout-button"
+          >
             <LogOut />
             Log out
           </Button>
