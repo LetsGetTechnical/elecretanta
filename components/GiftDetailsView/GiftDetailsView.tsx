@@ -15,6 +15,20 @@ import { useState, useCallback, JSX } from 'react';
 import { IGiftDetailsViewProps } from './IGiftDetailsViewProps';
 
 /**
+ * Helper function to validate urlStrings
+ * @param {string} urlString - search string to validate
+ * @returns {boolean} - returns if string was valid or not
+ */
+const isValidUrl = (urlString: string): boolean => {
+  try {
+    new URL(urlString);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
  * A GiftDetailsView compoennt
  * @param {object} props - The component props
  * @param {GiftSuggestion} props.gift - Gift suggestion being passed
@@ -39,20 +53,6 @@ const GiftDetailsView = ({
   const handleAmazonLink = (searchTerm: string): string => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
     return `https://www.amazon.com/s?k=${encodedSearch}`;
-  };
-
-  /**
-   * Helper function to validate urlStrings
-   * @param {string} urlString - search string to validate
-   * @returns {boolean} - returns if string was valid or not
-   */
-  const isValidUrl = (urlString: string): boolean => {
-    try {
-      new URL(urlString);
-      return true;
-    } catch {
-      return false;
-    }
   };
 
   return (
