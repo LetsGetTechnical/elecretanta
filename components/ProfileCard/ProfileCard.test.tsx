@@ -6,10 +6,25 @@ import ProfileCard from './ProfileCard';
 import { Profile } from '@/app/types/profile';
 import { userEvent } from '@testing-library/user-event';
 
-jest.mock('@radix-ui/react-avatar', () => ({
-  ...jest.requireActual('@radix-ui/react-avatar'),
-  Image: (props: typeof Image) => <img data-testid="avatar-image" {...props} />,
-}));
+jest.mock('@radix-ui/react-avatar', () => {
+  const actual = jest.requireActual('@radix-ui/react-avatar');
+  return {
+    ...actual,
+    Image: ({ src, alt, ...props }: { src?: string; alt?: string }) => {
+      if (!src) {
+        return (
+          <img
+            data-testid="avatar-fallback-image"
+            src="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
+            alt="default avatar"
+            {...props}
+          />
+        );
+      }
+      return <img data-testid="avatar-image" src={src} alt={alt} {...props} />;
+    },
+  };
+});
 
 const testProfile: Profile = {
   id: '3',
@@ -69,6 +84,20 @@ describe('ProfileCard', () => {
     expect(profileName).toHaveTextContent('No Name Provided');
   });
 
+  it('Renders the ProfileCard with the Avatar Fallback if the testProfile image is undefined', () => {
+    render(
+      <ProfileCard
+        profile={{ ...testProfile, avatar: undefined }}
+        showEditButton={false}
+      />,
+    );
+    const avatarFallbackImage = screen.getByTestId('avatar-fallback-image')
+    expect(avatarFallbackImage).toHaveAttribute(
+      'src',
+      'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg',
+    );
+  });
+
   it('Edit Profile Button navigates to the onboarding path after user click', async () => {
     render(<ProfileCard profile={testProfile} showEditButton={true} />);
     const editProfileButton = screen.getByTestId('editProfileButton');
@@ -90,7 +119,7 @@ describe('ProfileCard', () => {
     expect(categoryBadges).toHaveTextContent(testProfile.categories[2]);
   });
 
-  it('Renders the preferenceRight, preferenceLeft when value is undefined', () => {
+  it('Renders the preferenceRight, preferenceLeft labels when value is undefined', () => {
     render(
       <ProfileCard
         profile={{ ...testProfile, practical_whimsical: 0 }}
