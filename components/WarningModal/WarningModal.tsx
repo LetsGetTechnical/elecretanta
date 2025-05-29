@@ -65,7 +65,7 @@ const WarningModal = ({
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex backdrop-blur justify-center items-center z-50"
-      data-testId="warning-modal"
+      data-testid="warning-modal"
     >
       <div className="bg-white rounded-lg text-center">
         <div className="text-sm font-bold p-4 bg-groupCardArrow text-black rounded-lg">
