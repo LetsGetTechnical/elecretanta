@@ -47,13 +47,19 @@ export async function updateSession(
     },
   );
 
+  const accessToken = request.cookies.get('sb-access-token')?.value;
+
   // IMPORTANT: Avoid writing any logic between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+    error,
+  } = await supabase.auth.getUser(accessToken);
+  if (error) {
+    throw new Error(`Auth error: ${error.message}`);
+  }
 
   if (
     !user &&
