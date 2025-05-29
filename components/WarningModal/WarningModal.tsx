@@ -73,21 +73,25 @@ const WarningModal = ({
         </div>
         <div className="py-4 px-8 flex flex-col gap-4">
           <div>
-            <h2 className="text-lg font-bold text-red-600">
+            <h2 className="text-lg font-bold text-red-600" data-testid="name">
               {giftExchangeData.name}
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500" data-testid="description">
               {giftExchangeData.description}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 py-2">
             <div>
               <div className="text-sm font-bold">Gift Budget</div>
-              <div className="text-sm">${giftExchangeData.budget}</div>
+              <div className="text-sm" data-testid="budget">
+                ${giftExchangeData.budget}
+              </div>
             </div>
             <div>
               <div className="text-sm font-bold">Members</div>
-              <div className="text-sm">{members?.length || 0}</div>
+              <div className="text-sm" data-testid="members">
+                {members?.length || 0}
+              </div>
             </div>
           </div>
           {session ? (

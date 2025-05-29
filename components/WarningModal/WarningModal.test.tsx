@@ -84,7 +84,18 @@ describe('WarningModal', () => {
     );
 
     const warningModal = screen.getByTestId('warning-modal');
+    const name = screen.getByTestId('name');
+    const description = screen.getByTestId('description');
+    const budget = screen.getByTestId('budget');
+    const members = screen.getByTestId('members');
+
     expect(warningModal).toBeInTheDocument();
+    expect(name).toHaveTextContent('Holiday Gift Exchange');
+    expect(description).toHaveTextContent(
+      'Celebrate the season by exchanging thoughtful gifts!',
+    );
+    expect(budget).toHaveTextContent('$30');
+    expect(members).toHaveTextContent('2');
   });
 
   it('renders the sign in with google button, if the user has no session, and calls signInWithGoogle when clicked', async () => {
