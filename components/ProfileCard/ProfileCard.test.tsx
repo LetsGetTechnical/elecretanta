@@ -91,7 +91,7 @@ describe('ProfileCard', () => {
         showEditButton={false}
       />,
     );
-    const avatarFallbackImage = screen.getByTestId('avatar-fallback-image')
+    const avatarFallbackImage = screen.getByTestId('avatar-fallback-image');
     expect(avatarFallbackImage).toHaveAttribute(
       'src',
       'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg',
@@ -107,12 +107,7 @@ describe('ProfileCard', () => {
   });
 
   it('Renders a Badge for each category', () => {
-    render(
-      <ProfileCard
-        profile={{ ...testProfile, practical_whimsical: undefined }}
-        showEditButton={true}
-      />,
-    );
+    render(<ProfileCard profile={testProfile} showEditButton={true} />);
     const categoryBadges = screen.getByTestId('categoryBadges');
     expect(categoryBadges).toHaveTextContent(testProfile.categories[0]);
     expect(categoryBadges).toHaveTextContent(testProfile.categories[1]);
@@ -122,7 +117,7 @@ describe('ProfileCard', () => {
   it('Renders the preferenceRight, preferenceLeft labels when value is undefined', () => {
     render(
       <ProfileCard
-        profile={{ ...testProfile, practical_whimsical: 0 }}
+        profile={{ ...testProfile, practical_whimsical: undefined }}
         showEditButton={false}
       />,
     );
@@ -138,9 +133,7 @@ describe('ProfileCard', () => {
 
   describe('Preference rendering in Progress Component', () => {
     beforeEach(() => {
-      render(
-        <ProfileCard profile={{ ...testProfile }} showEditButton={false} />,
-      );
+      render(<ProfileCard profile={testProfile} showEditButton={false} />);
     });
 
     it('Renders the Practical-Whimsical value', () => {
