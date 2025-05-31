@@ -118,7 +118,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
             <h2 className="flex items-center gap-2 font-bold text-[#FFD17C]">
               <Heart size={16} strokeWidth={2} /> Interests & Hobbies
             </h2>
-            <div data-testid="categoryBadges" className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {profile?.categories &&
                 profile?.categories.map((category) => {
                   const categoryName = formatCategory(category);

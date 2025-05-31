@@ -108,10 +108,11 @@ describe('ProfileCard', () => {
 
   it('Renders a Badge for each category', () => {
     render(<ProfileCard profile={testProfile} showEditButton={true} />);
-    const categoryBadges = screen.getByTestId('categoryBadges');
-    expect(categoryBadges).toHaveTextContent(testProfile.categories[0]);
-    expect(categoryBadges).toHaveTextContent(testProfile.categories[1]);
-    expect(categoryBadges).toHaveTextContent(testProfile.categories[2]);
+    const badges = screen.getAllByTestId('badge');
+    expect(badges.length).toBe(testProfile.categories.length)
+    badges.forEach((badge, index) =>{
+      expect(badge).toHaveTextContent(testProfile.categories[index])
+    })
   });
 
   it('Renders the preferenceRight, preferenceLeft labels when value is undefined', () => {
