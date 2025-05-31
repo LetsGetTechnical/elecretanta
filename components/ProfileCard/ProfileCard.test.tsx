@@ -115,7 +115,7 @@ describe('ProfileCard', () => {
     })
   });
 
-  it('Renders the preferenceRight, preferenceLeft labels when value is undefined', () => {
+  it('Renders the preferenceRight, preferenceLeft labels when practical_whimsical is undefined', () => {
     render(
       <ProfileCard
         profile={{ ...testProfile, practical_whimsical: undefined }}
@@ -130,6 +130,40 @@ describe('ProfileCard', () => {
     );
     expect(preferenceLeftNoValue).toHaveTextContent('Practical');
     expect(preferenceRightNoValue).toHaveTextContent('Whimsical');
+  });
+
+  it('Renders the preferenceRight, preferenceLeft labels when cozy_adventurous is undefined', () => {
+    render(
+      <ProfileCard
+        profile={{ ...testProfile, cozy_adventurous: undefined }}
+        showEditButton={false}
+      />,
+    );
+    const preferenceLeftNoValue = screen.getByTestId(
+      'cozyAdventurous-left-no-value',
+    );
+    const preferenceRightNoValue = screen.getByTestId(
+      'cozyAdventurous-right-no-value',
+    );
+    expect(preferenceLeftNoValue).toHaveTextContent('Cozy');
+    expect(preferenceRightNoValue).toHaveTextContent('Adventurous');
+  });
+
+  it('Renders the preferenceRight, preferenceLeft labels when minimal_luxurious is undefined', () => {
+    render(
+      <ProfileCard
+        profile={{ ...testProfile, minimal_luxurious: undefined }}
+        showEditButton={false}
+      />,
+    );
+    const preferenceLeftNoValue = screen.getByTestId(
+      'minimalLuxurious-left-no-value',
+    );
+    const preferenceRightNoValue = screen.getByTestId(
+      'minimalLuxurious-right-no-value',
+    );
+    expect(preferenceLeftNoValue).toHaveTextContent('Minimal');
+    expect(preferenceRightNoValue).toHaveTextContent('Luxurious');
   });
 
   describe('Preference rendering in Progress Component', () => {
