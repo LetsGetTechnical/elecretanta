@@ -21,7 +21,6 @@ app/dashboard/page.tsx
 app/gift-exchanges/\[id\]/edit/page.tsx
 app/gift-exchanges/\[id\]/page.tsx
 app/gift-exchanges/\[id\]/WaitingForSuggestions.tsx
-app/layout.tsx
 app/onboarding/page.tsx
 app/page.tsx
 app/profile/page.tsx
