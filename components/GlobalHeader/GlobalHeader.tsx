@@ -1,14 +1,20 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import NavLogo from '../NavLogo/NavLogo';
 import SnowOverlayToggle from '../SnowOverlayToggle/SnowOverlayToggle';
+import { cn } from '@/lib/utils';
 import UserDropdownMenu from '../UserDropdownMenu/UserDropdownMenu';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 
-const GlobalHeader = () => {
+/**
+ * GlobalHeader component that renders the main navigation header.
+ * @returns {JSX.Element} - A nav containing the logo, snow toggle, and user avatar.
+ */
+const GlobalHeader = (): JSX.Element => {
   const pathname = usePathname();
-
   return (
     <nav
       className={cn(
