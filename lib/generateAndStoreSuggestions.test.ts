@@ -1,4 +1,4 @@
-import { generateAndStoreSuggestions } from './generateAndStoreSuggestion';
+import { generateAndStoreSuggestions } from './generateAndStoreSuggestions';
 import { getAmazonImage } from './getAmazonImage';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { openai } from '../app/api/openaiConfig/config';
