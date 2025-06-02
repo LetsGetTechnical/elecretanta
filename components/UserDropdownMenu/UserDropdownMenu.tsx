@@ -39,7 +39,7 @@ const UserDropdownMenu = (): JSX.Element => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar userAvatar={avatar} />
+        <Avatar userAvatar={avatar} data-testid="avatar" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
