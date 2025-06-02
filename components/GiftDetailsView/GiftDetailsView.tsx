@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { Button } from '../Button/button';
 import {
   CardContent,
@@ -8,9 +11,15 @@ import {
 } from '../Card/Card';
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, JSX } from 'react';
+import { IGiftDetailsViewProps } from './IGiftDetailsViewProps';
 
-const isValidUrl = (urlString: string) => {
+/**
+ * Helper function to validate urlStrings
+ * @param {string} urlString - search string to validate
+ * @returns {boolean} - returns if string was valid or not
+ */
+const isValidUrl = (urlString: string): boolean => {
   try {
     new URL(urlString);
     return true;
@@ -19,20 +28,29 @@ const isValidUrl = (urlString: string) => {
   }
 };
 
+/**
+ * A GiftDetailsView compoennt
+ * @param {object} props - The component props
+ * @param {GiftSuggestion} props.gift - Gift suggestion being passed
+ * @param {() => void} props.handleFeedback - Callback function triggered when feedback is provided
+ * @returns {JSX.Element} - the rendered GiftDetailsView
+ */
 const GiftDetailsView = ({
   gift,
   handleFeedback,
-}: {
-  gift: GiftSuggestion;
-  handleFeedback: () => void;
-}) => {
+}: IGiftDetailsViewProps): JSX.Element => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = useCallback(() => {
     setImageError(true);
   }, []);
 
-  const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
+  /**
+   * Search Term details
+   * @param {string} searchTerm - search term being passed in to search amazon list
+   * @returns {string} - returns an encoded search string with the search term
+   */
+  const handleAmazonLink = (searchTerm: string): string => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
     return `https://www.amazon.com/s?k=${encodedSearch}`;
   };
@@ -86,21 +104,21 @@ const GiftDetailsView = ({
       </CardHeader>
       <CardContent className="p-0 m-2 w-72 h-20 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
         <ul className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1">
-          {gift.matchReasons.map((reason, index) => (
-            <li key={index}>{reason}</li>
+          {gift.matchReasons.map((reason) => (
+            <li key={reason}>{reason}</li>
           ))}
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col">
         <div className="flex justify-between w-full">
           <a
-            href={handleAmazonLink({ searchTerm: gift.title })}
+            href={handleAmazonLink(gift.title)}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Button
-              className="text-sm w-32 h-9 bg-primaryButtonYellow hover:bg-primaryButtonYellow70"
-              onClick={() => handleAmazonLink({ searchTerm: gift.title })}
+              className="text-sm w-32 h-9 bg-primaryButtonYellow hover:bg-primaryButtonYelow70"
+              onClick={() => handleAmazonLink(gift.title)}
             >
               <SquareArrowOutUpRight /> View
             </Button>
