@@ -25,7 +25,11 @@ const UserDropdownMenu = (): JSX.Element => {
   const { logOut } = useAuthContext();
 
   useEffect(() => {
-    const fetchAvatar = async () => {
+    /**
+     * Fetches the user avatar and updates the state.
+     * @returns {Promise<void>} - A promise that resolves after fetching the user's avatar.
+     */
+    const fetchAvatar = async (): Promise<void> => {
       const response = await getUserAvatar();
       setAvatar(response);
     };
