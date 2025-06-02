@@ -11,6 +11,10 @@ What was changed and why
 
 <!-- Example: closes #123 -->
  Closes #[ticketnumber]
+
+## Testing instructions
+
+If applicable, provide steps for reviewers to test changes locally -- including necessary setup, commands, and expected results
  
 ## Additional information
 
