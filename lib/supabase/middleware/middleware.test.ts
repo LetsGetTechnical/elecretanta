@@ -95,7 +95,6 @@ describe('Middleware', () => {
       }),
     });
 
-    const getUser = await updateSession(request);
-    expect(getUser).rejects.toThrow();
+    await expect(updateSession(request)).rejects.toThrow();
   });
 });
