@@ -38,16 +38,16 @@ const UserDropdownMenu = (): JSX.Element => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar userAvatar={avatar} data-testid="avatar" />
+      <DropdownMenuTrigger data-testid="dropdown-menu-trigger">
+        <Avatar userAvatar={avatar} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem>
           <Link
             href="/profile"
-            className="font-medium underline-offset-4 hover:underline cursor-pointer"
+            className="underline-offset-4 hover:underline cursor-pointer inline-flex items-center gap-2 text-sm font-medium"
           >
-            <CircleUser />
+            <CircleUser size="18" strokeWidth="2" />
             My profile
           </Link>
         </DropdownMenuItem>
