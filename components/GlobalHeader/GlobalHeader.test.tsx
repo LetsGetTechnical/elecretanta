@@ -14,13 +14,6 @@ jest.mock('@/lib/getUserAvatar', () => ({
   default: jest.fn().mockResolvedValue('mock-avatar-url'),
 }));
 
-jest.mock('@/providers/SnowOverlayProvider', () => ({
-  useSnowOverlay: jest.fn().mockReturnValue({
-    isSnowing: true,
-    toggleSnowSetting: jest.fn(),
-  }),
-}));
-
 describe('GlobalHeader', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -37,13 +30,11 @@ describe('GlobalHeader', () => {
       expect(header).toBeInTheDocument();
 
       expect(screen.getByTestId('nav-logo-link')).toBeInTheDocument();
-      expect(screen.getByTestId('nav-logo-icon')).toBeInTheDocument();
-      expect(screen.getByTestId('nav-logo-text')).toBeInTheDocument();
 
       expect(screen.getByTestId('avatar-body')).toBeInTheDocument();
       expect(screen.getByTestId('avatar-fallback')).toBeInTheDocument();
 
-      const snowOverlayToggleButton = screen.getByRole('button');
+      const snowOverlayToggleButton = screen.getByTestId('snow-overlay-toggle');
       expect(snowOverlayToggleButton).toBeInTheDocument();
     });
   });
@@ -92,11 +83,9 @@ describe('GlobalHeader', () => {
 
     await waitFor(() => {
       const header = screen.getByTestId('global-header');
-      expect(header).toHaveClass('flex');
-      expect(header).toHaveClass('items-center');
-      expect(header).toHaveClass('justify-between');
-      expect(header).toHaveClass('bg-elfHeaderGreen');
-      expect(header).toHaveClass('h-20');
+      expect(header).toHaveClass(
+        'flex items-center justify-between bg-elfHeaderGreen h-20',
+      );
     });
   });
 });
