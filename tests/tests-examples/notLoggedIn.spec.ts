@@ -6,11 +6,17 @@ import { test, expect } from '@playwright/test';
 test('has title', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByText('Make Gift-Giving Magical')).toBeVisible();
+  await expect(page.getByTestId('hero-title')).toBeVisible();
 });
 
-test('has smart gifting', async ({ page }) => {
+test('has 4 features', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByText('Smart Gifting')).toBeVisible();
+  await expect(page.getByTestId('feature')).toHaveCount(4);
+});
+
+test('has 3 steps', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(page.getByTestId('step')).toHaveCount(3);
 });

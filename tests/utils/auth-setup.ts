@@ -7,16 +7,22 @@ import { Page } from '@playwright/test';
 /**
  * Get a Supabase client with authentication set up for Playwright tests
  * @param page - The Playwright page object
+ * @param userEmail - The email of the user to sign in as
+ * @param path - The path to navigate to after signing in
  * @returns Promise that resolves when authentication is set up
  */
-async function getSupabaseClient(page: Page): Promise<void> {
+async function getSupabaseClient(
+  page: Page,
+  userEmail: string,
+  path = '/',
+): Promise<void> {
   const supabaseClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 
   const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: 'playwrightuser@test.com',
+    email: userEmail,
     password: 'password',
   });
   if (!data.user) {
@@ -41,7 +47,7 @@ async function getSupabaseClient(page: Page): Promise<void> {
         },
       }),
       domain: 'localhost',
-      path: '/',
+      path: path,
       httpOnly: false,
       secure: false,
     },
