@@ -10,7 +10,7 @@ import { useState, JSX } from 'react';
 import { IFeedbackViewProps } from './IFeedbackViewProps';
 
 /**
- * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx. 
+ * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx.
  * @param {object} props - The component props
  * @param {GiftSuggestion[]} props.allGiftSuggestions - The list of all gift suggestions for this recipient.
  * @param {string} props.budget - The budget for the gift to be passed on to AI to generate suggestions.
@@ -31,10 +31,10 @@ const FeedbackView = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const buttonVariants = [
-    { title: 'Too Expensive', subtitle: 'Show lower price range', id:1 },
-    { title: 'Not Their Style', subtitle: 'Try different interests', id:2 },
-    { title: 'They Might Have This', subtitle: 'Show alternatives', id:3 },
-  ]
+    { title: 'Too Expensive', subtitle: 'Show lower price range', id: 1 },
+    { title: 'Not Their Style', subtitle: 'Try different interests', id: 2 },
+    { title: 'They Might Have This', subtitle: 'Show alternatives', id: 3 },
+  ];
   /**
    * Updates gift recommendations based on user feedback.
    * @param {string} feedback - The feedback to submit.
@@ -62,23 +62,28 @@ const FeedbackView = ({
     }
   };
 
-
   return (
     <div className="flex flex-col m-4 h-full" data-testid="feedback-view">
       {isLoading ? (
         <>
           <div className="flex justify-center items-center h-full">
-            <div data-testid="loading-spinner" className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin" />
+            <div
+              data-testid="loading-spinner"
+              className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin"
+            />
           </div>
         </>
       ) : (
-        <>
+        <div className="flex flex-col m-4 h-full">
           <ChevronLeft
             data-testid="back-chevron"
             className="hover:cursor-pointer"
             onClick={handleFeedback}
           />
-          <h1 data-testid="feedback-title" className="text-sm text-[#21443D] font-bold mx-auto mt-4">
+          <h1
+            data-testid="feedback-title"
+            className="text-sm text-[#21443D] font-bold mx-auto mt-4"
+          >
             Give Us Feedback
           </h1>
           <div className="flex flex-col justify-center mt-4 gap-4">
@@ -95,7 +100,7 @@ const FeedbackView = ({
               </button>
             ))}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
