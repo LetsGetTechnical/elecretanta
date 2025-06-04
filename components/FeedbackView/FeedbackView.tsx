@@ -3,6 +3,7 @@
 
 'use client';
 import { ChevronLeft } from 'lucide-react';
+import ButtonGroup from './ButtonGroup';
 import { GiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
@@ -31,9 +32,21 @@ const FeedbackView = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const buttonVariants = [
-    { title: 'Too Expensive', subtitle: 'Show lower price range', id: 1 },
-    { title: 'Not Their Style', subtitle: 'Try different interests', id: 2 },
-    { title: 'They Might Have This', subtitle: 'Show alternatives', id: 3 },
+    {
+      title: 'Too Expensive',
+      subtitle: 'Show lower price range',
+      id: 'expensive',
+    },
+    {
+      title: 'Not Their Style',
+      subtitle: 'Try different interests',
+      id: 'style',
+    },
+    {
+      title: 'They Might Have This',
+      subtitle: 'Show alternatives',
+      id: 'alternative',
+    },
   ];
   /**
    * Updates gift recommendations based on user feedback.
@@ -84,18 +97,10 @@ const FeedbackView = ({
             Give Us Feedback
           </h1>
           <div className="flex flex-col justify-center mt-4 gap-4">
-            {buttonVariants.map(({ title, subtitle, id }) => (
-              <button
-                data-testid={`feedback-button-${id}`}
-                type="button"
-                key={id}
-                className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
-                onClick={() => handleFeedbackSubmit(`${title}: ${subtitle}`)}
-              >
-                <p className="text-sm font-bold">{title}</p>
-                <p className="text-sm">{subtitle}</p>
-              </button>
-            ))}
+            <ButtonGroup
+              variants={buttonVariants}
+              handleFeedbackSubmit={handleFeedbackSubmit}
+            />
           </div>
         </div>
       )}
