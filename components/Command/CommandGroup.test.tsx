@@ -1,12 +1,19 @@
 import { render, screen } from '@testing-library/react';
-import { CommandGroup } from './Command';
-import { Command } from './Command';
+import { Command, CommandGroup, CommandList } from './Command';
+
+global.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+};
 
 describe('CommandGroup', () => {
-    it('renders the component', () => {
+    it('renders the component within CommandList wrapper', () => {
         render(
         <Command>
-            <CommandGroup/>
+            <CommandList>
+                <CommandGroup/>
+            </CommandList>
         </Command>)
 
         const commandGroup = screen.getByTestId('command-group');

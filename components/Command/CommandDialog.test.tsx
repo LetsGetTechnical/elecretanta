@@ -21,7 +21,7 @@ describe('CommandDialog', () => {
             );
 
             const commandDialog = screen.queryByTestId('command-dialog');
-            expect(commandDialog).not.toBeInTheDocument();
+            expect(commandDialog).toBeNull();
     });
 
     it('renders children content within CommandDialog', () => {
@@ -33,7 +33,7 @@ describe('CommandDialog', () => {
         </CommandDialog>
         );
 
-        const commandDialog = screen.queryByTestId('command-dialog');
+        const commandDialog = screen.getByTestId('command-dialog');
         expect(commandDialog).toHaveTextContent('children');
     });
 })

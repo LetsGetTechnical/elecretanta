@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { CommandInput } from './CommandInput';
-import { Command } from './Command';
+import userEvent from '@testing-library/user-event';
+import { Command, CommandInput } from './Command';
 
 describe('CommandInput', () => {
     it('renders the component', () => {

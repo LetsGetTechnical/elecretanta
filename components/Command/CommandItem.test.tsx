@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
-import { CommandItem } from './CommandItem';
-import { Command } from './Command';
+import { Command, CommandItem, CommandGroup } from './Command';
 
 describe('CommandItem', () => {
-    it('renders the component', () => {
+    it('renders the component within CommandGroup wrapper', () => {
         render(
             <Command>
-                <CommandItem/>
+                <CommandGroup>
+                    <CommandItem/>
+                </CommandGroup>
             </Command>
         );
 
