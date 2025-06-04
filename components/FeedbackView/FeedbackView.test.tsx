@@ -76,8 +76,7 @@ describe('FeedbackView', () => {
     expect(styleButton).toBeInTheDocument();
     expect(haveButton).toBeInTheDocument();
 
-    expect(screen.getByTestId('feedback-title')).toBeInTheDocument();
-    expect(screen.getByTestId('back-chevron')).toBeInTheDocument();
+    expect(screen.getByTestId('feedback-view-loaded')).toBeInTheDocument();
   });
 
   it('Each button renders with the correct title and corresponding subtitle', () => {

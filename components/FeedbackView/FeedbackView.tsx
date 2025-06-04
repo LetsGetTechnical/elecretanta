@@ -65,25 +65,22 @@ const FeedbackView = ({
   return (
     <div className="flex flex-col m-4 h-full" data-testid="feedback-view">
       {isLoading ? (
-        <>
-          <div className="flex justify-center items-center h-full">
-            <div
-              data-testid="loading-spinner"
-              className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin"
-            />
-          </div>
-        </>
+        <div
+          className="flex justify-center items-center h-full"
+          data-testid="loading-spinner"
+        >
+          <div className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin" />
+        </div>
       ) : (
-        <div className="flex flex-col m-4 h-full">
+        <div
+          className="flex flex-col m-4 h-full"
+          data-testid="feedback-view-loaded"
+        >
           <ChevronLeft
-            data-testid="back-chevron"
             className="hover:cursor-pointer"
             onClick={handleFeedback}
           />
-          <h1
-            data-testid="feedback-title"
-            className="text-sm text-[#21443D] font-bold mx-auto mt-4"
-          >
+          <h1 className="text-sm text-[#21443D] font-bold mx-auto mt-4">
             Give Us Feedback
           </h1>
           <div className="flex flex-col justify-center mt-4 gap-4">
