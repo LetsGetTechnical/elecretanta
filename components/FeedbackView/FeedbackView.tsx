@@ -3,20 +3,20 @@
 
 'use client';
 import { ChevronLeft } from 'lucide-react';
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';
 import { useState, JSX } from 'react';
 import { IFeedbackViewProps } from './IFeedbackViewProps';
 
 /**
- * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx. 
+ * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx.
  * @param {object} props - The component props
- * @param {GiftSuggestion[]} props.allGiftSuggestions - The list of all gift suggestions for this recipient.
+ * @param {IGiftSuggestion[]} props.allGiftSuggestions - The list of all gift suggestions for this recipient.
  * @param {string} props.budget - The budget for the gift to be passed on to AI to generate suggestions.
- * @param {GiftSuggestion} props.gift - The selected gift that the user is providing feedback on.
+ * @param {IGiftSuggestion} props.gift - The selected gift that the user is providing feedback on.
  * @param {() => void} props.handleFeedback - The function to update gift recommendations based on user feedback.
- * @param {(updatedGift: GiftSuggestion) => void} props.onGiftUpdate - The function to update the gift suggestion.
+ * @param {(updatedGift: IGiftSuggestion) => void} props.onGiftUpdate - The function to update the gift suggestion.
  * @param {Profile | null} props.recipient - Contains the recipients info to pass on to AI to generate suggestions.
  * @returns {JSX.Element} The rendered feedback view component
  */
@@ -31,10 +31,10 @@ const FeedbackView = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const buttonVariants = [
-    { title: 'Too Expensive', subtitle: 'Show lower price range', id:1 },
-    { title: 'Not Their Style', subtitle: 'Try different interests', id:2 },
-    { title: 'They Might Have This', subtitle: 'Show alternatives', id:3 },
-  ]
+    { title: 'Too Expensive', subtitle: 'Show lower price range', id: 1 },
+    { title: 'Not Their Style', subtitle: 'Try different interests', id: 2 },
+    { title: 'They Might Have This', subtitle: 'Show alternatives', id: 3 },
+  ];
   /**
    * Updates gift recommendations based on user feedback.
    * @param {string} feedback - The feedback to submit.
@@ -61,7 +61,6 @@ const FeedbackView = ({
       setIsLoading(false);
     }
   };
-
 
   return (
     <div className="flex flex-col m-4 h-full">

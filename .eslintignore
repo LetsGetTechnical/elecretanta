@@ -28,7 +28,6 @@ app/profile/page.tsx
 app/profile/\[id\]/page.tsx
 app/types/giftExchange.ts
 app/types/giftExchangeMember.ts
-app/types/giftSuggestion.ts
 app/types/profile.ts
 app/types/tailwindcss-motion.d.ts
 components/Avatar/Avatar.tsx
@@ -37,7 +36,6 @@ components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftSuggestionCard/GiftSuggestionCard.tsx
-components/GlobalHeader/GlobalHeader.tsx
 components/GroupCard/GroupCard.tsx
 components/ImageSelector/ImageSelector.tsx
 components/Input/input.tsx
