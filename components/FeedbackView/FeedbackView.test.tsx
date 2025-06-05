@@ -63,26 +63,18 @@ describe('FeedbackView', () => {
     expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
   });
 
-  it('When isLoading is false, the loading spinner is hidden and the buttons are visible', () => {
+  it('On initial load, the loading spinner is hidden and the buttons are visible', () => {
     renderFeedbackView();
 
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-
-    const expensiveButton = screen.getByTestId('feedback-button-1');
-    const styleButton = screen.getByTestId('feedback-button-2');
-    const haveButton = screen.getByTestId('feedback-button-3');
-
-    expect(expensiveButton).toBeInTheDocument();
-    expect(styleButton).toBeInTheDocument();
-    expect(haveButton).toBeInTheDocument();
-
+    expect(screen.getByTestId('button-group')).toBeInTheDocument();
     expect(screen.getByTestId('feedback-view-loaded')).toBeInTheDocument();
   });
 
   it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
     renderFeedbackView();
 
-    const expensiveButton = screen.getByTestId('feedback-button-1');
+    const expensiveButton = screen.getByTestId('expensive');
 
     await userEvent.click(expensiveButton);
 
@@ -104,10 +96,10 @@ describe('FeedbackView', () => {
   it('When button is clicked, loading spinner appears and buttons are hidden, then loading spinner disappears and buttons are shown again', async () => {
     renderFeedbackView();
 
-    const expensiveButton = screen.getByTestId('feedback-button-1');
+    const expensiveButton = screen.getByTestId('expensive');
 
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-    expect(screen.getByTestId('feedback-button-1')).toBeInTheDocument();
+    expect(expensiveButton).toBeInTheDocument();
 
     await act(async () => {
       userEvent.click(expensiveButton);
@@ -115,19 +107,19 @@ describe('FeedbackView', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
-      expect(screen.queryByTestId('feedback-button-1')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('button-group')).not.toBeInTheDocument();
     });
 
     await waitFor(() => {
       expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-      expect(screen.getByTestId('feedback-button-1')).toBeInTheDocument();
+      expect(screen.getByTestId('button-group')).toBeInTheDocument();
     });
   });
 
   it('When button is clicked, onGiftUpdate is called with new gift', async () => {
     renderFeedbackView();
 
-    const expensiveButton = screen.getByTestId('feedback-button-1');
+    const expensiveButton = screen.getByTestId('expensive');
     await act(async () => {
       userEvent.click(expensiveButton);
     });
@@ -165,9 +157,9 @@ describe('FeedbackView', () => {
       />,
     );
 
-    const feedbackButton = screen.getByTestId('feedback-button-1');
+    const expensiveButton = screen.getByTestId('expensive');
     await act(async () => {
-      userEvent.click(feedbackButton);
+      userEvent.click(expensiveButton);
     });
 
     await waitFor(() => {
@@ -197,11 +189,11 @@ describe('FeedbackView', () => {
       />,
     );
 
-    const feedbackButton = screen.getByTestId('feedback-button-3');
+    const alternativeButton = screen.getByTestId('alternative');
 
     await expect(
       act(async () => {
-        await userEvent.click(feedbackButton);
+        await userEvent.click(alternativeButton);
       }),
     ).rejects.toThrow('Update error');
   });

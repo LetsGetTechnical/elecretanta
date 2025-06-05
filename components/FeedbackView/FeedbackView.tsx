@@ -96,12 +96,10 @@ const FeedbackView = ({
           <h1 className="text-sm text-[#21443D] font-bold mx-auto mt-4">
             Give Us Feedback
           </h1>
-          <div className="flex flex-col justify-center mt-4 gap-4">
-            <ButtonGroup
-              variants={buttonVariants}
-              handleFeedbackSubmit={handleFeedbackSubmit}
-            />
-          </div>
+          <ButtonGroup
+            variants={buttonVariants}
+            handleFeedbackSubmit={handleFeedbackSubmit}
+          />
         </div>
       )}
     </div>

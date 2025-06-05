@@ -16,19 +16,28 @@ const ButtonGroup = ({
 }: {
   variants: { title: string; subtitle: string; id: string }[];
   handleFeedbackSubmit: (feedback: string) => void;
-}): JSX.Element[] => {
-  return variants.map(({ title, subtitle, id }) => (
-    <button
-      data-testid={`feedback-button-${id}`}
-      type="button"
-      key={id}
-      className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
-      onClick={() => handleFeedbackSubmit(`${title}: ${subtitle}`)}
+}): JSX.Element => {
+  return (
+    <div
+      data-testid="button-group"
+      className="flex flex-col justify-center mt-4 gap-4"
     >
-      <p className="text-sm font-bold">{title}</p>
-      <p className="text-sm">{subtitle}</p>
-    </button>
-  ));
+      {variants.map((variant) => (
+        <button
+          data-testid={variant.id}
+          type="button"
+          key={variant.id}
+          className="bg-[#E5ECDF] w-72 h-20 rounded-xl hover:bg-[#DBE2D5]"
+          onClick={() =>
+            handleFeedbackSubmit(`${variant.title}: ${variant.subtitle}`)
+          }
+        >
+          <p className="text-sm font-bold">{variant.title}</p>
+          <p className="text-sm">{variant.subtitle}</p>
+        </button>
+      ))}
+    </div>
+  );
 };
 
 export default ButtonGroup;
