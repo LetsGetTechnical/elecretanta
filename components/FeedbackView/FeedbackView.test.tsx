@@ -66,9 +66,11 @@ describe('FeedbackView', () => {
   it('On initial load, the loading spinner is hidden and the buttons are visible', () => {
     renderFeedbackView();
 
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('feedback-view--loading'),
+    ).not.toBeInTheDocument();
     expect(screen.getByTestId('button-group')).toBeInTheDocument();
-    expect(screen.getByTestId('feedback-view-loaded')).toBeInTheDocument();
+    expect(screen.getByTestId('feedback-view--loaded')).toBeInTheDocument();
   });
 
   it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
@@ -98,20 +100,24 @@ describe('FeedbackView', () => {
 
     const expensiveButton = screen.getByTestId('expensive');
 
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-    expect(expensiveButton).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('feedback-view--loading'),
+    ).not.toBeInTheDocument();
+    expect(screen.getByTestId('button-group')).toBeInTheDocument();
 
     await act(async () => {
       userEvent.click(expensiveButton);
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+      expect(screen.getByTestId('feedback-view--loading')).toBeInTheDocument();
       expect(screen.queryByTestId('button-group')).not.toBeInTheDocument();
     });
 
     await waitFor(() => {
-      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('feedback-view--loading'),
+      ).not.toBeInTheDocument();
       expect(screen.getByTestId('button-group')).toBeInTheDocument();
     });
   });
