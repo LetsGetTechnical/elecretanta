@@ -80,14 +80,14 @@ const FeedbackView = ({
       {isLoading ? (
         <div
           className="flex justify-center items-center h-full"
-          data-testid="loading-spinner"
+          data-testid="feedback-view--loading"
         >
           <div className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin" />
         </div>
       ) : (
         <div
           className="flex flex-col m-4 h-full"
-          data-testid="feedback-view-loaded"
+          data-testid="feedback-view--loaded"
         >
           <ChevronLeft
             className="hover:cursor-pointer"
