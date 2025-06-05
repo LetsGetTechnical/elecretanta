@@ -9,3 +9,8 @@ We also need to test:
 2. Database failures. 
 3. If the user doesn't exist. 
 4. If the user is not authorized to draw the gift exchange (not the owner)
+*/
+
+import { createClient } from '@/lib/supabase/server';
+import { NextResponse } from 'next/server';
+import { drawGiftExchange } from '@/lib/drawGiftExchange';
