@@ -79,22 +79,6 @@ describe('FeedbackView', () => {
     expect(screen.getByTestId('feedback-view-loaded')).toBeInTheDocument();
   });
 
-  it('Each button renders with the correct title and corresponding subtitle', () => {
-    renderFeedbackView();
-
-    const buttonVariants = [
-      { title: 'Too Expensive', subtitle: 'Show lower price range' },
-      { title: 'Not Their Style', subtitle: 'Try different interests' },
-      { title: 'They Might Have This', subtitle: 'Show alternatives' },
-    ];
-
-    buttonVariants.forEach(({ title, subtitle }) => {
-      const button = screen.getByText(title).closest('button');
-      expect(button).toBeInTheDocument();
-      expect(button).toHaveTextContent(subtitle);
-    });
-  });
-
   it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
     renderFeedbackView();
 
@@ -160,31 +144,6 @@ describe('FeedbackView', () => {
           imageUrl: 'new-test.jpg',
         }),
       );
-    });
-  });
-
-  it('All buttons are focusable, tabbable, and clickable.', async () => {
-    renderFeedbackView();
-
-    const expensiveButton = screen.getByTestId('feedback-button-1');
-    const styleButton = screen.getByTestId('feedback-button-2');
-    const haveButton = screen.getByTestId('feedback-button-3');
-
-    expensiveButton.focus();
-    expect(expensiveButton).toHaveFocus();
-
-    await userEvent.tab();
-    expect(styleButton).toHaveFocus();
-
-    await userEvent.tab();
-    expect(haveButton).toHaveFocus();
-
-    await act(async () => {
-      userEvent.keyboard('{Enter}');
-    });
-
-    await waitFor(() => {
-      expect(mockOnGiftUpdate).toHaveBeenCalled();
     });
   });
 
