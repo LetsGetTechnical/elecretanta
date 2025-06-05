@@ -11,11 +11,7 @@ import { Page } from '@playwright/test';
  * @param path - The path to navigate to after signing in
  * @returns Promise that resolves when authentication is set up
  */
-async function getSupabaseClient(
-  page: Page,
-  userEmail: string,
-  path = '/',
-): Promise<void> {
+async function getSupabaseClient(page: Page, userEmail: string): Promise<void> {
   const supabaseClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -47,7 +43,7 @@ async function getSupabaseClient(
         },
       }),
       domain: 'localhost',
-      path: path,
+      path: '/',
       httpOnly: false,
       secure: false,
     },

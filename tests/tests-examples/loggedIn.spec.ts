@@ -6,7 +6,7 @@ import { getSupabaseClient } from '../utils/auth-setup';
 test('Logged in user who hasn’t completed onboarding sees onboarding', async ({
   page,
 }) => {
-  await getSupabaseClient(page, 'playwrightuser@test.com', '/');
+  await getSupabaseClient(page, 'playwrightuser@test.com');
   await page.goto('/');
   await expect(page).toHaveURL('/onboarding');
   await expect(page.getByTestId('onboarding-card')).toBeVisible();
