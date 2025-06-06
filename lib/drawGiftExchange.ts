@@ -1,5 +1,5 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { generateAndStoreSuggestions } from './generateAndStoreSuggestion';
+import { generateAndStoreSuggestions } from './generateAndStoreSuggestions';
 
 // util function to draw gift exchange names
 // this function can be called from an API route
