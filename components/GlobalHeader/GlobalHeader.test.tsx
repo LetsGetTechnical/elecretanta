@@ -13,6 +13,11 @@ describe('GlobalHeader', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     require('next/navigation').usePathname.mockReturnValue('/some-page');
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve('mock-avatar-url'),
+      }),
+    ) as jest.Mock;
   });
 
   it('renders correctly with default props', async () => {
