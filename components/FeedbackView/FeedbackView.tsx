@@ -3,6 +3,7 @@
 
 'use client';
 import { ChevronLeft } from 'lucide-react';
+import ButtonGroup from './ButtonGroup';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { generateAndUpdateNewGiftSuggestion } from '@/lib/generateAndUpdateNewGiftSuggestion';

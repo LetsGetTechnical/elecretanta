@@ -1,5 +1,5 @@
 import { render, screen, waitFor, act } from '@testing-library/react';
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import FeedbackView from './FeedbackView';
 import userEvent from '@testing-library/user-event';
@@ -14,11 +14,11 @@ jest.mock('@/lib/generateAndUpdateNewGiftSuggestion', () => ({
     matchReasons: ['new test reason'],
     matchScore: 0.9,
     imageUrl: 'new-test.jpg',
-  } satisfies GiftSuggestion),
+  } satisfies IGiftSuggestion),
 }));
 
 describe('FeedbackView', () => {
-  const mockGiftSuggestion: GiftSuggestion = {
+  const mockGiftSuggestion: IGiftSuggestion = {
     id: '1',
     title: 'Test Gift',
     price: '100',
