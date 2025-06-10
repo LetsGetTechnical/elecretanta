@@ -42,7 +42,7 @@ const UserDropdownMenu = (): JSX.Element => {
         <Avatar userAvatar={avatar} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
+        <DropdownMenuItem data-testid="my-profile-link">
           <Link
             href="/profile"
             className="underline-offset-4 hover:underline cursor-pointer inline-flex items-center gap-2 text-sm font-medium"
@@ -51,13 +51,8 @@ const UserDropdownMenu = (): JSX.Element => {
             My profile
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Button
-            variant="link"
-            className="p-0 h-5"
-            onClick={logOut}
-            data-testid="logout-button"
-          >
+        <DropdownMenuItem data-testid="logout-button">
+          <Button variant="link" className="p-0 h-5" onClick={logOut}>
             <LogOut />
             Log out
           </Button>
