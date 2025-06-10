@@ -3,13 +3,12 @@
 
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../lib/supabase/server';
-import { AuthError } from '@supabase/supabase-js';
 
 /**
  * Get user avatar URL
- * @returns {Promise<AuthError | NextResponse<unknown>>} Promise that resolved to a Response object
+ * @returns {Promise<NextResponse>} Promise that resolved to a Response object
  */
-export async function GET(): Promise<AuthError | NextResponse<unknown>> {
+export async function GET(): Promise<NextResponse> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -17,7 +16,7 @@ export async function GET(): Promise<AuthError | NextResponse<unknown>> {
   } = await supabase.auth.getUser();
 
   if (userError) {
-    return userError;
+    return NextResponse.json({ error: userError });
   }
 
   const avatarUrl = user?.user_metadata.avatar_url;
