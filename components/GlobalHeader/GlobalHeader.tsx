@@ -8,6 +8,7 @@ import SnowOverlayToggle from '../SnowOverlayToggle/SnowOverlayToggle';
 import { cn } from '@/lib/utils';
 import UserDropdownMenu from '../UserDropdownMenu/UserDropdownMenu';
 import { usePathname } from 'next/navigation';
+import { JSX } from 'react';
 
 /**
  * GlobalHeader component that renders the main navigation header.

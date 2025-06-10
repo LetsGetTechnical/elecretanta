@@ -14,6 +14,7 @@ import { DropdownMenuItem } from '../DropdownMenu/DropdownMenuItem';
 import { LogOut, CircleUser } from 'lucide-react';
 import getUserAvatar from '@/lib/getUserAvatar';
 import Link from 'next/link';
+import { JSX } from 'react';
 
 /**
  * A dropdown menu activated by clicking the user's avatar that allows the user to navigate to their profile
