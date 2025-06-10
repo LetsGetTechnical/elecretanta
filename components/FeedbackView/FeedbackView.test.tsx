@@ -14,7 +14,7 @@ jest.mock('@/lib/generateAndUpdateNewGiftSuggestion', () => ({
     matchReasons: ['new test reason'],
     matchScore: 0.9,
     imageUrl: 'new-test.jpg',
-  }),
+  } satisfies GiftSuggestion),
 }));
 
 describe('FeedbackView', () => {
