@@ -98,7 +98,7 @@ const WarningModal = ({
             <Button
               className="w-full"
               onClick={joinExchange}
-              data-testId="join-button"
+              data-testid="join-button"
             >
               Join
             </Button>
@@ -106,7 +106,7 @@ const WarningModal = ({
             <Button
               className="w-full flex items-center gap-2"
               onClick={signIn}
-              data-testId="google-button"
+              data-testid="google-button"
             >
               Sign in with Google to Join <LogIn />
             </Button>
