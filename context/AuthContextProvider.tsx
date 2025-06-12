@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/client';
 import { Session, User } from '@supabase/supabase-js';
-import { Router } from 'lucide-react';
+import { useRouter } from 'next/router';
 import React, {
   createContext,
   useContext,
@@ -54,11 +54,12 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logOut = async () => {
     const { error } = await supabase.auth.signOut();
+    const router = useRouter();
     if (error) {
       throw error;
     } else {
       setIsSignedIn(false);
-      window.location.replace('/');
+      router.push('/');
     }
   };
 
