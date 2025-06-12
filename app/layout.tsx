@@ -1,3 +1,7 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
+import { JSX, ReactNode } from 'react';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -22,11 +26,16 @@ export const metadata: Metadata = {
   description: 'A secret santa gift-exchange app powered by AI',
 };
 
-export default function RootLayout({
+/**
+ * A root layout of the application.
+ * @param {{children: ReactNode}} props - The layout's children.
+ * @returns {JSX.Element} - The rendered RootLayout Element.
+ */
+const RootLayout = ({
   children,
 }: Readonly<{
-  children: React.ReactNode;
-}>) {
+  children: ReactNode;
+}>): JSX.Element => {
   return (
     <html lang="en">
       <body
@@ -42,4 +51,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
