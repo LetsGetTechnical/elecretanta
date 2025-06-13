@@ -28,5 +28,5 @@ Share any additional info that may provide context for the PR evaluation (perfor
 
 - [ ] Code builds and passes locally
 - [ ] PR title follows [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) format (e.g. `test #001: created unit test for __ component`)
-- [ ] Reviewers from peer and senior groups are assigned in reviewers tab
+- [ ] Request reviews from the `Peer Code Reviewers` and `Senior+ Code Reviewers` groups
 - [ ] Thread has been created and PR is linked in `gis-code-questions`
