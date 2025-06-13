@@ -11,6 +11,7 @@ export default function SnowOverlayToggle() {
       variant={'ghost'}
       className="text-white p-1 transition-all ease-in-out w-auto h-auto"
       onClick={toggleSnowSetting}
+      data-testid="snow-overlay-toggle"
     >
       {isSnowing ? (
         <Sun size={24} className="text-orange-300 text-xl" />
