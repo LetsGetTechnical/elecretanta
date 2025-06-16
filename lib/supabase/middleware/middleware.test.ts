@@ -18,7 +18,7 @@ describe('Middleware', () => {
     expect(response.status).toBe(307);
     expect(response.headers.get('location')).toBe('https://localhost:4000/');
   });
-  it('redirects user to /onboarding if their onboarding is set as false', async () => {
+  it('redirects user to go to /onboarding if their onboarding is set as false', async () => {
     const {
       data: { session },
     } = await supabase.auth.signInWithPassword({
@@ -41,7 +41,7 @@ describe('Middleware', () => {
     );
   });
 
-  it('allows user to /dashboard if their onboarding is set as true', async () => {
+  it('allows user to go to /dashboard if their onboarding is set as true', async () => {
     const {
       data: { session },
     } = await supabase.auth.signInWithPassword({
