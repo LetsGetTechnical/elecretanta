@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Command, CommandItem, CommandGroup } from './Command';
+import userEvent from '@testing-library/user-event';
 
 describe('CommandItem', () => {
     it('renders the component within CommandGroup wrapper', () => {
@@ -45,5 +46,19 @@ describe('CommandItem', () => {
 
         const commandItem = screen.getByTestId('command-item');
         expect(commandItem).toHaveAttribute('aria-label', 'Select budget range')
+    });
+
+    it('calls onSelect when item is selected', async () => {
+        const user = userEvent.setup();
+        const handleSelect = jest.fn();
+
+        render(
+            <Command>
+                <CommandItem onSelect={handleSelect}>Satisfied</CommandItem>
+            </Command>
+        );
+
+        await user.click(screen.getByTestId('command-item'));
+        expect(handleSelect).toHaveBeenCalled();
     })
 })

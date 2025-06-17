@@ -52,4 +52,23 @@ describe('CommandList', () => {
         const commandList = screen.getByTestId('command-list');
         expect(commandList).toHaveAttribute('aria-label', 'Suggestions');
     });
+
+    it('is scrollable with content overflow', () => {
+        render(
+            <Command>
+                <CommandList>
+                    {Array.from({length: 100}).map((e, i) => (
+                        <div key={i}>Item #{i}</div>
+                    ))}
+                </CommandList>
+            </Command>
+        );
+
+        const commandList = screen.getByTestId('command-list');
+
+        jest.spyOn(commandList, 'scrollHeight', 'get').mockReturnValue(1000);
+        jest.spyOn(commandList, 'clientHeight', 'get').mockReturnValue(300);
+
+        expect(commandList.scrollHeight).toBeGreaterThan(commandList.clientHeight);
+    });
 })

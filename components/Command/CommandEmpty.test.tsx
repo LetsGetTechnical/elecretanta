@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-// import { CommandEmpty } from './CommandEmpty';
 import { Command, CommandEmpty, CommandList, CommandInput, CommandItem } from './Command';
 import userEvent from '@testing-library/user-event';
 
@@ -16,7 +15,7 @@ describe('CommandEmpty', () => {
         <Command>
             <CommandInput placeholder="Search"/>
             <CommandList>
-                <CommandEmpty>No veggies found</CommandEmpty>
+                <CommandEmpty>No matching results</CommandEmpty>
             </CommandList>
             <CommandItem>Apple</CommandItem>
             <CommandItem>Blueberries</CommandItem>
@@ -26,6 +25,23 @@ describe('CommandEmpty', () => {
 
         const commandEmpty = screen.getByTestId('command-empty');
         expect(commandEmpty).toBeInTheDocument();
+    });
+
+    it('does not render when there are matching items', async() => {
+        render(
+        <Command>
+            <CommandInput placeholder="Search"/>
+            <CommandList>
+                <CommandEmpty>No matching results</CommandEmpty>
+            </CommandList>
+            <CommandItem>Apple</CommandItem>
+            <CommandItem>Blueberries</CommandItem>
+        </Command>);
+
+        await userEvent.type(screen.getByPlaceholderText('Search'), 'Apple')
+
+        const commandEmpty = screen.queryByTestId('command-empty');
+        expect(commandEmpty).not.toBeInTheDocument();
     });
 
     it('renders the children content within CommandEmpty', () => {

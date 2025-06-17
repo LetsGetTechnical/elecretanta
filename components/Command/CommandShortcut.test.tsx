@@ -9,11 +9,11 @@ describe('CommandShortcut', () => {
         expect(commandShortcut).toBeInTheDocument();
     });
 
-    it('renders the children content within CommandShortcut', () => {
-        render(<CommandShortcut>children</CommandShortcut>);
+    it('renders keyboard shortcut text', () => {
+        render(<CommandShortcut>⌘K</CommandShortcut>);
 
         const commandShortcut = screen.getByTestId('command-shortcut');
-        expect(commandShortcut).toHaveTextContent('children');
+        expect(commandShortcut).toHaveTextContent('⌘K');
     });
 
     it('applies a custom className passed via props', () => {
