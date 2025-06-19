@@ -24,21 +24,17 @@ const useLocalStorage = <T>(
 
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      return item === null ? initialValue : JSON.parse(item);
     } catch {
       return initialValue;
     }
   });
 
   useEffect(() => {
-    if (isServer) {
-      return;
-    }
-
     try {
       window.localStorage.setItem(key, JSON.stringify(storedValue));
-    } catch {
-      // Catches error
+    } catch (error) {
+      throw new Error(`Failed to set local sotrage item : ${error}`);
     }
   }, [key, storedValue, isServer]);
 
