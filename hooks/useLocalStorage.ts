@@ -4,17 +4,19 @@
 import { useState, useEffect } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 
+type LocalStorageReturnType<T> = [T, Dispatch<SetStateAction<T>>];
+
 /**
  * Custom useLocalStorage hook.
  * @template T - Type of the value being stored.
  * @param key {string} - The localStorage key.
  * @param initialValue {T} - The initial value to set if none is found in localStorage.
- * @returns {[T, Dispatch<SetStateAction<T>>]} - The current value and a function to set the value
+ * @returns {LocalStorageReturnType<T>} - The current value and a function to set the value
  */
 const useLocalStorage = <T>(
   key: string,
   initialValue: T,
-): [T, Dispatch<SetStateAction<T>>] => {
+): LocalStorageReturnType<T> => {
   const isServer = typeof window === 'undefined';
 
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -36,7 +38,7 @@ const useLocalStorage = <T>(
     } catch (error) {
       throw new Error(`Failed to set local storage item : ${error}`);
     }
-  }, [key, storedValue, isServer]);
+  }, [key, storedValue]);
 
   return [storedValue, setStoredValue] as const;
 };
