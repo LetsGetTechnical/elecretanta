@@ -34,7 +34,7 @@ const useLocalStorage = <T>(
     try {
       window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
-      throw new Error(`Failed to set local sotrage item : ${error}`);
+      throw new Error(`Failed to set local storage item : ${error}`);
     }
   }, [key, storedValue, isServer]);
 
