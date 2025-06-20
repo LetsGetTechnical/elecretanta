@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 export const SnowOverlayContext = createContext({
   isSnowing: false,
@@ -12,22 +13,13 @@ export const SnowOverlayProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [isSnowing, setIsSnowing] = useState(true);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const setting = localStorage.getItem('isSnowing');
-      if (setting !== null) {
-        setIsSnowing(JSON.parse(setting));
-      }
-    }
-  }, []);
+  const [isSnowing, setIsSnowing] = useLocalStorage<boolean>('isSnowing', true);
 
   const toggleSnowSetting = () => {
     const newValue = !isSnowing;
     setIsSnowing(newValue);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('isSnowing', JSON.stringify(newValue));
+      setIsSnowing(newValue);
     }
   };
   const value = {
