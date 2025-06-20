@@ -1,0 +1,39 @@
+name: Update PR Reviewers
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  update-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove all reviewers and add specific groups
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Optional: remove existing reviewers (GitHub may auto-reassign CODEOWNERS)
+            try {
+              await github.rest.pulls.removeRequestedReviewers({
+                owner,
+                repo,
+                pull_number: prNumber,
+                reviewers: [],
+                team_reviewers: ['peer-code-reviewers', 'senior-code-reviewers'] // Replace with actual team slugs
+              });
+            } catch (error) {
+              console.log("No reviewers to remove or error occurred:", error.message);
+            }
+
+            // Add specific teams as reviewers
+            await github.rest.pulls.requestReviewers({
+              owner,
+              repo,
+              pull_number: prNumber,
+              team_reviewers: ['peer-code-reviewers', 'senior-code-reviewers'] // Replace with actual team slugs
+            });
