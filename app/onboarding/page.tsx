@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/Card/card';
+} from '@/components/Card/Card';
 import { Input } from '@/components/Input/input';
 import { Progress } from '@/components/Progress/progress';
 import { ChevronLeft, ChevronRight, Gift } from 'lucide-react';
@@ -31,10 +31,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/Select/select';
+} from '@/components/Select';
 import { MultiSelect } from '@/components/MultiSelect/multi-select-input';
 import { Textarea } from '@/components/TextArea/textarea';
-import { Slider } from '@/components/Slider/slider';
+import { Slider } from '@/components/Slider/Slider';
 import { useRouter, useSearchParams } from 'next/navigation';
 import getUserAvatar from '@/lib/getUserAvatar';
 
@@ -247,7 +247,7 @@ function Onboarding() {
         if (editing) {
           router.push('/profile');
         } else {
-          router.push('/dashboard');
+          window.location.href = '/dashboard';
         }
       } catch (error) {
         console.error('Error updating profile: ', error);

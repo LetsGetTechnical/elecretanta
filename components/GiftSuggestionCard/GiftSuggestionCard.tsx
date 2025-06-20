@@ -1,8 +1,8 @@
-import { Card } from '../Card/card';
+import { Card } from '../Card/Card';
 import { useState } from 'react';
 import FeedbackView from '../FeedbackView/FeedbackView';
 import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 
 const GiftSuggestionCard = ({
@@ -13,16 +13,16 @@ const GiftSuggestionCard = ({
   onGiftUpdate,
   recipient,
 }: {
-  allGiftSuggestions: GiftSuggestion[];
+  allGiftSuggestions: IGiftSuggestion[];
   budget: string;
-  gift: GiftSuggestion;
+  gift: IGiftSuggestion;
   index: number;
-  onGiftUpdate: (updatedGift: GiftSuggestion, index: number) => void;
+  onGiftUpdate: (updatedGift: IGiftSuggestion, index: number) => void;
   recipient: Profile | null;
 }) => {
   const [isShowingFeedback, setIsShowingFeedback] = useState(false);
 
-  const handleGiftUpdate = async (updatedGift: GiftSuggestion) => {
+  const handleGiftUpdate = async (updatedGift: IGiftSuggestion) => {
     onGiftUpdate(updatedGift, index);
     setIsShowingFeedback(false);
   };
