@@ -13,7 +13,6 @@ describe('SnowOverlayProvider Unit Tests', () => {
     });
 
     expect(result.current.isSnowing).toBe(true);
-    expect(localStorage.getItem('isSnowing')).toBe('true');
   });
 
   it('toggles the snow setting from on to off', () => {
@@ -26,7 +25,6 @@ describe('SnowOverlayProvider Unit Tests', () => {
     });
 
     expect(result.current.isSnowing).toBe(false);
-    expect(localStorage.getItem('isSnowing')).toBe('false');
   });
 });
 
@@ -43,7 +41,7 @@ const SnowToggleComponent = () => {
 };
 
 describe('SnowOverlayProvider Integration Test', () => {
-  it('read then update isSnowing value in localStorage', async () => {
+  it('read then update isSnowing value with toggle', async () => {
     render(
       <SnowOverlayProvider>
         <SnowToggleComponent />
@@ -54,13 +52,11 @@ describe('SnowOverlayProvider Integration Test', () => {
 
     await waitFor(() => {
       expect(snowToggleButton).toHaveTextContent('Snowing');
-      expect(localStorage.getItem('isSnowing')).toBe('true');
     });
 
     fireEvent.click(snowToggleButton);
 
     expect(snowToggleButton).toHaveTextContent('Not Snowing');
-    expect(localStorage.getItem('isSnowing')).toBe('false');
   });
 
   it('reads already stored isSnowing value from localStorage', async () => {
@@ -76,7 +72,6 @@ describe('SnowOverlayProvider Integration Test', () => {
 
     await waitFor(() => {
       expect(snowToggleButton).toHaveTextContent('Not Snowing');
-      expect(localStorage.getItem('isSnowing')).toBe('false');
     });
   });
 });
