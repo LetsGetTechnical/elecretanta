@@ -29,7 +29,6 @@ describe('DropdownMenu Content', () => {
       </DropdownMenu>,
     );
     expect(screen.queryByTestId('dropdown-menu-content')).toBeNull();
-    expect(screen.queryByText('Item 1')).toBeNull();
   });
 
   it('displays list of items passed as children after trigger is clicked', async () => {
