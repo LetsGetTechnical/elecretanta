@@ -16,7 +16,7 @@ export async function GET(): Promise<NextResponse> {
   } = await supabase.auth.getUser();
 
   if (userError) {
-    return NextResponse.json({ error: userError });
+    return NextResponse.json({ error: 'Unable to retrieve user avatar URL' });
   }
 
   const avatarUrl = user?.user_metadata.avatar_url;
