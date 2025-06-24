@@ -19,15 +19,11 @@ jest.mock('./getAmazonImage', () => ({
 
 describe('generateAndStoreSuggestions', () => {
   const mockSelect = jest.fn();
-  const mockEq = jest.fn();
-  const mockSingle = jest.fn();
   const mockInsert = jest.fn();
 
   const mockFrom = jest.fn(() => ({
     select: mockSelect,
-    eq: mockEq,
     insert: mockInsert,
-    single: mockSingle,
   }));
 
   const mockSupabase = {
