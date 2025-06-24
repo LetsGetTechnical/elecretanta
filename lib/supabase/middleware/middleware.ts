@@ -2,7 +2,48 @@
 // Licensed under the MIT License.
 
 import { createServerClient } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
+
+/**
+ * Creates an authenticated request to the specified path using the provided email and password.
+ * @param {object} props - The parameters for authentication and request.
+ * @param {string} props.email - The user's email address.
+ * @param {string} props.password - The user's password.
+ * @param {string} props.path - The path to send the request to.
+ * @returns {Promise<NextResponse>} A promise that resolves to a NextResponse object.
+ */
+export const createAuthedRequest = async ({
+  email,
+  password,
+  path,
+}: {
+  email: string;
+  password: string;
+  path: string;
+}): Promise<NextResponse> => {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  );
+
+  const {
+    data: { session },
+  } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  const cookieHeader = `sb-access-token=${session?.access_token}; sb-refresh-token=${session?.refresh_token}`;
+
+  const request = new NextRequest(`https://localhost:4000${path}`, {
+    headers: new Headers({
+      cookie: cookieHeader,
+    }),
+  });
+
+  return await updateSession(request);
+};
 
 /**
  * Updates the session based on the incoming request and redirects if necessary.
