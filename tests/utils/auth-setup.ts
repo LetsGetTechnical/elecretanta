@@ -8,7 +8,6 @@ import { Page } from '@playwright/test';
  * Get a Supabase client with authentication set up for Playwright tests
  * @param page - The Playwright page object
  * @param userEmail - The email of the user to sign in as
- * @param path - The path to navigate to after signing in
  * @returns Promise that resolves when authentication is set up
  */
 async function getSupabaseClient(page: Page, userEmail: string): Promise<void> {
