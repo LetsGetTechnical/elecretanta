@@ -3,6 +3,17 @@
 
 import { JSX } from 'react';
 
+interface Variant {
+  title: string;
+  subtitle: string;
+  id: string;
+}
+
+interface ButtonGroupProps {
+  variants: Variant[];
+  handleFeedbackSubmit: (feedback: string) => void;
+}
+
 /**
  * Component that renders a group of buttons.
  * @param {object} props - The component props
@@ -13,10 +24,7 @@ import { JSX } from 'react';
 const ButtonGroup = ({
   variants,
   handleFeedbackSubmit,
-}: {
-  variants: { title: string; subtitle: string; id: string }[];
-  handleFeedbackSubmit: (feedback: string) => void;
-}): JSX.Element => {
+}: ButtonGroupProps): JSX.Element => {
   return (
     <div
       data-testid="buttonGroup"
