@@ -16,8 +16,7 @@ describe('CommandGroup', () => {
             </CommandList>
         </Command>)
 
-        const commandGroup = screen.getByTestId('command-group');
-        expect(commandGroup).toBeInTheDocument();
+        expect(screen.getByTestId('command-group')).toBeInTheDocument();
     });
 
     it('renders the children content within CommandGroup', () => {
@@ -27,8 +26,7 @@ describe('CommandGroup', () => {
         </Command>
         );
 
-        const commandGroup = screen.getByTestId('command-group');
-        expect(commandGroup).toHaveTextContent('children');
+        expect(screen.getByTestId('command-group')).toHaveTextContent('children');
     });
 
     it('applies a custom className passed via props', () => {
@@ -38,8 +36,7 @@ describe('CommandGroup', () => {
         </Command>  
         );
 
-        const commandGroup = screen.getByTestId('command-group');
-        expect(commandGroup).toHaveClass('custom-class');
+        expect(screen.getByTestId('command-group')).toHaveClass('custom-class');
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
@@ -48,7 +45,6 @@ describe('CommandGroup', () => {
             <CommandGroup aria-label='Elfgorithm price ranges'/>
         </Command> );
 
-        const commandGroup = screen.getByTestId('command-group');
-        expect(commandGroup).toHaveAttribute('aria-label', 'Elfgorithm price ranges');
+        expect(screen.getByTestId('command-group')).toHaveAttribute('aria-label', 'Elfgorithm price ranges');
     });
 })

@@ -23,8 +23,7 @@ describe('CommandEmpty', () => {
 
         await userEvent.type(screen.getByPlaceholderText('Search'), 'Kale')
 
-        const commandEmpty = screen.getByTestId('command-empty');
-        expect(commandEmpty).toBeInTheDocument();
+        expect(screen.getByTestId('command-empty')).toBeInTheDocument();
     });
 
     it('does not render when there are matching items', async() => {
@@ -40,8 +39,7 @@ describe('CommandEmpty', () => {
 
         await userEvent.type(screen.getByPlaceholderText('Search'), 'Apple')
 
-        const commandEmpty = screen.queryByTestId('command-empty');
-        expect(commandEmpty).not.toBeInTheDocument();
+        expect(screen.queryByTestId('command-empty')).not.toBeInTheDocument();
     });
 
     it('renders the children content within CommandEmpty', () => {
@@ -52,8 +50,7 @@ describe('CommandEmpty', () => {
             </CommandEmpty>
         </Command>)
         
-        const commandEmpty = screen.getByTestId('command-empty');
-        expect(commandEmpty).toHaveTextContent('No results found');
+        expect(screen.getByTestId('command-empty')).toHaveTextContent('No results found');
     });
 
     it('applies a custom className passed via props', () => {
@@ -63,8 +60,7 @@ describe('CommandEmpty', () => {
         </Command>
         );
 
-        const commandEmpty = screen.getByTestId('command-empty');
-        expect(commandEmpty).toHaveClass('custom-class');
+        expect(screen.getByTestId('command-empty')).toHaveClass('custom-class');
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
@@ -74,7 +70,6 @@ describe('CommandEmpty', () => {
         </Command>
         );
 
-        const commandEmpty = screen.getByTestId('command-empty');
-        expect(commandEmpty).toHaveAttribute('aria-label', 'No matching results')
+        expect(screen.getByTestId('command-empty')).toHaveAttribute('aria-label', 'No matching results');
     });
 })

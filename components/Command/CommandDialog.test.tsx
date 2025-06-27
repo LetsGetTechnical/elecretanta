@@ -11,8 +11,7 @@ describe('CommandDialog', () => {
         </CommandDialog>
         );
 
-        const commandDialog = screen.getByTestId('command-dialog');
-        expect(commandDialog).toBeInTheDocument();
+        expect(screen.getByTestId('command-dialog')).toBeInTheDocument();
     });
 
     it('does not render the component when closed', () => {
@@ -20,8 +19,7 @@ describe('CommandDialog', () => {
             <CommandDialog open={false}/>
             );
 
-            const commandDialog = screen.queryByTestId('command-dialog');
-            expect(commandDialog).toBeNull();
+            expect(screen.queryByTestId('command-dialog')).toBeNull();
     });
 
     it('renders children content within CommandDialog', () => {
@@ -33,7 +31,6 @@ describe('CommandDialog', () => {
         </CommandDialog>
         );
 
-        const commandDialog = screen.getByTestId('command-dialog');
-        expect(commandDialog).toHaveTextContent('children');
+        expect(screen.getByTestId('command-dialog')).toHaveTextContent('children');
     });
 })

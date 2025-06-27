@@ -4,15 +4,14 @@ import { Command, CommandInput } from './Command';
 import { useState } from 'react';
 
 describe('CommandInput', () => {
-    it('displays input field inside Command container', () => {
+    it('displays combobox input inside Command container', () => {
         render(
             <Command>
                 <CommandInput/>
             </Command>
         );
 
-        const commandInput = screen.getByTestId('command-input');
-        expect(commandInput).toBeInTheDocument();
+        expect(screen.getByRole('combobox')).toBeInTheDocument();
     });
 
     it('renders the value within CommandInput', () => {
@@ -22,8 +21,7 @@ describe('CommandInput', () => {
             </Command>
         );
 
-        const commandInput = screen.getByTestId('command-input').querySelector('input');
-        expect(commandInput).toHaveValue('children')
+        expect(screen.getByTestId('command-input').querySelector('input')).toHaveValue('children');
     });
 
     it('renders the placeholder text within CommandInput', () => {
@@ -33,8 +31,7 @@ describe('CommandInput', () => {
             </Command>
         );
 
-        const commandInput = screen.getByTestId('command-input').querySelector('input');
-        expect(commandInput).toHaveAttribute('placeholder', 'Search Price Ranges...'); 
+        expect(screen.getByTestId('command-input').querySelector('input')).toHaveAttribute('placeholder', 'Search Price Ranges...');
     });
 
     it('applies a custom className passed via props', () => {
@@ -44,8 +41,7 @@ describe('CommandInput', () => {
             </Command>
         );
 
-        const commandInput = screen.getByTestId('command-input').querySelector('input');
-        expect(commandInput).toHaveClass('custom-class');
+        expect(screen.getByTestId('command-input').querySelector('input')).toHaveClass('custom-class');
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
@@ -55,8 +51,7 @@ describe('CommandInput', () => {
         </Command>    
         );
 
-        const commandInput = screen.getByTestId('command-input').querySelector('input');
-        expect(commandInput).toHaveAttribute('aria-label', 'Search commands');
+        expect(screen.getByTestId('command-input').querySelector('input')).toHaveAttribute('aria-label', 'Search commands');
     });
 
     it('updates the input value when a user types', async() => {
@@ -89,6 +84,4 @@ describe('CommandInput', () => {
       await user.clear(input);
       expect(input).toHaveValue('');
     });
-    
-      
 })

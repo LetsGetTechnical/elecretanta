@@ -12,8 +12,7 @@ describe('CommandItem', () => {
             </Command>
         );
 
-        const commandItem = screen.getByTestId('command-item');
-        expect(commandItem).toBeInTheDocument();
+        expect(screen.getByTestId('command-item')).toBeInTheDocument();
     });
 
     it('renders the children content within CommandItem', () => {
@@ -23,8 +22,7 @@ describe('CommandItem', () => {
             </Command>
         );
 
-        const commandItem = screen.getByTestId('command-item');
-        expect(commandItem).toHaveTextContent('children')
+        expect(screen.getByTestId('command-item')).toHaveTextContent('children');
     });
 
     it('applies a custom className passed via props', () => {
@@ -34,8 +32,7 @@ describe('CommandItem', () => {
             </Command>
         );
 
-        const commandItem = screen.getByTestId('command-item');
-        expect(commandItem).toHaveClass('custom-class');
+        expect(screen.getByTestId('command-item')).toHaveClass('custom-class');
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
@@ -44,8 +41,7 @@ describe('CommandItem', () => {
             <CommandItem aria-label="Select budget range"/>
         </Command>);
 
-        const commandItem = screen.getByTestId('command-item');
-        expect(commandItem).toHaveAttribute('aria-label', 'Select budget range')
+        expect(screen.getByTestId('command-item')).toHaveAttribute('aria-label', 'Select budget range');
     });
 
     it('calls onSelect when item is selected', async () => {

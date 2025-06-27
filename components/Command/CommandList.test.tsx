@@ -16,8 +16,7 @@ describe('CommandList', () => {
             </Command>
         );
 
-        const commandList = screen.getByTestId('command-list');
-        expect(commandList).toBeInTheDocument();
+        expect(screen.getByTestId('command-list')).toBeInTheDocument();
     });
 
     it('renders the children content within CommandList', () => {
@@ -27,8 +26,7 @@ describe('CommandList', () => {
             </Command>
         );
 
-        const commandList = screen.getByTestId('command-list');
-        expect(commandList).toHaveTextContent('children');
+       expect(screen.getByTestId('command-list')).toHaveTextContent('children');
     });
 
     it('applies a custom className passed via props', () => {
@@ -38,8 +36,7 @@ describe('CommandList', () => {
             </Command>
         );
 
-        const commandList = screen.getByTestId('command-list');
-        expect(commandList).toHaveClass('custom-class');
+       expect(screen.getByTestId('command-list')).toHaveClass('custom-class');
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
@@ -49,8 +46,7 @@ describe('CommandList', () => {
             </Command>
         );
 
-        const commandList = screen.getByTestId('command-list');
-        expect(commandList).toHaveAttribute('aria-label', 'Suggestions');
+        expect(screen.getByTestId('command-list')).toHaveAttribute('aria-label', 'Suggestions');
     });
 
     it('is scrollable with content overflow', () => {

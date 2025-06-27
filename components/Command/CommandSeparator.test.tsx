@@ -10,8 +10,7 @@ describe('CommandSeparator', () => {
             </Command>
         );
 
-        const commandSeparator = screen.getByTestId('command-separator');
-        expect(commandSeparator).toBeInTheDocument();
+        expect(screen.getByTestId('command-separator')).toBeInTheDocument();
     });
 
     it('applies a custom className passed via props', () => {
@@ -21,8 +20,7 @@ describe('CommandSeparator', () => {
             </Command>
         );
 
-        const commandSeparator = screen.getByTestId('command-separator');
-        expect(commandSeparator).toHaveClass('custom-class');
+        expect(screen.getByTestId('command-separator')).toHaveClass('custom-class');
     });
 
     it('renders a custom attribute, such as role, passed via props', () => {
@@ -32,7 +30,6 @@ describe('CommandSeparator', () => {
             </Command>
         );
 
-        const commandSeparator = screen.getByTestId('command-separator');
-        expect(commandSeparator).toHaveAttribute('role', 'separator');
+        expect(screen.getByTestId('command-separator')).toHaveAttribute('role', 'separator');
     });
 })
