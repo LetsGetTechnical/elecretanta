@@ -53,7 +53,7 @@ components/Select/select.tsx
 components/SnowOverlayToggle/SnowOverlayToggle.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 lib/drawGiftExchange.ts
-lib/generateAndStoreSuggestion.ts
+lib/generateAndStoreSuggestions.ts
 lib/getAmazonImage.ts
 lib/getUserAvatar.ts
 lib/getUserAvatar.ts
