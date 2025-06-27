@@ -81,7 +81,7 @@ const FeedbackView = ({
       {isLoading ? (
         <div
           className="flex justify-center items-center h-full"
-          data-testid="feedback-view--loading"
+          data-testid="feedbackView__loading"
         >
           <div className="border-t-4 border-red-500 border-solid w-12 h-12 rounded-full animate-spin" />
         </div>
