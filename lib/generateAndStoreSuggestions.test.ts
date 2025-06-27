@@ -130,6 +130,10 @@ describe('generateAndStoreSuggestions', () => {
   });
 
   it('throws an error when OpenAI provides a bad response', async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     mockSelect.mockReturnValue({
       eq: () => ({
         single: () => Promise.resolve(mockValidProfile),
@@ -155,5 +159,11 @@ describe('generateAndStoreSuggestions', () => {
         50,
       ),
     ).rejects.toThrow('Failed to generate gift suggestions');
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to parse or store suggestions:',
+      expect.any(SyntaxError),
+    );
+    consoleErrorSpy.mockRestore();
   });
 });
