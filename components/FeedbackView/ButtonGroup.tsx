@@ -19,7 +19,7 @@ const ButtonGroup = ({
 }): JSX.Element => {
   return (
     <div
-      data-testid="button-group"
+      data-testid="buttonGroup"
       className="flex flex-col justify-center mt-4 gap-4"
     >
       {variants.map((variant) => (
