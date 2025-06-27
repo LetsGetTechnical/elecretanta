@@ -88,7 +88,7 @@ const FeedbackView = ({
       ) : (
         <div
           className="flex flex-col m-4 h-full"
-          data-testid="feedback-view--loaded"
+          data-testid="feedbackView__loading"
         >
           <ChevronLeft
             className="hover:cursor-pointer"
