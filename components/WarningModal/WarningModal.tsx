@@ -61,37 +61,53 @@ const WarningModal = ({
       console.error(error);
     }
   };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex backdrop-blur justify-center items-center z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex backdrop-blur justify-center items-center z-50"
+      data-testid="warning-modal"
+    >
       <div className="bg-white rounded-lg text-center">
         <div className="text-sm font-bold p-4 bg-groupCardArrow text-black rounded-lg">
           You&apos;re invited to join
         </div>
         <div className="py-4 px-8 flex flex-col gap-4">
           <div>
-            <h2 className="text-lg font-bold text-red-600">
+            <h2 className="text-lg font-bold text-red-600" data-testid="name">
               {giftExchangeData.name}
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500" data-testid="description">
               {giftExchangeData.description}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 py-2">
             <div>
               <div className="text-sm font-bold">Gift Budget</div>
-              <div className="text-sm">${giftExchangeData.budget}</div>
+              <div className="text-sm" data-testid="budget">
+                ${giftExchangeData.budget}
+              </div>
             </div>
             <div>
               <div className="text-sm font-bold">Members</div>
-              <div className="text-sm">{members?.length || 0}</div>
+              <div className="text-sm" data-testid="members">
+                {members?.length || 0}
+              </div>
             </div>
           </div>
           {session ? (
-            <Button className="w-full" onClick={joinExchange}>
+            <Button
+              className="w-full"
+              onClick={joinExchange}
+              data-testid="join-button"
+            >
               Join
             </Button>
           ) : (
-            <Button className="w-full flex items-center gap-2" onClick={signIn}>
+            <Button
+              className="w-full flex items-center gap-2"
+              onClick={signIn}
+              data-testid="google-button"
+            >
               Sign in with Google to Join <LogIn />
             </Button>
           )}

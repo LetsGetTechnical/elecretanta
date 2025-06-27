@@ -10,9 +10,8 @@ import {
   CardTitle,
 } from '../Card/Card';
 import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback, JSX } from 'react';
-import { IGiftDetailsViewProps } from './IGiftDetailsViewProps';
 
 /**
  * Helper function to validate urlStrings
@@ -38,7 +37,10 @@ const isValidUrl = (urlString: string): boolean => {
 const GiftDetailsView = ({
   gift,
   handleFeedback,
-}: IGiftDetailsViewProps): JSX.Element => {
+}: {
+  gift: IGiftSuggestion;
+  handleFeedback: () => void;
+}): JSX.Element => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = useCallback(() => {

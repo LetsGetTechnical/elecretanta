@@ -21,14 +21,12 @@ app/dashboard/page.tsx
 app/gift-exchanges/\[id\]/edit/page.tsx
 app/gift-exchanges/\[id\]/page.tsx
 app/gift-exchanges/\[id\]/WaitingForSuggestions.tsx
-app/layout.tsx
 app/onboarding/page.tsx
 app/page.tsx
 app/profile/page.tsx
 app/profile/\[id\]/page.tsx
 app/types/giftExchange.ts
 app/types/giftExchangeMember.ts
-app/types/giftSuggestion.ts
 app/types/profile.ts
 app/types/tailwindcss-motion.d.ts
 components/Avatar/Avatar.tsx
@@ -37,7 +35,6 @@ components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/GiftExchangeHeader/GiftExchangeHeader.tsx
 components/GiftSuggestionCard/GiftSuggestionCard.tsx
-components/GlobalHeader/GlobalHeader.tsx
 components/GroupCard/GroupCard.tsx
 components/ImageSelector/ImageSelector.tsx
 components/Input/input.tsx
@@ -62,5 +59,4 @@ lib/getAmazonImage.ts
 lib/getUserAvatar.ts
 lib/getUserAvatar.ts
 lib/supabase/middleware.ts
-lib/supabase/server.ts
 lib/utils.ts
