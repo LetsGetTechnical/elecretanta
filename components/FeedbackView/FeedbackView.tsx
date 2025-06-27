@@ -77,7 +77,7 @@ const FeedbackView = ({
   };
 
   return (
-    <div className="flex flex-col m-4 h-full" data-testid="feedback-view">
+    <div className="flex flex-col m-4 h-full" data-testid="feedbackView">
       {isLoading ? (
         <div
           className="flex justify-center items-center h-full"
@@ -88,7 +88,7 @@ const FeedbackView = ({
       ) : (
         <div
           className="flex flex-col m-4 h-full"
-          data-testid="feedbackView__loading"
+          data-testid="feedbackView__loaded"
         >
           <ChevronLeft
             className="hover:cursor-pointer"

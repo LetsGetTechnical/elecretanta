@@ -60,17 +60,17 @@ describe('FeedbackView', () => {
 
   it('renders the feedback interface', () => {
     renderFeedbackView();
-    expect(screen.getByTestId('feedback-view')).toBeInTheDocument();
+    expect(screen.getByTestId('feedbackView')).toBeInTheDocument();
   });
 
   it('On initial load, the loading spinner is hidden and the buttons are visible', () => {
     renderFeedbackView();
 
     expect(
-      screen.queryByTestId('feedback-view--loading'),
+      screen.queryByTestId('feedbackView__loading'),
     ).not.toBeInTheDocument();
-    expect(screen.getByTestId('button-group')).toBeInTheDocument();
-    expect(screen.getByTestId('feedback-view--loaded')).toBeInTheDocument();
+    expect(screen.getByTestId('buttonGroup')).toBeInTheDocument();
+    expect(screen.getByTestId('feedbackView__loaded')).toBeInTheDocument();
   });
 
   it('When button is clicked, handleFeedbackSubmit should be called with correct argument', async () => {
@@ -101,24 +101,24 @@ describe('FeedbackView', () => {
     const expensiveButton = screen.getByTestId('expensive');
 
     expect(
-      screen.queryByTestId('feedback-view--loading'),
+      screen.queryByTestId('feedbackView__loading'),
     ).not.toBeInTheDocument();
-    expect(screen.getByTestId('button-group')).toBeInTheDocument();
+    expect(screen.getByTestId('buttonGroup')).toBeInTheDocument();
 
     await act(async () => {
       userEvent.click(expensiveButton);
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId('feedback-view--loading')).toBeInTheDocument();
-      expect(screen.queryByTestId('button-group')).not.toBeInTheDocument();
+      expect(screen.getByTestId('feedbackView__loading')).toBeInTheDocument();
+      expect(screen.queryByTestId('buttonGroup')).not.toBeInTheDocument();
     });
 
     await waitFor(() => {
       expect(
-        screen.queryByTestId('feedback-view--loading'),
+        screen.queryByTestId('feedbackView__loading'),
       ).not.toBeInTheDocument();
-      expect(screen.getByTestId('button-group')).toBeInTheDocument();
+      expect(screen.getByTestId('buttonGroup')).toBeInTheDocument();
     });
   });
 
