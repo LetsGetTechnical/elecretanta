@@ -30,7 +30,7 @@ const isValidUrl = (urlString: string): boolean => {
 /**
  * A GiftDetailsView compoennt
  * @param {object} props - The component props
- * @param {GiftSuggestion} props.gift - Gift suggestion being passed
+ * @param {IGiftSuggestion} props.gift - Gift suggestion being passed
  * @param {() => void} props.handleFeedback - Callback function triggered when feedback is provided
  * @returns {JSX.Element} - the rendered GiftDetailsView
  */
