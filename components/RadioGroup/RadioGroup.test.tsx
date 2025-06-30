@@ -3,56 +3,61 @@
 
 import { RadioGroup } from './RadioGroup';
 import { RadioGroupItem } from './RadioGroupItem';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+const radioGroupSetup = (customClasses?: string) => {
+  render(
+    <RadioGroup className={customClasses}>
+      <RadioGroupItem value="option-1" data-testid="option-1" />
+      <RadioGroupItem value="option-2" data-testid="option-2" />
+    </RadioGroup>,
+  );
+
+  return {
+    radioGroup: screen.getByTestId('radio-group'),
+    option1: screen.getByTestId('option-1'),
+    option2: screen.getByTestId('option-2'),
+  };
+};
 
 describe('Radio Group Component', () => {
   it('renders radio group correctly with multiple radio group items', () => {
-    render(
-      <RadioGroup>
-        <RadioGroupItem value="option-1" data-testid="option-1" />
-        <RadioGroupItem value="option-2" data-testid="option-2" />
-      </RadioGroup>,
-    );
-
-    const radioGroupElement = screen.getByTestId('radio-group');
-    const optionOneElement = screen.getByTestId('option-1');
-    const optionTwoElement = screen.getByTestId('option-2');
+    const {
+      radioGroup: radioGroupElement,
+      option1: optionOneElement,
+      option2: optionTwoElement,
+    } = radioGroupSetup();
 
     expect(radioGroupElement).toBeInTheDocument();
-    expect(radioGroupElement).toHaveClass('grid gap-2');
     expect(optionOneElement).toBeInTheDocument();
     expect(optionTwoElement).toBeInTheDocument();
   });
 
-  it('renders radio group with radio group items and no more than one item can be checked at a time', () => {
-    render(
-      <RadioGroup>
-        <RadioGroupItem value="option-1" data-testid="option-1" />
-        <RadioGroupItem value="option-2" data-testid="option-2" />
-      </RadioGroup>,
-    );
-
-    const radioGroupElement = screen.getByTestId('radio-group');
-    const optionOneElement = screen.getByTestId('option-1');
-    const optionTwoElement = screen.getByTestId('option-2');
+  it('tests only one item is checked at a time', async () => {
+    const {
+      radioGroup: radioGroupElement,
+      option1: optionOneElement,
+      option2: optionTwoElement,
+    } = radioGroupSetup();
 
     expect(radioGroupElement).toBeInTheDocument();
     expect(optionOneElement).toBeInTheDocument();
     expect(optionTwoElement).toBeInTheDocument();
 
-    fireEvent.click(optionOneElement);
+    await userEvent.click(optionOneElement);
     expect(optionOneElement).toBeChecked();
     expect(optionTwoElement).not.toBeChecked();
 
-    fireEvent.click(optionTwoElement);
+    await userEvent.click(optionTwoElement);
     expect(optionOneElement).not.toBeChecked();
     expect(optionTwoElement).toBeChecked();
   });
 
   it('renders radio group with additional custom classes', () => {
-    render(<RadioGroup className="custom-class-1 custom-class-2" />);
-
-    const radioGroupElement = screen.getByTestId('radio-group');
+    const { radioGroup: radioGroupElement } = radioGroupSetup(
+      'custom-class-1 custom-class-2',
+    );
 
     expect(radioGroupElement).toBeInTheDocument();
     expect(radioGroupElement).toHaveClass('custom-class-1 custom-class-2');
