@@ -15,6 +15,7 @@ const meta = {
           'The LinkCustom component is a custom link component for navigation links.',
       },
     },
+    backgrounds: { default: 'dark' },
   },
   argTypes: {
     href: { description: 'The URL to link to' },
@@ -39,6 +40,6 @@ export const WithCustomClasses: Story = {
   args: {
     href: '/',
     children: 'Link',
-    className: 'border-4 border-red-500 bg-yellow-100',
+    className: 'border-4 border-red-500 bg-blue-500 px-4 py-2',
   },
 };
