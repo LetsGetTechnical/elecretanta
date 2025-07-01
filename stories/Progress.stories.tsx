@@ -3,8 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Progress } from '../components/Progress/progress';
 import { Indicator } from '@radix-ui/react-progress';
 
-import { cn } from '@/lib/utils';
-
 const meta: Meta<typeof Progress> = {
   title: 'Progress',
   component: Progress,
