@@ -52,6 +52,7 @@ const FeedbackView = ({
       );
       if (updatedGift) {
         onGiftUpdate(updatedGift);
+        console.error(updatedGift);
       } else {
         console.error('Failed to update gift suggestion');
       }

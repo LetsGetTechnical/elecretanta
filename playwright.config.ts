@@ -35,6 +35,12 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
+  /* Global timeout for all tests */
+  timeout: 600000, // 10 minutes
+  expect: {
+    timeout: 10000, // 10 seconds for expect assertions
+  },
+
   /* Configure projects for major browsers */
   projects: [
     {
