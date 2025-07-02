@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Meta, StoryObj } from '@storybook/react';
-import '/app/globals.css'
 import { Input } from "./Input";
 
 const meta = {
