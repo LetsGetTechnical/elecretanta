@@ -12,7 +12,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'The Input component is an accessible, customizable field for capturing user input, including text entries and multi-select options such as checkboxes. It offers flexibility for use in forms and search interfaces.',
+        component: 'An accessible, customizable field for capturing user input, including text entries and multi-select options such as checkboxes. It offers flexibility for use in forms and search interfaces.',
       },
     },
   },
@@ -23,12 +23,13 @@ const meta = {
 } satisfies Meta<typeof Input>;
   
 export default meta;
-  type Story = StoryObj<typeof meta>;
+  type Story = StoryObj<typeof Input>;
   
 export const Default: Story = {
   args: {
     type: 'text',
-    placeholder: 'Placeholder',
+    placeholder: 'Secret Santa',
+    className: 'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm'
   },
 };
 
