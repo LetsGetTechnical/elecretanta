@@ -22,13 +22,9 @@ describe('Command', () => {
         );
 
         expect(screen.getByTestId('command')).toBeInTheDocument();
-
         expect(screen.getByTestId('command-input')).toBeInTheDocument();
-
         expect(screen.getByTestId('command-list')).toBeInTheDocument();
-
         expect(screen.getByTestId('command-group')).toBeInTheDocument();
-
         expect(screen.getByTestId('command-item')).toBeInTheDocument();
     })
     
