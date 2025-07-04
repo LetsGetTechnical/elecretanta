@@ -63,7 +63,10 @@ export default function Home() {
       <main className="container mx-auto px-4 py-16">
         {/* Hero Section */}
         <section className="text-center my-12">
-          <h1 className="text-5xl font-bold text-primary-foreground mb-4">
+          <h1
+            className="text-5xl font-bold text-primary-foreground mb-4"
+            data-testid="hero-title"
+          >
             Make Gift-Giving Magical
           </h1>
           <p className="text-xl text-primary-foreground/70 mb-8">
@@ -76,7 +79,7 @@ export default function Home() {
         {/* Features Section */}
         <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {features.map((feature) => (
-            <Card key={feature.title}>
+            <Card key={feature.title} data-testid="feature">
               <CardHeader>
                 <span className="text-red-400">{feature.icon}</span>
                 <CardTitle>{feature.title}</CardTitle>
@@ -113,7 +116,7 @@ export default function Home() {
                 description: 'Exchange gifts and spread joy with your group!',
               },
             ].map((step, index) => (
-              <div key={index} className="text-center">
+              <div key={index} className="text-center" data-testid={`step`}>
                 <div className="w-16 h-16 bg-mutedRed text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                   {step.step}
                 </div>
