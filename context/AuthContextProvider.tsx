@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/client';
 import { Session, User } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 import React, {
   createContext,
   useContext,
@@ -14,10 +15,12 @@ const AuthContext = createContext<{
   user: User | null;
   session: Session | null;
   isSignedIn: boolean | null;
+  logOut: () => void;
 }>({
   user: null,
   session: null,
   isSignedIn: null,
+  logOut: () => {},
 });
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -49,11 +52,23 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     grabSession();
   }, [supabase]);
 
+  const logOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    const router = useRouter();
+    if (error) {
+      throw error;
+    } else {
+      setIsSignedIn(false);
+      router.push('/');
+    }
+  };
+
   const contextValue = useMemo(
     () => ({
       user,
       session,
       isSignedIn,
+      logOut,
     }),
     [isSignedIn],
   );
