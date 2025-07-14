@@ -5,11 +5,30 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Progress } from './progress';
 
+import React from 'react';
+
 const meta = {
   title: 'Components/Progress',
   component: Progress,
+  parameters: {
+    docs: {
+      description: {
+        component: 'A visual indicator of task completion within the profile building aspect of the app.',
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  
   tags: ['autodocs'],
-
+  args: {
+    value: 25,
+  },
   argTypes: {
     className: {
       control: 'text',
@@ -17,6 +36,7 @@ const meta = {
     },
     value: {
       control: { type: 'range', min: 1, max: 100, step: 1 },
+      defaultValue: 25
     },
     indicatorClassName: {
       control: 'text',
