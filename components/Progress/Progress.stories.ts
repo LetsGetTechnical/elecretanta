@@ -5,18 +5,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Progress } from './progress';
 
-import * as React from 'react';
-
 const meta = {
-  title: 'Progress',
+  title: 'Components/Progress',
   component: Progress,
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div style={{ width: '300px' }}>
-        <Story />
-      </div>
-    )  ],
+
   argTypes: {
     className: {
       control: 'text',
@@ -34,7 +27,7 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Progress>;
 
 export const Empty: Story = {
   args: {
