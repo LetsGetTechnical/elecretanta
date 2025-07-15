@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { Label } from '@/components/Label/Label';
-import { Input } from '@/components/Input/input';
+import { Input } from '@/components/Input/Input';
 import { Textarea } from '@/components/TextArea/textarea';
 
 import type { JSX } from 'react';
