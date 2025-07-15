@@ -1,10 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
-
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { Progress } from './progress';
-
 import React from 'react';
 
 const meta = {
