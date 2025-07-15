@@ -15,6 +15,7 @@ const meta = {
     },
   },
   decorators: [
+    // Applies consistent styling (fixed width) around all story variations
     (Story) => (
       <div style={{ width: '300px' }}>
         <Story />
@@ -46,20 +47,23 @@ export default meta;
 
 type Story = StoryObj<typeof Progress>;
 
+// 0% progress
 export const Empty: Story = {
   args: {
     value: 0,
   },
 };
 
+// 50% progress
 export const Halfway: Story = {
-    args: {
+  args: {
       value: 50,
-    },
-  };
+  },
+};
 
-  export const Full: Story = {
-    args: {
+// 100% progress
+export const Full: Story = {
+  args: {
       value: 100,
-    },
-  };
+  },
+};
