@@ -1,8 +1,9 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
+
 import type { Meta, StoryObj } from '@storybook/react';
 import { Progress } from './progress';
-import React from 'react';
+import type { ReactElement } from 'react';
 
 const meta = {
   title: 'Components/Progress',
@@ -16,12 +17,13 @@ const meta = {
   },
   decorators: [
     // Applies consistent styling (fixed width) around all story variations
-    (Story) => (
+    (Story): ReactElement => (
       <div style={{ width: '300px' }}>
         <Story />
       </div>
     ),
   ],
+  
   
   tags: ['autodocs'],
   args: {
