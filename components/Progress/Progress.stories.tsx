@@ -32,15 +32,14 @@ const meta = {
   argTypes: {
     className: {
       control: 'text',
-      defaultValue: 'relative h-2 w-screen overflow-hidden rounded-full bg-primary/20',
+      defaultValue: 'relative h-2 w-full overflow-hidden rounded-full bg-primary/20',
     },
     value: {
       control: { type: 'range', min: 1, max: 100, step: 1 },
-      defaultValue: 25
     },
     indicatorClassName: {
       control: 'text',
-      defaultValue: 'h-full w-screen flex-1 bg-[#E26969] transition-all rounded-full',
+      defaultValue: 'h-full w-full flex-1 bg-[#E26969] transition-all rounded-full',
     },
   },
 } satisfies Meta<typeof Progress>;
