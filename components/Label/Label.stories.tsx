@@ -9,7 +9,7 @@ import { Textarea } from '@/components/TextArea/textarea';
 import type { JSX } from 'react';
 
 const meta = {
-  title: 'Label',
+  title: 'Components/Label',
   component: Label,
   tags: ['autodocs'],
   parameters: {
