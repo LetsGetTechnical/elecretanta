@@ -69,7 +69,6 @@ export const WithInputElement: Story = {
   args: {
     htmlFor: 'nameInput',
     children: 'Label With Input',
-    className: '',
   },
   /**
    * Renders WithInputElement Story
@@ -88,7 +87,6 @@ export const WithTextAreaElement: Story = {
   args: {
     htmlFor: 'nameInput',
     children: 'Label With Text Area',
-    className: '',
   },
   /**
    * Renders WithTextAreaElement Story
@@ -107,7 +105,6 @@ export const WithDisabledInput: Story = {
   args: {
     htmlFor: 'nameInput',
     children: 'Label For Disabled Input',
-    className: '',
   },
   /**
    * Renders WithDisabledInput Story
