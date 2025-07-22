@@ -58,13 +58,13 @@ export const Empty: Story = {
 // 50% progress
 export const Halfway: Story = {
   args: {
-      value: 50,
+    value: 50,
   },
 };
 
 // 100% progress
 export const Full: Story = {
   args: {
-      value: 100,
+    value: 100,
   },
 };
