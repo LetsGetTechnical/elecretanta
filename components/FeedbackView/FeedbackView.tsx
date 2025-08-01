@@ -12,7 +12,6 @@ import { IFeedbackViewProps } from './IFeedbackViewProps';
 
 /**
  * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx.
- * Component that creates feedback view and handles userfeedback. It is used in GiftSuggestionCard.tsx.
  * @param {object} props - The component props
  * @param {IGiftSuggestion[]} props.allGiftSuggestions - The list of all gift suggestions for this recipient.
  * @param {string} props.budget - The budget for the gift to be passed on to AI to generate suggestions.

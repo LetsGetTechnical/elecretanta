@@ -18,7 +18,7 @@ interface ButtonGroupProps {
  * Component that renders a group of buttons.
  * @param {object} props - The component props
  * @param {Variant[]} props.variants - The list of button variants to render
- * @param {(feedback: string) => void;} props.handleFeedbackSubmit - The function to handle the feedback submit
+ * @param {(feedback: string) => void} props.handleFeedbackSubmit - The function to handle the feedback submit
  * @returns {JSX.Element} The rendered button group component
  */
 const ButtonGroup = ({
