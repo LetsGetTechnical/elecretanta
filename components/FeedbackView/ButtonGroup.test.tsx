@@ -30,7 +30,7 @@ it('Renders each button with the correct title and corresponding subtitle', () =
   });
 });
 
-it('The correct number of buttons are rendered based on how many are passed in', () => {
+it('Renders the correct number of buttons', () => {
   const twoButtonVariants = [
     {
       title: 'Too Expensive',
