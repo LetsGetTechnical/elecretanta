@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import ButtonGroup from './ButtonGroup';
 
-it('Each button renders with the correct title and corresponding subtitle', () => {
+it('Renders each button with the correct title and corresponding subtitle', () => {
   const buttonVariants = [
     {
       title: 'Too Expensive',
