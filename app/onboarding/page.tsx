@@ -324,7 +324,7 @@ function Onboarding() {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger data-testid="select-trigger">
                                 <SelectValue placeholder="Select your age group" />
                               </SelectTrigger>
                             </FormControl>
@@ -526,7 +526,7 @@ function Onboarding() {
                       Back
                     </Button>
                   )}
-                  <Button type="submit">
+                  <Button data-testid="next-button" type="submit">
                     {currentStep < steps.length - 1
                       ? 'Next'
                       : 'Find My Perfect Gift'}
