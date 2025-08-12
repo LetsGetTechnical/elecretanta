@@ -1,24 +1,10 @@
-'use server';
-
-import { createClient } from './supabase/server';
-
 const getUserAvatar = async () => {
-  try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return null;
-    }
-
-    const avatarUrl = user.user_metadata.avatar_url;
-
-    return avatarUrl;
-  } catch (error) {
-    throw error;
-  }
+  const response = await fetch('api/getUserAvatar', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  const userAvatar = await response.json();
+  return userAvatar;
 };
 
 export default getUserAvatar;
