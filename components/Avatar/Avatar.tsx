@@ -19,13 +19,17 @@ const Avatar = ({
 }): JSX.Element => {
   return (
     <AvatarBody>
-      <AvatarImage src={userAvatar} alt="" />
-      <AvatarFallback>
+      {userAvatar ? (
+        <AvatarImage src={userAvatar} alt="user avatar" />
+      ) : (
+        <AvatarFallback>
         <img
           src="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
           alt="default avatar"
         />
       </AvatarFallback>
+      )
+    }
     </AvatarBody>
   );
 };
