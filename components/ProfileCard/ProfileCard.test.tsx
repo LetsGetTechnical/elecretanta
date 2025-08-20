@@ -6,24 +6,21 @@ import ProfileCard from './ProfileCard';
 import { Profile } from '@/app/types/profile';
 import { userEvent } from '@testing-library/user-event';
 
-jest.mock('@radix-ui/react-avatar', () => {
-  const actual = jest.requireActual('@radix-ui/react-avatar');
-  return {
-    ...actual,
-    Image: ({ src, alt, ...props }: { src?: string; alt?: string }) => {
-      if (!src) {
-        return (
-          <img
-            data-testid="avatar-fallback-image"
-            src="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
-            alt="default avatar"
-            {...props}
-          />
-        );
-      }
-      return <img data-testid="avatar-image" src={src} alt={alt} {...props} />;
-    },
+jest.mock('@/components/Avatar/Avatar', () => {
+  const MockAvatar = ({ userAvatar, ...props }: { userAvatar?: string | null }) => {
+    if (!userAvatar) {
+      return (
+        <img
+          data-testid="avatar"
+          src="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
+          alt="default avatar"
+          {...props}
+        />
+      );
+    }
+    return <img data-testid="avatar" src={userAvatar} alt="user avatar" {...props} />;
   };
+  return MockAvatar;
 });
 
 const testProfile: Profile = {
@@ -63,7 +60,7 @@ describe('ProfileCard', () => {
     });
     it('Renders with profileName, avatar, age_group, hobbies, and avoid properties', () => {
       const profileName = screen.getByTestId('profileName');
-      const avatarImage = screen.getByTestId('avatar-image');
+      const avatarImage = screen.getByTestId('avatar');
       const ageGroup = screen.getByTestId('ageGroup');
       const hobbies = screen.getByTestId('hobbies');
       const avoid = screen.getByTestId('avoid');
@@ -91,7 +88,7 @@ describe('ProfileCard', () => {
         showEditButton={false}
       />,
     );
-    const avatarFallbackImage = screen.getByTestId('avatar-fallback-image');
+    const avatarFallbackImage = screen.getByTestId('avatar');
     expect(avatarFallbackImage).toHaveAttribute(
       'src',
       'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg',

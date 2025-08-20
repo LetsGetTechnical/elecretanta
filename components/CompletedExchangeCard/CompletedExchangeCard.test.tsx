@@ -2,6 +2,19 @@ import { render, screen, act } from '@testing-library/react';
 import { CompletedExchangeCard } from './CompletedExchangeCard';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 
+jest.mock('@/components/Avatar/Avatar', () => {
+  const MockAvatar = ({ userAvatar, ...props }: { userAvatar?: string | null }) => {
+    const imgSrc =
+      userAvatar ||
+      'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg';
+ 
+    const altText = userAvatar ? 'user avatar' : 'default avatar';
+    return <img src={imgSrc} alt={altText} {...props} />;
+  };
+  return MockAvatar;
+ });
+ 
+
 const mockMembers: GiftExchangeMember[] = [
   {
     id: '1',
