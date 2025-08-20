@@ -1,8 +1,11 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import { createClient } from '@/lib/supabase/client';
 import { Session, User } from '@supabase/supabase-js';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React, {
   createContext,
   useContext,
@@ -28,6 +31,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     const grabSession = async () => {
@@ -54,7 +58,6 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logOut = async () => {
     const { error } = await supabase.auth.signOut();
-    const router = useRouter();
     if (error) {
       throw error;
     } else {
