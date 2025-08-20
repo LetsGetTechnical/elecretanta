@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/Card/card';
+} from '@/components/Card/Card';
 import LoginButton from '@/components/LoginButton/LoginButton';
 import { SnowOverlayToggle } from '@/components/SnowOverlayToggle/SnowOverlayToggle';
 import { useAuthContext } from '@/context/AuthContextProvider';

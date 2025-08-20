@@ -8,8 +8,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/Card/card';
-import { Input } from '@/components/Input/input';
+} from '@/components/Card/Card';
+
+import { Input } from '@/components/Input/Input';
 import { Progress } from '@/components/Progress/progress';
 import { ChevronLeft, ChevronRight, Gift } from 'lucide-react';
 import { useEffect, useState, Suspense } from 'react';
@@ -31,10 +32,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/Select/select';
+} from '@/components/Select';
 import { MultiSelect } from '@/components/MultiSelect/multi-select-input';
 import { Textarea } from '@/components/TextArea/textarea';
-import { Slider } from '@/components/Slider/slider';
+import { Slider } from '@/components/Slider/Slider';
 import { useRouter, useSearchParams } from 'next/navigation';
 import getUserAvatar from '@/lib/getUserAvatar';
 

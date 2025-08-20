@@ -3,7 +3,7 @@ import { Cake, CircleX, Compass, Heart, Pencil } from 'lucide-react';
 import { Progress } from '@/components/Progress/progress';
 import Avatar from '@/components/Avatar/Avatar';
 import { Button } from '@/components/Button/button';
-import { Badge } from '@/components/Badge/badge';
+import { Badge } from '@/components/Badge/Badge';
 import { Profile } from '@/app/types/profile';
 import { useRouter } from 'next/navigation';
 
@@ -13,6 +13,7 @@ interface ProfileCardProps {
 }
 
 const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
+  
   const router = useRouter();
 
   const handleEditProfile = () => {
@@ -41,13 +42,18 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
     preferenceRight: string,
     preferenceLeft: string,
     preference_value: number | undefined,
+    testidPrefix: string,
   ) => {
     if (!preference_value) {
       return (
         <div className="flex flex-col gap-2 text-xs">
           <div className="flex items-center justify-between">
-            <div>{preferenceLeft}</div>
-            <div>{preferenceRight}</div>
+            <div data-testid={`${testidPrefix}-left-no-value`}>
+              {preferenceLeft}
+            </div>
+            <div data-testid={`${testidPrefix}-right-no-value`}>
+              {preferenceRight}
+            </div>
           </div>
           <Progress indicatorClassName="bg-[#E8577D]" value={0} />
         </div>
@@ -56,14 +62,25 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
     return (
       <div className="flex flex-col gap-2 text-xs">
         <div className="flex items-center justify-between">
-          <div className={preference_value <= 50 ? 'font-bold' : ''}>
+          <div
+            data-testid={`${testidPrefix}-left`}
+            className={preference_value <= 50 ? 'font-bold' : ''}
+          >
             {preferenceLeft}
           </div>
-          <div className={preference_value >= 50 ? 'font-bold' : ''}>
+          <div
+            data-testid={`${testidPrefix}-right`}
+            className={preference_value >= 50 ? 'font-bold' : ''}
+          >
             {preferenceRight}
           </div>
         </div>
-        <Progress indicatorClassName="bg-[#E8577D]" value={preference_value} />
+        <Progress
+          data-testid={`${testidPrefix}-progress`}
+          data-value={preference_value}
+          indicatorClassName="bg-[#E8577D]"
+          value={preference_value}
+        />
       </div>
     );
   };
@@ -72,14 +89,14 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
     <article className="text-white">
       <div className="flex items-center rounded-t-2xl justify-between py-5 px-9 bg-groupCardGreen">
         <div className="flex items-center gap-4">
-          <Avatar userAvatar={profile?.avatar} />
+          <Avatar data-testid="avatar" userAvatar={profile?.avatar} />
           <div>
-            <h1 className="text-lg font-bold">
+            <h1 data-testid="profileName" className="text-lg font-bold">
               {formatDisplayName(profile?.display_name || 'No Name Provided')}
             </h1>
             <div className="flex items-center gap-2 text-sm font-medium">
               <Cake className="text-[#92AEA9]" size={16} />
-              <span className="text-sm text-[#EDE6DF]">
+              <span data-testid="ageGroup" className="text-sm text-[#EDE6DF]">
                 {profile?.age_group}
               </span>
             </div>
@@ -87,6 +104,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
         </div>
         {showEditButton && (
           <Button
+            data-testid="editProfileButton"
             className="bg-[#C5DBB2] text-black flex items-center gap-2 text-sm font-bold rounded-xl hover:bg-[#E4ECD9]"
             onClick={handleEditProfile}
           >
@@ -114,13 +132,17 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
                   );
                 })}
             </div>
-            <p className="text-sm">{profile?.hobbies}</p>
+            <p data-testid="hobbies" className="text-sm">
+              {profile?.hobbies}
+            </p>
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="flex items-center gap-3 font-bold text-[#FDDEDE]">
               <CircleX size={16} strokeWidth={2} /> Please avoid
             </h2>
-            <p className="text-sm">{profile?.avoid}</p>
+            <p data-testid="avoid" className="text-sm">
+              {profile?.avoid}
+            </p>
           </div>
         </div>
         <div className="flex flex-col gap-5">
@@ -131,9 +153,20 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
             'Whimsical',
             'Practical',
             profile?.practical_whimsical,
+            'practicalWhimsical',
           )}
-          {renderPreference('Adventurous', 'Cozy', profile?.cozy_adventurous)}
-          {renderPreference('Luxurious', 'Minimal', profile?.minimal_luxurious)}
+          {renderPreference(
+            'Adventurous',
+            'Cozy',
+            profile?.cozy_adventurous,
+            'cozyAdventurous',
+          )}
+          {renderPreference(
+            'Luxurious',
+            'Minimal',
+            profile?.minimal_luxurious,
+            'minimalLuxurious',
+          )}
         </div>
       </div>
     </article>

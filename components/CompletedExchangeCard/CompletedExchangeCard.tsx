@@ -9,7 +9,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/Card/card';
+} from '@/components/Card/Card';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 import Avatar from '@/components/Avatar/Avatar';
 import { ArrowRight, Gift, PartyPopper } from 'lucide-react';
@@ -51,6 +51,7 @@ export const CompletedExchangeCard = ({
         showConfetti &&
         'motion-preset-confetti motion-delay-[0.5s] motion-duration-1000'
       }`}
+      data-testid="confetti-card"
     >
       <CardHeader>
         <CardTitle className="flex justify-center items-center gap-2">
@@ -62,8 +63,12 @@ export const CompletedExchangeCard = ({
         <div className="space-y-4">
           {members.map((member) => (
             <div key={member.id} className="grid grid-cols-[auto_1fr_auto]">
-              <div className="flex items-center">
+              <div
+                className="flex items-center"
+                data-testid={`member-${member.id}`}
+              >
                 <Avatar
+                  data-testid={`avatar`}
                   userAvatar={
                     member.recipient.avatar ||
                     'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg'
