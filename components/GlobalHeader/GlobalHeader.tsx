@@ -16,6 +16,7 @@ import { JSX } from 'react';
  */
 const GlobalHeader = (): JSX.Element => {
   const pathname = usePathname();
+        
   return (
     <nav
       data-testid="global-header"
