@@ -1,0 +1,70 @@
+import { render, screen } from '@testing-library/react';
+import { CommandList } from './CommandList';
+import { Command } from './Command';
+
+describe('CommandList', () => {
+    global.ResizeObserver = class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+    };
+ 
+    it('renders the component', () => {
+        render(
+            <Command>
+                <CommandList/>
+            </Command>
+        );
+
+        expect(screen.getByTestId('command-list')).toBeInTheDocument();
+    });
+
+    it('renders the children content within CommandList', () => {
+        render(
+            <Command>
+                <CommandList>children</CommandList>
+            </Command>
+        );
+
+       expect(screen.getByTestId('command-list')).toHaveTextContent('children');
+    });
+
+    it('applies a custom className passed via props', () => {
+        render(
+            <Command>
+                <CommandList className="custom-class"/>
+            </Command>
+        );
+
+       expect(screen.getByTestId('command-list')).toHaveClass('custom-class');
+    });
+
+    it('renders a custom attribute, such as aria-label, passed via props', () => {
+        render(
+            <Command>
+                <CommandList aria-label="Suggestions"/>
+            </Command>
+        );
+
+        expect(screen.getByTestId('command-list')).toHaveAttribute('aria-label', 'Suggestions');
+    });
+
+    it('is scrollable with content overflow', () => {
+        render(
+            <Command>
+                <CommandList>
+                    {Array.from({length: 100}).map((e, i) => (
+                        <div key={i}>Item #{i}</div>
+                    ))}
+                </CommandList>
+            </Command>
+        );
+
+        const commandList = screen.getByTestId('command-list');
+
+        jest.spyOn(commandList, 'scrollHeight', 'get').mockReturnValue(1000);
+        jest.spyOn(commandList, 'clientHeight', 'get').mockReturnValue(300);
+
+        expect(commandList.scrollHeight).toBeGreaterThan(commandList.clientHeight);
+    });
+})
