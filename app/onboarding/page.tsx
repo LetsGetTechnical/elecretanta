@@ -196,7 +196,7 @@ function Onboarding() {
       form.setValue('giftCircle', data.age_group);
       form.setValue('categories', data.categories);
       form.setValue('hobbies', data.hobbies);
-      form.setValue('giftRestrictions', data.avoid);
+      form.setValue('giftRestrictions', data.avoid || '');
       form.setValue('giftPersonality', data.practical_whimsical);
       form.setValue('experienceStyle', data.cozy_adventurous);
       form.setValue('giftStyle', data.minimal_luxurious);
@@ -235,7 +235,7 @@ function Onboarding() {
             cozy_adventurous: formData.experienceStyle,
             minimal_luxurious: formData.giftStyle,
             onboarding_complete: true,
-            avatar: avatar,
+            avatar: avatar || 'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg',
           }),
         });
 
@@ -248,7 +248,7 @@ function Onboarding() {
         if (editing) {
           router.push('/profile');
         } else {
-          window.location.href = '/dashboard';
+          router.push('/dashboard');
         }
       } catch (error) {
         console.error('Error updating profile: ', error);
