@@ -176,9 +176,9 @@ function Onboarding() {
       categories: [],
       hobbies: '',
       giftRestrictions: '',
-      giftPersonality: 0,
-      experienceStyle: 0,
-      giftStyle: 0,
+      giftPersonality: 50,
+      experienceStyle: 50,
+      giftStyle: 50,
     },
   });
 
@@ -444,7 +444,7 @@ function Onboarding() {
                           <FormLabel>Gift Personality</FormLabel>
                           <FormControl>
                             <Slider
-                              min={-100}
+                              min={0}
                               max={100}
                               value={[field.value]}
                               onValueChange={(values) =>
