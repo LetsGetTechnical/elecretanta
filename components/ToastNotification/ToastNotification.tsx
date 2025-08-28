@@ -5,39 +5,57 @@ import React from 'react';
 import { JSX } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { IToastNotification } from './ToastNotification.interface';
+import { ToastVariants } from './ToastNotification.enum';
 import { X } from 'lucide-react';
+
+const variantConfig = {
+  countDown:{
+    title: 'Drawing Date Countdown',
+    tailwindClasses: 'bg-yellow-200'
+  },
+  drawingDay:{
+    title: "It's Secret Santa Reveal Day!",
+    tailwindClasses: 'bg-green-300'
+  },
+  overDue:{
+    title: 'Drawing Date has passed.',
+    tailwindClasses: 'bg-red-400',
+  }
+};
 
 /**
  * Toast Notifications.
- * @param {object} props - The page props.
- * @param {string} props.title - Main title of the toast notification.
- * @param {string} props.description - Description or message for the toast.
+ * @param {object} props - The component's props.
+ * @param {ToastVariants} props.variant - variant that determine's toast's styling, title, and default description. 
+ * @param {string} [props.message] - optional custom message instead of default description.
  * @returns {JSX.Element} The rendered toast notification. 
  */
-const ToastNotification = ({ title, description }: IToastNotification): JSX.Element => {
+const ToastNotification = ({ variant, message }: IToastNotification): JSX.Element => {
+
+  const { title, tailwindClasses } = variantConfig[variant];
 
   return (
-    <ToastPrimitive.Provider swipeDirection="right">
+    <ToastPrimitive.Provider duration={8000}>
       <ToastPrimitive.Root 
-        className="bg-white rounded-md shadow-lg p-4 grid gap-x-4 items-start"
+        className={`${tailwindClasses} rounded-md shadow-lg p-4 grid gap-x-4 items-start`}
         style={{
-          gridTemplateAreas: '"title action" "description action"',
+          gridTemplateAreas: '"title" "message"',
           gridTemplateColumns: 'auto max-content',
         }}
       >
         <ToastPrimitive.Title 
-          className="font-medium mb-1 text-slate-900 text-base"
+          className="font-medium mb-1 text-slate-900 text-base text-center" 
           style={{ gridArea: 'title' }}
         >
           {title}
         </ToastPrimitive.Title>
         <ToastPrimitive.Description 
-          className="m-0 text-[var(--slate-11)] text-[13px] leading-[1.3]"
-          style={{ gridArea: 'description' }}
+          className="m-0 text-[var(--slate-11)] text-[13px] leading-[1.3] text-center"
+          style={{ gridArea: 'message' }}
         >
-          {description}
+          {message}
         </ToastPrimitive.Description>
-        <ToastPrimitive.Close data-testid="dismiss-button" asChild>
+        <ToastPrimitive.Close data-testid="dismiss-button" asChild className="hover:cursor-pointer">
           <X/>
         </ToastPrimitive.Close>
       </ToastPrimitive.Root>

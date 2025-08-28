@@ -1,25 +1,141 @@
 import React from 'react';
-import { render, screen, fireEvent} from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import Dashboard from '@/app/dashboard/page';
+import { ToastVariants } from '@/components/ToastNotification/ToastNotification.enum';
 import ToastNotification from './ToastNotification';
 
-describe('ToastNotification', () => {
-    beforeEach(() => {
-        render(
-            <ToastNotification 
-            title='test'
-            description='description'
-        />
-        )
-    })
-    it('should render the dismiss button', () => {
-        const dismissButton = screen.getByTestId('dismiss-button');
-        expect(dismissButton).toBeInTheDocument();
-    })
-    
-    it('should remove the toast when the dismiss button is clicked', () => {
+const allVariants = [
+    ToastVariants.CountDown,
+    ToastVariants.DrawingDay,
+    ToastVariants.OverDue,
+];
 
-        const dismissButton = screen.getByTestId('dismiss-button');
-        fireEvent.click(dismissButton);
-        expect(dismissButton).not.toBeInTheDocument();
-    })
-})
+describe('Dashboard Toast Notifications', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  // Test case for Countdown variant
+  it('should display the Countdown toast when the drawing date is 1-3 days away', async () => {
+    // 1. Create mock data inside the test block
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 2);
+
+    const mockGiftExchanges = [{
+      gift_exchange_id: '1',
+      name: 'Test Group',
+      drawing_date: futureDate.toISOString(),
+      status: 'pending',
+      member_count: 2,
+    }];
+    
+    // 2. Set up the fetch mock inside the test block
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockGiftExchanges),
+    });
+
+    render(<Dashboard />);
+
+    const toastTitle = await screen.findByText('Drawing Date Countdown');
+    const toastMessage = await screen.findByText('The draw is in 2 days!');
+
+    expect(toastTitle).toBeInTheDocument();
+    expect(toastMessage).toBeInTheDocument();
+  });
+
+  // Test case for Drawing Day variant
+  it('should display the Drawing Day toast when the drawing date is today', async () => {
+    const today = new Date();
+    
+    const mockGiftExchanges = [{
+      gift_exchange_id: '1',
+      name: 'Today\'s Draw',
+      drawing_date: today.toISOString(),
+      status: 'pending',
+      member_count: 3,
+    }];
+    
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockGiftExchanges),
+    });
+    
+    render(<Dashboard />);
+
+    const toastTitle = await screen.findByText("It's Secret Santa Reveal Day!");
+    const toastMessage = await screen.findByText('Go to your group to initiate the gift exchange draw.');
+
+    expect(toastTitle).toBeInTheDocument();
+    expect(toastMessage).toBeInTheDocument();
+  });
+
+  // Test case for Overdue variant
+  it('should display the Overdue toast when the drawing date has passed', async () => {
+    const pastDate = new Date();
+    pastDate.setDate(pastDate.getDate() - 10);
+
+    const mockGiftExchanges = [{
+      gift_exchange_id: '1',
+      name: 'Overdue Group',
+      drawing_date: pastDate.toISOString(),
+      status: 'pending',
+      member_count: 4,
+    }];
+    
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockGiftExchanges),
+    });
+    
+    render(<Dashboard />);
+
+    const toastTitle = await screen.findByText('Drawing Date has passed.');
+    const toastMessage = await screen.findByText('Your Secret Santas are still secret! Please draw now or reschedule drawing date.');
+
+    expect(toastTitle).toBeInTheDocument();
+    expect(toastMessage).toBeInTheDocument();
+  });
+
+  // Test case for when no toast should be rendered
+  it('should not display a toast when the drawing date is more than 3 days away', async () => {
+    const farFutureDate = new Date();
+    farFutureDate.setDate(farFutureDate.getDate() + 5);
+    
+    const mockGiftExchanges = [{
+      gift_exchange_id: '1',
+      name: 'Far Future Group',
+      drawing_date: farFutureDate.toISOString(),
+      status: 'pending',
+      member_count: 5,
+    }];
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockGiftExchanges),
+    });
+
+    render(<Dashboard />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText('Drawing Date Countdown')).not.toBeInTheDocument();
+      expect(screen.queryByText("It's Secret Santa Reveal Day!")).not.toBeInTheDocument();
+      expect(screen.queryByText('Drawing Date has passed.')).not.toBeInTheDocument();
+    });
+  });
+
+  it(`should render the dismiss button for a variant`, () => {
+    render(<ToastNotification variant = {ToastVariants.CountDown} message = 'Test Message' />)
+
+    const dismissButton = screen.getByTestId('dismiss-button');
+    expect(dismissButton).toBeInTheDocument();
+  })
+
+  it('should remove the toast when the dismiss button is clicked', () => {
+    render(<ToastNotification variant = {ToastVariants.CountDown} message = 'Test Message' />)
+
+    const dismissButton = screen.getByTestId('dismiss-button');
+    fireEvent.click(dismissButton);
+    expect(dismissButton).not.toBeInTheDocument();
+  })
+});
