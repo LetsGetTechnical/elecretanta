@@ -9,15 +9,15 @@ import { ToastVariants } from './ToastNotification.enum';
 import { X } from 'lucide-react';
 
 const variantConfig = {
-  countDown:{
+  [ToastVariants.CountDown]:{
     title: 'Drawing Date Countdown',
     tailwindClasses: 'bg-yellow-200'
   },
-  drawingDay:{
+  [ToastVariants.DrawingDay]:{
     title: "It's Secret Santa Reveal Day!",
     tailwindClasses: 'bg-green-300'
   },
-  overDue:{
+  [ToastVariants.OverDue]:{
     title: 'Drawing Date has passed.',
     tailwindClasses: 'bg-red-400',
   }
