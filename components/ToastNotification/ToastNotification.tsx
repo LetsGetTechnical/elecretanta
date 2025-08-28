@@ -37,7 +37,7 @@ const ToastNotification = ({ title, description }: IToastNotification): JSX.Elem
         >
           {description}
         </ToastPrimitive.Description>
-        <ToastPrimitive.Close asChild>
+        <ToastPrimitive.Close data-testid="dismiss-button" asChild>
           <X/>
         </ToastPrimitive.Close>
       </ToastPrimitive.Root>
