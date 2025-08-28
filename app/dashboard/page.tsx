@@ -5,6 +5,7 @@ import GroupCard, { GroupCardSkeleton } from '@/components/GroupCard/GroupCard';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { GiftExchangeWithMemberCount } from '../types/giftExchange';
+import ToastNotification from '@/components/ToastNotification/ToastNotification'
 
 export default function Dashboard() {
   const [giftExchanges, setGiftExchanges] = useState<
@@ -39,6 +40,7 @@ export default function Dashboard() {
 
   return (
     <section className="min-h-screen-minus-20 flex flex-col pb-12">
+      < ToastNotification />
       <div className="flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 h-40">
         <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
         <Button
