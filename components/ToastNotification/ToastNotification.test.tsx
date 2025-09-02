@@ -15,21 +15,18 @@ describe('Dashboard Toast Notifications', () => {
     jest.clearAllMocks();
   });
 
-  // Test case for Countdown variant
   it('should display the Countdown toast when the drawing date is 1-3 days away', async () => {
-    // 1. Create mock data inside the test block
     const futureDate = new Date();
     futureDate.setDate(futureDate.getDate() + 2);
 
     const mockGiftExchanges = [{
       gift_exchange_id: '1',
       name: 'Test Group',
-      drawing_date: futureDate.toISOString(),
+      drawing_date: futureDate,
       status: 'pending',
       member_count: 2,
     }];
     
-    // 2. Set up the fetch mock inside the test block
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockGiftExchanges),
@@ -44,14 +41,13 @@ describe('Dashboard Toast Notifications', () => {
     expect(toastMessage).toBeInTheDocument();
   });
 
-  // Test case for Drawing Day variant
   it('should display the Drawing Day toast when the drawing date is today', async () => {
     const today = new Date();
     
     const mockGiftExchanges = [{
       gift_exchange_id: '1',
       name: 'Today\'s Draw',
-      drawing_date: today.toISOString(),
+      drawing_date: today,
       status: 'pending',
       member_count: 3,
     }];
@@ -70,7 +66,6 @@ describe('Dashboard Toast Notifications', () => {
     expect(toastMessage).toBeInTheDocument();
   });
 
-  // Test case for Overdue variant
   it('should display the Overdue toast when the drawing date has passed', async () => {
     const pastDate = new Date();
     pastDate.setDate(pastDate.getDate() - 10);
@@ -78,7 +73,7 @@ describe('Dashboard Toast Notifications', () => {
     const mockGiftExchanges = [{
       gift_exchange_id: '1',
       name: 'Overdue Group',
-      drawing_date: pastDate.toISOString(),
+      drawing_date: pastDate,
       status: 'pending',
       member_count: 4,
     }];
@@ -97,7 +92,6 @@ describe('Dashboard Toast Notifications', () => {
     expect(toastMessage).toBeInTheDocument();
   });
 
-  // Test case for when no toast should be rendered
   it('should not display a toast when the drawing date is more than 3 days away', async () => {
     const farFutureDate = new Date();
     farFutureDate.setDate(farFutureDate.getDate() + 5);
@@ -105,7 +99,7 @@ describe('Dashboard Toast Notifications', () => {
     const mockGiftExchanges = [{
       gift_exchange_id: '1',
       name: 'Far Future Group',
-      drawing_date: farFutureDate.toISOString(),
+      drawing_date: farFutureDate,
       status: 'pending',
       member_count: 5,
     }];

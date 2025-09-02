@@ -11,7 +11,7 @@ import { X } from 'lucide-react';
 const variantConfig = {
   [ToastVariants.CountDown]:{
     title: 'Drawing Date Countdown',
-    tailwindClasses: 'bg-yellow-200'
+    tailwindClasses: 'bg-primaryButtonYellow'
   },
   [ToastVariants.DrawingDay]:{
     title: "It's Secret Santa Reveal Day!",
