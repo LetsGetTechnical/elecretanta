@@ -244,11 +244,12 @@ function Onboarding() {
         }
 
         setIsSubmitted(true);
+        router.refresh();
 
         if (editing) {
           router.push('/profile');
         } else {
-          window.location.href = '/dashboard';
+          router.push('/dashboard');
         }
       } catch (error) {
         console.error('Error updating profile: ', error);
