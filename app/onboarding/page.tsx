@@ -469,7 +469,7 @@ function Onboarding() {
                           <FormLabel>Experience Style</FormLabel>
                           <FormControl>
                             <Slider
-                              min={-100}
+                              min={0}
                               max={100}
                               value={[field.value]}
                               onValueChange={(values) =>
@@ -494,7 +494,7 @@ function Onboarding() {
                           <FormLabel>Gift Style</FormLabel>
                           <FormControl>
                             <Slider
-                              min={-100}
+                              min={0}
                               max={100}
                               value={[field.value]}
                               onValueChange={(values) =>
