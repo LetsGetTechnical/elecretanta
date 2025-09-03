@@ -13,7 +13,6 @@ export default function Dashboard() {
     GiftExchangeWithMemberCount[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [toastData, setToastData] = useState<{ variant: ToastVariants, message: string} | null>(null);
 
   useEffect(() => {
     async function fetchGiftExchanges() {
@@ -31,34 +30,6 @@ export default function Dashboard() {
 
         const data = await response.json();
         setGiftExchanges(data);
-
-        const today = new Date();
-        for (const exchange of data){
-          const drawingDate = new Date(exchange.drawing_date);
-          const timeDifference = drawingDate.getTime() - today.getTime();
-          const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-          if (dayDifference > 0 && dayDifference <= 3){
-            setToastData({
-              variant: ToastVariants.CountDown,
-              message: `The draw is in ${dayDifference} day${dayDifference < 2 ? '': 's'}!`
-            })
-            break;
-          } else if (dayDifference === 0){
-            setToastData({
-              variant: ToastVariants.DrawingDay,
-              message: `Go to your group to initiate the gift exchange draw.`
-            });
-            break;
-          } else if (dayDifference < 0){
-            setToastData({
-              variant: ToastVariants.OverDue,
-              message: 'Your Secret Santas are still secret! Please draw now or reschedule drawing date.'
-            });
-            break;
-          }
-        }
-
       } catch (error) {
         console.error('Failed to fetch gift exchanges:', error);
       } finally {
@@ -70,7 +41,6 @@ export default function Dashboard() {
 
   return (
     <section className="min-h-screen-minus-20 flex flex-col pb-12">
-      {toastData && <ToastNotification variant={toastData.variant} message={toastData.message}/>}
       <div className="flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 h-40">
         <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
         <Button

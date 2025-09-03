@@ -9,16 +9,20 @@ import { ToastVariants } from './ToastNotification.enum';
 import { X } from 'lucide-react';
 
 const variantConfig = {
-  [ToastVariants.CountDown]:{
-    title: 'Drawing Date Countdown',
+  info:{
+    title: 'Info',
+    tailwindClasses: 'bg-white'
+  },
+  warning:{
+    title: 'Warning',
     tailwindClasses: 'bg-primaryButtonYellow'
   },
-  [ToastVariants.DrawingDay]:{
-    title: "It's Secret Santa Reveal Day!",
+  success:{
+    title: 'Success',
     tailwindClasses: 'bg-green-300'
   },
-  [ToastVariants.OverDue]:{
-    title: 'Drawing Date has passed.',
+  error:{
+    title: 'Error',
     tailwindClasses: 'bg-red-400',
   }
 };
@@ -55,8 +59,8 @@ const ToastNotification = ({ variant, message }: IToastNotification): JSX.Elemen
         >
           {message}
         </ToastPrimitive.Description>
-        <ToastPrimitive.Close data-testid="dismiss-button" asChild className="hover:cursor-pointer">
-          <X/>
+        <ToastPrimitive.Close data-testid="dismiss-button" asChild className="hover:cursor-pointer" aria-label="Close">
+          <X aria-hidden/>
         </ToastPrimitive.Close>
       </ToastPrimitive.Root>
       <ToastPrimitive.Viewport className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col p-6 gap-2 w-[350px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />
