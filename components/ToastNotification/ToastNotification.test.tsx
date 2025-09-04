@@ -36,6 +36,9 @@ describe('ToastNotification', () => {
           message={value.message}
         />
       );
+
+      expect(screen.getByText(value.title)).toBeInTheDocument();
+      expect(screen.getByText(value.message)).toBeInTheDocument();
     });
     
     it('should render the dismiss button for each notification type', () => {

@@ -9,19 +9,19 @@ import { ToastVariants } from './ToastNotification.enum';
 import { X } from 'lucide-react';
 
 const variantConfig = {
-  info:{
+  [ToastVariants.Info]:{
     title: 'Info',
     tailwindClasses: 'bg-white'
   },
-  warning:{
+  [ToastVariants.Warning]:{
     title: 'Warning',
     tailwindClasses: 'bg-primaryButtonYellow'
   },
-  success:{
+  [ToastVariants.Success]:{
     title: 'Success',
     tailwindClasses: 'bg-green-300'
   },
-  error:{
+  [ToastVariants.Error]:{
     title: 'Error',
     tailwindClasses: 'bg-red-400',
   }

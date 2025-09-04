@@ -5,8 +5,6 @@ import GroupCard, { GroupCardSkeleton } from '@/components/GroupCard/GroupCard';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { GiftExchangeWithMemberCount } from '../types/giftExchange';
-import ToastNotification from '@/components/ToastNotification/ToastNotification'
-import { ToastVariants } from '@/components/ToastNotification/ToastNotification.enum';
 
 export default function Dashboard() {
   const [giftExchanges, setGiftExchanges] = useState<
