@@ -164,7 +164,6 @@ export default function GiftExchangePage() {
         !isLoading &&
         giftExchangeData.status === 'pending' && (
           <WarningModal
-            data-testid="warning-modal"
             giftExchangeData={giftExchangeData}
             members={giftExchangeMembers}
             updateGiftExchangeMembers={updateGiftExchangeMembers}
