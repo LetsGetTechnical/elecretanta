@@ -1,5 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { generateAndStoreSuggestions } from './generateAndStoreSuggestions';
+import { after } from 'next/server';
 
 // util function to draw gift exchange names
 // this function can be called from an API route
@@ -63,13 +64,17 @@ export async function drawGiftExchange(
     // Fire and forget suggestions with error handling
     // hacky way to avoid waiting for all suggestions to be generated
     // avoids timeout issues
-    generateAndStoreSuggestions(
-      supabase,
-      exchangeId,
-      giver.user_id,
-      recipient.user_id,
-      exchange.budget,
-    ).catch((error) => console.error('Failed to generate suggestions:', error));
+    after(() => {
+      generateAndStoreSuggestions(
+        supabase,
+        exchangeId,
+        giver.user_id,
+        recipient.user_id,
+        exchange.budget,
+      ).catch((error) =>
+        console.error('Failed to generate suggestions:', error),
+      );
+    });
   }
 
   // Update exchange status to active
