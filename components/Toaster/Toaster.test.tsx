@@ -1,10 +1,7 @@
 import Toaster from './Toaster';
-import { ToastVariants } from '../Toast/Toast.enum';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { useToast } from '@/hooks/use-toast';
-import { Toast } from '@radix-ui/react-toast';
 
 jest.mock("@/hooks/use-toast", () => ({
   useToast: jest.fn(),
@@ -62,5 +59,29 @@ describe('ToastNotification', () => {
       expect(dismissButton).toBeInTheDocument();
     }
   );
+it.each(Object.entries(variantTestCases))(
+    "should dismiss the %s toast when the dismiss button is clicked",
+    async (key, value) => {
 
+      const mockDismiss = jest.fn();
+      (useToast as jest.Mock).mockReturnValue({
+        toasts: [{
+          id: "test-id",
+          title: value.title,
+          description: value.description,
+          variant: key,
+          onOpenChange: mockDismiss,
+        }],
+        toast: jest.fn(),
+        dismiss: mockDismiss,
+      });
+
+      render(<Toaster />);
+
+      const dismissButton = screen.getByRole('button', { name: 'Close' });
+      fireEvent.click(dismissButton);
+
+      expect(mockDismiss).toHaveBeenCalled();
+    }
+  );
 })
