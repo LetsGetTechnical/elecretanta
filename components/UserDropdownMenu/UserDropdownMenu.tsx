@@ -43,7 +43,7 @@ const UserDropdownMenu = (): JSX.Element => {
         <Avatar userAvatar={avatar} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem data-testid="my-profile-link">
+        <DropdownMenuItem asChild data-testid="my-profile-link">
           <Link
             href="/profile"
             className="underline-offset-4 hover:underline cursor-pointer inline-flex items-center gap-2 text-sm font-medium"
