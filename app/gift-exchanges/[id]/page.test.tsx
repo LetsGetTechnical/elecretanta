@@ -22,44 +22,29 @@ describe('GiftExchangePage Warning Modal', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    global.fetch = jest.fn((url) => {
-      const urlStr = typeof url === 'string' ? url : url.toString();
-
-      if (urlStr.includes('gift-exchanges/123/members')) {
-        return Promise.resolve({
-          json: () =>
-            Promise.resolve([
-              {
-                id: '1',
-                user_id: 'test-user',
-                member: { avatar: 'https://example.com/mock-avatar.png' },
-              },
-            ]),
-        });
-      }
-
-      if (urlStr.includes('gift-exchanges/123/giftSuggestions')) {
-        return Promise.resolve({
-          json: () => Promise.resolve({ match: null, suggestions: [] }),
-        });
-      }
-
-      if (urlStr.includes('gift-exchanges/123')) {
-        return Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              id: '123',
-              name: 'Test Exchange',
-              status: 'pending',
-            }),
-        });
-      }
-
-      return Promise.resolve({
-        json: async () => Promise.resolve({}),
+    global.fetch = jest
+      .fn()
+      .mockResolvedValueOnce({
+        json: async () => ({
+          id: '123',
+          name: 'Test Exchange',
+          status: 'pending',
+        }),
+      })
+      .mockResolvedValueOnce({
+        json: async () => [
+          {
+            id: '1',
+            user_id: 'test-member',
+            member: { avatar: 'https://example.com/mock-avatar.png' },
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        json: async () => ({ match: null, suggestions: [] }),
       });
-    }) as jest.Mock;
   });
+
   it('displays the WarningModal with the join button for a logged-in user who is not a member of a pending group', async () => {
     (useAuthContext as jest.Mock).mockReturnValue({
       session: {
