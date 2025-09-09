@@ -150,10 +150,10 @@ export default function OnboardingPage() {
   );
 }
 
-function Onboarding() {
+export const Onboarding = ({ initialStep = 0 }: { initialStep?: number }) => {
   const [avatar, setAvatar] = useState<string>('');
   const [name, setName] = useState<string | null>('There');
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(initialStep);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -544,4 +544,4 @@ function Onboarding() {
       </div>
     </main>
   );
-}
+};

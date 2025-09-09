@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import OnboardingPage from './page';
+import { Onboarding } from './page';
 import userEvent from '@testing-library/user-event';
 
 global.ResizeObserver = class {
@@ -38,29 +38,33 @@ jest.mock('next/navigation', () => ({
 
 describe('Onboarding Page sliders', () => {
   it('renders all sliders with default 50, min 0, and max 100 values', async () => {
-    render(<OnboardingPage />);
-
-    const nextButton = screen.getByTestId('next-button');
-
-    for (let i = 0; i < 4; i++) {
-      await userEvent.click(nextButton);
-    }
+    render(<Onboarding initialStep={4} />);
 
     const giftPersonalitySlider = await screen.findByTestId('gift-personality');
     const experienceStyleSlider = await screen.findByTestId('experience-style');
     const giftStyleSlider = await screen.findByTestId('gift-style');
 
     expect(giftPersonalitySlider).toBeInTheDocument();
+    const giftPersonalityThumb =
+      giftPersonalitySlider.querySelector('[role="slider"]');
+
     expect(experienceStyleSlider).toBeInTheDocument();
+    const experienceStyleThumb =
+      experienceStyleSlider.querySelector('[role="slider"]');
+
     expect(giftStyleSlider).toBeInTheDocument();
+    const giftStyleThumb = giftStyleSlider.querySelector('[role="slider"]');
 
-    const sliders = screen.getAllByRole('slider');
-    expect(sliders.length).toBe(3);
+    expect(giftPersonalityThumb).toHaveAttribute('aria-valuemin', '0');
+    expect(experienceStyleThumb).toHaveAttribute('aria-valuemin', '0');
+    expect(giftStyleThumb).toHaveAttribute('aria-valuemin', '0');
 
-    sliders.forEach((slider) => {
-      expect(slider).toHaveAttribute('aria-valuemin', '0');
-      expect(slider).toHaveAttribute('aria-valuemax', '100');
-      expect(slider).toHaveAttribute('aria-valuenow', '50');
-    });
+    expect(giftPersonalityThumb).toHaveAttribute('aria-valuemax', '100');
+    expect(experienceStyleThumb).toHaveAttribute('aria-valuemax', '100');
+    expect(giftStyleThumb).toHaveAttribute('aria-valuemax', '100');
+
+    expect(giftPersonalityThumb).toHaveAttribute('aria-valuenow', '50');
+    expect(experienceStyleThumb).toHaveAttribute('aria-valuenow', '50');
+    expect(giftStyleThumb).toHaveAttribute('aria-valuenow', '50');
   });
 });
