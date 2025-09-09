@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Onboarding } from './page';
+import { Onboarding } from './onboarding-form';
 import userEvent from '@testing-library/user-event';
 
 global.ResizeObserver = class {
