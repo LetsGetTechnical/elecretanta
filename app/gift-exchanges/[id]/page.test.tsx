@@ -2,6 +2,26 @@ import { render, screen } from '@testing-library/react';
 import GiftExchangePage from './page';
 import { useAuthContext } from '@/context/AuthContextProvider';
 
+const mockGiftExchangeData = {
+  id: '123',
+  name: 'Test Exchange',
+  budget: '50',
+  status: 'pending',
+};
+
+const mockMembers = [
+  {
+    id: '1',
+    user_id: 'test-member',
+    member: { avatar: 'https://example.com/mock-avatar.png' },
+  },
+];
+
+const mockGiftSuggestions = {
+  match: null,
+  suggestions: [],
+};
+
 jest.mock('@/app/api/openaiConfig/config', () => ({
   openai: {
     chat: {
@@ -25,23 +45,13 @@ describe('GiftExchangePage Warning Modal', () => {
     global.fetch = jest
       .fn()
       .mockResolvedValueOnce({
-        json: async () => ({
-          id: '123',
-          name: 'Test Exchange',
-          status: 'pending',
-        }),
+        json: async () => mockGiftExchangeData,
       })
       .mockResolvedValueOnce({
-        json: async () => [
-          {
-            id: '1',
-            user_id: 'test-member',
-            member: { avatar: 'https://example.com/mock-avatar.png' },
-          },
-        ],
+        json: async () => mockMembers,
       })
       .mockResolvedValueOnce({
-        json: async () => ({ match: null, suggestions: [] }),
+        json: async () => mockGiftSuggestions,
       });
   });
 
