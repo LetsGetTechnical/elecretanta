@@ -62,7 +62,9 @@ const stepThreeSchema = z.object({
 });
 
 const stepFourSchema = z.object({
-  giftRestrictions: z.string(),
+  giftRestrictions: z.string().min(1, {
+    message: 'If no restrictions, write "None".',
+  }),
 });
 
 const stepFiveSchema = z.object({
@@ -87,7 +89,9 @@ const FormSchema = z.object({
     message:
       'Our elves need a little more info about your interests to find the perfect gift! Please share some of your favorite activities or hobbies.',
   }),
-  giftRestrictions: z.string(),
+  giftRestrictions: z.string().min(1, {
+    message: `Our elves want to make sure your gift is just right, so please let us know if there’s anything you’d rather avoid! Whether it's preferences, restrictions, or things you simply don’t enjoy, your feedback helps us choose a gift you'll love.`,
+  }),
   giftPersonality: z.number(),
   experienceStyle: z.number(),
   giftStyle: z.number(),
@@ -417,7 +421,8 @@ function Onboarding() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            Is there anything your Secret Santa should avoid?
+                            Is there anything your Secret Santa should avoid? If
+                            none, write "None".
                           </FormLabel>
                           <FormControl>
                             <Textarea
