@@ -40,7 +40,9 @@ describe('UserDropdownMenu', () => {
     render(<UserDropdownMenu />);
 
     await user.click(screen.getByTestId('dropdown-menu-trigger'));
-    expect(screen.getByRole('link')).toHaveTextContent('My profile');
+    expect(
+      screen.getByRole('menuitem', { name: 'My profile' }),
+    ).toHaveTextContent('My profile');
     expect(screen.getByRole('button', { name: 'Log out' })).toBeInTheDocument();
   });
 
@@ -59,14 +61,16 @@ describe('UserDropdownMenu', () => {
     render(<UserDropdownMenu />);
 
     await user.click(screen.getByTestId('dropdown-menu-trigger'));
-    expect(screen.getByRole('link')).toHaveAttribute('href', '/profile');
+    expect(
+      screen.getByRole('menuitem', { name: 'My profile' }),
+    ).toHaveAttribute('href', '/profile');
   });
 
   it('closes the dropdown menu after clicking on an item', async () => {
     render(<UserDropdownMenu />);
 
     await user.click(screen.getByTestId('dropdown-menu-trigger'));
-    await user.click(screen.getByRole('link', { name: 'My profile' }));
+    await user.click(screen.getByRole('menuitem', { name: 'My profile' }));
     expect(screen.queryByTestId('dropdown-menu-content')).toBeNull();
   });
 });
