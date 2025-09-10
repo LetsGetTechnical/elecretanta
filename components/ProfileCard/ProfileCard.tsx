@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 'use client';
+import { JSX } from 'react'
 import { Cake, CircleX, Compass, Heart, Pencil } from 'lucide-react';
 import { Progress } from '@/components/Progress/progress';
 import Avatar from '@/components/Avatar/Avatar';
@@ -14,23 +15,41 @@ interface ProfileCardProps {
   profile: Profile | null;
   showEditButton?: boolean;
 }
+/**
+ * The ProfileCard component.
+ * @param {object} props - The function props.
+ * @param {Profile} props.profile - The profile props are passed.
+ * @param {boolean} props.showEditButton  - Option for edit button.
+ * @returns {ProfileCardProps} - The details of user profile.
+ */
+const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps): ProfileCardProps => {
 
-const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
-  
   const router = useRouter();
 
-  const handleEditProfile = () => {
+  /**
+   * Allows user to edit profile
+   * @returns {void} - modify user access for editing profile
+   */
+  const handleEditProfile = (): void => {
     router.push('/onboarding?editing=true');
   };
-
-  const formatDisplayName = (displayName: string) => {
+  /**
+   * Capitializes Display Name
+   * @param {string} displayName - The user display name
+   * @returns {string} - The user's display name capitialized
+   */
+  const formatDisplayName = (displayName: string): string => {
     const formattedDisplayName = displayName.split(' ').map((word) => {
       return word.charAt(0).toUpperCase() + word.slice(1);
     });
     return formattedDisplayName.join(' ');
   };
-
-  const formatCategory = (category: string) => {
+  /**
+   * Capitializes Catergory Name
+   * @param {string} category - The gift category
+   * @returns {string} - The capitialized version of gift category 
+   */
+  const formatCategory = (category: string): string => {
     const categories = category.split('&');
     const formattedCategories = categories.map((categoryItem) => {
       const trimmedCategoryItem = categoryItem.trim();
@@ -40,13 +59,20 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps) => {
     });
     return formattedCategories.join(' & ');
   };
-
+  /**
+   * Renders options for user gift preferences
+   * @param {string} preferenceRight - The preference to the left indicator
+   * @param {string} preferenceLeft - The preference to the right indicator
+   * @param {number | undefined} preference_value - Current user preference 
+   * @param  {string} testidPrefix - Test prefix 
+   * @returns { JSX.Element } - The value and name of preference options
+   */
   const renderPreference = (
     preferenceRight: string,
     preferenceLeft: string,
     preference_value: number | undefined,
     testidPrefix: string,
-  ) => {
+  ): JSX.Element => {
     if (!preference_value) {
       return (
         <div className="flex flex-col gap-2 text-xs">
