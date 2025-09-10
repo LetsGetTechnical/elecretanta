@@ -47,7 +47,6 @@ components/LoadingSpinner/LoadingSpinner.tsx
 components/MembersList/MembersList.tsx
 components/MultiSelect/multi-select-input.tsx
 components/Popover/popover.tsx
-components/ProfileCard/ProfileCard.tsx
 components/Progress/progress.tsx
 components/Select/select.tsx
 components/SnowOverlayToggle/SnowOverlayToggle.tsx
