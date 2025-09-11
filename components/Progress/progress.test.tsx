@@ -7,8 +7,10 @@ import { Progress } from './progress';
 describe('Progress Component', () => {
   it('renders the component and progress indicator when no props are passed', () => {
     render(<Progress />);
+
     const progressElement = screen.getByRole('progressbar');
     const indicatorElement = screen.getByTestId('progress-indicator');
+    
     expect(progressElement).toBeInTheDocument();
     expect(indicatorElement).toBeInTheDocument();
   });
