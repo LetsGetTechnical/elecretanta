@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/Card/Card';
+
 import { Input } from '@/components/Input/Input';
 import { Progress } from '@/components/Progress/progress';
 import { ChevronLeft, ChevronRight, Gift } from 'lucide-react';
@@ -243,11 +244,12 @@ function Onboarding() {
         }
 
         setIsSubmitted(true);
+        router.refresh();
 
         if (editing) {
           router.push('/profile');
         } else {
-          window.location.href = '/dashboard';
+          router.push('/dashboard');
         }
       } catch (error) {
         console.error('Error updating profile: ', error);
@@ -323,7 +325,7 @@ function Onboarding() {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger data-testid="select-trigger">
                                 <SelectValue placeholder="Select your age group" />
                               </SelectTrigger>
                             </FormControl>
@@ -525,7 +527,7 @@ function Onboarding() {
                       Back
                     </Button>
                   )}
-                  <Button type="submit">
+                  <Button data-testid="next-button" type="submit">
                     {currentStep < steps.length - 1
                       ? 'Next'
                       : 'Find My Perfect Gift'}
