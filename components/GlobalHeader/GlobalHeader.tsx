@@ -1,28 +1,25 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
-import { useEffect, useState } from 'react';
-import Avatar from '../Avatar/Avatar';
 import NavLogo from '../NavLogo/NavLogo';
-import SnowOverlayToggle from '../SnowOverlayToggle/SnowOverlayToggle';
-import getUserAvatar from '@/lib/getUserAvatar';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { SnowOverlayToggle } from '../SnowOverlayToggle/SnowOverlayToggle';
 import { cn } from '@/lib/utils';
+import UserDropdownMenu from '../UserDropdownMenu/UserDropdownMenu';
+import { usePathname } from 'next/navigation';
+import { JSX } from 'react';
 
-const GlobalHeader = () => {
-  const [avatar, setAvatar] = useState<string>('');
+/**
+ * GlobalHeader component that renders the main navigation header.
+ * @returns {JSX.Element} - A nav containing the logo, snow toggle, and user avatar.
+ */
+const GlobalHeader = (): JSX.Element => {
   const pathname = usePathname();
-
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      const response = await getUserAvatar();
-      setAvatar(response);
-    };
-    fetchAvatar();
-  }, []);
-
+        
   return (
     <nav
+      data-testid="global-header"
       className={cn(
         'flex items-center justify-between px-4 md:px-16 lg:px-32 xl:px-52 bg-elfHeaderGreen h-20',
         pathname === '/' ? 'hidden' : '',
@@ -31,9 +28,7 @@ const GlobalHeader = () => {
       <NavLogo />
       <div className="flex gap-2 items-center">
         <SnowOverlayToggle />
-        <Link href={'/profile'}>
-          <Avatar userAvatar={avatar} />
-        </Link>
+        <UserDropdownMenu />
       </div>
     </nav>
   );
