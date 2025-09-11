@@ -9,7 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/Card/Card';
-import { Input } from '@/components/Input/input';
+
+import { Input } from '@/components/Input/Input';
 import { Progress } from '@/components/Progress/progress';
 import { ChevronLeft, ChevronRight, Gift } from 'lucide-react';
 import { useEffect, useState, Suspense } from 'react';
@@ -243,11 +244,12 @@ function Onboarding() {
         }
 
         setIsSubmitted(true);
+        router.refresh();
 
         if (editing) {
           router.push('/profile');
         } else {
-          window.location.href = '/dashboard';
+          router.push('/dashboard');
         }
       } catch (error) {
         console.error('Error updating profile: ', error);

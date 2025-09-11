@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { render, screen } from '@testing-library/react';
-import { Input } from './input';
+import { Input } from './Input';
 
 describe('Input', () => {
   it('renders input correctly', () => {

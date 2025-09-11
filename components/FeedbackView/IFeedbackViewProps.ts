@@ -1,14 +1,14 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { GiftSuggestion } from '@/app/types/giftSuggestion';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 
 export interface IFeedbackViewProps {
-  allGiftSuggestions: GiftSuggestion[];
+  allGiftSuggestions: IGiftSuggestion[];
   budget: string;
-  gift: GiftSuggestion;
+  gift: IGiftSuggestion;
   handleFeedback: () => void;
-  onGiftUpdate: (updatedGift: GiftSuggestion) => void;
+  onGiftUpdate: (updatedGift: IGiftSuggestion) => void;
   recipient: Profile | null;
 }
