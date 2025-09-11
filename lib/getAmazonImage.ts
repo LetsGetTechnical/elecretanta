@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 export const getAmazonImage = async (title: string) => {
   const API_KEY = process.env.GOOGLE_API_KEY;
   const CSE_ID = process.env.GOOGLE_CSE_ID;
