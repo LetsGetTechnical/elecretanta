@@ -5,12 +5,16 @@ import GroupCard, { GroupCardSkeleton } from '@/components/GroupCard/GroupCard';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { GiftExchangeWithMemberCount } from '../types/giftExchange';
+import { useToast } from "@/hooks/use-toast"
+import { ToastVariants } from '@/components/Toast/Toast.enum';
 
 export default function Dashboard() {
   const [giftExchanges, setGiftExchanges] = useState<
     GiftExchangeWithMemberCount[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [toastData, setToastData] = useState<Array<{ variant: ToastVariants, title: string, message: string}>>([]);
+  const { toast } = useToast()
 
   useEffect(() => {
     async function fetchGiftExchanges() {
@@ -28,6 +32,36 @@ export default function Dashboard() {
 
         const data = await response.json();
         setGiftExchanges(data);
+        let newToasts = [];
+        
+        const today = new Date();
+        for (const exchange of data){
+          const drawingDate = new Date(exchange.drawing_date);
+          const timeDifference = drawingDate.getTime() - today.getTime();
+          const dayDifference = Math.ceil(timeDifference / (1000 * 60  * 60 * 24));
+
+           if (dayDifference > 0 && dayDifference <= 3){
+           newToasts.push({
+             variant: ToastVariants.Warning,
+             title: 'Upcoming Draw',
+             message: `The draw is in ${dayDifference} day${dayDifference < 2 ? '': 's'}!`
+           })
+         } else if (dayDifference === 0){
+           newToasts.push({
+            variant: ToastVariants.Success,
+            title: 'Draw Today',
+            message: `Go to your group to initiate the gift exchange draw.`
+           });
+         } else if (dayDifference < 0){
+           newToasts.push({
+            variant: ToastVariants.Error,
+            title: 'Draw date has passed', 
+            message: 'Your Secret Santas are still secret! Please draw now or reschedule drawing date.'
+           });
+         }
+        }
+
+        setToastData(newToasts)
       } catch (error) {
         console.error('Failed to fetch gift exchanges:', error);
       } finally {
@@ -36,6 +70,18 @@ export default function Dashboard() {
     }
     fetchGiftExchanges();
   }, []);
+
+  useEffect(() => {
+  if (toastData.length === 0) return;
+
+  toastData.forEach((toastItem) => {
+    toast({
+      variant: toastItem.variant,
+      title: toastItem.title,
+      description: toastItem.message
+    });
+  });
+}, [toastData, toast]);
 
   return (
     <section className="min-h-screen-minus-20 flex flex-col pb-12">
