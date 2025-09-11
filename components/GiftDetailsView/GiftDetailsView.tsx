@@ -119,7 +119,7 @@ const GiftDetailsView = ({
             rel="noopener noreferrer"
           >
             <Button
-              className="text-sm w-32 h-9 bg-primaryButtonYellow hover:bg-primaryButtonYelow70"
+              className="text-sm w-32 h-9 bg-primaryButtonYellow hover:bg-primaryButtonYellow70"
               onClick={() => handleAmazonLink(gift.title)}
             >
               <SquareArrowOutUpRight /> View
