@@ -11,7 +11,7 @@ describe('Popover', () => {
                 <p>Hello</p>
             </Popover>);
         screen.debug()
-        
+
         // const navLogoIcon = screen.getByTestId('nav-logo-icon');
         // expect(navLogoIcon).toBeInTheDocument();
         
@@ -22,3 +22,5 @@ describe('Popover', () => {
         // expect(navLogoLink).toHaveAttribute('href', '/dashboard')
     });
 })
+
+//Testing if the popover opens(displays content), closes(hide content),
