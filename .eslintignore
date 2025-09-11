@@ -51,13 +51,9 @@ components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
 components/Progress/progress.tsx
 components/Select/select.tsx
-components/Skeleton/Skeleton.tsx
-components/SnowOverlayToggle/SnowOverlayToggle.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 lib/drawGiftExchange.ts
-lib/generateAndStoreSuggestion.ts
+lib/generateAndStoreSuggestions.ts
 lib/getAmazonImage.ts
-lib/getUserAvatar.ts
-lib/getUserAvatar.ts
 lib/supabase/middleware.ts
 lib/utils.ts

@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from '@/components/Form/form';
 import { Check, ChevronsUpDown, ChevronLeft } from 'lucide-react';
-import { Input } from '@/components/Input/input';
+import { Input } from '@/components/Input/Input';
 import { Button } from '@/components/Button/button';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/Calendar/calendar';
@@ -31,7 +31,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/Command/command';
+} from '@/components/Command/Command';
 import { Textarea } from '@/components/TextArea/textarea';
 import { ImageSelector } from '@/components/ImageSelector/ImageSelector';
 import { useRouter } from 'next/navigation';

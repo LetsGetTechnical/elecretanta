@@ -1,24 +1,19 @@
-'use server';
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
 
-import { createClient } from './supabase/server';
-
-const getUserAvatar = async () => {
-  try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return null;
-    }
-
-    const avatarUrl = user.user_metadata.avatar_url;
-
-    return avatarUrl;
-  } catch (error) {
-    throw error;
-  }
+/**
+ * Asynchronously fetches the current user's avatar data (url) from the API.
+ * Sends a GET request to the '/api/getUserAvatar' endpoint and returns the
+ * parsed JSON response containing the user's avatar information (url).
+ * @returns {Promise<string>} - A promise that resolves to the user's avatar url.
+ */
+const getUserAvatar = async (): Promise<string> => {
+  const response = await fetch('api/getUserAvatar', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  const userAvatar = await response.json();
+  return userAvatar;
 };
 
 export default getUserAvatar;
