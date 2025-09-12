@@ -266,7 +266,7 @@ function Onboarding() {
           value={isSubmitted ? 100 : (currentStep / steps.length) * 100}
           className="my-4"
         />
-        <Card>
+        <Card data-testid="onboarding-card">
           <CardHeader>
             <CardTitle className="text-center text-2xl font-bold">
               {steps[currentStep].title}

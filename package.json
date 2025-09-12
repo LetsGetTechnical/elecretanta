@@ -33,6 +33,7 @@
     "cmdk": "^1.0.0",
     "cross-env": "^7.0.3",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.5.0",
     "eslint-plugin-jsdoc": "^50.6.6",
     "framer-motion": "^12.6.3",
     "lucide-react": "^0.464.0",
