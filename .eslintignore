@@ -54,6 +54,5 @@ components/SnowOverlayWrapper/react-snow-overlay.d.ts
 lib/drawGiftExchange.ts
 lib/generateAndStoreSuggestions.ts
 lib/getUserAvatar.ts
-lib/getUserAvatar.ts
 lib/supabase/middleware.ts
 lib/utils.ts
