@@ -52,7 +52,6 @@ components/Progress/progress.tsx
 components/Select/select.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 lib/drawGiftExchange.ts
-lib/generateAndStoreSuggestions.ts
 lib/getAmazonImage.ts
 lib/supabase/middleware.ts
 lib/utils.ts
