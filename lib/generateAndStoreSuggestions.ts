@@ -1,14 +1,26 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { SupabaseClient } from '@supabase/supabase-js';
 import { openai } from '../app/api/openaiConfig/config';
 import { getAmazonImage } from './getAmazonImage';
 
+/**
+ * Generates and store gift suggestions
+ * @param {SupabaseClient} supabase - The connection to user supabase data
+ * @param {string} exchangeId - The exchange Id
+ * @param {string} giverId - The id for gift giver
+ * @param {string} recipientId - The id for gift reciever
+ * @param {number} budget - The price range for exchange
+ * @returns {object} - The response status
+ */
 export async function generateAndStoreSuggestions(
   supabase: SupabaseClient,
   exchangeId: string,
   giverId: string,
   recipientId: string,
   budget: number,
-) {
+): Promise<{ success: boolean }> {
   // Get recipient's profile
   const { data: recipientProfile, error: profileError } = await supabase
     .from('profiles')
@@ -28,9 +40,7 @@ export async function generateAndStoreSuggestions(
     - Age Group: ${recipientProfile.age_group || 'Not specified'}
     - Hobbies: ${recipientProfile.hobbies || 'Not specified'}
     - Things to Avoid: ${recipientProfile.avoid || 'None specified'}
-    - Categories of Interest: ${
-      recipientProfile.categories?.join(', ') || 'Not specified'
-    }
+    - Categories of Interest: ${recipientProfile.categories?.join(', ') || 'Not specified'}
     
     Preference Scales (0-100):
     - Practical vs Whimsical: ${recipientProfile.practical_whimsical}
@@ -92,7 +102,6 @@ export async function generateAndStoreSuggestions(
         imageUrl: amazonData.imageUrl || null,
       };
 
-      console.log('Cleaned suggestion:', cleanSuggestion);
       const { error: suggestionError } = await supabase
         .from('gift_suggestions')
         .insert({
