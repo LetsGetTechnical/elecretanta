@@ -8,7 +8,7 @@ import { ToastVariants } from './Toast.enum';
 const renderToast = (props = {}) =>
   render(
     <ToastProvider>
-      <Toast open={true} {...props} />
+      <Toast {...props} />
       <ToastViewport />
     </ToastProvider>
   )
@@ -39,5 +39,17 @@ describe('Toast', () => {
     renderToast({ variant });
     const toast = screen.getByTestId('toast');
     classes.forEach((classStyle) => expect(toast).toHaveClass(classStyle))
+  })
+
+  it('renders the children content within Toast', () => {
+    render(
+      <ToastProvider>
+        <Toast>children</Toast>
+        <ToastViewport/>
+      </ToastProvider>
+    )
+
+    const toast = screen.getByTestId('toast');
+    expect(toast).toHaveTextContent('children');
   })
 });
