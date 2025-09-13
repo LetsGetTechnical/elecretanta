@@ -21,7 +21,6 @@ const PopoverContent = React.forwardRef<
   <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       ref={ref}
-      // data-testid="popover"
       align={align}
       sideOffset={sideOffset}
       className={cn(
