@@ -7,6 +7,17 @@ import { render, screen } from '@testing-library/react';
 import { Select, SelectGroup, SelectValue } from '@/components/Select';
 import * as SelectPrimitive from '@radix-ui/react-select';
 
+// Mock Underlying Radix UI Select components
+jest.mock('@radix-ui/react-select', () => {
+  const originalModule = jest.requireActual('@radix-ui/react-select');
+  return {
+    ...originalModule,
+    Root: jest.fn((props) => <div data-testid="select-root" {...props} />),
+    Group: jest.fn((props) =>  <div role="group" {...props} />),
+    Value: jest.fn((props) => <div  {...props} />),
+  };
+});
+
 describe('Select Components', () => {
   describe('Select', () => {
     it('renders Select component using Radix UI Root', () => {
