@@ -4,7 +4,7 @@
 'use client';
 
 import NavLogo from '../NavLogo/NavLogo';
-import SnowOverlayToggle from '../SnowOverlayToggle/SnowOverlayToggle';
+import { SnowOverlayToggle } from '../SnowOverlayToggle/SnowOverlayToggle';
 import { cn } from '@/lib/utils';
 import UserDropdownMenu from '../UserDropdownMenu/UserDropdownMenu';
 import { usePathname } from 'next/navigation';
