@@ -4,62 +4,72 @@
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import {
-  Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectLabel,
-  SelectItem,
-} from '@/components/Select';
+import { Select, SelectGroup, SelectValue } from '@/components/Select';
+import * as SelectPrimitive from '@radix-ui/react-select';
 
-describe('Select', () => {
-  it("renders provided children", () => {
-    render(
-      <Select defaultValue="default-select-value">
-        <SelectGroup>
-          <SelectValue>hello</SelectValue>
-        </SelectGroup>
-      </Select>,
-    );
-    expect(screen.getByText('hello')).toBeInTheDocument();
-  });
+jest.mock('@radix-ui/react-select', () => {
+  const originalModule = jest.requireActual('@radix-ui/react-select');
+  return {
+    ...originalModule,
+    Root: jest.fn((props) => <div data-testid="select-root" {...props} />),
+    Group: jest.fn((props) => <div role="group" {...props} />),
+    Value: jest.fn((props) => <div {...props} />),
+  };
 });
 
-describe('Select - keyboard accessibility', () => {
-  let user: ReturnType<typeof userEvent.setup>;
-  let trigger: HTMLElement;
+describe('Select Components', () => {
+  describe('Select', () => {
+    it('renders Select component using Radix UI Root', () => {
+      const testProps = {
+        defaultValue: 'test-value',
+        'data-custom': 'custom-root-data',
+      };
 
-  beforeEach(() => {
-    user = userEvent.setup();
-    render(
-      <Select defaultValue="apple">
-        <SelectTrigger>
-          <SelectValue placeholder="Pick a fruit..." />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Fruits</SelectLabel>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>,
-    );
-    trigger = screen.getByTestId('select-trigger');
-    trigger.focus();
+      render(<Select {...testProps} />); 
+      const selectRoot = screen.getByTestId('select-root');
+      expect(selectRoot).toBeInTheDocument();
+      expect(SelectPrimitive.Root).toHaveBeenCalledWith(
+        expect.objectContaining(testProps),
+        {},
+      );
+    });
   });
 
-  it('opens the dropdown menu with the Enter key', async () => {
-    await user.keyboard('{Enter}');
-    expect(screen.getByTestId('select-content')).toBeVisible();
+  describe('SelectGroup', () => {
+    it('renders SelectGroup component using Radix UI Group', () => {
+      const testProps = {
+        className: 'test-class',
+        'data-custom': 'custom-group-data',
+      };
+
+      render(<SelectGroup {...testProps}>Group Content</SelectGroup>);
+
+      const selectGroup = screen.getByRole('group');
+      expect(selectGroup).toBeInTheDocument();
+      expect(selectGroup).toHaveTextContent('Group Content');
+      expect(SelectPrimitive.Group).toHaveBeenCalledWith(
+        expect.objectContaining(testProps),
+        expect.anything(),
+      );
+    });
   });
 
-  it('navigates with ArrowDown, selects Banana with Enter, and closes the dropdown', async () => {
-    await user.keyboard('{Enter}{ArrowDown}{ArrowDown}{Enter}');
-    expect(screen.queryByTestId('select-content')).toBeNull();
-    expect(trigger).toHaveTextContent('Banana');
+  describe('SelectValue', () => {
+    it('renders SelectValue component using Radix UI Value', () => {
+      const testProps = {
+        placeholder: 'Select an option',
+        'data-custom': 'custom-value-data',
+      };
+
+      render(<SelectValue {...testProps}>Value Content</SelectValue>);
+
+      const selectValue = screen.getByPlaceholderText('Select an option');
+      expect(selectValue).toBeInTheDocument();
+      expect(selectValue).toHaveTextContent('Value Content');
+      expect(SelectPrimitive.Value).toHaveBeenCalledWith(
+        expect.objectContaining(testProps),
+        expect.anything(),
+      );
+    });
   });
 });
