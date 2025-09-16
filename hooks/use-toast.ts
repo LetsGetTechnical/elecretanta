@@ -9,7 +9,7 @@ import * as React from "react"
 import type { ToastActionElement } from "@/components/ToastAction/ToastAction"
 import type { ToastProps } from "@/components/Toast/Toast"
 
-const TOAST_LIMIT = 1
+const TOAST_LIMIT = 5
 const TOAST_REMOVE_DELAY = 1000000
 
 type ToasterToast = ToastProps & {
@@ -17,6 +17,7 @@ type ToasterToast = ToastProps & {
   title?: React.ReactNode
   description?: React.ReactNode
   action?: ToastActionElement
+  group?: string;
 }
 
 const actionTypes = {
@@ -78,6 +79,13 @@ const addToRemoveQueue = (toastId: string) => {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TOAST":
+      const isDuplicate = state.toasts.some(
+        (toast) => toast.title === action.toast.title && toast.description === action.toast.description);
+
+      if(isDuplicate){
+        return state;
+      }
+
       return {
         ...state,
         toasts: [action.toast, ...state.toasts].slice(0, TOAST_LIMIT),

@@ -35,7 +35,7 @@ const Toaster = (): JSX.Element => {
           </Toast>
         )
       })}
-      <ToastViewport />
+      <ToastViewport className="flex flex-col gap-2"/>
     </ToastProvider>
   )
 }
