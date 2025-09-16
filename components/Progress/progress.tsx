@@ -9,12 +9,12 @@ import * as ProgressPrimitive from '@radix-ui/react-progress';
 import { cn } from '@/lib/utils';
 
 /**
- * A Progress Component with an indicator to represent the progress-to-overall ration.
+ * A Progress Component with an indicator to represent the progress-to-overall ratio.
  * @param {object} [props] - Props for the Progress component.
  * @param {string} [props.className] - Additional CSS classes for the Root element
  * @param {number} [props.value] - Progress value, expected range: 0 - 100
  * @param {string} [props.indicatorClassName] - Additional CSS classes for the Indicator element
- * @returns {Progress} - returns Progress component.
+ * @returns {React.ReactElement} - returns Progress component.
  */
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
