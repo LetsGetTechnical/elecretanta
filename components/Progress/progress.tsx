@@ -24,6 +24,7 @@ const Progress = React.forwardRef<
 >(({ className, value, indicatorClassName, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
+    aria-valuenow={value ?? undefined}
     className={cn(
       'relative h-2 w-full overflow-hidden rounded-full bg-primary/20',
       className,
@@ -32,7 +33,6 @@ const Progress = React.forwardRef<
   >
     <ProgressPrimitive.Indicator
       data-testid="progress-indicator"
-      data-value={value}
       className={cn(
         'h-full w-full flex-1 bg-[#E26969] transition-all rounded-full',
         indicatorClassName,
