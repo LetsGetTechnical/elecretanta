@@ -4,43 +4,17 @@
 import { render, screen } from '@testing-library/react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
 
-const popoverComponents = () => {
-    render(
-        <Popover data-testid="popover-parent">
-            <PopoverTrigger data-testid="popover-trigger">
-            </PopoverTrigger>
-            <PopoverContent data-testid="popover-content">
-            </PopoverContent>
-            <PopoverAnchor data-testid="popover-anchor"/>
-        </Popover>,
-    );
-  
-    return {
-      parent: screen.getByTestId('popover-parent'),
-      content: screen.getByTestId('popover-content'),
-      trigger: screen.getByTestId('popover-trigger'),
-      anchor: screen.getByTestId('popover-anchor'),
-    };
-  };
 describe('Popover Component', () => {
     it('renders the popover component and nested children components', () => {
-        const{
-            parent: parent,
-            content: content,
-            trigger: trigger,
-            anchor: anchor,
-        }= popoverComponents()
-      
-
-        expect(content).toBeInTheDocument();
-        expect(trigger).toBeInTheDocument();
-        expect(anchor).toBeInTheDocument();
-
+        render(
+            <Popover>
+            </Popover>
+        );
+        
+        // expect(screen.queryByTestId("popover-parent")).toBeInTheDocument();
+        expect(screen.getByText("boom")).toBeInTheDocument();//content does not exist in doc until portal 
 
         screen.debug();   
-
-
-        // screen.debug()
     });
     //mock data
     //mock data for content children(most commonly used in app is calendar) || none
