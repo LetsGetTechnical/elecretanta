@@ -10,9 +10,10 @@ import { getAmazonImage } from './getAmazonImage';
  * @param {SupabaseClient} supabase - The connection to user supabase data
  * @param {string} exchangeId - The exchange Id
  * @param {string} giverId - The id for gift giver
- * @param {string} recipientId - The id for gift reciever
+ * @param {string} recipientId - The id for gift receiver
  * @param {number} budget - The price range for exchange
  * @returns {object} - The response status
+ * @throws {Error} - If it fails to provide gift suggestions
  */
 export async function generateAndStoreSuggestions(
   supabase: SupabaseClient,
