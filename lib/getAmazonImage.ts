@@ -4,7 +4,8 @@
 /**
  * Amazon Image
  * @param {string} title - The title of the search item
- * @returns {object} - The image url and response status
+ * @returns {Promise<{ imageUrl: string | null, success: boolean }>
+} - The image url and response status
  */
 export const getAmazonImage = async (title: string): Promise<{ imageUrl: string | null, success: boolean }> => {
   const API_KEY = process.env.GOOGLE_API_KEY;
