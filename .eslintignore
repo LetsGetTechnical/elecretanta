@@ -49,12 +49,9 @@ components/MultiSelect/multi-select-input.tsx
 components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
 components/Select/select.tsx
-components/SnowOverlayToggle/SnowOverlayToggle.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 lib/drawGiftExchange.ts
 lib/generateAndStoreSuggestions.ts
 lib/getAmazonImage.ts
-lib/getUserAvatar.ts
-lib/getUserAvatar.ts
 lib/supabase/middleware.ts
 lib/utils.ts
