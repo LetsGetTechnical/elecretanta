@@ -11,7 +11,7 @@ describe('Popover Component', () => {
             </Popover>
         );
         
-        // expect(screen.queryByTestId("popover-parent")).toBeInTheDocument();
+        expect(screen.getByTestId("popover-parent")).toBeInTheDocument();
         expect(screen.getByText("boom")).toBeInTheDocument();//content does not exist in doc until portal 
 
         screen.debug();   
