@@ -11,10 +11,12 @@ import { cn } from '@/lib/utils';
 const Popover = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>
-  >(()=>(
+  >(({ ...props }, ref)=>(
   <PopoverPrimitive.Root
+  // ref={ref}
   data-testid="popover-parent"
-    >boom</PopoverPrimitive.Root>
+  {...props}
+  >boom</PopoverPrimitive.Root>
   ))
 
 const PopoverTrigger =  React.forwardRef<
