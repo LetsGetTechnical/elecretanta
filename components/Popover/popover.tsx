@@ -8,41 +8,31 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
 
-const Popover = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>
-  >(({ ...props }, ref)=>(
-  <PopoverPrimitive.Root
-  // ref={ref}
-  data-testid="popover-parent"
+const Popover = PopoverPrimitive.Root
+
+
+
+const PopoverTrigger =  ({...props})=>{
+  return <PopoverPrimitive.Trigger
   {...props}
-  >boom</PopoverPrimitive.Root>
-  ))
-
-const PopoverTrigger =  React.forwardRef<
-  React.ElementRef< typeof PopoverPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>
-  >(()=>(
-  <PopoverPrimitive.Trigger
   data-testid="popover-trigger"
-    ></PopoverPrimitive.Trigger>
-  ))
+  />
+} 
 
-const PopoverAnchor = 
-React.forwardRef<
-  React.ElementRef< typeof PopoverPrimitive.Anchor>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>
-  >(()=>(
-  <PopoverPrimitive.Anchor
+const PopoverAnchor = ({...props})=>{
+  return <PopoverPrimitive.Anchor
+  {...props}
   data-testid="popover-anchor"
-    ></PopoverPrimitive.Anchor>
-  ))
+  />
+} 
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
 >(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
+  <PopoverPrimitive.Portal
+  data-testid="popover-content"
+  >
     <PopoverPrimitive.Content
       ref={ref}
       align={align}
