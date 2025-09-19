@@ -34,7 +34,8 @@ const GiftDetailsView = ({
 
   const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
-    return `https://www.amazon.com/s?k=${encodedSearch}`;
+
+    return `https://www.amazon.com/s?k=${encodedSearch}&tag=${process.env.NEXT_PUBLIC_AMAZON_AFFILIATE_TAG}`;
   };
 
   return (
