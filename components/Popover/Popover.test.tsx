@@ -3,35 +3,83 @@
 
 import { render, screen } from '@testing-library/react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
+import userEvent from '@testing-library/user-event'
 
 describe('Popover Component', () => {
     //use before each so I do not have rerender
-    beforeAll(()=>{
-        render(
-            <Popover>
-                <PopoverTrigger>
-                </PopoverTrigger>
-                <PopoverContent>
-                    {/* when you write the test just test that its opening and showing content */}
-                </PopoverContent>
-                <PopoverAnchor/>
-            </Popover>
-           
-        );
+    describe('Popover Component without Mock Data', () => {
+        beforeEach(() => {
+            render(
+                <Popover>
+                    <PopoverTrigger>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        {/* when you write the test just test that its opening and showing content */}
+                    </PopoverContent>
+                    <PopoverAnchor />
+                </Popover>
+
+            );
+        })
+        const user = userEvent.setup()
+        it('renders the popover component and nested children components', () => {
+            expect(screen.getByTestId("popover-trigger")).toBeInTheDocument();
+            expect(screen.getByTestId("popover-anchor")).toBeInTheDocument();
+        });
+        it('popover opens when content is empty', async() => {
+            await user.click(screen.getByTestId("popover-trigger"))
+            expect(screen.getByTestId("popover-content")).toBeInTheDocument();
+        });
     })
-    it('renders the popover component and nested children components', () => {
-        expect(screen.getByTestId("popover-trigger")).toBeInTheDocument();
-        expect(screen.getByTestId("popover-anchor")).toBeInTheDocument();
-        screen.debug();   
+    describe('Popover Component with Mock Data', () => {
+        beforeEach(() => {
+            render(
+                <Popover>
+                    <PopoverTrigger>
+                        button
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        Content Here
+                        {/* when you write the test just test that its opening and showing content */}
+                    </PopoverContent>
+                    <PopoverAnchor />
+                </Popover>
+            );
+        })
+        const user = userEvent.setup()
+        it('renders content inside of trigger component', () => {
+            expect(screen.getByText("button")).toBeInTheDocument();
+        })
+        it('when popover is closed, content is not visible', ()=>{
+            expect(screen.queryByText("Content Here")).not.toBeInTheDocument();
+        })
+        it('trigger is rendered when popover is open', () => {
+            expect(screen.getByText("button")).toBeInTheDocument();
+        })
+        it('Content renders when popover is opened', async () => {
+            await user.click(screen.getByText('button'))
+            expect(screen.queryByText("Content Here")).toBeInTheDocument();
+        })
+        it('Content not visible when popover is opened then closed', async () => {
+            await user.click(screen.getByText('button'))
+            expect(screen.queryByText("Content Here")).toBeInTheDocument();
+
+            await user.click(screen.getByText('button'))
+            expect(screen.queryByText("Content Here")).not.toBeInTheDocument();
+        })
+
     });
-    it('', () => {
-    });
+
+
+    // it('render empty components when nothing is passed through', () => {
+    // });
+
     //mock data
     //mock data for content children(most commonly used in app is calendar) || none
-        //not for none
+    //not for none
     //mock data for trigger children || none
-        //.not. for none
-        //queryByTest() is better for null
+    //.not. for none
+    //queryByTest() is better for null
     //----
     //confirm trigger exists in document when popover is open
     //confirm trigger exists in doc when popover is closed

@@ -10,29 +10,25 @@ import { cn } from '@/lib/utils';
 
 const Popover = PopoverPrimitive.Root
 
-
-
-const PopoverTrigger =  ({...props})=>{
+const PopoverTrigger = ({ ...props }) => {
   return <PopoverPrimitive.Trigger
-  {...props}
-  data-testid="popover-trigger"
+    {...props}
+    data-testid="popover-trigger"
   />
-} 
+}
 
-const PopoverAnchor = ({...props})=>{
+const PopoverAnchor = ({ ...props }) => {
   return <PopoverPrimitive.Anchor
-  {...props}
-  data-testid="popover-anchor"
+    {...props}
+    data-testid="popover-anchor"
   />
-} 
+}
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
 >(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
-  <PopoverPrimitive.Portal
-  data-testid="popover-content"
-  >
+  <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       ref={ref}
       align={align}
@@ -42,6 +38,7 @@ const PopoverContent = React.forwardRef<
         className,
       )}
       {...props}
+      data-testid="popover-content"
     >
     </PopoverPrimitive.Content>
   </PopoverPrimitive.Portal>
