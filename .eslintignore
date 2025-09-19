@@ -51,6 +51,5 @@ components/ProfileCard/ProfileCard.tsx
 components/Select/select.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 lib/drawGiftExchange.ts
-lib/getAmazonImage.ts
 lib/supabase/middleware.ts
 lib/utils.ts
