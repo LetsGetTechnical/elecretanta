@@ -5,20 +5,33 @@ import { render, screen } from '@testing-library/react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
 
 describe('Popover Component', () => {
-    it('renders the popover component and nested children components', () => {
+    //use before each so I do not have rerender
+    beforeAll(()=>{
         render(
             <Popover>
+                <PopoverTrigger>
+                </PopoverTrigger>
+                <PopoverContent>
+                    {/* when you write the test just test that its opening and showing content */}
+                </PopoverContent>
+                <PopoverAnchor/>
             </Popover>
+           
         );
-        
-        expect(screen.getByTestId("popover-parent")).toBeInTheDocument();
-        expect(screen.getByText("boom")).toBeInTheDocument();//content does not exist in doc until portal 
-
+    })
+    it('renders the popover component and nested children components', () => {
+        expect(screen.getByTestId("popover-trigger")).toBeInTheDocument();
+        expect(screen.getByTestId("popover-anchor")).toBeInTheDocument();
         screen.debug();   
+    });
+    it('', () => {
     });
     //mock data
     //mock data for content children(most commonly used in app is calendar) || none
+        //not for none
     //mock data for trigger children || none
+        //.not. for none
+        //queryByTest() is better for null
     //----
     //confirm trigger exists in document when popover is open
     //confirm trigger exists in doc when popover is closed
@@ -33,10 +46,10 @@ describe('Popover Component', () => {
     //-------
 
 
-    //check content with and without main props passed(align, offset)*
+    //check content with and without main props passed(align, offset, className)*
     //test when content has children comp and when it does not(why? to make sure app does not break when children comp dont load)
     //test when trigger has children comp and when it does not(why? to make sure app does not break when children comp dont load)
-    //(linked to one below)test the content is always beside trigger(believe its apart of comp functionality*)
+    //++(linked to one below)test the content is always beside trigger(believe its apart of comp functionality*)
     //if anchor exist confirm its positioned beside content
 
     //test the if the child comp of popover exist they are nested inside of popover
@@ -46,4 +59,3 @@ describe('Popover Component', () => {
 
 })
 
-//Testing if the popover opens(displays content), closes(hide content),
