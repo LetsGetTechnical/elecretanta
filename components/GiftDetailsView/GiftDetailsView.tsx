@@ -42,12 +42,14 @@ const GiftDetailsView = ({
     return `https://www.amazon.com/s?k=${encodedSearch}&tag=${process.env.NEXT_PUBLIC_AMAZON_AFFILIATE_TAG}`;
   };
 
+  const showImage = gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError;
+
   return (
     <>
       <div className="relative w-full h-40 bg-white rounded-t-md">
-        {gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError ? (
+        {showImage ? (
           <img
-            src={gift.imageUrl}
+            src={gift.imageUrl ? gift.imageUrl : ''}
             alt={gift.title}
             className="w-full h-full object-contain p-2"
             onError={handleImageError}
