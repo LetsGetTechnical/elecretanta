@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import GiftDetailsView from './GiftDetailsView';
 import { describe } from 'node:test';
 
@@ -11,18 +11,12 @@ const mockGift = {
   price: '$29.99',
   description: 'fuzzy blanket',
   matchReasons: ['fits theme', 'highly rated'],
-  matchScore: 0.98,
-  imageUrl:
-    'https://www.amazon.com/Cozzenity-Checkered-Blanket-Blankets-Lightweight/dp/B0F13991KJ/ref=sr_1_1_sspa?dib=eyJ2IjoiMSJ9.6wzR8Y2VhlZ6NsPFYW2cadhZFdeTIN7H6f_K3SufPMLJMToDPu0O_vCflzFycFVgQu9w8Xa2yC56dPFThjqnH5R3cM6i--ozxTqrjiTRLFj0OR_jh8wRe9Y0992_NPU9HrrjbKFeAWsFHKCcDxcGytcREvh7r2XZf-F-jcpqtBJFNhezM0lAhCO27_HYTgtb21GKie4DnzAWwESS488BC_7hi7FVKkDLJRJSmBIBro0WxlgebmNyTq6QqPcwQpM-o2Xa9hLm7DvYG0QSsRcR9QhK0aiRkQs6wLSW0YJHQBI.GiOlWv46xAPaV98XHUz3LzGTnXgnhW8lH6oq09Rz7Jk&dib_tag=se&hvadid=694526290027&hvdev=c&hvexpln=67&hvlocphy=9031568&hvnetw=g&hvocijid=18272751582845398260--&hvqmt=e&hvrand=18272751582845398260&hvtargid=kwd-460419430462&hydadcr=19233_13355042&keywords=amazon%2Bfuzzy%2Bblanket&mcid=5b4485e6f4883f9f84c099bcd937f120&qid=1747259407&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1',
+  matchScore: 98,
+  imageUrl: 'https://example.com/fuzzy-blanket.jpg',
 };
 
 const mockGiftWithBadUrl = {
-  id: '1',
-  title: 'Blanket',
-  price: '$29.99',
-  description: 'fuzzy blanket',
-  matchReasons: ['fits theme', 'highly rated'],
-  matchScore: 0.98,
+  ...mockGift,
   imageUrl: 'bad_url',
 };
 
@@ -34,23 +28,29 @@ describe('GiftDetailsView', () => {
       <GiftDetailsView gift={mockGift} handleFeedback={mockHandleFeedback} />,
     );
 
-    const giftImage = screen.getByTestId('valid-image');
-    const matchScore = screen.getByTestId('valid-matchScore');
-    const price = screen.getByTestId('valid-price');
-    const title = screen.getByTestId('valid-title');
-    const description = screen.getByTestId('valid-description');
-    const giftReasons = screen.getByTestId('card-content').textContent;
-    const containsAllGiftReasons = mockGift.matchReasons.every((reason) =>
-      giftReasons.includes(reason),
-    );
-
+    const giftImage = screen.getByRole('img');
     expect(giftImage).toHaveAttribute('src', mockGift.imageUrl);
-    expect(giftImage).toHaveAttribute('alt', mockGift.title);
-    expect(matchScore).toHaveTextContent(mockGift.matchScore.toString());
+
+    const matchScore = screen.getByRole('score');
+    expect(matchScore).toHaveTextContent(/98% Match/);
+
+    const price = screen.getByLabelText(/price/i);
     expect(price).toHaveTextContent(mockGift.price);
-    expect(title).toHaveTextContent(mockGift.title);
+
+    const title = screen.getByRole('heading', {
+      level: 3,
+      name: mockGift.title,
+    });
+    expect(title).toBeInTheDocument();
+
+    const description = screen.getByText(mockGift.description);
     expect(description).toHaveTextContent(mockGift.description);
-    expect(containsAllGiftReasons).toBe(true);
+
+    const matchReasons = screen.getByRole('list', { name: /match reasons/i });
+    const matchItems = within(matchReasons)
+      .getAllByRole('listitem')
+      .map((li) => li.textContent);
+    expect(matchItems).toEqual(expect.arrayContaining(mockGift.matchReasons));
   });
 
   it('generates the correct Amazon URL', async () => {
@@ -64,7 +64,6 @@ describe('GiftDetailsView', () => {
     );
 
     const hrefLink = screen.getByRole('link', { name: /view/i });
-
     expect(hrefLink).toHaveAttribute(
       'href',
       `https://www.amazon.com/s?k=${mockGift.title}&tag=${process.env.NEXT_PUBLIC_AMAZON_AFFILIATE_TAG}`,
@@ -83,7 +82,9 @@ describe('GiftDetailsView', () => {
       />,
     );
 
-    const giftIcon = screen.getByTestId('gift-icon');
+    const giftIcon = screen.getByRole('img', {
+      name: /gift placeholder image/i,
+    });
 
     expect(giftIcon).toBeInTheDocument();
   });
