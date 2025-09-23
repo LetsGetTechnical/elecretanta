@@ -94,10 +94,7 @@ const GiftDetailsView = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0 m-2 w-72 h-20 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
-        <ul
-          aria-label="match reasons"
-          className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1"
-        >
+        <ul className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1">
           {gift.matchReasons.map((reason, index) => (
             <li key={index}>{reason}</li>
           ))}

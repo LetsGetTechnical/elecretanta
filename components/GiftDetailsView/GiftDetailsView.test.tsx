@@ -46,7 +46,7 @@ describe('GiftDetailsView', () => {
     const description = screen.getByText(mockGift.description);
     expect(description).toHaveTextContent(mockGift.description);
 
-    const matchReasons = screen.getByRole('list', { name: /match reasons/i });
+    const matchReasons = screen.getByRole('list');
     const matchItems = within(matchReasons)
       .getAllByRole('listitem')
       .map((li) => li.textContent);
