@@ -67,36 +67,37 @@ const GiftDetailsView = ({
 
         <div className="absolute top-2 left-2 right-2 flex justify-between items-center">
           <div
-            data-testid="valid-matchScore"
+            role="score"
+            aria-label="match score"
             className="text-xs px-3 py-1 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-full shadow-sm"
           >
             {matchScore}
           </div>
-          <div
-            data-testid="valid-price"
+          <data
+            value={gift.price}
+            aria-label="price"
             className="px-3 py-1 font-semibold text-giftSuggestionDarkGreen bg-white/90 rounded-full shadow-sm"
           >
             {gift.price}
-          </div>
+          </data>
         </div>
       </div>
 
       <CardHeader className="p-0 mx-4">
-        <CardTitle
-          data-testid="valid-title"
-          className="text-base font-bold text-giftSuggestionDarkGreen"
-        >
-          {gift.title}
+        <CardTitle>
+          <h3 className="text-base font-bold text-giftSuggestionDarkGreen">
+            {gift.title}
+          </h3>
         </CardTitle>
-        <CardDescription
-          data-testid="valid-description"
-          className="text-sm text-giftSuggestionTextLightGreen"
-        >
+        <CardDescription className="text-sm text-giftSuggestionTextLightGreen">
           {gift.description}
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0 m-2 w-72 h-20 flex items-center bg-GiftSuggestionLightGreenBackground rounded-md">
-        <ul className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1">
+        <ul
+          aria-label="match reasons"
+          className="text-xs list-disc list-inside w-full text-giftSuggestionDarkGreen ml-2 flex flex-col gap-1"
+        >
           {gift.matchReasons.map((reason, index) => (
             <li key={index}>{reason}</li>
           ))}
