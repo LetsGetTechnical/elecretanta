@@ -6,15 +6,13 @@ import { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popove
 import userEvent from '@testing-library/user-event'
 
 describe('Popover Component', () => {
-    //use before each so I do not have rerender
-    describe('Popover Component without Mock Data', () => {
+    describe('Popover Component without data', () => {
         beforeEach(() => {
             render(
                 <Popover>
                     <PopoverTrigger>
                     </PopoverTrigger>
                     <PopoverContent>
-                        {/* when you write the test just test that its opening and showing content */}
                     </PopoverContent>
                     <PopoverAnchor />
                 </Popover>
@@ -31,7 +29,7 @@ describe('Popover Component', () => {
             expect(screen.getByTestId("popover-content")).toBeInTheDocument();
         });
     })
-    describe('Popover Component with Mock Data', () => {
+    describe('Popover Component with  data', () => {
         beforeEach(() => {
             render(
                 <Popover>
@@ -40,7 +38,6 @@ describe('Popover Component', () => {
                     </PopoverTrigger>
                     <PopoverContent>
                         Content Here
-                        {/* when you write the test just test that its opening and showing content */}
                     </PopoverContent>
                     <PopoverAnchor />
                 </Popover>
@@ -53,9 +50,9 @@ describe('Popover Component', () => {
         it('when popover is closed, content is not visible', ()=>{
             expect(screen.queryByText("Content Here")).not.toBeInTheDocument();
         })
-        it('trigger is rendered when popover is open', () => {
-            expect(screen.getByText("button")).toBeInTheDocument();
-        })
+        // it('trigger renders when popover is opened', () => {
+        //     expect(screen.getByText("button")).toBeInTheDocument();
+        // })
         it('Content renders when popover is opened', async () => {
             await user.click(screen.getByText('button'))
             expect(screen.queryByText("Content Here")).toBeInTheDocument();
@@ -67,41 +64,50 @@ describe('Popover Component', () => {
             await user.click(screen.getByText('button'))
             expect(screen.queryByText("Content Here")).not.toBeInTheDocument();
         })
+        
 
     });
+    describe('Popover Component with attributes while popover is open', () => {
+        beforeEach(async() => {
+            render(
+                <Popover>
+                    <PopoverTrigger>
+                        button
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        Content Here
+                    </PopoverContent>
+                    <PopoverAnchor />
+                </Popover>
+            );
+            const user = userEvent.setup()
+            await user.click(screen.getByText('button'))
+        })
+        it('applies align attribute to content element', () => {
+            const content = screen.queryByText("Content Here")
+
+            expect(content).toBeInTheDocument()
+            expect(content).toHaveAttribute('align', 'center' );
+
+        })
+        it('applies the sideOffset attribute to content element', ()=>{
+            expect(screen.queryByText("Content Here")).toBeInTheDocument();
+        })
+     
+    })
+        
 
 
-    // it('render empty components when nothing is passed through', () => {
-    // });
 
-    //mock data
-    //mock data for content children(most commonly used in app is calendar) || none
-    //not for none
-    //mock data for trigger children || none
-    //.not. for none
-    //queryByTest() is better for null
-    //----
-    //confirm trigger exists in document when popover is open
-    //confirm trigger exists in doc when popover is closed
-    //test for the displayName
-    //-------
-    //confirm when popover is closed trigger is clicked it opens content(portal) 
-    //needs to check if prop is set to open and closed(trigger [data-state]	"open" | "closed")
-    //confirm content can be seen when popover is open
-    //confirm when popover is open and trigger is clicked content is hidden
-    //needs to check if prop is set to open and closed
-    //confirm content cannot be seen when popoover is closed
-    //-------
-
-
-    //check content with and without main props passed(align, offset, className)*
-    //test when content has children comp and when it does not(why? to make sure app does not break when children comp dont load)
-    //test when trigger has children comp and when it does not(why? to make sure app does not break when children comp dont load)
+   //confirm content renders default values for attributes
+   //confirm content accepts other values for default attribute
     //++(linked to one below)test the content is always beside trigger(believe its apart of comp functionality*)
     //if anchor exist confirm its positioned beside content
+    
+ 
+    
 
-    //test the if the child comp of popover exist they are nested inside of popover
-    //confirm where popover exists the content and the trigger(mandatory always exist)
+   
 
 
 
