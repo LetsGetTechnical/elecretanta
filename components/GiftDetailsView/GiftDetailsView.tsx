@@ -43,6 +43,7 @@ const GiftDetailsView = ({
   };
 
   const showImage = gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError;
+  const matchScore = `${gift.matchScore}% Match`;
 
   return (
     <>
@@ -69,7 +70,7 @@ const GiftDetailsView = ({
             data-testid="valid-matchScore"
             className="text-xs px-3 py-1 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-full shadow-sm"
           >
-            {gift.matchScore}% Match
+            {matchScore}
           </div>
           <div
             data-testid="valid-price"
