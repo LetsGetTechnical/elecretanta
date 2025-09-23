@@ -50,7 +50,7 @@ const GiftDetailsView = ({
       <div className="relative w-full h-40 bg-white rounded-t-md">
         {showImage ? (
           <img
-            src={gift.imageUrl ? gift.imageUrl : ''}
+            src={gift.imageUrl || ''}
             alt={gift.title}
             className="w-full h-full object-contain p-2"
             onError={handleImageError}
