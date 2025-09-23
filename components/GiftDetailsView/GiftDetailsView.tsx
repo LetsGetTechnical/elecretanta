@@ -6,7 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from '../Card/Card';
-import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
+import {
+  SquareArrowOutUpRight,
+  ThumbsDown,
+  Gift as GiftIcon,
+} from 'lucide-react';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback } from 'react';
 
@@ -47,11 +51,14 @@ const GiftDetailsView = ({
             alt={gift.title}
             className="w-full h-full object-contain p-2"
             onError={handleImageError}
-            data-testid="valid-image"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Gift className="w-16 h-16 text-gray-300" data-testid="gift-icon" />
+            <GiftIcon
+              role="img"
+              className="w-16 h-16 text-gray-300"
+              aria-label="gift placeholder image"
+            />
           </div>
         )}
 
