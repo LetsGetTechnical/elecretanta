@@ -8,22 +8,34 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
 
-const Popover = PopoverPrimitive.Root
+const Popover = PopoverPrimitive.Root;
 
-const PopoverTrigger = ({ ...props }) => {
-  return <PopoverPrimitive.Trigger
-    {...props}
-    data-testid="popover-trigger"
-  />
-}
+/**
+ * The Popoover Trigger component.
+ * @param {object} props - The props passed.
+ * @returns {React.JSX.Element} - The popover trigger component.
+ */
+const PopoverTrigger = ({ ...props }): React.JSX.Element => {
+  return <PopoverPrimitive.Trigger {...props} data-testid="popover-trigger" />;
+};
 
-const PopoverAnchor = ({ ...props }) => {
-  return <PopoverPrimitive.Anchor
-    {...props}
-    data-testid="popover-anchor"
-  />
-}
+/**
+ * The Popoover Anchor component.
+ * @param {object} props - The props passed.
+ * @returns {React.JSX.Element} - The popover anchor component.
+ */
+const PopoverAnchor = ({ ...props }): React.JSX.Element => {
+  return <PopoverPrimitive.Anchor {...props} data-testid="popover-anchor" />;
+};
 
+/**
+ * The Popoover Content component.
+ * @param {object} props - The props passed.
+ * @param {string} props.className - The style for components.
+ * @param {number} sideOffset - The sideOffset default value.
+ * @param {string} align - The align default value.
+ * @returns {void} - No explict return value.
+ */
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
@@ -39,8 +51,7 @@ const PopoverContent = React.forwardRef<
       )}
       {...props}
       data-testid="popover-content"
-    >
-    </PopoverPrimitive.Content>
+    />
   </PopoverPrimitive.Portal>
 ));
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
