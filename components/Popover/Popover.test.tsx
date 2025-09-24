@@ -16,7 +16,6 @@ describe('Popover Component', () => {
                     </PopoverContent>
                     <PopoverAnchor />
                 </Popover>
-
             );
         })
         const user = userEvent.setup()
@@ -24,7 +23,7 @@ describe('Popover Component', () => {
             expect(screen.getByTestId("popover-trigger")).toBeInTheDocument();
             expect(screen.getByTestId("popover-anchor")).toBeInTheDocument();
         });
-        it('popover opens when content is empty', async() => {
+        it('popover opens when content is empty', async () => {
             await user.click(screen.getByTestId("popover-trigger"))
             expect(screen.getByTestId("popover-content")).toBeInTheDocument();
         });
@@ -47,12 +46,10 @@ describe('Popover Component', () => {
         it('renders content inside of trigger component', () => {
             expect(screen.getByText("button")).toBeInTheDocument();
         })
-        it('when popover is closed, content is not visible', ()=>{
+        it('when popover is closed, content is not visible', () => {
             expect(screen.queryByText("Content Here")).not.toBeInTheDocument();
         })
-        // it('trigger renders when popover is opened', () => {
-        //     expect(screen.getByText("button")).toBeInTheDocument();
-        // })
+       
         it('Content renders when popover is opened', async () => {
             await user.click(screen.getByText('button'))
             expect(screen.queryByText("Content Here")).toBeInTheDocument();
@@ -64,11 +61,9 @@ describe('Popover Component', () => {
             await user.click(screen.getByText('button'))
             expect(screen.queryByText("Content Here")).not.toBeInTheDocument();
         })
-        
-
     });
     describe('Popover Component with attributes while popover is open', () => {
-        beforeEach(async() => {
+        it('applies align attribute to content element', async () => {
             render(
                 <Popover>
                     <PopoverTrigger>
@@ -82,34 +77,27 @@ describe('Popover Component', () => {
             );
             const user = userEvent.setup()
             await user.click(screen.getByText('button'))
+            const content = screen.queryByTestId("popover-content")
+            expect(content).toHaveAttribute('data-align', 'center');
         })
-        it('applies align attribute to content element', () => {
-            const content = screen.queryByText("Content Here")
+        it('applies align attribute with different value than default to content element', async () => {
+            render(
+                <Popover>
+                    <PopoverTrigger>
+                        button
+                    </PopoverTrigger>
+                    <PopoverContent align="start">
+                        Content Here
+                    </PopoverContent>
+                    <PopoverAnchor />
+                </Popover>
+            );
+            const user = userEvent.setup()
+            await user.click(screen.getByText('button'))
 
-            expect(content).toBeInTheDocument()
-            expect(content).toHaveAttribute('align', 'center' );
-
+            const content = screen.queryByTestId("popover-content")
+            expect(content).toHaveAttribute('data-align', 'start');
         })
-        it('applies the sideOffset attribute to content element', ()=>{
-            expect(screen.queryByText("Content Here")).toBeInTheDocument();
-        })
-     
     })
-        
-
-
-
-   //confirm content renders default values for attributes
-   //confirm content accepts other values for default attribute
-    //++(linked to one below)test the content is always beside trigger(believe its apart of comp functionality*)
-    //if anchor exist confirm its positioned beside content
-    
- 
-    
-
-   
-
-
-
 })
 
