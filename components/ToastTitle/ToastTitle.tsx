@@ -10,6 +10,7 @@ const ToastTitle = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Title
+    data-testid="toastTitle"
     ref={ref}
     className={cn("text-sm font-semibold [&+div]:text-xs", className)}
     {...props}

@@ -1,6 +1,8 @@
 import { ToastProvider } from '@radix-ui/react-toast';
 import { ToastViewport } from './ToastViewport';
-import { getByTestId, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+
+// move toastViewport to the top since i call it every time? 
 
 const renderViewport = (props = {}) => (
     render(
@@ -18,7 +20,19 @@ describe('ToastViewport', () => {
 
     it('applies default classes', () => {
         renderViewport()
-        const viewport = screen.getByTestId('toastViewport');
-        expect(viewport).toHaveClass('fixed top-0 z-[100]', 'max-h-screen', 'sm:bottom-0')
+        const toastViewport = screen.getByTestId('toastViewport');
+        expect(toastViewport).toHaveClass('fixed top-0 z-[100]', 'max-h-screen', 'sm:bottom-0')
+    })
+
+    it('applies custom classNames', () => {
+        renderViewport({ className: "custom-class" });
+        const toastViewport = screen.getByTestId('toastViewport');
+        expect(toastViewport).toHaveClass('custom-class');
+    })
+
+    it('passes custom attributes', () => {
+        renderViewport({ "data-custom-attribute": "testValue" });
+        const toastViewport = screen.getByTestId('toastViewport');
+        expect(toastViewport).toHaveAttribute('data-custom-attribute', 'testValue')
     })
 })

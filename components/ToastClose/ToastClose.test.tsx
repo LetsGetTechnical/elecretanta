@@ -6,14 +6,14 @@ describe('ToastClose', () => {
   it('renders a button with a close icon', () => {
     render(<ToastClose />);
 
-    const closeButton = screen.getByTestId('closeButton')
-    expect(closeButton).toBeInTheDocument();
+    const toastClose = screen.getByTestId('toastClose');
+    expect(toastClose).toBeInTheDocument();
   });
 
   it("calls onClick when clicked", () => {
     const handleClick = jest.fn();
     render(<ToastClose onClick={handleClick} />);
-    fireEvent.click(screen.getByTestId("closeButton"));
+    fireEvent.click(screen.getByTestId('toastClose'));
     expect(handleClick).toHaveBeenCalled();
     });
 });
