@@ -19,7 +19,10 @@ type GroupCardProps = {
  */
 export const GroupCardSkeleton = (): JSX.Element => {
   return (
-    <div className="h-28 flex items-center p-4 rounded-xl bg-groupCardGreen animate-pulse">
+    <div
+      className="h-28 flex items-center p-4 rounded-xl bg-groupCardGreen animate-pulse"
+      data-testid="group-card-skeleton"
+    >
       <div className="h-16 w-16 lg:h-20 lg:w-20 rounded-xl bg-gray-600" />
       <div className="flex flex-col flex-grow justify-center h-full ml-4 gap-2">
         <div className="h-6 w-48 bg-gray-600 rounded" />
