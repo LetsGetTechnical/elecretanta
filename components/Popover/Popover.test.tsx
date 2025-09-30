@@ -22,6 +22,7 @@ describe('Popover Component', () => {
       );
     });
     const user = userEvent.setup();
+
     it('renders the popover component and nested children components', () => {
       const trigger = screen.getByTestId('popover-trigger');
       const anchor = screen.getByTestId('popover-anchor');
@@ -29,6 +30,7 @@ describe('Popover Component', () => {
       expect(trigger).toBeInTheDocument();
       expect(anchor).toBeInTheDocument();
     });
+
     it('popover opens when content is empty', async () => {
       await user.click(screen.getByTestId('popover-trigger'));
       const content = screen.getByTestId('popover-content');
@@ -36,7 +38,8 @@ describe('Popover Component', () => {
       expect(content).toBeInTheDocument();
     });
   });
-  describe('Popover Component with  data', () => {
+
+  describe('Popover Component with data', () => {
     beforeEach(() => {
       render(
         <Popover>
@@ -52,6 +55,7 @@ describe('Popover Component', () => {
 
       expect(trigger).toBeInTheDocument();
     });
+
     it('when popover is closed, content is not visible', () => {
       const content = screen.queryByText('Content Here');
 
@@ -65,6 +69,7 @@ describe('Popover Component', () => {
       const content = screen.queryByText('Content Here');
       expect(content).toBeVisible();
     });
+
     it('content not visible when popover is opened then closed', async () => {
       const button = screen.getByText('button');
       //opens popover
@@ -78,6 +83,7 @@ describe('Popover Component', () => {
       expect(screen.queryByText('Content Here')).not.toBeInTheDocument();
     });
   });
+
   describe('Popover Component with attributes while popover is open', () => {
     it('applies align attribute to content element', async () => {
       render(
@@ -95,6 +101,7 @@ describe('Popover Component', () => {
       const content = screen.queryByTestId('popover-content');
       expect(content).toHaveAttribute('data-align', 'center');
     });
+
     it('applies align attribute with different value than default to content element', async () => {
       render(
         <Popover>
