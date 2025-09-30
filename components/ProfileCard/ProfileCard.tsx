@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 'use client';
-import { JSX } from 'react'
+import { JSX } from 'react';
 import { Cake, CircleX, Compass, Heart, Pencil } from 'lucide-react';
 import { Progress } from '@/components/Progress/progress';
 import Avatar from '@/components/Avatar/Avatar';
@@ -20,10 +20,12 @@ interface ProfileCardProps {
  * @param {object} props - The function props.
  * @param {Profile} props.profile - The profile props are passed.
  * @param {boolean} props.showEditButton  - Option for edit button.
- * @returns {ProfileCardProps} - The details of user profile.
+ * @returns {JSX.Element} - The details of user profile.
  */
-const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps): ProfileCardProps => {
-
+const ProfileCard = ({
+  profile,
+  showEditButton = false,
+}: ProfileCardProps): JSX.Element => {
   const router = useRouter();
 
   /**
@@ -47,7 +49,7 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps): Pro
   /**
    * Capitializes Catergory Name
    * @param {string} category - The gift category
-   * @returns {string} - The capitialized version of gift category 
+   * @returns {string} - The capitialized version of gift category
    */
   const formatCategory = (category: string): string => {
     const categories = category.split('&');
@@ -63,8 +65,8 @@ const ProfileCard = ({ profile, showEditButton = false }: ProfileCardProps): Pro
    * Renders options for user gift preferences
    * @param {string} preferenceRight - The preference to the left indicator
    * @param {string} preferenceLeft - The preference to the right indicator
-   * @param {number | undefined} preference_value - Current user preference 
-   * @param  {string} testidPrefix - Test prefix 
+   * @param {number | undefined} preference_value - Current user preference
+   * @param  {string} testidPrefix - Test prefix
    * @returns { JSX.Element } - The value and name of preference options
    */
   const renderPreference = (
