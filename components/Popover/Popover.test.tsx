@@ -21,7 +21,7 @@ describe('Popover Component', () => {
         </Popover>,
       );
     });
-    const user = userEvent.setup();
+  
 
     it('renders the popover component and nested children components', () => {
       const trigger = screen.getByTestId('popover-trigger');
@@ -32,7 +32,7 @@ describe('Popover Component', () => {
     });
 
     it('popover opens when content is empty', async () => {
-      await user.click(screen.getByTestId('popover-trigger'));
+      await userEvent.click(screen.getByTestId('popover-trigger'));
       const content = screen.getByTestId('popover-content');
 
       expect(content).toBeInTheDocument();
@@ -48,8 +48,7 @@ describe('Popover Component', () => {
           <PopoverAnchor />
         </Popover>,
       );
-    });
-    const user = userEvent.setup();
+    })
     it('renders content inside of trigger component', () => {
       const trigger = screen.getByText('button');
 
@@ -64,7 +63,7 @@ describe('Popover Component', () => {
 
     it('content is visible when popover is opened', async () => {
       const button = screen.getByText('button');
-      await user.click(button);
+      await userEvent.click(button);
 
       const content = screen.queryByText('Content Here');
       expect(content).toBeVisible();
@@ -73,13 +72,13 @@ describe('Popover Component', () => {
     it('content not visible when popover is opened then closed', async () => {
       const button = screen.getByText('button');
       //opens popover
-      await user.click(button);
+      await userEvent.click(button);
 
       const content = screen.queryByText('Content Here');
       expect(content).toBeVisible();
 
       //closes popover
-      await user.click(button);
+      await userEvent.click(button);
       expect(screen.queryByText('Content Here')).not.toBeInTheDocument();
     });
   });
@@ -93,10 +92,9 @@ describe('Popover Component', () => {
           <PopoverAnchor />
         </Popover>,
       );
-      const user = userEvent.setup();
       const button = screen.getByText('button');
 
-      await user.click(button);
+      await userEvent.click(button);
 
       const content = screen.queryByTestId('popover-content');
       expect(content).toHaveAttribute('data-align', 'center');
@@ -110,10 +108,9 @@ describe('Popover Component', () => {
           <PopoverAnchor />
         </Popover>,
       );
-      const user = userEvent.setup();
       const button = screen.getByText('button');
 
-      await user.click(button);
+      await userEvent.click(button);
 
       const content = screen.queryByTestId('popover-content');
       expect(content).toHaveAttribute('data-align', 'start');
