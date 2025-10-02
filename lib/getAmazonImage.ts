@@ -1,4 +1,13 @@
-export const getAmazonImage = async (title: string) => {
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
+/**
+ * Amazon Image
+ * @param {string} title - The title of the search item
+ * @returns {Promise<{ imageUrl: string | null, success: boolean }>
+} - The image url and response status
+ */
+export const getAmazonImage = async (title: string): Promise<{ imageUrl: string | null, success: boolean }> => {
   const API_KEY = process.env.GOOGLE_API_KEY;
   const CSE_ID = process.env.GOOGLE_CSE_ID;
 
