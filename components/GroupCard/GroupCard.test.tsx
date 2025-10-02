@@ -27,7 +27,7 @@ describe('GroupCard', () => {
     render(<GroupCard giftExchange={mockGiftExchange} />);
 
     expect(screen.getByText(mockGiftExchange.name)).toBeInTheDocument();
-    expect(screen.getByRole('presentation')).toHaveAttribute('src', mockGiftExchange.group_image);
+    expect(screen.getByAltText('')).toHaveAttribute('src', mockGiftExchange.group_image);
     expect(screen.getByText(`${mockGiftExchange.member_count} members`)).toBeInTheDocument();
     expect(screen.getByText('Draw: December 1, 2025')).toBeInTheDocument();
   });
