@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 'use client';
-import { JSX } from 'react';
+import type { JSX } from 'react';
 import { Cake, CircleX, Compass, Heart, Pencil } from 'lucide-react';
 import { Progress } from '@/components/Progress/progress';
 import Avatar from '@/components/Avatar/Avatar';
