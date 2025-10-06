@@ -1,10 +1,24 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { Card } from '../Card/Card';
-import { useState } from 'react';
+import { useState, JSX } from 'react';
 import FeedbackView from '../FeedbackView/FeedbackView';
 import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 
+/**
+ * The Gift Suggestion Component for display gift or feedback
+ * @param {object} props - The gift object all the params are associated with.
+ * @param {IGiftSuggestion[]} props.allGiftSuggestions - the Array of all the gift suggestions.
+ * @param {string} props.budget - the exchange budget for gift.
+ * @param {IGiftSuggestion} props.gift - the gift suggestion.
+ * @param {number} props.index - the index of the gift.
+ * @param {IGiftSuggestion | number} props.onGiftUpdate - the updated value of index and gift suggestion.
+ * @param {Profile | null} props.recipient - The user information for gift recipient.
+ * @returns {JSX.Element} - The gift suggestion card component.
+ */
 const GiftSuggestionCard = ({
   allGiftSuggestions,
   budget,
@@ -19,14 +33,21 @@ const GiftSuggestionCard = ({
   index: number;
   onGiftUpdate: (updatedGift: IGiftSuggestion, index: number) => void;
   recipient: Profile | null;
-}) => {
+}): JSX.Element => {
   const [isShowingFeedback, setIsShowingFeedback] = useState(false);
 
-  const handleGiftUpdate = async (updatedGift: IGiftSuggestion) => {
+  /**
+   * Handles updating gift suggestion for user
+   * @param {IGiftSuggestion} updatedGift - the updated gift value
+   * @returns {Promise<void>} - sets state and updated gift values
+   */
+  const handleGiftUpdate = async ( //onhandle
+    updatedGift: IGiftSuggestion,
+  ): Promise<void> => {
     onGiftUpdate(updatedGift, index);
     setIsShowingFeedback(false);
   };
-
+//handleGiftUpdate
   return (
     <Card className="bg-giftSuggestionsCardBackground h-100 w-80 flex flex-col justify-between m-5">
       {isShowingFeedback ? (
