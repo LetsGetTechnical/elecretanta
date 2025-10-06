@@ -1,4 +1,4 @@
-import { Toast } from './Toast';
+import { Toast, toastVariantStyles } from './Toast';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ToastProvider } from '../ToastProvider/ToastProvider';
@@ -13,12 +13,18 @@ const renderToast = (props = {}) =>
     </ToastProvider>
   )
 
-const variants = [
-  { name: 'default', variant: undefined, classes: ['bg-background', 'text-foreground'] },
-  { name: 'error', variant: ToastVariants.Error, classes: ['bg-destructive', 'text-destructive-foreground'] },
-  { name: 'warning', variant: ToastVariants.Warning, classes: ['bg-warning', 'text-warning-foreground'] },
-  { name: 'success', variant: ToastVariants.Success, classes: ['bg-success', 'text-success-foreground'] },
-];
+const testVariants = Object.entries(toastVariantStyles).map(([variantValue, classString]) => {
+    
+    const propVariant = variantValue === ToastVariants.Default ? undefined : variantValue;
+
+    const classesToAssert = classString.split(' ').filter(c => c);
+
+    return {
+      name: variantValue,
+      variant: propVariant,
+      classes: classesToAssert,
+    };
+});
 
 describe('Toast', () => {
 
@@ -35,7 +41,7 @@ describe('Toast', () => {
     expect(toast).toHaveClass('bg-background', 'text-foreground')
   });
 
-  it.each(variants)('applies $name variant styles', ({ variant, classes }) => {
+  it.each(testVariants)('applies $name variant styles', ({ variant, classes }) => {
     renderToast({ variant });
     const toast = screen.getByTestId('toast');
     classes.forEach((classStyle) => expect(toast).toHaveClass(classStyle))
