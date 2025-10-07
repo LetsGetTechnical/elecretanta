@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { useState, useEffect, JSX } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
@@ -198,14 +198,30 @@ export const Onboarding = ({
       });
       const data = await response.json();
       setName(data.display_name);
-      form.setValue('name', data.display_name);
-      form.setValue('giftCircle', data.age_group);
-      form.setValue('categories', data.categories);
-      form.setValue('hobbies', data.hobbies);
-      form.setValue('giftRestrictions', data.avoid);
-      form.setValue('giftPersonality', data.practical_whimsical);
-      form.setValue('experienceStyle', data.cozy_adventurous);
-      form.setValue('giftStyle', data.minimal_luxurious);
+      if (data.display_name) {
+        form.setValue('name', data.display_name);
+      }
+      if (data.age_group) {
+        form.setValue('giftCircle', data.age_group);
+      }
+      if (data.categories) {
+        form.setValue('categories', data.categories);
+      }
+      if (data.hobbies) {
+        form.setValue('hobbies', data.hobbies);
+      }
+      if (data.avoid) {
+        form.setValue('giftRestrictions', data.avoid);
+      }
+      if (data.practical_whimsical) {
+        form.setValue('giftPersonality', data.practical_whimsical);
+      }
+      if (data.cozy_adventurous) {
+        form.setValue('experienceStyle', data.cozy_adventurous);
+      }
+      if (data.minimal_luxurious) {
+        form.setValue('giftStyle', data.minimal_luxurious);
+      }
     };
     fetchProfile();
   }, [form]);
@@ -318,6 +334,7 @@ export const Onboarding = ({
                       name="name"
                       render={({ field }) => (
                         <FormItem>
+                          {/* Possible grammatical improvement: What name will you go by? or What should we call you?*/}
                           <FormLabel>How should we call you?</FormLabel>
                           <FormControl>
                             <Input {...field} />
