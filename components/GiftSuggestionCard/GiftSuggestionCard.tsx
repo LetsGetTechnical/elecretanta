@@ -41,13 +41,19 @@ const GiftSuggestionCard = ({
    * @param {IGiftSuggestion} updatedGift - the updated gift value
    * @returns {Promise<void>} - sets state and updated gift values
    */
-  const handleGiftUpdate = async ( //onhandle
+   //do not think index is need to gift update
+  const handleGiftUpdate = async ( //onUpdate
+  //I THINK i change remove the state change because it is doesits doing that in feedback function
+  //Make such this function isnt does something the other function is not
+  //remove index
     updatedGift: IGiftSuggestion,
   ): Promise<void> => {
     onGiftUpdate(updatedGift, index);
     setIsShowingFeedback(false);
   };
-//handleGiftUpdate
+//handleFeedbackSumbit
+  //Isolate the state change to one "mockable" function
+
   return (
     <Card className="bg-giftSuggestionsCardBackground h-100 w-80 flex flex-col justify-between m-5">
       {isShowingFeedback ? (
