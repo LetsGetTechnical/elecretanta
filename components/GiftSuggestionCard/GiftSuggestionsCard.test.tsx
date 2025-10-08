@@ -9,6 +9,10 @@
 
 
 //Tests
+//Confirm initial states/values of the the components
+
+// Will need to use act method to tested hooks
+
 //HandleGift Updates**(need better understanding how it works)
     //with and without an param
     //only confirming state changed
