@@ -28,6 +28,7 @@ const Calendar = ({
 }: CalendarProps): JSX.Element => {
   return (
     <DayPicker
+      fixedWeeks
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
       classNames={{

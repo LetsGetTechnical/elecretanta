@@ -36,6 +36,7 @@ import { Textarea } from '@/components/TextArea/textarea';
 import { ImageSelector } from '@/components/ImageSelector/ImageSelector';
 import { useRouter } from 'next/navigation';
 import LinkCustom from '@/components/LinkCustom/LinkCustom';
+import { useState } from 'react';
 
 const priceRanges = [
   { label: '$10 - $20', value: '10-20' },
@@ -103,7 +104,9 @@ export default function CreateGroupPage() {
       console.error(error);
     }
   }
+
   const giftDrawingDate = form.watch('drawing_date');
+
   return (
     <div className="create-group-page flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       <div className="flex flex-row">
@@ -170,159 +173,176 @@ export default function CreateGroupPage() {
               <FormField
                 control={form.control}
                 name="budget"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="m-5">Price Range</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              'w-60 justify-between m-5',
-                              !field.value && 'text-muted-foreground',
-                            )}
-                          >
-                            {field.value
-                              ? priceRanges.find(
-                                  (priceRanges) =>
-                                    priceRanges.value === field.value,
-                                )?.label
-                              : 'Select a price range'}
-                            <ChevronsUpDown className="opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-52 p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Search Price Ranges..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <CommandEmpty>No framework found.</CommandEmpty>
-                            <CommandGroup>
-                              {priceRanges.map((priceRanges) => (
-                                <CommandItem
-                                  value={priceRanges.label}
-                                  key={priceRanges.value}
-                                  onSelect={() => {
-                                    form.setValue('budget', priceRanges.value);
-                                  }}
-                                >
-                                  {priceRanges.label}
-                                  <Check
-                                    className={cn(
-                                      'ml-auto',
-                                      priceRanges.value === field.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0',
-                                    )}
-                                  />
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription className="m-5">
-                      Please select the price range for your Secret Santa group!
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="m-5">Price Range</FormLabel>
+                      <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                'w-60 justify-between m-5',
+                                !field.value && 'text-muted-foreground',
+                              )}
+                            >
+                              {field.value
+                                ? priceRanges.find(
+                                    (priceRanges) =>
+                                      priceRanges.value === field.value,
+                                  )?.label
+                                : 'Select a price range'}
+                              <ChevronsUpDown className="opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-52 p-0">
+                          <Command>
+                            <CommandInput
+                              placeholder="Search Price Ranges..."
+                              className="h-9"
+                            />
+                            <CommandList>
+                              <CommandEmpty>No framework found.</CommandEmpty>
+                              <CommandGroup>
+                                {priceRanges.map((priceRanges) => (
+                                  <CommandItem
+                                    value={priceRanges.label}
+                                    key={priceRanges.value}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        'budget',
+                                        priceRanges.value,
+                                      );
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    {priceRanges.label}
+                                    <Check
+                                      className={cn(
+                                        'ml-auto',
+                                        priceRanges.value === field.value
+                                          ? 'opacity-100'
+                                          : 'opacity-0',
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription className="m-5">
+                        Please select the price range for your Secret Santa group!
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
               <FormField
                 control={form.control}
                 name="drawing_date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="mx-5 mt-5">
-                      Gift Drawing Date
-                    </FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-60 pl-3 text-left font-normal m-5',
-                              !field.value && 'text-muted-foreground ',
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          // disabled={(date) =>
-                          //   date > new Date() || date < new Date("1900-01-01")
-                          // }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription className="ml-5">
-                      When names will be drawn for the gift exchange.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="mx-5 mt-5">
+                        Gift Drawing Date
+                      </FormLabel>
+                      <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'w-60 pl-3 text-left font-normal m-5',
+                                !field.value && 'text-muted-foreground ',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(inputValue) => {
+                              field.onChange(inputValue);
+                              setOpen(false);
+                            }}
+                            disabled={[{ before: new Date() }]}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription className="ml-5">
+                        When names will be drawn for the gift exchange.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
               <FormField
                 control={form.control}
                 name="exchange_date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="mx-5 mt-5">
-                      Gift Exchange Date
-                    </FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-60 pl-3 text-left font-normal m-5',
-                              !field.value && 'text-muted-foreground',
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) => date < giftDrawingDate}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription className="ml-5">
-                      When the gift exchange will take place.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="mx-5 mt-5">
+                        Gift Exchange Date
+                      </FormLabel>
+                      <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'w-60 pl-3 text-left font-normal m-5',
+                                !field.value && 'text-muted-foreground',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(inputValue) => {
+                              field.onChange(inputValue);
+                              setOpen(false);
+                            }}
+                            disabled={(date) => date < giftDrawingDate}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription className="ml-5">
+                        When the gift exchange will take place.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
               <div className="flex justify-center md:justify-start md:m-5 m-0 w-full">
                 <Button className="m-2" type="submit">
