@@ -6,7 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from '../Card/Card';
-import { SquareArrowOutUpRight, ThumbsDown, Gift } from 'lucide-react';
+import {
+  SquareArrowOutUpRight,
+  ThumbsDown,
+  Gift as GiftIcon,
+} from 'lucide-react';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useState, useCallback } from 'react';
 
@@ -34,53 +38,58 @@ const GiftDetailsView = ({
 
   const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
     const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
-    return `https://www.amazon.com/s?k=${encodedSearch}`;
+
+    return `https://www.amazon.com/s?k=${encodedSearch}&tag=${process.env.NEXT_PUBLIC_AMAZON_AFFILIATE_TAG}`;
   };
+
+  const showImage = gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError;
+  const matchScore = `${gift.matchScore}% Match`;
 
   return (
     <>
       <div className="relative w-full h-40 bg-white rounded-t-md">
-        {gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError ? (
+        {showImage ? (
           <img
-            src={gift.imageUrl}
+            src={gift.imageUrl || ''}
             alt={gift.title}
             className="w-full h-full object-contain p-2"
             onError={handleImageError}
-            data-testid="valid-image"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Gift className="w-16 h-16 text-gray-300" data-testid="gift-icon" />
+            <GiftIcon
+              role="img"
+              className="w-16 h-16 text-gray-300"
+              aria-label="gift placeholder image"
+            />
           </div>
         )}
 
         <div className="absolute top-2 left-2 right-2 flex justify-between items-center">
           <div
-            data-testid="valid-matchScore"
+            role="score"
+            aria-label="match score"
             className="text-xs px-3 py-1 flex items-center justify-center font-semibold bg-giftSuggestionTextBackground text-giftSuggestionTextGreen rounded-full shadow-sm"
           >
-            {gift.matchScore}% Match
+            {matchScore}
           </div>
-          <div
-            data-testid="valid-price"
+          <data
+            value={gift.price}
+            aria-label="price"
             className="px-3 py-1 font-semibold text-giftSuggestionDarkGreen bg-white/90 rounded-full shadow-sm"
           >
             {gift.price}
-          </div>
+          </data>
         </div>
       </div>
 
       <CardHeader className="p-0 mx-4">
-        <CardTitle
-          data-testid="valid-title"
-          className="text-base font-bold text-giftSuggestionDarkGreen"
-        >
-          {gift.title}
+        <CardTitle>
+          <h3 className="text-base font-bold text-giftSuggestionDarkGreen">
+            {gift.title}
+          </h3>
         </CardTitle>
-        <CardDescription
-          data-testid="valid-description"
-          className="text-sm text-giftSuggestionTextLightGreen"
-        >
+        <CardDescription className="text-sm text-giftSuggestionTextLightGreen">
           {gift.description}
         </CardDescription>
       </CardHeader>
