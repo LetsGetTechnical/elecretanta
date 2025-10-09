@@ -86,7 +86,7 @@ describe('InviteCard Component', () => {
     expect(spy).toHaveBeenCalledWith(TEST_URL);
   });
 
-  it('logs error and keeps button label unchanged if clipboard API throws and error', async () => {
+  it('logs error and keeps button label unchanged if clipboard API throws an error', async () => {
     const consoleSpy = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});
