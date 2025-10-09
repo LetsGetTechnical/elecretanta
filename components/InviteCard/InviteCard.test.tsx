@@ -1,9 +1,11 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { InviteCard } from './InviteCard';
+
+const TEST_URL = 'http://localhost/test-url';
 
 describe('InviteCard Component', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -13,13 +15,14 @@ describe('InviteCard Component', () => {
 
     user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-    delete (window as any).location;
-    window.location = { href: 'http://localhost:4000/test-url' } as any;
+    window.history.pushState({}, '', TEST_URL);
   });
 
   afterEach(() => {
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
+
+    window.history.pushState({}, '', '/');
   });
 
   const renderComponent = () => {
@@ -34,7 +37,9 @@ describe('InviteCard Component', () => {
 
     expect(getButton()).toBeInTheDocument();
     expect(screen.getByTestId('card')).toBeInTheDocument();
-    expect(screen.getByText('Invite Others')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Invite Others' }),
+    ).toBeInTheDocument();
   });
 
   it('displays the text "Copy invite link" upon initial render', () => {
@@ -59,7 +64,7 @@ describe('InviteCard Component', () => {
     await waitFor(() => {
       expect(getButton()).toHaveTextContent(/copied/i);
     });
-    jest.advanceTimersByTime(2000);
+    act(() => jest.advanceTimersByTime(2000));
 
     await waitFor(() => {
       expect(getButton()).toHaveTextContent(/copy/i);
@@ -68,20 +73,20 @@ describe('InviteCard Component', () => {
   });
 
   it('copies current URL to clipboard after pressing the button', async () => {
-    const mockWriteText = jest.fn().mockResolvedValue(undefined);
-    navigator.clipboard.writeText = mockWriteText;
+    const spy = jest
+      .spyOn(navigator.clipboard, 'writeText')
+      .mockResolvedValue(undefined);
     const { getButton } = renderComponent();
 
     await user.click(getButton());
 
-    await waitFor(() => {
-      expect(mockWriteText).toHaveBeenCalledWith(
-        'http://localhost:4000/test-url',
-      );
-    });
+    expect(
+      await screen.findByRole('button', { name: /copied!/i }),
+    ).toBeVisible();
+    expect(spy).toHaveBeenCalledWith(TEST_URL);
   });
 
-  it('logs clipboard API errors to the console correctly', async () => {
+  it('logs error and keeps button label unchanged if clipboard API throws and error', async () => {
     const consoleSpy = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});
@@ -97,6 +102,7 @@ describe('InviteCard Component', () => {
         'Failed to copy:',
         expect.any(Error),
       );
+      expect(getButton()).toHaveTextContent(/copy invite link/i);
     });
 
     consoleSpy.mockRestore();
