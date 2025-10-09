@@ -41,19 +41,24 @@ const GiftSuggestionCard = ({
    * @param {IGiftSuggestion} updatedGift - the updated gift value
    * @returns {Promise<void>} - sets state and updated gift values
    */
-   //do not think index is need to gift update
-  const handleGiftUpdate = async ( //onUpdate
-  //I THINK i change remove the state change because it is doesits doing that in feedback function
-  //Make such this function isnt does something the other function is not
-  //remove index
+
+  const handleGiftUpdate = async (
+    //maybe rename
     updatedGift: IGiftSuggestion,
   ): Promise<void> => {
     onGiftUpdate(updatedGift, index);
     setIsShowingFeedback(false);
   };
-//handleFeedbackSumbit
-  //Isolate the state change to one "mockable" function
 
+  /**
+   * Handles updating State for showing Feedbackview or Gift View
+   * @param {boolean} isShowingFeedback - the updated gift value
+   */
+  const handleFeedbackView = (isShowingFeedback: boolean) => {
+    isShowingFeedback === true
+      ? setIsShowingFeedback(false)
+      : setIsShowingFeedback(true);
+  };
   return (
     <Card className="bg-giftSuggestionsCardBackground h-100 w-80 flex flex-col justify-between m-5">
       {isShowingFeedback ? (
@@ -61,14 +66,14 @@ const GiftSuggestionCard = ({
           allGiftSuggestions={allGiftSuggestions}
           budget={budget}
           gift={gift}
-          handleFeedback={() => setIsShowingFeedback(false)}
+          handleFeedback={handleFeedbackView(isShowingFeedback)}
           onGiftUpdate={handleGiftUpdate}
           recipient={recipient}
         />
       ) : (
         <GiftDetailsView
           gift={gift}
-          handleFeedback={() => setIsShowingFeedback(true)}
+          handleFeedback={handleFeedbackView(isShowingFeedback)}
         />
       )}
     </Card>
