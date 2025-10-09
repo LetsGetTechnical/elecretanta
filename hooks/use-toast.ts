@@ -122,7 +122,7 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         toasts: state.toasts.map((t) =>
-          t.id === toastId || !toastId 
+          t.id === toastId || !toastId
             ? {
               ...t,
               open: false,
@@ -167,7 +167,7 @@ type ToastControls = {
   id: string;
   dismiss: () => void;
   update: (props: ToasterToast) => void;
-}
+};
 
 /**
  * creates and displays a toast notification.
@@ -220,7 +220,7 @@ export function toast({ ...props }: Toast): ToastControls {
   };
 }
 
-export interface UseToastReturn extends State{
+export interface UseToastReturn extends State {
   toast: (props: Omit<ToasterToast, 'id'>) => ToastControls;
   dismiss: (toastId?: string) => void;
 }
