@@ -1,7 +1,7 @@
 import { Calendar } from '@/components/Calendar/calendar';
 import { render } from '@testing-library/react';
 
-describe('Calendar', () => {
+describe('Calendar component in edit group page', () => {
   it('disables past dates before today', () => {
     const currentDate = new Date('2025-10-08T00:00:00Z');
     const disabledFunction = (date: Date) => date < currentDate;
