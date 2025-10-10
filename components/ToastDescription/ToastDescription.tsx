@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import React from 'react';
-import * as ToastPrimitives from "@radix-ui/react-toast"
-import { cn } from "@/lib/utils"
+import * as ToastPrimitives from '@radix-ui/react-toast';
+import { cn } from '@/lib/utils';
 
 const ToastDescription = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Description>,
@@ -11,11 +11,11 @@ const ToastDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Description
     ref={ref}
-    className={cn("text-sm opacity-90", className)}
+    className={cn('text-sm opacity-90', className)}
     data-testid="toastDescription"
     {...props}
   />
-))
-ToastDescription.displayName = ToastPrimitives.Description.displayName
+));
+ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
-export { ToastDescription }
+export { ToastDescription };
