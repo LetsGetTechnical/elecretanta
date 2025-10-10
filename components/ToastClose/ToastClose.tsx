@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import React from 'react';
-import { X } from "lucide-react"
-import * as ToastPrimitives from "@radix-ui/react-toast"
-import { cn } from "@/lib/utils"
+import { X } from 'lucide-react';
+import * as ToastPrimitives from '@radix-ui/react-toast';
+import { cn } from '@/lib/utils';
 
 const ToastClose = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Close>,
@@ -13,8 +13,14 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      "absolute right-1 top-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-1 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600",
-      className
+      'absolute right-1 top-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-1 group-hover:opacity-100',
+
+      'group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600',
+
+      'group-[.success]:text-white/70 group-[.success]:hover:text-white group-[.success]:focus:ring-white/50',
+
+      'group-[.warning]:text-gray-800/70 group-[.warning]:hover:text-gray-900 group-[.warning]:focus:ring-gray-900/50',
+      className,
     )}
     toast-close=""
     aria-label="Close"
@@ -23,7 +29,7 @@ const ToastClose = React.forwardRef<
   >
     <X className="h-4 w-4" />
   </ToastPrimitives.Close>
-))
-ToastClose.displayName = ToastPrimitives.Close.displayName
+));
+ToastClose.displayName = ToastPrimitives.Close.displayName;
 
-export { ToastClose }
+export { ToastClose };

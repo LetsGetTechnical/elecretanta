@@ -13,8 +13,10 @@ export const toastVariantStyles = {
   [ToastVariants.Default]: 'border bg-background text-foreground',
   [ToastVariants.Error]:
     'destructive group border-destructive bg-destructive text-destructive-foreground',
-  [ToastVariants.Warning]: 'border-warning bg-warning text-warning-foreground',
-  [ToastVariants.Success]: 'border-success bg-success text-success-foreground',
+  [ToastVariants.Warning]:
+    'warning group border-warning bg-warning text-warning-foreground',
+  [ToastVariants.Success]:
+    'success group border-success bg-success text-success-foreground',
 } as const;
 
 export const toastVariants = cva(
