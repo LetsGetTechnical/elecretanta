@@ -4,21 +4,21 @@
 'use client';
 
 // Inspired by react-hot-toast library
-import React from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 
 import type { ToastActionElement } from '@/components/ToastAction/ToastAction';
 import type { ToastProps } from '@/components/Toast/Toast';
 
-const TOAST_LIMIT = 5
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_LIMIT = 5;
+const TOAST_REMOVE_DELAY = 1000000;
 
 type ToasterToast = ToastProps & {
-  id: string
-  title?: React.ReactNode
-  description?: React.ReactNode
-  action?: ToastActionElement
+  id: string;
+  title?: ReactNode;
+  description?: ReactNode;
+  action?: ToastActionElement;
   group?: string;
-}
+};
 
 export const actionTypes = {
   ADD_TOAST: 'ADD_TOAST',
@@ -93,11 +93,14 @@ export const addToRemoveQueue = (toastId: string): void => {
  */
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "ADD_TOAST":
+    case 'ADD_TOAST':
       const isDuplicate = state.toasts.some(
-        (toast) => toast.title === action.toast.title && toast.description === action.toast.description);
+        (toast) =>
+          toast.title === action.toast.title &&
+          toast.description === action.toast.description,
+      );
 
-      if(isDuplicate){
+      if (isDuplicate) {
         return state;
       }
 
@@ -238,9 +241,9 @@ export interface UseToastReturn extends State {
  * @returns {object} An object containing the current toast state and action functions.
  */
 export function useToast(): UseToastReturn {
-  const [state, setState] = React.useState<State>(memoryState);
+  const [state, setState] = useState<State>(memoryState);
 
-  React.useEffect(() => {
+  useEffect(() => {
     listeners.push(setState);
     return (): void => {
       const index = listeners.indexOf(setState);

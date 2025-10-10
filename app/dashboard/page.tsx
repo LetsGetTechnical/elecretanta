@@ -13,7 +13,7 @@ export default function Dashboard() {
     GiftExchangeWithMemberCount[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchGiftExchanges() {
@@ -41,30 +41,30 @@ export default function Dashboard() {
             timeDifference / (1000 * 60 * 60 * 24),
           );
 
-           if (dayDifference > 0 && dayDifference <= 3){
+          if (dayDifference > 0 && dayDifference <= 3) {
             toast({
-             variant: ToastVariants.Warning,
-             title: `Upcoming Draw - ${exchange.name}`,
-             description: `The draw is in ${dayDifference} day${dayDifference < 2 ? '': 's'}!`,
-             group: exchange.gift_exchange_id
-           })
-         } else if (dayDifference === 0){
-           toast({
-            variant: ToastVariants.Success,
-            title: `Draw Today - ${exchange.name}`,
-            description: `Go to your group to initiate the gift exchange draw.`,
-            group: exchange.gift_exchange_id
-           });
-         } else if (dayDifference < 0){
-           toast({
-            variant: ToastVariants.Error,
-            title: `Draw date has passed - ${exchange.name}`, 
-            description: 'Your Secret Santas are still secret! Please draw now or reschedule drawing date.',
-            group: exchange.gift_exchange_id
-           });
-         }
+              variant: ToastVariants.Warning,
+              title: `Upcoming Draw - ${exchange.name}`,
+              description: `The draw is in ${dayDifference} day${dayDifference < 2 ? '' : 's'}!`,
+              group: exchange.gift_exchange_id,
+            });
+          } else if (dayDifference === 0) {
+            toast({
+              variant: ToastVariants.Success,
+              title: `Draw Today - ${exchange.name}`,
+              description: `Go to your group to initiate the gift exchange draw.`,
+              group: exchange.gift_exchange_id,
+            });
+          } else if (dayDifference < 0) {
+            toast({
+              variant: ToastVariants.Error,
+              title: `Draw date has passed - ${exchange.name}`,
+              description:
+                'Your Secret Santas are still secret! Please draw now or reschedule drawing date.',
+              group: exchange.gift_exchange_id,
+            });
+          }
         }
-
       } catch (error) {
         console.error('Failed to fetch gift exchanges:', error);
       } finally {
