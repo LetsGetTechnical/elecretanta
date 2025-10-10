@@ -35,7 +35,6 @@ components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftSuggestionCard/GiftSuggestionCard.tsx
-components/GroupCard/GroupCard.tsx
 components/ImageSelector/ImageSelector.tsx
 components/Input/input.tsx
 components/InviteCard/InviteCard.tsx
