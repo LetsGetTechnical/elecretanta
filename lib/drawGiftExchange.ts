@@ -1,13 +1,22 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { SupabaseClient } from '@supabase/supabase-js';
 import { generateAndStoreSuggestions } from './generateAndStoreSuggestions';
 
-// util function to draw gift exchange names
-// this function can be called from an API route
-// or from a scheduled job
+/**
+ * Performs random drawing for matching of users in gift exchange.
+ * If successful, updates the record from gift_exchanges and the
+ * related gift_exchange_members to reflect the results of the drawing.
+ * @param {SupabaseClient} supabase - Supabase client instance
+ * @param {string} exchangeId - Unique ID for the gift exchange
+ * @returns {Promise<{success: boolean}>} - Promise resolving to an object with a success indicator
+ * @throws {Error} - Will throw if drawing criteria is not correct or if any DB call fails
+ */
 export async function drawGiftExchange(
   supabase: SupabaseClient,
   exchangeId: string,
-) {
+): Promise<{ success: boolean }> {
   // Get exchange and verify ownership
   const { data: exchange, error: exchangeError } = await supabase
     .from('gift_exchanges')
