@@ -5,7 +5,7 @@ import GroupCard, { GroupCardSkeleton } from '@/components/GroupCard/GroupCard';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { GiftExchangeWithMemberCount } from '../types/giftExchange';
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from '@/hooks/use-toast';
 import { ToastVariants } from '@/components/Toast/Toast.enum';
 
 export default function Dashboard() {
@@ -31,13 +31,15 @@ export default function Dashboard() {
 
         const data = await response.json();
         setGiftExchanges(data);
-        let newToasts = [];
-        
+        const newToasts = [];
+
         const today = new Date();
-        for (const exchange of data){
+        for (const exchange of data) {
           const drawingDate = new Date(exchange.drawing_date);
           const timeDifference = drawingDate.getTime() - today.getTime();
-          const dayDifference = Math.ceil(timeDifference / (1000 * 60  * 60 * 24));
+          const dayDifference = Math.ceil(
+            timeDifference / (1000 * 60 * 60 * 24),
+          );
 
            if (dayDifference > 0 && dayDifference <= 3){
             toast({
