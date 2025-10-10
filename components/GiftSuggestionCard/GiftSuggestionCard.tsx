@@ -15,7 +15,7 @@ import { Profile } from '@/app/types/profile';
  * @param {string} props.budget - the exchange budget for gift.
  * @param {IGiftSuggestion} props.gift - the gift suggestion.
  * @param {number} props.index - the index of the gift.
- * @param {IGiftSuggestion | number} props.onGiftUpdate - the updated value of index and gift suggestion.
+ * @param {Function} props.onGiftUpdate - the updated value of index and gift suggestion.
  * @param {Profile | null} props.recipient - The user information for gift recipient.
  * @returns {JSX.Element} - The gift suggestion card component.
  */
@@ -41,9 +41,7 @@ const GiftSuggestionCard = ({
    * @param {IGiftSuggestion} updatedGift - the updated gift value
    * @returns {Promise<void>} - sets state and updated gift values
    */
-
   const handleGiftUpdate = async (
-    //maybe rename
     updatedGift: IGiftSuggestion,
   ): Promise<void> => {
     onGiftUpdate(updatedGift, index);
@@ -51,13 +49,14 @@ const GiftSuggestionCard = ({
   };
 
   /**
-   * Handles updating State for showing Feedbackview or Gift View
-   * @param {boolean} isShowingFeedback - the updated gift value
+   * Handles updating state for showing FeedbackView and GiftView
    */
-  const handleFeedbackView = (isShowingFeedback: boolean) => {
-    isShowingFeedback === true
-      ? setIsShowingFeedback(false)
-      : setIsShowingFeedback(true);
+  const handleFeedbackView = (): void => {
+    if (isShowingFeedback === true) {
+      setIsShowingFeedback(false);
+    } else {
+      setIsShowingFeedback(true);
+    }
   };
   return (
     <Card className="bg-giftSuggestionsCardBackground h-100 w-80 flex flex-col justify-between m-5">
@@ -66,15 +65,12 @@ const GiftSuggestionCard = ({
           allGiftSuggestions={allGiftSuggestions}
           budget={budget}
           gift={gift}
-          handleFeedback={handleFeedbackView(isShowingFeedback)}
+          handleFeedback={handleFeedbackView}
           onGiftUpdate={handleGiftUpdate}
           recipient={recipient}
         />
       ) : (
-        <GiftDetailsView
-          gift={gift}
-          handleFeedback={handleFeedbackView(isShowingFeedback)}
-        />
+        <GiftDetailsView gift={gift} handleFeedback={handleFeedbackView} />
       )}
     </Card>
   );
