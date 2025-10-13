@@ -35,7 +35,6 @@ components/Button/button.tsx
 components/Calendar/calendar.tsx
 components/GiftDetailsView/GiftDetailsView.tsx
 components/GiftSuggestionCard/GiftSuggestionCard.tsx
-components/GroupCard/GroupCard.tsx
 components/ImageSelector/ImageSelector.tsx
 components/Input/input.tsx
 components/InviteCard/InviteCard.tsx
@@ -48,11 +47,6 @@ components/MembersList/MembersList.tsx
 components/MultiSelect/multi-select-input.tsx
 components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
-components/Progress/progress.tsx
-components/Select/select.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
-lib/drawGiftExchange.ts
-lib/generateAndStoreSuggestions.ts
-lib/getAmazonImage.ts
 lib/supabase/middleware.ts
 lib/utils.ts
