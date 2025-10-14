@@ -31,7 +31,6 @@ export default function Dashboard() {
 
         const data = await response.json();
         setGiftExchanges(data);
-        const newToasts = [];
 
         const today = new Date();
         for (const exchange of data) {
