@@ -4,19 +4,20 @@
 'use client';
 
 // Inspired by react-hot-toast library
-import React from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 
 import type { ToastActionElement } from '@/components/ToastAction/ToastAction';
 import type { ToastProps } from '@/components/Toast/Toast';
 
-export const TOAST_LIMIT = 1;
-export const TOAST_REMOVE_DELAY = 1000000;
+const TOAST_LIMIT = 1;
+const TOAST_REMOVE_DELAY = 1000000;
 
 type ToasterToast = ToastProps & {
   id: string;
-  title?: React.ReactNode;
-  description?: React.ReactNode;
+  title?: ReactNode;
+  description?: ReactNode;
   action?: ToastActionElement;
+  group?: string;
 };
 
 export const actionTypes = {
@@ -93,6 +94,16 @@ export const addToRemoveQueue = (toastId: string): void => {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'ADD_TOAST':
+      const isDuplicate = state.toasts.some(
+        (toast) =>
+          toast.title === action.toast.title &&
+          toast.description === action.toast.description,
+      );
+
+      if (isDuplicate) {
+        return state;
+      }
+
       return {
         ...state,
         toasts: [action.toast, ...state.toasts].slice(0, TOAST_LIMIT),
@@ -122,7 +133,7 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         toasts: state.toasts.map((t) =>
-          t.id === toastId || !toastId
+          t.id === toastId || typeof toastId === 'undefined'
             ? {
               ...t,
               open: false,
@@ -132,7 +143,7 @@ export const reducer = (state: State, action: Action): State => {
       };
     }
     case 'REMOVE_TOAST':
-      if (!action.toastId) {
+      if (typeof action.toastId === 'undefined') {
         return {
           ...state,
           toasts: [],
@@ -230,9 +241,9 @@ export interface UseToastReturn extends State {
  * @returns {object} An object containing the current toast state and action functions.
  */
 export function useToast(): UseToastReturn {
-  const [state, setState] = React.useState<State>(memoryState);
+  const [state, setState] = useState<State>(memoryState);
 
-  React.useEffect(() => {
+  useEffect(() => {
     listeners.push(setState);
     return (): void => {
       const index = listeners.indexOf(setState);

@@ -13,9 +13,6 @@ export default function Dashboard() {
     GiftExchangeWithMemberCount[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [toastData, setToastData] = useState<
-    Array<{ variant: ToastVariants; title: string; message: string }>
-  >([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -34,7 +31,6 @@ export default function Dashboard() {
 
         const data = await response.json();
         setGiftExchanges(data);
-        const newToasts = [];
 
         const today = new Date();
         for (const exchange of data) {
@@ -45,28 +41,29 @@ export default function Dashboard() {
           );
 
           if (dayDifference > 0 && dayDifference <= 3) {
-            newToasts.push({
+            toast({
               variant: ToastVariants.Warning,
-              title: 'Upcoming Draw',
-              message: `The draw is in ${dayDifference} day${dayDifference < 2 ? '' : 's'}!`,
+              title: `Upcoming Draw - ${exchange.name}`,
+              description: `The draw is in ${dayDifference} day${dayDifference < 2 ? '' : 's'}!`,
+              group: exchange.gift_exchange_id,
             });
           } else if (dayDifference === 0) {
-            newToasts.push({
+            toast({
               variant: ToastVariants.Success,
-              title: 'Draw Today',
-              message: `Go to your group to initiate the gift exchange draw.`,
+              title: `Draw Today - ${exchange.name}`,
+              description: `Go to your group to initiate the gift exchange draw.`,
+              group: exchange.gift_exchange_id,
             });
           } else if (dayDifference < 0) {
-            newToasts.push({
+            toast({
               variant: ToastVariants.Error,
-              title: 'Draw date has passed',
-              message:
+              title: `Draw date has passed - ${exchange.name}`,
+              description:
                 'Your Secret Santas are still secret! Please draw now or reschedule drawing date.',
+              group: exchange.gift_exchange_id,
             });
           }
         }
-
-        setToastData(newToasts);
       } catch (error) {
         console.error('Failed to fetch gift exchanges:', error);
       } finally {
@@ -75,18 +72,6 @@ export default function Dashboard() {
     }
     fetchGiftExchanges();
   }, []);
-
-  useEffect(() => {
-    if (toastData.length === 0) return;
-
-    toastData.forEach((toastItem) => {
-      toast({
-        variant: toastItem.variant,
-        title: toastItem.title,
-        description: toastItem.message,
-      });
-    });
-  }, [toastData, toast]);
 
   return (
     <section className="min-h-screen-minus-20 flex flex-col pb-12">
