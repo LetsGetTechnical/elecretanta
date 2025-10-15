@@ -31,6 +31,7 @@ import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 import { Button } from '@/components/Button/button';
 import LinkCustom from '../LinkCustom/LinkCustom';
 import Image from 'next/image';
+import GiftBoxArt from '@/public/giftbox.svg';
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -202,7 +203,7 @@ export const GiftExchangeHeader = ({
         <div className="w-36 h-36 grow-0 shrink-0">
           <Image
             className="w-full h-full rounded-xl ring-4 ring-white"
-            src={giftExchangeData.group_image}
+            src={giftExchangeData.group_image || GiftBoxArt}
             alt="Group logo"
             width={144}
             height={144}

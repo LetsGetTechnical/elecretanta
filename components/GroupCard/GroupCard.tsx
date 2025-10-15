@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/utils';
 import { ChevronRight, Users } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import GiftBoxArt from '@/public/giftbox.svg';
 
 type GroupCardProps = {
   giftExchange: GiftExchangeWithMemberCount;
@@ -48,7 +49,7 @@ const GroupCard = ({ giftExchange }: GroupCardProps): JSX.Element => {
       <div className="h-28 flex items-center p-4 rounded-xl bg-groupCardGreen">
         <Image
           className="h-16 w-16 lg:h-20 lg:w-20 rounded-xl"
-          src={giftExchange.group_image}
+          src={giftExchange.group_image || GiftBoxArt}
           height={80}
           width={80}
           alt=""
