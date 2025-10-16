@@ -44,7 +44,9 @@ export const GroupCardSkeleton = (): JSX.Element => {
  * @returns {JSX.Element} A group card element.
  */
 const GroupCard = ({ giftExchange }: GroupCardProps): JSX.Element => {
-  const group_image = GROUP_IMAGES.find(image => image.src === giftExchange.group_image ) || GROUP_IMAGES[0]
+  const group_image =
+    GROUP_IMAGES.find((image) => image.src === giftExchange.group_image) ||
+    GROUP_IMAGES[0];
 
   return (
     <Link href={`/gift-exchanges/${giftExchange.gift_exchange_id}`}>

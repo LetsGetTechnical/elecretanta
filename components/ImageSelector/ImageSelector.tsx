@@ -34,7 +34,6 @@ interface ImageSelectorProps {
 }
 
 export function ImageSelector({ value, onChange }: ImageSelectorProps) {
-
   const handleValueChange = (id: string) => {
     const selectedImage = GROUP_IMAGES.find((image) => image.id === id);
     if (selectedImage && onChange) {

@@ -181,7 +181,9 @@ export const GiftExchangeHeader = ({
     }
   }
 
-  const group_image = GROUP_IMAGES.find(image => image.src === giftExchangeData.group_image ) || GROUP_IMAGES[0]
+  const group_image =
+    GROUP_IMAGES.find((image) => image.src === giftExchangeData.group_image) ||
+    GROUP_IMAGES[0];
 
   return (
     <>
