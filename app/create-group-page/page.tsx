@@ -86,7 +86,7 @@ export default function CreateGroupPage() {
       drawing_date: new Date(),
       exchange_date: new Date(),
       budget: '',
-      group_image: '',
+      group_image: 'img url',
     },
   });
 

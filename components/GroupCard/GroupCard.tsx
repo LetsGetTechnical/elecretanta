@@ -7,7 +7,7 @@ import { formatDate } from '@/lib/utils';
 import { ChevronRight, Users } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import GiftBoxArt from '@/public/giftbox.svg';
+import { GROUP_IMAGES } from '@/components/ImageSelector/ImageSelector';
 
 type GroupCardProps = {
   giftExchange: GiftExchangeWithMemberCount;
@@ -44,15 +44,17 @@ export const GroupCardSkeleton = (): JSX.Element => {
  * @returns {JSX.Element} A group card element.
  */
 const GroupCard = ({ giftExchange }: GroupCardProps): JSX.Element => {
+  const group_image = GROUP_IMAGES.find(image => image.src === giftExchange.group_image ) || GROUP_IMAGES[0]
+
   return (
     <Link href={`/gift-exchanges/${giftExchange.gift_exchange_id}`}>
       <div className="h-28 flex items-center p-4 rounded-xl bg-groupCardGreen">
         <Image
           className="h-16 w-16 lg:h-20 lg:w-20 rounded-xl"
-          src={giftExchange.group_image || GiftBoxArt}
+          src={group_image.src}
           height={80}
           width={80}
-          alt=""
+          alt={group_image.alt}
         />
         <div className="flex flex-col flex-grow justify-center h-full ml-4 gap-2">
           <h2 className="font-semibold text-white text-base lg:text-lg">
