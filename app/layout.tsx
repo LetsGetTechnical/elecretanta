@@ -10,6 +10,7 @@ import { SnowOverlayProvider } from '@/providers/SnowOverlayProvider';
 import SnowOverlayWrapper from '@/components/SnowOverlayWrapper/SnowOverlayWrapper';
 import AuthContextProvider from '@/context/AuthContextProvider';
 import Script from 'next/script';
+import Toaster from '@/components/Toaster/Toaster';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -63,6 +64,7 @@ const RootLayout = ({
             {children}
           </SnowOverlayProvider>
         </AuthContextProvider>
+        <Toaster />
       </body>
     </html>
   );

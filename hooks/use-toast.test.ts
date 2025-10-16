@@ -10,8 +10,6 @@ import type { Action } from './use-toast';
 
 import React from 'react';
 
-// methods to test: addToRemoveQueue, dispatch, toast, useToast
-
 const MOCK_TOAST_1 = { id: '1', title: 'Toast 1', open: true };
 const MOCK_TOAST_2 = { id: '2', title: 'Toast 2', open: true };
 const TOAST_LIMIT = 1;
