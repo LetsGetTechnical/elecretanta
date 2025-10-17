@@ -79,6 +79,8 @@ export default function GiftExchangePage() {
             (member: GiftExchangeMember) => member.user_id === session?.user.id,
           ),
         );
+      } else {
+        setIsUserAMember(false);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
