@@ -58,6 +58,7 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
             <Card
               className="overflow-hidden transition-all hover:ring-2 hover:ring-primary data-[state=checked]:ring-2 data-[state=checked]:ring-primary"
               data-state={value === image.src ? 'checked' : 'unchecked'}
+              role="figure"
             >
               <div className="relative aspect-video">
                 <Image
@@ -67,9 +68,9 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
                   style={{ objectFit: 'cover' }} // Use the style prop for objectFit
                 />
               </div>
-              <div className="p-4">
-                <p className="text-center font-medium">{image.title}</p>
-              </div>
+              <figcaption className="p-4 font-medium text-center">
+                {image.title}
+              </figcaption>
             </Card>
           </Label>
         </div>

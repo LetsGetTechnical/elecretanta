@@ -79,7 +79,7 @@ const formSchema = z
     path: ['exchange_date'],
   });
 
-export default function CreateGroupPage() {
+export default function EditGroupPage() {
   const { id } = useParams();
   const router = useRouter();
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange | null>(
