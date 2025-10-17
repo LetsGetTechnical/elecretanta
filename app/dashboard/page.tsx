@@ -44,7 +44,7 @@ export default function Dashboard() {
             toast({
               variant: ToastVariants.Warning,
               title: `Upcoming Draw - ${exchange.name}`,
-              description: `The draw is in ${dayDifference} day${dayDifference < 2 ? '' : 's'}!`,
+              description: `The draw is in ${dayDifference} day(s)!`,
               group: exchange.gift_exchange_id,
             });
           } else if (dayDifference === 0) {
