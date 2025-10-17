@@ -23,19 +23,6 @@ jobs:
 
             console.log(`Updating reviewers for PR #${prNumber} in ${owner}/${repo}`);
 
-            if (process.env.GITHUB_TOKEN === null || process.env.GITHUB_TOKEN === undefined || process.env.GITHUB_TOKEN === "") {
-              console.log("Token not fetched");
-              } else {
-                console.log("Token fetched successfully");
-            }
-
-            if (process.env.TEST_TOKEN === null || process.env.TEST_TOKEN === undefined || process.env.TEST_TOKEN === "") {
-              console.log("TEST_TOKEN not fetched");
-            } else {
-              console.log(`TEST_TOKEN fetched: ${process.env.TEST_TOKEN}`);
-            }
-            
-
             // Optional: remove existing reviewers (GitHub may auto-reassign CODEOWNERS)
             try {
               await github.rest.pulls.removeRequestedReviewers({
