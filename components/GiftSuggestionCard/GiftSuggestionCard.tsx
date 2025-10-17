@@ -52,11 +52,7 @@ const GiftSuggestionCard = ({
    * Handles updating state for showing FeedbackView and GiftView
    */
   const handleFeedbackView = (): void => {
-    if (isShowingFeedback === true) {
-      setIsShowingFeedback(false);
-    } else {
-      setIsShowingFeedback(true);
-    }
+    setIsShowingFeedback(prev=> !prev)
   };
   return (
     <Card className="bg-giftSuggestionsCardBackground h-100 w-80 flex flex-col justify-between m-5">
