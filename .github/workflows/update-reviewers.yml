@@ -21,6 +21,8 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
+            console.log(`Updating reviewers for PR #${prNumber} in ${owner}/${repo}`);
+
             if (process.env.GITHUB_TOKEN === null || process.env.GITHUB_TOKEN === undefined || process.env.GITHUB_TOKEN === "") {
               console.log("Token not fetched");
               } else {
