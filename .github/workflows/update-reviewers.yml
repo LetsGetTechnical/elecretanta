@@ -15,7 +15,10 @@ jobs:
       - name: Remove all reviewers and add specific groups
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.TEST_TOKEN }}
+          github-token: ${{ secrets.GH_PAT }}
+        env:
+          TEST_TOKEN: ${{ secrets.TEST_TOKEN }}
+          SECRET_TOKEN: ${{ secrets.GH_PAT }}
           script: |
             const prNumber = context.payload.pull_request.number;
             const owner = context.repo.owner;
@@ -23,7 +26,7 @@ jobs:
 
             console.log(`Updating reviewers for PR #${prNumber} in ${owner}/${repo}`);
 
-            if (process.env.GITHUB_TOKEN === null || process.env.GITHUB_TOKEN === undefined || process.env.GITHUB_TOKEN === "") {
+            if (process.env.SECRET_TOKEN === null || process.env.SECRET_TOKEN === undefined || process.env.SECRET_TOKEN === "") {
               console.log("Token not fetched");
               } else {
                 console.log("Token fetched successfully");
