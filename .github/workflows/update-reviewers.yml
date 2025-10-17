@@ -28,7 +28,7 @@ jobs:
                 repo,
                 pull_number: prNumber,
                 reviewers: [],
-                team_reviewers: ['Peer Code Reviewers', 'Senior+ Code Reviewers'] // Replace with actual team slugs
+                team_reviewers: ['peer-code-reviewers', 'senior-code-reviewers'] // Replace with actual team slugs
               });
             } catch (error) {
               console.log("No reviewers to remove or error occurred:", error.message);
@@ -39,5 +39,5 @@ jobs:
               owner,
               repo,
               pull_number: prNumber,
-              team_reviewers: ['Peer Code Reviewers', 'Senior+ Code Reviewers'] // Replace with actual team slugs
+              team_reviewers: ['peer-code-reviewers', 'senior-code-reviewers'] // Replace with actual team slugs
             });
