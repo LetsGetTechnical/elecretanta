@@ -17,5 +17,11 @@ describe('Calendar component in create group page', () => {
 
     const pastDate = screen.getByText('5');
     expect(pastDate).toBeDisabled();
+
+    const today = screen.getByText('8');
+    expect(today).not.toBeDisabled();
+
+    const tomorrow = screen.getByText('9');
+    expect(tomorrow).not.toBeDisabled();
   });
 });

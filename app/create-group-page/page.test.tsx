@@ -20,5 +20,8 @@ describe('Calendar component in create group page', () => {
 
     const today = screen.getByText('8');
     expect(today).not.toBeDisabled();
+
+    const tomorrow = screen.getByText('9');
+    expect(tomorrow).not.toBeDisabled();
   });
 });
