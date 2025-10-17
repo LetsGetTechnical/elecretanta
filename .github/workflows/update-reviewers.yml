@@ -21,6 +21,8 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
+            console.log(`Updating reviewers for PR #${prNumber} in ${owner}/${repo}`);
+
             // Optional: remove existing reviewers (GitHub may auto-reassign CODEOWNERS)
             try {
               await github.rest.pulls.removeRequestedReviewers({
