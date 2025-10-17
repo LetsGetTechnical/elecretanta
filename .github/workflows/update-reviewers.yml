@@ -17,7 +17,7 @@ jobs:
         with:
           github-token: ${{ secrets.GH_PAT }}
           script: |
-            const prNumber = context.payload.pull_requestf.number;
+            const prNumber = context.payload.pull_request.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
