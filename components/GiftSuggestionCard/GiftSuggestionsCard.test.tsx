@@ -1,29 +1,54 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-// import { render, screen } from '@testing-library/react';
-// import GiftSuggestionCard from './GiftSuggestionCard';
-// import { userEvent } from '@testing-library/user-event';
-// import FeedbackView from '../FeedbackView/FeedbackView';
-// import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';
+import { render, screen } from '@testing-library/react';
+import GiftSuggestionCard from './GiftSuggestionCard';
+import { userEvent } from '@testing-library/user-event';
+import FeedbackView from '../FeedbackView/FeedbackView';
+import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';
 
+//add props data
+//add data test id for compoonents
+describe('Gift Suggestion Card test',()=>{
+    render(
+        //figure out how what should be rendered: card, feedback, giftcardview
+        <FeedbackView
+        allGiftSuggestions={}
+        budget={}
+        gift={}
+        handleFeedback={}
+        onGiftUpdate={}
+        recipient={}
+        />
+       
+    )
+    // it('confirm card renders',()=>{
+        
+    // });
+    // it('confirm FeedbackView renders when state is true',()=>{
+    //     //set state as true
+        
+    // });
+    // it('confirm GiftDetailsView renders when state is false',()=>{
+        
+    // });
+    // it('confirm handleGiftUpdate changes states to false',()=>{
 
-//Tests
-//HandleGift Updates**(need better understanding how it works)
-    //with and without an param
-    //only confirming state changed
-//Should I test the existence and none existence of all of the params?
-    //what should happen if a param doesnt exist...err for the child comp
+    // });
+    // it('confirm handleGiftUpdate stays false if it stays false',()=>{
+    //     //may not be needed because starting state should always be false
+    // });
+    // it('confirm handleGiftUpdate returns a Promise',()=>{
+    //     //may be out of scope for this test
+    // });
+    // it('fails when no params are passed',()=>{
+    //     //may be out of scope for this test bc error handling is not in component
+    // });
+    // it('confirm handleFeedbackView returns a changes state from true to false',()=>{
+    // });
+    // it('confirm handleFeedbackView returns a changes state from false to true',()=>{
+    // });
 
-//isShowingFeedback State
-    //correct display shows when it is true or false
-//What is this component supposed to do?
-    //it should be able to take in all of these variables and either pass it to the 
-        //feedback loop
-        //giftdetails
-//make sure the 2 views show
+})
 
-    //will have to run function onGiftUpdate
-        //will have to mock gift update
-    //Shouldnt have to mock the state 
     
