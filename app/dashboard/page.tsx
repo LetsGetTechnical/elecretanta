@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { GiftExchangeWithMemberCount } from '../types/giftExchange';
 import { useToast } from '@/hooks/use-toast';
-import { ToastVariants } from '@/components/Toast/Toast.enum';
+import { notifyAboutExchanges } from '@/lib/utils';
 
 export default function Dashboard() {
   const [giftExchanges, setGiftExchanges] = useState<
@@ -32,38 +32,7 @@ export default function Dashboard() {
         const data = await response.json();
         setGiftExchanges(data);
 
-        const today = new Date();
-        for (const exchange of data) {
-          const drawingDate = new Date(exchange.drawing_date);
-          const timeDifference = drawingDate.getTime() - today.getTime();
-          const dayDifference = Math.ceil(
-            timeDifference / (1000 * 60 * 60 * 24),
-          );
-
-          if (dayDifference > 0 && dayDifference <= 3) {
-            toast({
-              variant: ToastVariants.Warning,
-              title: `Upcoming Draw - ${exchange.name}`,
-              description: `The draw is in ${dayDifference} day(s)!`,
-              group: exchange.gift_exchange_id,
-            });
-          } else if (dayDifference === 0) {
-            toast({
-              variant: ToastVariants.Success,
-              title: `Draw Today - ${exchange.name}`,
-              description: `Go to your group to initiate the gift exchange draw.`,
-              group: exchange.gift_exchange_id,
-            });
-          } else if (dayDifference < 0) {
-            toast({
-              variant: ToastVariants.Error,
-              title: `Draw date has passed - ${exchange.name}`,
-              description:
-                'Your Secret Santas are still secret! Please draw now or reschedule drawing date.',
-              group: exchange.gift_exchange_id,
-            });
-          }
-        }
+        notifyAboutExchanges(data, toast);
       } catch (error) {
         console.error('Failed to fetch gift exchanges:', error);
       } finally {
