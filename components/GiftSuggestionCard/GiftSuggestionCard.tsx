@@ -15,7 +15,7 @@ import { Profile } from '@/app/types/profile';
  * @param {string} props.budget - the exchange budget for gift.
  * @param {IGiftSuggestion} props.gift - the gift suggestion.
  * @param {number} props.index - the index of the gift.
- * @param {IGiftSuggestion | number} props.onGiftUpdate - the updated value of index and gift suggestion.
+ * @param {Function} props.onGiftUpdate - the updated value of index and gift suggestion.
  * @param {Profile | null} props.recipient - The user information for gift recipient.
  * @returns {JSX.Element} - The gift suggestion card component.
  */
@@ -41,13 +41,19 @@ const GiftSuggestionCard = ({
    * @param {IGiftSuggestion} updatedGift - the updated gift value
    * @returns {Promise<void>} - sets state and updated gift values
    */
-  const handleGiftUpdate = async ( //onhandle
+  const handleGiftUpdate = async (
     updatedGift: IGiftSuggestion,
   ): Promise<void> => {
     onGiftUpdate(updatedGift, index);
     setIsShowingFeedback(false);
   };
-//handleGiftUpdate
+
+  /**
+   * Handles updating state for showing FeedbackView and GiftView
+   */
+  const handleFeedbackView = (): void => {
+    setIsShowingFeedback(prev=> !prev)
+  };
   return (
     <Card className="bg-giftSuggestionsCardBackground h-100 w-80 flex flex-col justify-between m-5">
       {isShowingFeedback ? (
@@ -55,15 +61,12 @@ const GiftSuggestionCard = ({
           allGiftSuggestions={allGiftSuggestions}
           budget={budget}
           gift={gift}
-          handleFeedback={() => setIsShowingFeedback(false)}
+          handleFeedback={handleFeedbackView}
           onGiftUpdate={handleGiftUpdate}
           recipient={recipient}
         />
       ) : (
-        <GiftDetailsView
-          gift={gift}
-          handleFeedback={() => setIsShowingFeedback(true)}
-        />
+        <GiftDetailsView gift={gift} handleFeedback={handleFeedbackView} />
       )}
     </Card>
   );
