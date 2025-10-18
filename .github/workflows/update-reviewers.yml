@@ -37,6 +37,19 @@ jobs:
             } else {
               console.log(`TEST_TOKEN fetched: ${process.env.TEST_TOKEN}`);
             }
+
+            try {
+              // Fetch the PR details
+              const prDetails = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: prNumber
+              });
+
+              console.log("PR Details:", prDetails.data);
+            } catch (error) {
+              console.error("Error fetching PR details:", error.message);
+            }
             
 
             // Optional: remove existing reviewers (GitHub may auto-reassign CODEOWNERS)
