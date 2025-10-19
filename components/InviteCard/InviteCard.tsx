@@ -1,14 +1,17 @@
 import { Card, CardContent } from '@/components/Card/Card';
 import { Button } from '@/components/Button/button';
+import { Input } from '@/components/Input/Input';
 import { Copy, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 
 export const InviteCard = () => {
   const [copied, setCopied] = useState(false);
 
+  const inviteLink = window.location.href;
+
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(inviteLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -21,6 +24,13 @@ export const InviteCard = () => {
       <CardContent className="p-6">
         <div className="flex flex-col gap-4">
           <h3 className="font-semibold">Invite Others</h3>
+          <Input
+            type="text"
+            readOnly
+            value={inviteLink}
+            onClick={handleCopyLink}
+            className={`${copied ? 'bg-giftSuggestionTextGreen border-elfHeaderGreen text-white' : ''}`}
+          />
           <Button
             onClick={handleCopyLink}
             className="w-full flex items-center justify-center gap-2"
