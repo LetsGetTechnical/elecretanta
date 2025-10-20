@@ -52,6 +52,8 @@ const priceRanges = [
   { label: '$90 - $100', value: '90-100' },
 ] as const;
 
+const groupImageUrls = GROUP_IMAGES.map((image) => image.src);
+
 const formSchema = z
   .object({
     name: z.string().min(2, {
@@ -65,10 +67,11 @@ const formSchema = z
     budget: z.string({
       required_error: 'Please select a Price Range.',
     }),
-    group_image: z.custom<string>(
-      (val) => GROUP_IMAGES.map((image) => image.src).includes(val),
-      { message: 'Group Theme Image must be selected' },
-    ),
+    group_image: z
+      .string()
+      .refine((val) => groupImageUrls.includes(val), {
+        message: 'Group Theme Image must be selected',
+      }),
   })
   .refine((data) => data.exchange_date > data.drawing_date, {
     message: 'Exchange Date must be after the Drawing Date',
