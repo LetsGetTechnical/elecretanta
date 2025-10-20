@@ -41,56 +41,50 @@ describe('Create Group Page', () => {
     jest.setSystemTime(new Date('2025-01-01T12:00:00Z'));
     render(<CreateGroupPage />);
     jest.useRealTimers();
+
+    return {
+      user: userEvent.setup(),
+      getGroupNameInput: () => screen.getByLabelText(/name/i),
+      getGroupDescriptionInput: () => screen.getByLabelText(/description/i),
+      getBudgetButton: () => screen.getByTestId('budget-button'),
+      getBudgetItems: () => screen.getAllByTestId('command-item'),
+      getDrawingDateButton: () => screen.getByTestId('drawing-date-button'),
+      getFifteenthButtons: async () =>
+        await screen.findAllByRole('gridcell', { name: '15' }),
+      getExchangeDateButton: () => screen.getByTestId('exchange-date-button'),
+      getSixteenthButtons: async () =>
+        await screen.findAllByRole('gridcell', { name: '16' }),
+      getImagesTiles: () => screen.getAllByRole('radio'),
+      getSubmitButton: () =>
+        screen.getByRole('button', { name: 'Create Group' }),
+    };
   };
 
   it('passes validation when the all of the form field values are valid', async () => {
-    renderPage();
+    const {
+      user,
+      getGroupNameInput,
+      getGroupDescriptionInput,
+      getBudgetButton,
+      getBudgetItems,
+      getDrawingDateButton,
+      getFifteenthButtons,
+      getExchangeDateButton,
+      getSixteenthButtons,
+      getImagesTiles,
+      getSubmitButton,
+    } = renderPage();
 
-    const user = userEvent.setup();
-
-    // A valid Group Name
-    const groupNameInput = screen.getByLabelText(/name/i); // or test-id = input
-    await user.type(groupNameInput, 'My Group');
-
-    // A valid Group Description
-    const groupDescriptionInput = screen.getByLabelText(/description/i); // or test-id = textarea
-    await user.type(groupDescriptionInput, 'My Group Description');
-
-    // Open Price Range Selector
-    const budgetButton = screen.getByTestId('budget-button');
-    await user.click(budgetButton);
-
-    // Select the 1st price range
-    const budgetItems = screen.getAllByTestId('command-item');
-    await user.click(budgetItems[0]);
-
-    // Open Drawing Date Calendar
-    const drawingDateButton = screen.getByTestId('drawing-date-button');
-    await user.click(drawingDateButton);
-
-    // Select the 15th for the Drawing Date
-    const fifteenthButtons = await screen.findAllByRole('gridcell', {
-      name: '15',
-    });
-    await user.click(fifteenthButtons[0]);
-
-    // Open Exchange Date Calendar
-    const exchangeDateButton = screen.getByTestId('exchange-date-button');
-    await user.click(exchangeDateButton);
-
-    // Select the 16th for the Exchange Date
-    const sixteenthButtons = await screen.findAllByRole('gridcell', {
-      name: '16',
-    });
-    await user.click(sixteenthButtons[0]);
-
-    // Select the first available group image
-    const imagesTiles = screen.getAllByRole('radio');
-    await user.click(imagesTiles[0]);
-
-    // Click Submit button
-    const submitButton = screen.getByRole('button', { name: 'Create Group' });
-    await user.click(submitButton);
+    await user.type(getGroupNameInput(), 'My Group');
+    await user.type(getGroupDescriptionInput(), 'My Group Description');
+    await user.click(getBudgetButton());
+    await user.click(getBudgetItems()[0]);
+    await user.click(getDrawingDateButton());
+    await user.click((await getFifteenthButtons())[0]);
+    await user.click(getExchangeDateButton());
+    await user.click((await getSixteenthButtons())[0]);
+    await user.click(getImagesTiles()[0]);
+    await user.click(getSubmitButton());
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledWith(
@@ -100,49 +94,28 @@ describe('Create Group Page', () => {
   });
 
   it('does not pass validation check when the field value for group_image is not a valid src', async () => {
-    renderPage();
+    const {
+      user,
+      getGroupNameInput,
+      getGroupDescriptionInput,
+      getBudgetButton,
+      getBudgetItems,
+      getDrawingDateButton,
+      getFifteenthButtons,
+      getExchangeDateButton,
+      getSixteenthButtons,
+      getSubmitButton,
+    } = renderPage();
 
-    const user = userEvent.setup();
-
-    // A valid Group Name
-    const groupNameInput = screen.getByLabelText(/name/i); // or test-id = input
-    await user.type(groupNameInput, 'My Group');
-
-    // A valid Group Description
-    const groupDescriptionInput = screen.getByLabelText(/description/i); // or test-id = textarea
-    await user.type(groupDescriptionInput, 'My Group Description');
-
-    // Open Price Range Selector
-    const budgetButton = screen.getByTestId('budget-button');
-    await user.click(budgetButton);
-
-    // Select the 1st price range
-    const budgetItems = screen.getAllByTestId('command-item');
-    await user.click(budgetItems[0]);
-
-    // Open Drawing Date Calendar
-    const drawingDateButton = screen.getByTestId('drawing-date-button');
-    await user.click(drawingDateButton);
-
-    // Select the 15th for the Drawing Date
-    const fifteenthButtons = await screen.findAllByRole('gridcell', {
-      name: '15',
-    });
-    await user.click(fifteenthButtons[0]);
-
-    // Open Exchange Date Calendar
-    const exchangeDateButton = screen.getByTestId('exchange-date-button');
-    await user.click(exchangeDateButton);
-
-    // Select the 16th for the Exchange Date
-    const sixteenthButtons = await screen.findAllByRole('gridcell', {
-      name: '16',
-    });
-    await user.click(sixteenthButtons[0]);
-
-    // Click Submit button
-    const submitButton = screen.getByRole('button', { name: 'Create Group' });
-    await user.click(submitButton);
+    await user.type(getGroupNameInput(), 'My Group');
+    await user.type(getGroupDescriptionInput(), 'My Group Description');
+    await user.click(getBudgetButton());
+    await user.click(getBudgetItems()[0]);
+    await user.click(getDrawingDateButton());
+    await user.click((await getFifteenthButtons())[0]);
+    await user.click(getExchangeDateButton());
+    await user.click((await getSixteenthButtons())[0]);
+    await user.click(getSubmitButton());
 
     expect(global.fetch).not.toHaveBeenCalled();
   });
