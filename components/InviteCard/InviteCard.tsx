@@ -4,10 +4,12 @@ import { Input } from '@/components/Input/Input';
 import { Copy, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 
-export const InviteCard = () => {
-  const [copied, setCopied] = useState(false);
+interface IInviteCard {
+  inviteLink: string;
+}
 
-  const inviteLink = window.location.href;
+export const InviteCard = ({ inviteLink }: IInviteCard) => {
+  const [copied, setCopied] = useState(false);
 
   const handleCopyLink = async () => {
     try {
