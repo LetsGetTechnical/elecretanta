@@ -6,15 +6,8 @@ describe('InviteCard', () => {
   const mockInviteUrl = 'https://example.com/invite-123';
   const originalClipboard: Clipboard = global.navigator.clipboard;
 
-  // Mocks the window location
   beforeEach(() => {
-    Object.defineProperty(window, 'location', {
-      value: { href: mockInviteUrl },
-    });
-  });
-
-  beforeEach(() => {
-    // Mocking the navigator clipboard
+    // Replacing navigator clipboard with custom implementation
     Object.defineProperty(navigator, 'clipboard', {
       value: {
         writeText: jest.fn(),
@@ -32,7 +25,7 @@ describe('InviteCard', () => {
   });
 
   it('renders the InviteCard with input and link', () => {
-    render(<InviteCard />);
+    render(<InviteCard inviteLink={mockInviteUrl} />);
 
     const inputElement = screen.getByRole('textbox');
     const buttonElement = screen.getByRole('button', {
@@ -44,7 +37,7 @@ describe('InviteCard', () => {
   });
 
   it('renders the input with correct invite link', () => {
-    render(<InviteCard />);
+    render(<InviteCard inviteLink={mockInviteUrl} />);
 
     const inputElement = screen.getByRole('textbox');
 
@@ -52,7 +45,7 @@ describe('InviteCard', () => {
   });
 
   it('copies correct invite link to clipboard', async () => {
-    render(<InviteCard />);
+    render(<InviteCard inviteLink={mockInviteUrl} />);
 
     const buttonElement = screen.getByRole('button', {
       name: /Copy invite link/i,
