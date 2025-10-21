@@ -24,31 +24,31 @@ jobs:
             // Small delay helps avoid race with CODEOWNERS auto-requests
             await new Promise(r => setTimeout(r, 3000));
 
-            let users = [];
-            let teams = [];
+            // Team slugs
+            const desiredTeams = ['peer-code-reviewers', 'senior-code-reviewers']; 
+            let reviewers = [];
             let data = {};
 
             try {
               // Fetch the PR and user details
-              data = await github.rest.pulls.listRequestedReviewers({
+              data = await github.rest.pulls.listReviews({
                 owner, repo, pull_number: prNumber
               });
 
-              users = data.users.map(u => u.login);
-              teams = data.teams.map(t => t.slug);
+              // Users who have reviewed or been requested
+              reviewers = data.filter(r => r.user).map(r => r.user.login);
 
-              core.info(`Found requested users: ${users.join(', ') || '(none)'}`);
-              core.info(`Found requested teams: ${teams.join(', ') || '(none)'}`);
+              core.info(`Found requested reviewers: ${reviewers.join(', ') || '(none)'}`);
             } catch (error) {
               console.error("Error fetching PR details:", error.message);
             }
             
             // Optional: remove existing reviewers (GitHub may auto-reassign CODEOWNERS)
             try {
-              if (users.length || teams.length) {
+              if (reviewers.length || teams.length) {
                 await github.rest.pulls.removeRequestedReviewers({
                   owner, repo, pull_number: prNumber,
-                  reviewers: users,
+                  reviewers: reviewers,
                   team_reviewers: teams
                 });
 
@@ -58,21 +58,14 @@ jobs:
               console.log("No requested reviewers to remove or error occurred:", error.message);
             }
 
-            // Team slugs
-            const desiredTeams = ['peer-code-reviewers', 'senior-code-reviewers']; 
-
-            // Check what is currently requested to avoid 422 errors
-            const currentTeams = data.teams.map(t => t.slug);
-            const toAdd = desiredTeams.filter(s => !currentTeams.includes(s));
-
             // Adds teams to PR
             try {
               await github.rest.pulls.requestReviewers({
                 owner, repo, pull_number: prNumber,
-                team_reviewers: toAdd
+                team_reviewers: desiredTeams
               });
 
-              core.info(`Requested review from teams: ${toAdd.join(', ')}`);
+              core.info(`Requested review from teams: ${desiredTeams.join(', ')}`);
             } catch (error) {
               core.info('All desired teams already requested or error occured:', error.message);
             }
