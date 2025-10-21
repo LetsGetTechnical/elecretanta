@@ -9,6 +9,8 @@ import GlobalHeader from '@/components/GlobalHeader/GlobalHeader';
 import { SnowOverlayProvider } from '@/providers/SnowOverlayProvider';
 import SnowOverlayWrapper from '@/components/SnowOverlayWrapper/SnowOverlayWrapper';
 import AuthContextProvider from '@/context/AuthContextProvider';
+import Script from 'next/script';
+import Toaster from '@/components/Toaster/Toaster';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -38,6 +40,20 @@ const RootLayout = ({
 }>): JSX.Element => {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}');
+          `}
+        </Script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient`}
       >
@@ -48,6 +64,7 @@ const RootLayout = ({
             {children}
           </SnowOverlayProvider>
         </AuthContextProvider>
+        <Toaster />
       </body>
     </html>
   );
