@@ -67,11 +67,9 @@ const formSchema = z
     budget: z.string({
       required_error: 'Please select a Price Range.',
     }),
-    group_image: z
-      .string()
-      .refine((val) => groupImageUrls.includes(val), {
-        message: 'Group Theme Image must be selected',
-      }),
+    group_image: z.string().refine((val) => groupImageUrls.includes(val), {
+      message: 'Group Theme Image must be selected',
+    }),
   })
   .refine((data) => data.exchange_date > data.drawing_date, {
     message: 'Exchange Date must be after the Drawing Date',
@@ -89,7 +87,7 @@ export default function CreateGroupPage() {
       drawing_date: new Date(),
       exchange_date: new Date(),
       budget: '',
-      group_image: 'img url',
+      group_image: GROUP_IMAGES[0].src,
     },
   });
 
