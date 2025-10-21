@@ -24,7 +24,6 @@ jobs:
             // Small delay helps avoid race with CODEOWNERS auto-requests
             await new Promise(r => setTimeout(r, 3000));
 
-        
             try {
               // Fetch the PR and user details
               const { data } = await github.rest.pulls.listRequestedReviewers({
@@ -34,8 +33,8 @@ jobs:
               const users = data.users.map(u => u.login);
               const teams = data.teams.map(t => t.slug);
 
-              core.info(Found requested users: ${users.join(', ') || '(none)'});
-              core.info(Found requested teams: ${teams.join(', ') || '(none)'});
+              core.info(`Found requested users: ${users.join(', ') || '(none)'}`);
+              core.info(`Found requested teams: ${teams.join(', ') || '(none)'}`);
             } catch (error) {
               console.error("Error fetching PR details:", error.message);
             }
@@ -68,7 +67,8 @@ jobs:
                 owner, repo, pull_number: prNumber,
                 team_reviewers: toAdd
               });
-              core.info(Requested review from teams: ${toAdd.join(', ')});
+
+              core.info(`Requested review from teams: ${toAdd.join(', ')}`);
             } catch (error) {
               core.info('All desired teams already requested or error occured:', error.message);
             }
