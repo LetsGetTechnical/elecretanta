@@ -21,41 +21,47 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
+            if(!prNumber) {
+              core.setFailed("Could not get PR number from context.");
+              return;
+            }
+
             // Small delay helps avoid race with CODEOWNERS auto-requests
             await new Promise(r => setTimeout(r, 3000));
 
             // Team slugs
             const desiredTeams = ['peer-code-reviewers', 'senior-code-reviewers']; 
-            let reviewers = [];
-            let data = {};
+            let reviewersToRemove = [];
 
             try {
               // Fetch the PR and user details
-              data = await github.rest.pulls.listReviews({
+              const { data } = await github.rest.pulls.listRequestedReviewers({
                 owner, repo, pull_number: prNumber
               });
 
-              // Users who have reviewed or been requested
-              reviewers = data.filter(r => r.user).map(r => r.user.login);
+              // Extract users from the response, ensuring the users array exists
+              reviewersToRemove = Array.isArray(data.data.users) ? data.data.users.map(user => user.login) : [];
 
-              core.info(`Found requested reviewers: ${reviewers.join(', ') || '(none)'}`);
+              core.info(`Found requested reviewers: ${reviewersToRemove.join(', ') || '(none)'}`);
             } catch (error) {
               console.error("Error fetching PR details:", error.message);
             }
             
-            // Optional: remove existing reviewers (GitHub may auto-reassign CODEOWNERS)
+            // Optional: Remove existing reviewers and teams (GitHub may auto-reassign CODEOWNERS)
             try {
-              if (reviewers.length || teams.length) {
+              if (reviewersToRemove.length > 0 || desiredTeams.length > 0) {
                 await github.rest.pulls.removeRequestedReviewers({
                   owner, repo, pull_number: prNumber,
-                  reviewers: reviewers,
-                  team_reviewers: teams
+                  reviewers: reviewersToRemove,
+                  team_reviewers: desiredTeams
                 });
 
                 core.info('Removed all currently requested reviewers.');
-              } 
+              } else {
+                core.info("No reviewers to remove.");
+              }
             } catch (error) {
-              console.log("No requested reviewers to remove or error occurred:", error.message);
+              console.error("Error occurred while removing reviewers or teams:", error.message);
             }
 
             // Adds teams to PR
