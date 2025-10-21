@@ -184,7 +184,6 @@ export default function CreateGroupPage() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            data-testid="budget-button"
                             variant="outline"
                             role="combobox"
                             className={cn(
@@ -254,7 +253,6 @@ export default function CreateGroupPage() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            data-testid="drawing-date-button"
                             variant={'outline'}
                             className={cn(
                               'w-60 pl-3 text-left font-normal m-5',
@@ -301,7 +299,6 @@ export default function CreateGroupPage() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            data-testid="exchange-date-button"
                             variant={'outline'}
                             className={cn(
                               'w-60 pl-3 text-left font-normal m-5',
