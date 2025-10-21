@@ -23,38 +23,52 @@ jobs:
 
             // Small delay helps avoid race with CODEOWNERS auto-requests
             await new Promise(r => setTimeout(r, 3000));
+
         
             try {
-              // Fetch the PR details
-              const prDetails = await github.rest.pulls.get({
-                owner,
-                repo,
-                pull_number: prNumber
+              // Fetch the PR and user details
+              const { data } = await github.rest.pulls.listRequestedReviewers({
+                owner, repo, pull_number: prNumber
               });
 
-              console.log("PR Details:", prDetails.data);
+              const users = data.users.map(u => u.login);
+              const teams = data.teams.map(t => t.slug);
+
+              core.info(Found requested users: ${users.join(', ') || '(none)'});
+              core.info(Found requested teams: ${teams.join(', ') || '(none)'});
             } catch (error) {
               console.error("Error fetching PR details:", error.message);
             }
             
-
             // Optional: remove existing reviewers (GitHub may auto-reassign CODEOWNERS)
             try {
-              await github.rest.pulls.removeRequestedReviewers({
-                owner,
-                repo,
-                pull_number: prNumber,
-                reviewers: [],
-                team_reviewers: ['peer-code-reviewers', 'senior-code-reviewers'] // Replace with actual team slugs
-              });
+              if (users.length || teams.length) {
+                await github.rest.pulls.removeRequestedReviewers({
+                  owner, repo, pull_number: prNumber,
+                  reviewers: users,
+                  team_reviewers: teams
+                });
+
+                core.info('Removed all currently requested reviewers.');
+              } 
             } catch (error) {
-              console.log("No reviewers to remove or error occurred:", error.message);
+              console.log("No requested reviewers to remove or error occurred:", error.message);
             }
 
-            // Add specific teams as reviewers
-            await github.rest.pulls.requestReviewers({
-              owner,
-              repo,
-              pull_number: prNumber,
-              team_reviewers: ['peer-code-reviewers', 'senior-code-reviewers'] // Replace with actual team slugs
-            });
+            // Team slugs
+            const desiredTeams = ['peer-code-reviewers', 'senior-code-reviewers']; 
+
+            // Check what is currently requested to avoid 422 errors
+            const currentTeams = data.teams.map(t => t.slug);
+            const toAdd = desiredTeams.filter(s => !currentTeams.includes(s));
+
+            // Adds teams to PR
+            try {
+              await github.rest.pulls.requestReviewers({
+                owner, repo, pull_number: prNumber,
+                team_reviewers: toAdd
+              });
+              core.info(Requested review from teams: ${toAdd.join(', ')});
+            } catch (error) {
+              core.info('All desired teams already requested or error occured:', error.message);
+            }
