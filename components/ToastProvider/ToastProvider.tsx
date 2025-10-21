@@ -1,10 +1,10 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-"use client"
+'use client';
 
-import * as ToastPrimitives from "@radix-ui/react-toast"
+import * as ToastPrimitives from '@radix-ui/react-toast';
 
-const ToastProvider = ToastPrimitives.Provider
+const ToastProvider = ToastPrimitives.Provider;
 
-export { ToastProvider }
+export { ToastProvider };
