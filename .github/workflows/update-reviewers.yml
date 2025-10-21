@@ -24,14 +24,18 @@ jobs:
             // Small delay helps avoid race with CODEOWNERS auto-requests
             await new Promise(r => setTimeout(r, 3000));
 
+            let users = [];
+            let teams = [];
+            let data = {};
+
             try {
               // Fetch the PR and user details
-              const { data } = await github.rest.pulls.listRequestedReviewers({
+              data = await github.rest.pulls.listRequestedReviewers({
                 owner, repo, pull_number: prNumber
               });
 
-              const users = data.users.map(u => u.login);
-              const teams = data.teams.map(t => t.slug);
+              users = data.users.map(u => u.login);
+              teams = data.teams.map(t => t.slug);
 
               core.info(`Found requested users: ${users.join(', ') || '(none)'}`);
               core.info(`Found requested teams: ${teams.join(', ') || '(none)'}`);
