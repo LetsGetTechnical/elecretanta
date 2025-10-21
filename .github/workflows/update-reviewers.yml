@@ -39,8 +39,8 @@ jobs:
                 owner, repo, pull_number: prNumber
               });
 
-              // Extract users from the response, ensuring the users array exists
-              reviewersToRemove = Array.isArray(data.data.users) ? data.data.users.map(user => user.login) : [];
+              // Extract users from the response.
+              reviewersToRemove = data.users.map(user => user.login);
 
               core.info(`Found requested reviewers: ${reviewersToRemove.join(', ') || '(none)'}`);
             } catch (error) {
