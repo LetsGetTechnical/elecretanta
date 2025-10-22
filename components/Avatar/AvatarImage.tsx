@@ -23,6 +23,7 @@ const AvatarImage = forwardRef<
       ref={ref}
       alt={alt}
       className={cn('aspect-square h-full w-full', className)}
+      data-testid="avatar-image"
       {...props}
     />
   ),
