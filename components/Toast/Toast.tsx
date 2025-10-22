@@ -12,7 +12,7 @@ import { ToastVariants } from './Toast.enum';
 export const toastVariantStyles = {
   [ToastVariants.Default]: 'border bg-background text-foreground',
   [ToastVariants.Error]:
-    'destructive group border-destructive bg-destructive text-destructive-foreground',
+    'destructive group border-error bg-error text-error-foreground',
   [ToastVariants.Warning]:
     'warning group border-warning bg-warning text-warning-foreground',
   [ToastVariants.Success]:
