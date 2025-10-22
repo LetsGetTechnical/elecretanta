@@ -75,7 +75,7 @@ const formSchema = z
     path: ['exchange_date'],
   });
 
-export default function CreateGroupPage() {
+export default function EditGroupPage() {
   const { id } = useParams();
   const router = useRouter();
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange | null>(
@@ -174,6 +174,7 @@ export default function CreateGroupPage() {
   }
 
   const giftDrawingDate = form.watch('drawing_date');
+
   return (
     <div className="edit-group-page flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       <div className="flex flex-row">
@@ -240,13 +241,16 @@ export default function CreateGroupPage() {
               <FormField
                 control={form.control}
                 name="budget"
-                render={({ field }) => (
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  return (
                   <FormItem className="flex flex-col">
                     <FormLabel className="mx-5 mt-5">Price Range</FormLabel>
-                    <Popover>
+                    <Popover open={open} onOpenChange={setOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            data-testid="budget-button"
                             variant="outline"
                             role="combobox"
                             className={cn(
@@ -277,9 +281,13 @@ export default function CreateGroupPage() {
                                 <CommandItem
                                   value={priceRanges.label}
                                   key={priceRanges.value}
-                                  onSelect={() => {
-                                    form.setValue('budget', priceRanges.value);
-                                  }}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        'budget',
+                                        priceRanges.value,
+                                      );
+                                      setOpen(false);
+                                    }}
                                 >
                                   {priceRanges.label}
                                   <Check
@@ -302,20 +310,23 @@ export default function CreateGroupPage() {
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
-                )}
+                )}}
               />
               <FormField
                 control={form.control}
                 name="drawing_date"
-                render={({ field }) => (
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  return (
                   <FormItem className="flex flex-col">
                     <FormLabel className="mx-5 mt-5">
                       Gift Drawing Date
                     </FormLabel>
-                    <Popover>
+                    <Popover open={open} onOpenChange={setOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            data-testid="drawing-date-button"
                             variant={'outline'}
                             className={cn(
                               'w-60 pl-3 text-left font-normal m-5',
@@ -335,7 +346,10 @@ export default function CreateGroupPage() {
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                            onSelect={(inputValue) => {
+                              field.onChange(inputValue);
+                              setOpen(false);
+                            }}
                           disabled={[{ before: new Date() }]}
                           initialFocus
                         />
@@ -346,20 +360,23 @@ export default function CreateGroupPage() {
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
-                )}
+                )}}
               />
               <FormField
                 control={form.control}
                 name="exchange_date"
-                render={({ field }) => (
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  return (
                   <FormItem className="flex flex-col">
                     <FormLabel className="mx-5 mt-5">
                       Gift Exchange Date
                     </FormLabel>
-                    <Popover>
+                    <Popover open={open} onOpenChange={setOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            data-testid="exchange-date-button"
                             variant={'outline'}
                             className={cn(
                               'w-60 pl-3 text-left font-normal m-5',
@@ -379,7 +396,10 @@ export default function CreateGroupPage() {
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                            onSelect={(inputValue) => {
+                              field.onChange(inputValue);
+                              setOpen(false);
+                            }}
                           disabled={[{ before: giftDrawingDate }]}
                           initialFocus
                         />
@@ -390,7 +410,7 @@ export default function CreateGroupPage() {
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
-                )}
+                )}}
               />
               <div className="flex md:justify-start justify-center md:m-5 m-0 w-full">
                 <Button className="m-2" type="submit">
