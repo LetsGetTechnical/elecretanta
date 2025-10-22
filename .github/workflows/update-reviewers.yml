@@ -17,6 +17,9 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
+            // Team slugs
+            const desiredTeams = ['peer-code-reviewers', 'senior-code-reviewers']; 
+
             if(!prNumber) {
               core.setFailed("Could not get PR number from context.");
               return;
@@ -25,8 +28,6 @@ jobs:
             // Small delay helps avoid race with CODEOWNERS auto-requests
             await new Promise(r => setTimeout(r, 3000));
 
-            // Team slugs
-            const desiredTeams = ['peer-code-reviewers', 'senior-code-reviewers']; 
             let reviewersToRemove = [];
 
             try {
@@ -34,14 +35,6 @@ jobs:
               const { data } = await github.rest.pulls.listRequestedReviewers({
                 owner, repo, pull_number: prNumber
               });
-
-              const existingTeamReviewers = data.teams;
-
-              // Check if the PR already has team reviewers
-              if (existingTeamReviewers.length > 0) {
-                core.info('PR already has team reviewers. Skipping script.');
-                return;
-              }
 
               // Extract users from the response.
               reviewersToRemove = data.users.map(user => user.login);
