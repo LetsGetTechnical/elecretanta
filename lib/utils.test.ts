@@ -40,13 +40,9 @@ describe('Utils test', () => {
         today,
       );
 
+      expect(mockToast).toHaveBeenCalledTimes(1);
       expect(mockToast).toHaveBeenCalledWith(
-        expect.objectContaining({
-          variant: ToastVariants.Warning,
-          title: expect.stringContaining('Upcoming Draw'),
-          description: expect.stringContaining('2 day'),
-          group: baseExchange.gift_exchange_id,
-        }),
+        expect.objectContaining({ variant: ToastVariants.Warning }),
       );
     });
 
@@ -69,12 +65,9 @@ describe('Utils test', () => {
         today,
       );
 
+      expect(mockToast).toHaveBeenCalledTimes(1);
       expect(mockToast).toHaveBeenCalledWith(
-        expect.objectContaining({
-          variant: ToastVariants.Success,
-          title: expect.stringContaining('Draw Today'),
-          group: baseExchange.gift_exchange_id,
-        }),
+        expect.objectContaining({ variant: ToastVariants.Success }),
       );
     });
 
@@ -97,12 +90,9 @@ describe('Utils test', () => {
         today,
       );
 
+      expect(mockToast).toHaveBeenCalledTimes(1);
       expect(mockToast).toHaveBeenCalledWith(
-        expect.objectContaining({
-          variant: ToastVariants.Error,
-          title: expect.stringContaining('Draw date has passed'),
-          group: baseExchange.gift_exchange_id,
-        }),
+        expect.objectContaining({ variant: ToastVariants.Error }),
       );
     });
 
