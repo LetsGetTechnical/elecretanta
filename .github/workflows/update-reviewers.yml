@@ -4,10 +4,6 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
-permissions:
-  pull-requests: write
-  contents: read  
-
 jobs:
   update-reviewers:
     runs-on: ubuntu-latest
@@ -38,6 +34,14 @@ jobs:
               const { data } = await github.rest.pulls.listRequestedReviewers({
                 owner, repo, pull_number: prNumber
               });
+
+              const existingTeamReviewers = data.team_reviewers.map(team => team.slug);
+
+              // Check if the PR already has team reviewers
+              if (existingTeamReviewers.length > 0) {
+                core.info('PR already has team reviewers. Skipping script.');
+                return;
+              }
 
               // Extract users from the response.
               reviewersToRemove = data.users.map(user => user.login);
