@@ -35,7 +35,7 @@ jobs:
                 owner, repo, pull_number: prNumber
               });
 
-              const existingTeamReviewers = data.data.team_reviewers.map(team => team.slug);
+              const existingTeamReviewers = data.data.teams;
 
               // Check if the PR already has team reviewers
               if (existingTeamReviewers.length > 0) {
