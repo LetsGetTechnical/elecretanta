@@ -110,7 +110,7 @@ describe('Popover Component with attributes while popover is open', () => {
 
     await userEvent.click(triggerContent);
 
-    const content = screen.queryByTestId('popover-content');
+    const popoverContent = screen.queryByTestId('popover-content');
     expect(content).toHaveAttribute('data-align', 'start');
   });
 });
