@@ -28,7 +28,7 @@ const PopoverAnchor = ({ ...props }): React.JSX.Element => {
 };
 
 /**
- * The Popoover Content component.
+ * The Popover Content component.
  * @param {object} props - The props passed.
  * @param {string} props.className - The style for components.
  * @param {number} sideOffset - The sideOffset default value.
