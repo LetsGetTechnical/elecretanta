@@ -2,7 +2,7 @@ name: Update PR Reviewers
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened]
 
 jobs:
   update-reviewers:
