@@ -331,7 +331,7 @@ export default function CreateGroupPage() {
                               field.onChange(inputValue);
                               setOpen(false);
                             }}
-                            disabled={(date) => date < giftDrawingDate}
+                            disabled={[{ before: giftDrawingDate }]}
                             initialFocus
                           />
                         </PopoverContent>
