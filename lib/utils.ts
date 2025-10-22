@@ -57,12 +57,17 @@ interface ToastFunction {
   }): void;
 }
 
-export const processExchangeForToast = (
-  exchange: GiftExchangeWithMemberCount,
-  toast: ToastFunction,
-  today: Date = new Date(),
-) => {
-  const drawingDate = new Date(exchange.drawing_date);
+interface processExchangeForToastProps {
+  exchange: GiftExchangeWithMemberCount;
+  toast: ToastFunction;
+  today?: Date;
+}
+
+export const processExchangeForToast = ({
+  exchange,
+  toast,
+  today = new Date(),
+}: processExchangeForToastProps) => {
   const todayStart = new Date(today);
   todayStart.setHours(0, 0, 0, 0);
 
@@ -102,8 +107,7 @@ export const notifyAboutExchanges = (
   data: GiftExchangeWithMemberCount[],
   toast: ToastFunction,
 ) => {
-  const today = new Date();
   for (const exchange of data) {
-    processExchangeForToast(exchange, toast, today);
+    processExchangeForToast({ exchange, toast });
   }
 };

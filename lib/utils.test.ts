@@ -1,11 +1,6 @@
 import { processExchangeForToast, notifyAboutExchanges } from '@/lib/utils';
 import { ToastVariants } from '@/components/Toast/Toast.enum';
-
-interface GiftExchangeWithMemberCount {
-  drawing_date: string;
-  name: string;
-  gift_exchange_id: string;
-}
+import { GiftExchangeWithMemberCount } from '@/app/types/giftExchange';
 
 describe('Utils test', () => {
   describe('processExchangeForToast', () => {
@@ -13,6 +8,12 @@ describe('Utils test', () => {
       drawing_date: '',
       name: 'Office Secret Santa',
       gift_exchange_id: 'group-123',
+      description: '',
+      group_image: '',
+      budget: '',
+      exchange_date: '',
+      owner_id: '',
+      member_count: 1,
     };
 
     const mockToast = jest.fn();
@@ -25,20 +26,11 @@ describe('Utils test', () => {
       const today = new Date('2025-12-10');
       const drawDate = new Date('2025-12-12');
 
-      processExchangeForToast(
-        {
-          ...baseExchange,
-          drawing_date: drawDate.toISOString(),
-          description: '',
-          group_image: '',
-          budget: '',
-          exchange_date: '',
-          owner_id: '',
-          member_count: 0,
-        },
-        mockToast,
+      processExchangeForToast({
+        exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
+        toast: mockToast,
         today,
-      );
+      });
 
       expect(mockToast).toHaveBeenCalledTimes(1);
       expect(mockToast).toHaveBeenCalledWith(
@@ -50,20 +42,11 @@ describe('Utils test', () => {
       const today = new Date('2025-12-10');
       const drawDate = new Date('2025-12-10');
 
-      processExchangeForToast(
-        {
-          ...baseExchange,
-          drawing_date: drawDate.toISOString(),
-          description: '',
-          group_image: '',
-          budget: '',
-          exchange_date: '',
-          owner_id: '',
-          member_count: 0,
-        },
-        mockToast,
+      processExchangeForToast({
+        exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
+        toast: mockToast,
         today,
-      );
+      });
 
       expect(mockToast).toHaveBeenCalledTimes(1);
       expect(mockToast).toHaveBeenCalledWith(
@@ -75,20 +58,11 @@ describe('Utils test', () => {
       const today = new Date('2025-12-10');
       const drawDate = new Date('2025-12-08');
 
-      processExchangeForToast(
-        {
-          ...baseExchange,
-          drawing_date: drawDate.toISOString(),
-          description: '',
-          group_image: '',
-          budget: '',
-          exchange_date: '',
-          owner_id: '',
-          member_count: 0,
-        },
-        mockToast,
+      processExchangeForToast({
+        exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
+        toast: mockToast,
         today,
-      );
+      });
 
       expect(mockToast).toHaveBeenCalledTimes(1);
       expect(mockToast).toHaveBeenCalledWith(
@@ -100,20 +74,11 @@ describe('Utils test', () => {
       const today = new Date('2025-12-10');
       const drawDate = new Date('2025-12-20');
 
-      processExchangeForToast(
-        {
-          ...baseExchange,
-          drawing_date: drawDate.toISOString(),
-          description: '',
-          group_image: '',
-          budget: '',
-          exchange_date: '',
-          owner_id: '',
-          member_count: 0,
-        },
-        mockToast,
+      processExchangeForToast({
+        exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
+        toast: mockToast,
         today,
-      );
+      });
 
       expect(mockToast).not.toHaveBeenCalled();
     });
