@@ -38,7 +38,7 @@ import { MultiSelect } from '@/components/MultiSelect/multi-select-input';
 import { Textarea } from '@/components/TextArea/textarea';
 import { Slider } from '@/components/Slider/Slider';
 import getUserAvatar from '@/lib/getUserAvatar';
-import LogoIcon from '@/components/LogoIcon/LogoIcon';
+import LogoIcon from '@/app/assets/svgs/LogoIcon';
 
 /**
  * Onboarding form component.
@@ -302,7 +302,7 @@ export const Onboarding = ({
                 {currentStep === 0 && (
                   <>
                     <div className="bg-[#13433b] w-fit p-3 rounded-full mx-auto mb-4">
-                      <LogoIcon/>
+                      <LogoIcon />
                     </div>
                     <h3 className="font-bold text-center">Hello, {name}!</h3>
                     <p className="text-center">

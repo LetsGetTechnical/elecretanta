@@ -8,12 +8,12 @@ import {
   CardTitle,
 } from '@/components/Card/Card';
 import LoginButton from '@/components/LoginButton/LoginButton';
-import LogoCombination from '@/components/LogoCombination/LogoCombination';
 import { SnowOverlayToggle } from '@/components/SnowOverlayToggle/SnowOverlayToggle';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { Calendar, Gift, Sparkles, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import LogoCombination from './assets/svgs/LogoCombination';
 
 const features = [
   {
