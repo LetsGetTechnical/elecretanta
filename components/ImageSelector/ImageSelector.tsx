@@ -11,25 +11,25 @@ export const GROUP_IMAGES: GroupImage[] = [
   {
     id: '1',
     title: 'Old-timey parcels',
-    src: 'https://images.unsplash.com/photo-1480632563560-30f503c09195',
+    src: 'https://images.unsplash.com/photo-1480632563560-30f503c09195?ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNocmlzdG1hcyUyMGNoYXJhY3RlcnxlbnwwfHwwfHx8MA%3D%3D',
     loader: ({ src, width, quality }) =>
-      `${src}?w=${width}&q=${quality || 75}&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNocmlzdG1hcyUyMGNoYXJhY3RlcnxlbnwwfHwwfHx8MA%3D%3D"}`,
+      `${src}${src.includes("?") ? "&" : "?"}w=${width}&q=${quality || 75}"}`,
     alt: 'Old-fashioned wrapped Christmas gifts.',
   },
   {
     id: '2',
     title: 'Gifts under the tree',
-    src: 'https://plus.unsplash.com/premium_photo-1681426549371-f85391e73e60',
+    src: 'https://plus.unsplash.com/premium_photo-1681426549371-f85391e73e60?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGhvbGlkYXklMjBjaGFyYWN0ZXJzfGVufDB8fDB8fHww',
     loader: ({ src, width, quality }) =>
-      `${src}?w=${width}&q=${quality || 75}&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGhvbGlkYXklMjBjaGFyYWN0ZXJzfGVufDB8fDB8fHww"}`,
+      `${src}${src.includes("?") ? "&" : "?"}w=${width}&q=${quality || 75}"}`,
     alt: 'Bright cartoony characters with gifts under a tree.',
   },
   {
     id: '3',
     title: 'Opening a gift box',
-    src: 'https://plus.unsplash.com/premium_photo-1669242712308-4b0aef7166da',
+    src: 'https://plus.unsplash.com/premium_photo-1669242712308-4b0aef7166da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2hyaXN0bWFzJTIwY2hhcmFjdGVyfGVufDB8fDB8fHww',
     loader: ({ src, width, quality }) =>
-      `${src}?w=${width}&q=${quality || 75}&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2hyaXN0bWFzJTIwY2hhcmFjdGVyfGVufDB8fDB8fHww"}`,
+      `${src}${src.includes("?") ? "&" : "?"}w=${width}&q=${quality || 75}"}`,
     alt: 'Illustration of a gift box with the lid swinging up.',
   },
 ];
