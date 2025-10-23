@@ -11,8 +11,8 @@ describe('NavLogo', () => {
         const navLogoIcon = screen.getByTestId('nav-logo-icon');
         expect(navLogoIcon).toBeInTheDocument();
         
-        const navLogoText = screen.getByTestId('nav-logo-text');
-        expect(navLogoText).toHaveTextContent('Elfgorithm');
+        // const navLogoText = screen.getByTestId('nav-logo-text');
+        // expect(navLogoText).toHaveTextContent('Elfgorithm');
 
         const navLogoLink = screen.getByTestId('nav-logo-link');
         expect(navLogoLink).toHaveAttribute('href', '/dashboard')

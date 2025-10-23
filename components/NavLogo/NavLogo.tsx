@@ -1,9 +1,9 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { Gift } from 'lucide-react';
 import Link from 'next/link';
 import { JSX } from 'react';
+import LogoCombination from '@/components/LogoCombination/LogoCombination';
 
 /**
  * Renders the logo in the navigation bar, which redirects to the dashboard when clicked.
@@ -16,16 +16,10 @@ const NavLogo = (): JSX.Element => {
       className="flex items-center"
       data-testid="nav-logo-link"
     >
-      <Gift 
-        className="bg-logoWhite h-8 w-8 p-1 rounded-lg text-red-600" 
+      <LogoCombination
+        className="w-60 sm:w-72" 
         data-testid="nav-logo-icon"
       />
-      <p 
-        className="font-bold ml-2 italic text-green-200"
-        data-testid="nav-logo-text"
-      >
-        Elf<span className="text-white font-semibold">gorithm</span>
-      </p>
     </Link>
   );
 };
