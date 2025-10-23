@@ -9,7 +9,7 @@ import { ReactNode, useState, useEffect } from 'react';
 import type { ToastActionElement } from '@/components/ToastAction/ToastAction';
 import type { ToastProps } from '@/components/Toast/Toast';
 
-const TOAST_LIMIT = 1;
+const TOAST_LIMIT = 5;
 const TOAST_REMOVE_DELAY = 1000000;
 
 type ToasterToast = ToastProps & {
@@ -133,7 +133,7 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         toasts: state.toasts.map((t) =>
-          t.id === toastId || typeof toastId === 'undefined'
+          t.id === toastId || (typeof toastId === 'undefined')
             ? {
               ...t,
               open: false,

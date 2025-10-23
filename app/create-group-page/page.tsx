@@ -33,7 +33,10 @@ import {
   CommandList,
 } from '@/components/Command/Command';
 import { Textarea } from '@/components/TextArea/textarea';
-import { ImageSelector } from '@/components/ImageSelector/ImageSelector';
+import {
+  GROUP_IMAGES,
+  ImageSelector,
+} from '@/components/ImageSelector/ImageSelector';
 import { useRouter } from 'next/navigation';
 import LinkCustom from '@/components/LinkCustom/LinkCustom';
 import { useState } from 'react';
@@ -50,6 +53,8 @@ const priceRanges = [
   { label: '$90 - $100', value: '90-100' },
 ] as const;
 
+const groupImageUrls = GROUP_IMAGES.map((image) => image.src);
+
 const formSchema = z
   .object({
     name: z.string().min(2, {
@@ -63,8 +68,8 @@ const formSchema = z
     budget: z.string({
       required_error: 'Please select a Price Range.',
     }),
-    group_image: z.string({
-      message: 'Please Select An Image for the Group',
+    group_image: z.string().refine((val) => groupImageUrls.includes(val), {
+      message: 'Group Theme Image must be selected',
     }),
   })
   .refine((data) => data.exchange_date > data.drawing_date, {
@@ -83,7 +88,7 @@ export default function CreateGroupPage() {
       drawing_date: new Date(),
       exchange_date: new Date(),
       budget: '',
-      group_image: 'img url',
+      group_image: GROUP_IMAGES[0].src,
     },
   });
 

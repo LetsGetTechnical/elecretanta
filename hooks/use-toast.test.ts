@@ -1,4 +1,3 @@
-import * as ToastModule from './use-toast';
 import {
   reducer,
   actionTypes,
@@ -7,12 +6,15 @@ import {
   addToRemoveQueue,
 } from './use-toast';
 import type { Action } from './use-toast';
-
 import React from 'react';
 
 const MOCK_TOAST_1 = { id: '1', title: 'Toast 1', open: true };
 const MOCK_TOAST_2 = { id: '2', title: 'Toast 2', open: true };
-const TOAST_LIMIT = 1;
+const MOCK_TOAST_3 = { id: '3', title: 'Toast 3', open: true };
+const MOCK_TOAST_4 = { id: '4', title: 'Toast 4', open: true };
+const MOCK_TOAST_5 = { id: '5', title: 'Toast 5', open: true };
+const MOCK_TOAST_6 = { id: '6', title: 'Toast 6', open: true };
+const TOAST_LIMIT = 5;
 
 const MOCK_TIMEOUT_ID = 123;
 const mockSetTimeout = jest.fn(() => MOCK_TIMEOUT_ID as any);
@@ -20,7 +22,15 @@ const mockClearTimeout = jest.fn();
 
 describe('reducer', () => {
   it('should add a new toast and enforce the TOAST_LIMIT', () => {
-    const initialState = { toasts: [MOCK_TOAST_2] };
+    const initialState = {
+      toasts: [
+        MOCK_TOAST_2,
+        MOCK_TOAST_3,
+        MOCK_TOAST_4,
+        MOCK_TOAST_5,
+        MOCK_TOAST_6,
+      ],
+    };
 
     const action = {
       type: actionTypes.ADD_TOAST,
@@ -30,6 +40,7 @@ describe('reducer', () => {
     const newState = reducer(initialState, action);
     expect(newState.toasts).toHaveLength(TOAST_LIMIT);
     expect(newState.toasts[0]).toEqual(MOCK_TOAST_1);
+    expect(newState.toasts).not.toContainEqual(MOCK_TOAST_6);
   });
 
   it('should add the first toast when the list is empty', () => {

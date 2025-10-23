@@ -1,3 +1,8 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
+import { render, screen } from '@testing-library/react';
+import CreateGroupPage from './page';
 import { Calendar } from '@/components/Calendar/calendar';
 import { render, screen } from '@testing-library/react';
 import CreateGroupPage from './page';
@@ -36,15 +41,15 @@ describe('Create Group Page', () => {
     it('disables past dates correctly', () => {
       const currentDate = new Date('2025-10-15T00:00:00Z');
 
-      render(
-        <Calendar
-          mode="single"
-          selected={currentDate}
-          onSelect={() => {}}
-          disabled={[{ before: currentDate }]}
-          initialFocus
-        />,
-      );
+        render(
+          <Calendar
+            mode="single"
+            selected={currentDate}
+            onSelect={() => {}}
+            disabled={[{ before: currentDate }]}
+            initialFocus
+          />,
+        );
 
       const pastDate = screen.getByText('13');
       expect(pastDate).toBeDisabled();
