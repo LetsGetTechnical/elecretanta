@@ -31,6 +31,7 @@ import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
 import { Button } from '@/components/Button/button';
 import LinkCustom from '../LinkCustom/LinkCustom';
 import Image from 'next/image';
+import { GROUP_IMAGES } from '@/components/ImageSelector/ImageSelector';
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -180,6 +181,10 @@ export const GiftExchangeHeader = ({
     }
   }
 
+  const group_image =
+    GROUP_IMAGES.find((image) => image.src === giftExchangeData.group_image) ||
+    GROUP_IMAGES[0];
+
   return (
     <>
       <div className="flex justify-between mb-6">
@@ -201,9 +206,10 @@ export const GiftExchangeHeader = ({
       <section className="gift-exchange-header flex flex-col grow-0 gap-8 sm:flex-row">
         <div className="w-36 h-36 grow-0 shrink-0">
           <Image
-            className="w-full h-full rounded-xl ring-4 ring-white"
-            src={giftExchangeData.group_image}
-            alt="Group logo"
+            loader={group_image.loader}
+            className="object-cover w-full h-full rounded-xl ring-4 ring-white"
+            src={group_image.src}
+            alt={group_image.alt}
             width={144}
             height={144}
           />
