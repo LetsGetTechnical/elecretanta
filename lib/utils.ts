@@ -4,6 +4,10 @@ import { twMerge } from 'tailwind-merge';
 import { createClient } from '@/lib/supabase/client';
 import { ToastVariants } from '@/components/Toast/Toast.enum';
 import { GiftExchangeWithMemberCount } from '@/app/types/giftExchange';
+import {
+  ToastFunction,
+  processExchangeForToastProps,
+} from './interfaces/Iutils';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -47,21 +51,6 @@ export const signInWithGoogle = async (options?: { redirectPath?: string }) => {
     redirect('/auth/error');
   }
 };
-
-interface ToastFunction {
-  (props: {
-    variant: ToastVariants;
-    title: string;
-    description: string;
-    group: string;
-  }): void;
-}
-
-interface processExchangeForToastProps {
-  exchange: GiftExchangeWithMemberCount;
-  toast: ToastFunction;
-  today?: Date;
-}
 
 export const processExchangeForToast = ({
   exchange,
