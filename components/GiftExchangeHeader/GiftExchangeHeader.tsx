@@ -206,7 +206,8 @@ export const GiftExchangeHeader = ({
       <section className="gift-exchange-header flex flex-col grow-0 gap-8 sm:flex-row">
         <div className="w-36 h-36 grow-0 shrink-0">
           <Image
-            className="w-full h-full rounded-xl ring-4 ring-white"
+            loader={group_image.loader}
+            className="object-cover w-full h-full rounded-xl ring-4 ring-white"
             src={group_image.src}
             alt={group_image.alt}
             width={144}

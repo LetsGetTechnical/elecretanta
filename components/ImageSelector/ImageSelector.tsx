@@ -11,19 +11,25 @@ export const GROUP_IMAGES: GroupImage[] = [
   {
     id: '1',
     title: 'Old-timey parcels',
-    src: 'https://images.unsplash.com/photo-1480632563560-30f503c09195?w=6h00&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNocmlzdG1hcyUyMGNoYXJhY3RlcnxlbnwwfHwwfHx8MA%3D%3D',
+    src: 'https://images.unsplash.com/photo-1480632563560-30f503c09195',
+    loader: ({ src, width, quality }) =>
+      `${src}?w=${width}&q=${quality || 75}&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNocmlzdG1hcyUyMGNoYXJhY3RlcnxlbnwwfHwwfHx8MA%3D%3D"}`,
     alt: 'Old-fashioned wrapped Christmas gifts.',
   },
   {
     id: '2',
     title: 'Gifts under the tree',
-    src: 'https://plus.unsplash.com/premium_photo-1681426549371-f85391e73e60?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGhvbGlkYXklMjBjaGFyYWN0ZXJzfGVufDB8fDB8fHww',
+    src: 'https://plus.unsplash.com/premium_photo-1681426549371-f85391e73e60',
+    loader: ({ src, width, quality }) =>
+      `${src}?w=${width}&q=${quality || 75}&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGhvbGlkYXklMjBjaGFyYWN0ZXJzfGVufDB8fDB8fHww"}`,
     alt: 'Bright cartoony characters with gifts under a tree.',
   },
   {
     id: '3',
     title: 'Opening a gift box',
-    src: 'https://plus.unsplash.com/premium_photo-1669242712308-4b0aef7166da?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2hyaXN0bWFzJTIwY2hhcmFjdGVyfGVufDB8fDB8fHww',
+    src: 'https://plus.unsplash.com/premium_photo-1669242712308-4b0aef7166da',
+    loader: ({ src, width, quality }) =>
+      `${src}?w=${width}&q=${quality || 75}&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2hyaXN0bWFzJTIwY2hhcmFjdGVyfGVufDB8fDB8fHww"}`,
     alt: 'Illustration of a gift box with the lid swinging up.',
   },
 ];
@@ -62,9 +68,11 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
             >
               <div className="relative aspect-video">
                 <Image
+                  loader={image.loader}
                   src={image.src}
                   alt={image.alt}
                   fill={true}
+                  sizes="(max-width: 768px) 100vw, 30vw"
                   style={{ objectFit: 'cover' }} // Use the style prop for objectFit
                 />
               </div>

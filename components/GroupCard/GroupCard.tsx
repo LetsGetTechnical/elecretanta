@@ -52,7 +52,8 @@ const GroupCard = ({ giftExchange }: GroupCardProps): JSX.Element => {
     <Link href={`/gift-exchanges/${giftExchange.gift_exchange_id}`}>
       <div className="h-28 flex items-center p-4 rounded-xl bg-groupCardGreen">
         <Image
-          className="h-16 w-16 lg:h-20 lg:w-20 rounded-xl"
+          loader={group_image.loader}
+          className="object-cover h-16 w-16 lg:h-20 lg:w-20 rounded-xl"
           src={group_image.src}
           height={80}
           width={80}
