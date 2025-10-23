@@ -1,16 +1,40 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 'use client';
 
 import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
-
 import { cn } from '@/lib/utils';
 
 const Popover = PopoverPrimitive.Root;
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
+/**
+ * The Popoover Trigger component.
+ * @param {object} props - The props passed.
+ * @returns {React.JSX.Element} - The popover trigger component.
+ */
+const PopoverTrigger = ({ ...props }): React.JSX.Element => {
+  return <PopoverPrimitive.Trigger {...props} data-testid="popover-trigger" />;
+};
 
-const PopoverAnchor = PopoverPrimitive.Anchor;
+/**
+ * The Popoover Anchor component.
+ * @param {object} props - The props passed.
+ * @returns {React.JSX.Element} - The popover anchor component.
+ */
+const PopoverAnchor = ({ ...props }): React.JSX.Element => {
+  return <PopoverPrimitive.Anchor {...props} data-testid="popover-anchor" />;
+};
 
+/**
+ * The Popover Content component.
+ * @param {object} props - The props passed.
+ * @param {string} props.className - The style for components.
+ * @param {number} sideOffset - The sideOffset default value.
+ * @param {string} align - The align default value.
+ * @returns {void} - No explict return value.
+ */
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
@@ -25,6 +49,7 @@ const PopoverContent = React.forwardRef<
         className,
       )}
       {...props}
+      data-testid="popover-content"
     />
   </PopoverPrimitive.Portal>
 ));
