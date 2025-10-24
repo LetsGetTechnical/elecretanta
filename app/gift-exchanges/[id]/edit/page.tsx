@@ -33,7 +33,10 @@ import {
   CommandList,
 } from '@/components/Command/Command';
 import { Textarea } from '@/components/TextArea/textarea';
-import { ImageSelector } from '@/components/ImageSelector/ImageSelector';
+import {
+  GROUP_IMAGES,
+  ImageSelector,
+} from '@/components/ImageSelector/ImageSelector';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -53,6 +56,8 @@ const priceRanges = [
   { label: '$90 - $100', value: '90-100' },
 ] as const;
 
+const groupImageUrls = GROUP_IMAGES.map((image) => image.src);
+
 const formSchema = z
   .object({
     name: z.string().min(2, {
@@ -66,16 +71,18 @@ const formSchema = z
     budget: z.string({
       required_error: 'Please select a Price Range.',
     }),
-    group_image: z.string({
-      message: 'Please Select An Image for the Group',
-    }),
+    group_image: z
+      .string()
+      .refine((val) => groupImageUrls.includes(val), {
+        message: 'Group Theme Image must be selected',
+      }),
   })
   .refine((data) => data.exchange_date > data.drawing_date, {
     message: 'Exchange Date must be after the Drawing Date',
     path: ['exchange_date'],
   });
 
-export default function CreateGroupPage() {
+export default function EditGroupPage() {
   const { id } = useParams();
   const router = useRouter();
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange | null>(
@@ -174,6 +181,7 @@ export default function CreateGroupPage() {
   }
 
   const giftDrawingDate = form.watch('drawing_date');
+
   return (
     <div className="edit-group-page flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       <div className="flex flex-row">
@@ -336,9 +344,7 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          // disabled={(date) =>
-                          //   date > new Date() || date < new Date("1900-01-01")
-                          // }
+                          disabled={[{ before: new Date() }]}
                           initialFocus
                         />
                       </PopoverContent>
@@ -382,7 +388,7 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) => date < giftDrawingDate}
+                          disabled={[{ before: giftDrawingDate }]}
                           initialFocus
                         />
                       </PopoverContent>

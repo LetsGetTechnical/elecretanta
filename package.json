@@ -1,6 +1,6 @@
 {
   "name": "elecretanta",
-  "version": "0.6.0-alpha",
+  "version": "0.7.0-alpha",
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=4000 next dev",
@@ -25,6 +25,7 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slider": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.15",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.46.1",

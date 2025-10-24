@@ -19,11 +19,7 @@ export async function GET(
       .single();
 
     if (error) {
-      console.error('supabase error', error);
-      return NextResponse.json(
-        { error: 'Gift exchange not found' },
-        { status: 404 },
-      );
+      throw error;
     }
 
     return NextResponse.json(data);
