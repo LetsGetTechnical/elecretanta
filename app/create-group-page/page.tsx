@@ -40,18 +40,7 @@ import {
 import { useRouter } from 'next/navigation';
 import LinkCustom from '@/components/LinkCustom/LinkCustom';
 import { useState } from 'react';
-
-const priceRanges = [
-  { label: '$10 - $20', value: '10-20' },
-  { label: '$20 - $30', value: '20-30' },
-  { label: '$30 - $40', value: '30-40' },
-  { label: '$40 - $50', value: '40-50' },
-  { label: '$50 - $60', value: '50-60' },
-  { label: '$60 - $70', value: '60-70' },
-  { label: '$70 - $80', value: '70-80' },
-  { label: '$80 - $90', value: '80-90' },
-  { label: '$90 - $100', value: '90-100' },
-] as const;
+import { BUDGET_OPTIONS } from '@/constants/exchangeGroupOptions';
 
 const groupImageUrls = GROUP_IMAGES.map((image) => image.src);
 
@@ -66,7 +55,7 @@ const formSchema = z
     drawing_date: z.date(),
     exchange_date: z.date(),
     budget: z.string({
-      required_error: 'Please select a Price Range.',
+      required_error: 'Please select a budget.',
     }),
     group_image: z.string().refine((val) => groupImageUrls.includes(val), {
       message: 'Group Theme Image must be selected',
@@ -196,9 +185,9 @@ export default function CreateGroupPage() {
                               )}
                             >
                               {field.value
-                                ? priceRanges.find(
-                                    (priceRanges) =>
-                                      priceRanges.value === field.value,
+                                ? BUDGET_OPTIONS.find(
+                                    (budgetOption) =>
+                                      budgetOption.value === field.value,
                                   )?.label
                                 : 'Select a price range'}
                               <ChevronsUpDown className="opacity-50" />
@@ -214,23 +203,23 @@ export default function CreateGroupPage() {
                             <CommandList>
                               <CommandEmpty>No framework found.</CommandEmpty>
                               <CommandGroup>
-                                {priceRanges.map((priceRanges) => (
+                                {BUDGET_OPTIONS.map((budgetOption) => (
                                   <CommandItem
-                                    value={priceRanges.label}
-                                    key={priceRanges.value}
+                                    value={budgetOption.label}
+                                    key={budgetOption.value}
                                     onSelect={() => {
                                       form.setValue(
                                         'budget',
-                                        priceRanges.value,
+                                        budgetOption.value,
                                       );
                                       setOpen(false);
                                     }}
                                   >
-                                    {priceRanges.label}
+                                    {budgetOption.label}
                                     <Check
                                       className={cn(
                                         'ml-auto',
-                                        priceRanges.value === field.value
+                                        budgetOption.value === field.value
                                           ? 'opacity-100'
                                           : 'opacity-0',
                                       )}
@@ -243,7 +232,8 @@ export default function CreateGroupPage() {
                         </PopoverContent>
                       </Popover>
                       <FormDescription className="m-5">
-                        Please select the price range for your Secret Santa group!
+                        Please select the price range for your Secret Santa
+                        group!
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

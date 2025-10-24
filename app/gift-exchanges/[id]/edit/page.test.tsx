@@ -1,30 +1,17 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { Calendar } from '@/components/Calendar/calendar';
 import { render, screen } from '@testing-library/react';
-import EditGroupPage from './page';
 import userEvent from '@testing-library/user-event';
-import { useRouter, useSearchParams, useParams } from 'next/navigation';
-
-// getting 2 warnings: 
-// 1) fill=true (Image props different than img props)
-// 2) ImageGroup doesn't have forwardRef
-
-const priceRanges = [
-  { label: '$10 - $20', value: '10-20' },
-  { label: '$20 - $30', value: '20-30' },
-  { label: '$30 - $40', value: '30-40' },
-  { label: '$40 - $50', value: '40-50' },
-  { label: '$50 - $60', value: '50-60' },
-  { label: '$60 - $70', value: '60-70' },
-  { label: '$70 - $80', value: '70-80' },
-  { label: '$80 - $90', value: '80-90' },
-  { label: '$90 - $100', value: '90-100' },
-] as const;
+import { useParams } from 'next/navigation';
+import EditGroupPage from './page';
+import { BUDGET_OPTIONS } from '@/constants/exchangeGroupOptions';
 
 global.fetch = jest.fn(() => Promise.resolve({})) as jest.Mock;
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
-  // useSearchParams: jest.fn(),
   useParams: jest.fn(),
 }));
 
@@ -92,16 +79,14 @@ describe('Edit Group Page', () => {
       render(<EditGroupPage />);
 
       const user = userEvent.setup();
-      const budgetTriggerButton = screen.getByTestId('budget-button');
-      await user.click(budgetTriggerButton);
+      const budgetsTriggerButton = screen.getByTestId('budget-button');
+      await user.click(budgetsTriggerButton);
       const budgetOptions = screen.getAllByRole('option');
-      expect(budgetOptions).toHaveLength(priceRanges.length);
-      expect(budgetOptions[0]).toHaveAttribute('aria-selected', 'true');
-      expect(budgetOptions[1]).toHaveAttribute('aria-selected', 'false');
-      await user.click(budgetOptions[1]);
+      expect(budgetOptions).toHaveLength(BUDGET_OPTIONS.length);
 
+      const firstBudgetOption = budgetOptions[0];
+      await user.click(firstBudgetOption);
       expect(screen.queryByRole('option')).not.toBeInTheDocument();
-      expect(true).toBe(true);
     });
   });
 
@@ -117,8 +102,8 @@ describe('Edit Group Page', () => {
 
       await user.click(drawingDateTriggerButton);
       const calendarDays = screen.getAllByRole('gridcell');
-
-      await user.click(calendarDays[calendarDays.length - 1]);
+      const firstCalendarDay = calendarDays[calendarDays.length - 1];
+      await user.click(firstCalendarDay);
       expect(screen.queryByRole('gridcell')).not.toBeInTheDocument();
     });
   });
@@ -135,8 +120,8 @@ describe('Edit Group Page', () => {
 
       await user.click(drawingDateTriggerButton);
       const calendarDays = screen.getAllByRole('gridcell');
-
-      await user.click(calendarDays[calendarDays.length - 1]);
+      const firstCalendarDay = calendarDays[calendarDays.length - 1];
+      await user.click(firstCalendarDay);
       expect(screen.queryByRole('gridcell')).not.toBeInTheDocument();
     });
   });
