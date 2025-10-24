@@ -24,7 +24,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Elfgorithm',
+  title: 'Secret Santa Exchange',
   description: 'A secret santa gift-exchange app powered by AI',
 };
 

@@ -13,6 +13,7 @@ import { useAuthContext } from '@/context/AuthContextProvider';
 import { Calendar, Gift, Sparkles, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import LogoCombination from './assets/svgs/LogoCombination';
 
 const features = [
   {
@@ -51,24 +52,24 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <header className="p-8 flex items-center justify-between">
+      <header className="py-4 px-6 flex items-center justify-between">
         <div className="flex items-center">
-          <Gift className="bg-logoWhite h-8 w-8 p-1 rounded-lg text-red-600" />
-          <p className="font-bold ml-2 italic text-green-200 text-2xl">
-            Elf<span className="text-white font-semibold">gorithm</span>
-          </p>
+          <LogoCombination
+            className="w-60 sm:w-72"
+            data-testid="nav-logo-icon"
+          />
         </div>
         <SnowOverlayToggle />
       </header>
-      <main className="container mx-auto px-4 py-16">
+      <main className="container mx-auto px-4">
         {/* Hero Section */}
         <section className="text-center my-12">
           <h1 className="text-5xl font-bold text-primary-foreground mb-4">
             Make Gift-Giving Magical
           </h1>
           <p className="text-xl text-primary-foreground/70 mb-8">
-            Elfgorithm takes the guesswork out of Secret Santa and gift
-            exchanges.
+            Secret Santa Exchange takes the guesswork out of Secret Santa and
+            gift exchanges.
           </p>
           <LoginButton />
         </section>
@@ -132,7 +133,7 @@ export default function Home() {
             Ready to Spread Some Joy?
           </h2>
           <p className="text-xl text-primary-foreground/70 mb-8">
-            Join Elfgorithm today and make your next gift exchange
+            Join Secret Santa Exchange today and make your next gift exchange
             unforgettable.
           </p>
           <LoginButton />
