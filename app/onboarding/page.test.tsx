@@ -56,7 +56,7 @@ describe('OnboardingPage', () => {
     render(<OnboardingPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Welcome to Elfgorithm✨')).toBeInTheDocument();
+      expect(screen.getByText('Welcome to Secret Santa Exchange✨')).toBeInTheDocument();
       expect(
         screen.getByText(/Let's find your perfect gift match/),
       ).toBeInTheDocument();
@@ -68,7 +68,7 @@ describe('OnboardingPage', () => {
     render(<OnboardingPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Welcome to Elfgorithm✨')).toBeInTheDocument();
+      expect(screen.getByText('Welcome to Secret Santa Exchange✨')).toBeInTheDocument();
     });
 
     await user.click(screen.getByTestId('next-button'));
@@ -131,7 +131,7 @@ describe('OnboardingPage', () => {
     render(<OnboardingPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Welcome to Elfgorithm✨')).toBeInTheDocument();
+      expect(screen.getByText('Welcome to Secret Santa Exchange✨')).toBeInTheDocument();
     });
 
     await user.click(screen.getByTestId('next-button'));

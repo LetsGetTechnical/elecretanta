@@ -42,9 +42,9 @@ describe('CommandGroup', () => {
     it('renders a custom attribute, such as aria-label, passed via props', () => {
         render(
         <Command>
-            <CommandGroup aria-label='Elfgorithm price ranges'/>
+            <CommandGroup aria-label='Secret Santa Exchange price ranges'/>
         </Command> );
 
-        expect(screen.getByTestId('command-group')).toHaveAttribute('aria-label', 'Elfgorithm price ranges');
+        expect(screen.getByTestId('command-group')).toHaveAttribute('aria-label', 'Secret Santa Exchange price ranges');
     });
 })
