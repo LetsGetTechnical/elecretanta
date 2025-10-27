@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 import { CreateGiftExchangeRequest } from '@/app/types/giftExchange';
 import { validateGroupExchangeDates } from '@/lib/utils';
 import { SupabaseError, BackendError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 /**
  * Get all gift exchanges for the current user
@@ -38,21 +39,7 @@ export async function GET(): Promise<NextResponse> {
     }
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -112,28 +99,7 @@ export async function POST(req: Request): Promise<NextResponse> {
 
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    } else if (error instanceof BackendError) {
-      console.error('Backend error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -197,20 +163,6 @@ export async function PATCH(req: Request): Promise<NextResponse> {
 
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

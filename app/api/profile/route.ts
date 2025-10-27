@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import type { ProfileUpdate } from '../../types/profile';
 import { SupabaseError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 export async function GET() {
   try {
@@ -32,21 +33,7 @@ export async function GET() {
 
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase Error:', error.message);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -82,20 +69,6 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase Error:', error.message);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

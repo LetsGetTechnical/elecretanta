@@ -1,6 +1,7 @@
 import { openai } from '../openaiConfig/config';
 import { NextResponse } from 'next/server';
 import { OpenAiError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 export async function POST() {
   // const requestBody = await req.json();
@@ -47,11 +48,6 @@ export async function POST() {
 
     return NextResponse.json(completion.choices[0]);
   } catch (error) {
-    console.error('Open API error:', error);
-
-    return NextResponse.json(
-      { error: 'Failed to generate gift suggestions' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

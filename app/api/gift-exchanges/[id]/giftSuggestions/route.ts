@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { SupabaseError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 export async function GET(
   req: Request,
@@ -80,20 +81,6 @@ export async function GET(
       })),
     });
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

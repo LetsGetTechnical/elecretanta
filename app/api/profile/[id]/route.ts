@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { BackendError, SupabaseError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 export async function GET(
   request: NextRequest,
@@ -45,10 +46,6 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

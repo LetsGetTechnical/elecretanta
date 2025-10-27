@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import type { CreateGiftExchangeMemberRequest } from '@/app/types/giftExchangeMember';
 import { SupabaseError, BackendError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 // get all members of a gift exchange
 export async function GET(
@@ -53,21 +54,7 @@ export async function GET(
 
     return NextResponse.json(membersData);
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -138,27 +125,6 @@ export async function POST(
 
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    } else if (error instanceof BackendError) {
-      console.error('Backend error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

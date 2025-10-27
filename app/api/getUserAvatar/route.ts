@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '../../../lib/supabase/server';
 import { SupabaseError } from '@/lib/errors/CustomErrors';
 import { BackendError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 /**
  * Get user avatar URL
@@ -38,27 +39,6 @@ export async function GET(): Promise<NextResponse> {
 
     return NextResponse.json({ avatarUrl });
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    } else if (error instanceof BackendError) {
-      console.error('Backend error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

@@ -7,6 +7,7 @@ import { fetchGiftExchanges } from './functions/fetchGiftExchanges/fetchGiftExch
 import { NextResponse } from 'next/server';
 import { processGiftExchanges } from './functions/processGiftExchanges/processGiftExchanges';
 import { BackendError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 /**
  * API function that gets the cron job header to execute once daily.
@@ -49,27 +50,6 @@ export async function GET(request: Request): Promise<Response> {
 
     return NextResponse.json({ success: true, drawnMessage, completedMessage });
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    } else if (error instanceof OpenAiError) {
-      console.error('OpenAI error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

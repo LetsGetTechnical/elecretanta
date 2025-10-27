@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
 import { SupabaseError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 /**
  * API Route for drawing gift exchange names
@@ -35,24 +36,6 @@ export async function POST(
     await drawGiftExchange(supabase, id);
     return NextResponse.json({ success: true });
   } catch (error) {
-    if (error instanceof SupabaseError) {
-      console.error('Supabase error:', error);
-
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode },
-      );
-    } else if (error instanceof BackendError) {
-      console.error('Backend Error:', error);
-
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    console.error('Unexpected error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
