@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { fetchGiftExchanges } from './functions/fetchGiftExchanges/fetchGiftExchanges';
 import { NextResponse } from 'next/server';
 import { processGiftExchanges } from './functions/processGiftExchanges/processGiftExchanges';
-import { SupabaseError, OpenAiError } from '@/lib/errors/CustomErrors';
+import { BackendError } from '@/lib/errors/CustomErrors';
 
 /**
  * API function that gets the cron job header to execute once daily.
@@ -14,12 +14,11 @@ import { SupabaseError, OpenAiError } from '@/lib/errors/CustomErrors';
  * @returns {Promise<Response>} The rendered weekly picks page.
  */
 export async function GET(request: Request): Promise<Response> {
-  if (!checkCronAuthorization(request)) {
-    console.error('Invalid authorization header.');
-    return NextResponse.json({ status: false });
-  }
-
   try {
+    if (!checkCronAuthorization(request)) {
+      throw new BackendError('Invalid authoritzation header', 500);
+    }
+
     const supabase = await createClient();
 
     const giftExchanges = await fetchGiftExchanges({ supabase });
