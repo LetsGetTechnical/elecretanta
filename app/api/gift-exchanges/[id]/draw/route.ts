@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
-import { BackendError, SupabaseError } from '@/lib/errors/CustomErrors';
+import { SupabaseError } from '@/lib/errors/CustomErrors';
 
 /**
  * API Route for drawing gift exchange names
