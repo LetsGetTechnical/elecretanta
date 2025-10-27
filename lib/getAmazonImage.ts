@@ -6,8 +6,8 @@ import { GoogleError, BackendError } from './errors/CustomErrors';
 /**
  * Amazon Image
  * @param {string} title - The title of the search item
- * @returns {Promise<{ imageUrl: string | null }>
-} - The image url and response status
+ * @returns {Promise<{ imageUrl: string | null }>}
+ - The image url and response status
  */
 export const getAmazonImage = async (
   title: string,
