@@ -42,6 +42,11 @@ export async function POST() {
 
     return NextResponse.json(completion.choices[0]);
   } catch (error) {
-    throw error;
+    console.error('Open API error:', error);
+
+    return NextResponse.json(
+      { error: 'Failed to generate gift suggestions' },
+      { status: 500 },
+    );
   }
 }

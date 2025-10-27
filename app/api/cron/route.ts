@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { fetchGiftExchanges } from './functions/fetchGiftExchanges/fetchGiftExchanges';
 import { NextResponse } from 'next/server';
 import { processGiftExchanges } from './functions/processGiftExchanges/processGiftExchanges';
+import { SupabaseError, OpenAiError } from '@/lib/errors/CustomErrors';
 
 /**
  * API function that gets the cron job header to execute once daily.
@@ -14,6 +15,7 @@ import { processGiftExchanges } from './functions/processGiftExchanges/processGi
  */
 export async function GET(request: Request): Promise<Response> {
   if (!checkCronAuthorization(request)) {
+    console.error('Invalid authorization header.');
     return NextResponse.json({ status: false });
   }
 
@@ -48,6 +50,27 @@ export async function GET(request: Request): Promise<Response> {
 
     return NextResponse.json({ success: true, drawnMessage, completedMessage });
   } catch (error) {
-    return NextResponse.json({ error });
+    if (error instanceof SupabaseError) {
+      console.error('Supabase error:', error);
+
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode },
+      );
+    } else if (error instanceof OpenAiError) {
+      console.error('OpenAI error:', error);
+
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode },
+      );
+    }
+
+    console.error('Unexpected error:', error);
+
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
   }
 }

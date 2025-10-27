@@ -17,11 +17,23 @@ export async function GET(
 
   try {
     const supabase = await createClient();
+
     const {
       data: { session },
+      error: sessionError,
     } = await supabase.auth.getSession();
 
+    if (sessionError) {
+      console.error(sessionError);
+
+      return NextResponse.json(
+        { error: 'Failed to fetch session' },
+        { status: 500 },
+      );
+    }
+
     if (!session) {
+      console.error('User is Unauthorized');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -32,6 +44,7 @@ export async function GET(
       .single();
 
     if (error) {
+      console.error(error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 

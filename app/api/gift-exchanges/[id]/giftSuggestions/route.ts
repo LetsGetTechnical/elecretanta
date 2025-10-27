@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import { SupabaseError } from '@/lib/errors/CustomErrors';
 
 export async function GET(
   req: Request,
@@ -10,12 +11,19 @@ export async function GET(
 
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     // Get match with full profile info
@@ -45,10 +53,7 @@ export async function GET(
       .single();
 
     if (matchError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch match' },
-        { status: 500 },
-      );
+      throw new SupabaseError('Failed to fetch match', 500, matchError);
     }
 
     // Get suggestions
@@ -59,9 +64,10 @@ export async function GET(
       .eq('giver_id', user.id);
 
     if (suggestionsError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch suggestions' },
-        { status: 500 },
+      throw new SupabaseError(
+        'Failed to fetch suggestions',
+        500,
+        suggestionsError,
       );
     }
 
@@ -74,7 +80,17 @@ export async function GET(
       })),
     });
   } catch (error) {
-    console.log(error);
+    if (error instanceof SupabaseError) {
+      console.error('Supabase error:', error);
+
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode },
+      );
+    }
+
+    console.error('Unexpected error:', error);
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

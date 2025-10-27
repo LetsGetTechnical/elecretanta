@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import type { UpdateGiftExchangeMemberRequest } from '@/app/types/giftExchangeMember';
+import { SupabaseError } from '@/lib/errors/CustomErrors';
 
 // update a gift exchange member
 export async function PATCH(req: Request) {
@@ -10,12 +11,19 @@ export async function PATCH(req: Request) {
 
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     const body: UpdateGiftExchangeMemberRequest = await req.json();
@@ -32,12 +40,25 @@ export async function PATCH(req: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Could not update gift exchange members',
+        500,
+        error,
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
+    if (error instanceof SupabaseError) {
+      console.error('Supabase error:', error);
+
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode },
+      );
+    }
+
+    console.error('Unexpected error:', error);
 
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -54,12 +75,19 @@ export async function DELETE(req: Request) {
 
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     const { error } = await supabase
@@ -69,12 +97,25 @@ export async function DELETE(req: Request) {
       .eq('gift_exchange_id', exchangeId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Could not delete gift exchange member',
+        500,
+        error,
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.log(error);
+    if (error instanceof SupabaseError) {
+      console.error('Supabase error:', error);
+
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode },
+      );
+    }
+
+    console.error('Unexpected error:', error);
 
     return NextResponse.json(
       { error: 'Internal server error' },

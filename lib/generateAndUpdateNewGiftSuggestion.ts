@@ -7,6 +7,11 @@ import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { Profile } from '@/app/types/profile';
 import { createClient } from './supabase/server';
 import { getAmazonImage } from './getAmazonImage';
+import {
+  BackendError,
+  OpenAiError,
+  SupabaseError,
+} from './errors/CustomErrors';
 
 /**
  *
@@ -26,7 +31,7 @@ export async function generateAndUpdateNewGiftSuggestion(
   recipient: Profile | null,
 ): Promise<IGiftSuggestion> {
   if (!recipient) {
-    throw new Error('Recipient profile is missing');
+    throw new BackendError('Recipient profile is missing', 500);
   }
 
   try {
@@ -79,13 +84,24 @@ export async function generateAndUpdateNewGiftSuggestion(
       temperature: 0.7,
     });
 
+    if (!completion || !completion.choices || completion.choices.length === 0) {
+      throw new OpenAiError('Failed to generate gift suggestions', 500);
+    }
+
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      throw new Error('Unauthorized');
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     const parsedResponse = JSON.parse(
@@ -113,8 +129,13 @@ export async function generateAndUpdateNewGiftSuggestion(
       .eq('id', gift.id);
 
     if (suggestionError) {
-      console.error('Failed to update suggestion:', suggestionError);
+      throw new SupabaseError(
+        'Failed to update suggestion',
+        500,
+        suggestionError,
+      );
     }
+
     return cleanSuggestion;
   } catch (error) {
     throw error;
