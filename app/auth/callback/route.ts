@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
-import { SupabaseError } from '@/lib/errors/CustomErrors';
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
