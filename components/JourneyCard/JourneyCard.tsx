@@ -46,7 +46,7 @@ export const JourneyCard = ({
   ];
 
   return (
-    <Card className="w-full bg-groupCardGreen border-none">
+    <Card className="w-full bg-groupCardGreen border-none" data-testid="journey-card">
       <CardHeader className="bg-groupCardGreen rounded-xl p-2">
         <CardTitle className="p-4 flex gap-2 items-center text-white font-bold">
           Your Gift Giving Journey
