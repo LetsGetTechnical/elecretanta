@@ -36,7 +36,7 @@ export const LoadingSkeleton = ({
   statsCount = 4,
   cardItemCount = 3,
 }: LoadingSkeletonProps) => (
-  <main className="min-h-screen-minus-20">
+  <main className="min-h-screen-minus-20" data-testid="loading-skeleton">
     <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
       {/* Header Navigation */}
       <div className="flex justify-between">
