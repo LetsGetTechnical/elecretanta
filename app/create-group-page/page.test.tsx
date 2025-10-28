@@ -3,6 +3,7 @@
 
 import { render, screen } from '@testing-library/react';
 import CreateGroupPage from './page';
+import { Calendar } from '@/components/Calendar/calendar';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -20,6 +21,16 @@ class MockResizeObserver {
 global.ResizeObserver = MockResizeObserver;
 
 describe('Create Group Page', () => {
+  it('has the first group image selected by default', () => {
+    render(<CreateGroupPage />);
+
+    const [firstTile, ...otherTiles] = screen.getAllByRole('figure');
+    expect(firstTile).toHaveAttribute('data-state', 'checked');
+    otherTiles.forEach((imageTile) => {
+      expect(imageTile).toHaveAttribute('data-state', 'unchecked');
+    });
+  });
+
   describe('Close (X) button', () => {
     it('renders the X button with the correct href', () => {
       render(<CreateGroupPage />);
@@ -41,9 +52,7 @@ describe('Create Group Page', () => {
       });
     });
   });
-});
 
-describe('Create Group Page', () => {
   describe('Calendar component in create group page', () => {
     it('disables past dates correctly', () => {
       const currentDate = new Date('2025-10-08T00:00:00Z');
@@ -66,16 +75,6 @@ describe('Create Group Page', () => {
 
       const tomorrow = screen.getByText('9');
       expect(tomorrow).not.toBeDisabled();
-    });
-  });
-
-  it('has the first group image selected by default', () => {
-    render(<CreateGroupPage />);
-
-    const [firstTile, ...otherTiles] = screen.getAllByRole('figure');
-    expect(firstTile).toHaveAttribute('data-state', 'checked');
-    otherTiles.forEach((imageTile) => {
-      expect(imageTile).toHaveAttribute('data-state', 'unchecked');
     });
   });
 });
