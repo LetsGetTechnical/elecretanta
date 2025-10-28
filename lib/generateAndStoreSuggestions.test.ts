@@ -2,6 +2,7 @@ import { generateAndStoreSuggestions } from './generateAndStoreSuggestions';
 import { getAmazonImage } from './getAmazonImage';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { openai } from '../app/api/openaiConfig/config';
+import { OpenAiError } from './errors/CustomErrors';
 
 jest.mock('../app/api/openaiConfig/config', () => ({
   openai: {
@@ -140,14 +141,9 @@ describe('generateAndStoreSuggestions', () => {
       }),
     });
 
+    // OpenAI returns empty array as bad response
     (openai.chat.completions.create as jest.Mock).mockResolvedValue({
-      choices: [
-        {
-          message: {
-            content: 'Not a JSON string',
-          },
-        },
-      ],
+      choices: [],
     });
 
     await expect(
@@ -158,12 +154,6 @@ describe('generateAndStoreSuggestions', () => {
         'Recipient3',
         50,
       ),
-    ).rejects.toThrow('Failed to generate gift suggestions');
-
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Failed to parse or store suggestions:',
-      expect.any(SyntaxError),
-    );
-    consoleErrorSpy.mockRestore();
+    ).rejects.toThrow(OpenAiError);
   });
 });
