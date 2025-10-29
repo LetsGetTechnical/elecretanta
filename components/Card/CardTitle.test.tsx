@@ -24,9 +24,9 @@ describe('CardTitle', () => {
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
-        render(<CardTitle aria-label="Elfgorithm features"/>);
+        render(<CardTitle aria-label="Secret Santa Exchange features"/>);
 
         const cardTitle = screen.getByTestId('card-title');
-        expect(cardTitle).toHaveAttribute('aria-label', 'Elfgorithm features');
+        expect(cardTitle).toHaveAttribute('aria-label', 'Secret Santa Exchange features');
     });
 })
