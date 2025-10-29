@@ -55,9 +55,8 @@ export const signInWithGoogle = async (options?: { redirectPath?: string }) => {
 export const processExchangeForToast = ({
   exchange,
   toast,
-  today = new Date(),
 }: processExchangeForToastProps) => {
-  const todayStart = new Date(today);
+  const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
 
   const drawingDateStart = new Date(exchange.drawing_date);
