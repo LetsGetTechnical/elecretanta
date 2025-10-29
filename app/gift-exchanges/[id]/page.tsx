@@ -4,28 +4,20 @@ import { GiftExchange } from '@/app/types/giftExchange';
 import { useParams } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 import { GiftExchangeHeader } from '@/components/GiftExchangeHeader/GiftExchangeHeader';
-import { JourneyCard } from '../../../components/JourneyCard/JourneyCard';
-import { MembersList } from '../../../components/MembersList/MembersList';
-import { InviteCard } from '../../../components/InviteCard/InviteCard';
-import { LoadingSkeleton } from '../../../components/LoadingSkeleton/LoadingSkeleton';
+import { JourneyCard } from '@/components/JourneyCard/JourneyCard';
+import { MembersList } from '@/components/MembersList/MembersList';
+import { InviteCard } from '@/components/InviteCard/InviteCard';
+import { LoadingSkeleton } from '@/components/LoadingSkeleton/LoadingSkeleton';
 import { GiftExchangeMember } from '@/app/types/giftExchangeMember';
-import WarningModal from '../../../components/WarningModal/WarningModal';
-import { CompletedExchangeCard } from '../../../components/CompletedExchangeCard/CompletedExchangeCard';
+import WarningModal from '@/components/WarningModal/WarningModal';
+import { CompletedExchangeCard } from '@/components/CompletedExchangeCard/CompletedExchangeCard';
 import { Profile } from '@/app/types/profile';
 import ProfileCard from '@/components/ProfileCard/ProfileCard';
 import GiftSuggestionCard from '@/components/GiftSuggestionCard/GiftSuggestionCard';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/Card/Card';
-import { Button } from '@/components/Button/button';
-import Link from 'next/link';
+import RedirectCard from '@/components/RedirectCard/RedirectCard';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -110,11 +102,60 @@ export default function GiftExchangePage() {
     }
   };
 
+  const isValidGiftExchange = !!giftExchangeData?.id
+
   if (isLoading) {
     return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
   }
 
-  if (giftExchangeData.status === 'pending') {
+  if (!isValidGiftExchange) {
+    return (
+      <main className="min-h-screen-minus-20 flex justify-center">
+        <section className="max-w-xs mt-12">
+          <RedirectCard 
+            title="Bad Link" 
+            description='This link may be invalid or expired. Please double-check your
+                invitation link.'
+            buttonHref='/'
+            buttonLabel='Home'
+          />
+        </section>
+      </main>
+    );
+  }
+
+  if (!session && giftExchangeData.status !== 'pending') {
+    return (
+      <main className="min-h-screen-minus-20 flex justify-center">
+        <section className="max-w-xs mt-12">
+          <RedirectCard 
+            title="Log In" 
+            description='Please log in to visit this page.'
+            buttonHref='/'
+            buttonLabel='Home'
+          />
+        </section>
+      </main>
+    );
+  }
+  
+  if (!isUserAMember && giftExchangeData.status !== 'pending') {
+    return (
+      <main className="min-h-screen-minus-20 flex justify-center">
+        <section className="max-w-xs mt-12">
+          <RedirectCard 
+            title="Expired Link" 
+            description='Your invitation link may be outdated.'
+            buttonHref='/'
+            buttonLabel='Home'
+          />
+        </section>
+      </main>
+    );
+  }
+
+
+  if (giftExchangeData.status === 'pending' && (!session || !isUserAMember) ) {
     return (
       <main className="min-h-screen-minus-20">
         <WarningModal
@@ -126,31 +167,6 @@ export default function GiftExchangePage() {
     );
   }
 
-  if (!isUserAMember && giftExchangeData.status !== 'pending') {
-    return (
-      <main className="min-h-screen-minus-20 flex justify-center">
-        <section className="max-w-xs mt-12">
-          <Card data-testid="bad-link">
-            <CardHeader className="text-center space-y-3">
-              <span className="text-5xl font-semibold text-logoRed">?</span>
-              <CardTitle>Bad Link</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              <CardDescription>
-                This link may be invalid or expired. Please double-check your
-                invitation link.
-              </CardDescription>
-              <div className="flex justify-center ">
-                <Button data-testid="home-button" asChild>
-                  <Link href="/">Home</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-      </main>
-    );
-  }
 
   const renderContent = () => {
     switch (giftExchangeData.status) {
@@ -178,7 +194,7 @@ export default function GiftExchangePage() {
               <h1 className="font-bold">Gift Suggestions</h1>
               {giftSuggestions.length === 0 && <WaitingForSuggestions />}
 
-              {giftSuggestions.length !== 0 && (
+              {giftSuggestions.length > 0 && (
                 <div className="flex flex-row flex-wrap">
                   {giftSuggestions.map((gift, index) => (
                     <GiftSuggestionCard

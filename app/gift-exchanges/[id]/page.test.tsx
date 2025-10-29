@@ -86,9 +86,39 @@ describe('GiftExchangePage', () => {
     });
   });
 
-  describe('GiftExchangePage Bad Link card', () => {
+  describe('GiftExchangePage Redirect Cards', () => {
     beforeEach(() => {
       jest.resetAllMocks();
+    });
+
+    it('displays a BAD LINK Redirect Card if the exchange is not valid', async () => {
+      (useAuthContext as jest.Mock).mockReturnValue({
+        session: { user: mockMembers[0] },
+      });
+
+      global.fetch = jest
+        .fn()
+        .mockResolvedValueOnce({
+          json: async () => ({ error: '' }),
+        })
+        .mockResolvedValueOnce({
+          json: async () => ({ error: '' }),
+        })
+        .mockResolvedValueOnce({
+          json: async () => ({ error: '' }),
+        });
+
+      render(<GiftExchangePage />);
+
+      const card = await screen.findByTestId('card-title');
+      expect(card).toHaveTextContent(/bad link/i);
+
+      const homeButton = screen.getByRole('link');
+      expect(homeButton).toHaveTextContent(/home/i);
+    });
+
+    it('displays a LOG IN Redirect Card if a user is not logged in and the group is not pending', async () => {
+      (useAuthContext as jest.Mock).mockReturnValue({ session: null });
 
       global.fetch = jest
         .fn()
@@ -101,32 +131,44 @@ describe('GiftExchangePage', () => {
         .mockResolvedValueOnce({
           json: async () => mockGiftSuggestions,
         });
+
+      render(<GiftExchangePage />);
+
+      const card = await screen.findByTestId('card-title');
+      expect(card).toHaveTextContent(/log in/i);
+
+      const homeButton = screen.getByRole('link');
+      expect(homeButton).toHaveTextContent(/home/i);
     });
 
-    it('displays a Bad Link card if a logged-in user is not a member of the group and the group is not pending', async () => {
+    it('displays an EXPIRED LINK Redirect Card if a user is logged in but not a member of the group and the group is not pending', async () => {
       (useAuthContext as jest.Mock).mockReturnValue({
-        session: { user: { id: 'not-a-member' } },
+        session: {
+          user: {
+            id: 'not-a-member',
+          },
+        },
       });
 
+      global.fetch = jest
+        .fn()
+        .mockResolvedValueOnce({
+          json: async () => ({ ...mockGiftExchangeData, status: 'active' }),
+        })
+        .mockResolvedValueOnce({
+          json: async () => mockMembers,
+        })
+        .mockResolvedValueOnce({
+          json: async () => mockGiftSuggestions,
+        });
+
       render(<GiftExchangePage />);
 
       const card = await screen.findByTestId('card-title');
-      expect(card).toHaveTextContent(/bad link/i);
+      expect(card).toHaveTextContent(/expired link/i);
 
-      const homeButton = screen.getByTestId('home-button');
-      expect(homeButton).toBeInTheDocument();
-    });
-
-    it('displays a Bad Link card if the user is not logged in and the group is not pending', async () => {
-      (useAuthContext as jest.Mock).mockReturnValue({ session: null });
-
-      render(<GiftExchangePage />);
-
-      const card = await screen.findByTestId('card-title');
-      expect(card).toHaveTextContent(/bad link/i);
-
-      const homeButton = screen.getByTestId('home-button');
-      expect(homeButton).toBeInTheDocument();
+      const homeButton = screen.getByRole('link');
+      expect(homeButton).toHaveTextContent(/home/i);
     });
   });
 });
