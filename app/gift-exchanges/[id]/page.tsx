@@ -17,6 +17,15 @@ import GiftSuggestionCard from '@/components/GiftSuggestionCard/GiftSuggestionCa
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/Card/Card';
+import { Button } from '@/components/Button/button';
+import Link from 'next/link';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -105,6 +114,44 @@ export default function GiftExchangePage() {
     return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
   }
 
+  if (giftExchangeData.status === 'pending') {
+    return (
+      <main className="min-h-screen-minus-20">
+        <WarningModal
+          giftExchangeData={giftExchangeData}
+          members={giftExchangeMembers}
+          updateGiftExchangeMembers={updateGiftExchangeMembers}
+        />
+      </main>
+    );
+  }
+
+  if (!isUserAMember && giftExchangeData.status !== 'pending') {
+    return (
+      <main className="min-h-screen-minus-20 flex justify-center">
+        <section className="max-w-xs mt-12">
+          <Card data-testid="bad-link">
+            <CardHeader className="text-center space-y-3">
+              <span className="text-5xl font-semibold text-logoRed">?</span>
+              <CardTitle>Bad Link</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <CardDescription>
+                This link may be invalid or expired. Please double-check your
+                invitation link.
+              </CardDescription>
+              <div className="flex justify-center ">
+                <Button data-testid="home-button" asChild>
+                  <Link href="/">Home</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      </main>
+    );
+  }
+
   const renderContent = () => {
     switch (giftExchangeData.status) {
       case 'pending':
@@ -160,15 +207,6 @@ export default function GiftExchangePage() {
 
   return (
     <main className="min-h-screen-minus-20">
-      {isUserAMember === false &&
-        !isLoading &&
-        giftExchangeData.status === 'pending' && (
-          <WarningModal
-            giftExchangeData={giftExchangeData}
-            members={giftExchangeMembers}
-            updateGiftExchangeMembers={updateGiftExchangeMembers}
-          />
-        )}
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}
