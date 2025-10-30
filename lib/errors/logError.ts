@@ -19,10 +19,7 @@ export default function logError(error: unknown): NextResponse {
   if (error instanceof SupabaseError) {
     console.error('Supabase error:', error);
 
-    return NextResponse.json(
-      { error: error.message },
-      { status: error.statusCode },
-    );
+    return NextResponse.json({ error: error.message });
   } else if (error instanceof BackendError) {
     console.error('Backend error:', error);
 
