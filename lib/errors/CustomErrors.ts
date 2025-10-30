@@ -50,7 +50,7 @@ export class SupabaseError extends Error {
   /**
    * Error class for catching Supabase errors
    * @param {string} message - Friendly error message for the user
-   * @param {number} statusCode - HTTP status code
+   * @param {number | string} statusCode - HTTP status code
    * @param {any} details - Optional additional details
    */
   constructor(
