@@ -43,7 +43,11 @@ export const processGiftExchanges = async ({
       completedCount += 1;
 
       if (error) {
-        throw new SupabaseError('Failed to process gift exchange', 500, error);
+        throw new SupabaseError(
+          'Failed to process gift exchange',
+          error.code,
+          error,
+        );
       }
     }
 

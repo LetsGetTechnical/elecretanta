@@ -43,7 +43,7 @@ export async function PATCH(req: Request) {
     if (error) {
       throw new SupabaseError(
         'Could not update gift exchange members',
-        500,
+        error.code,
         error,
       );
     }
@@ -86,7 +86,7 @@ export async function DELETE(req: Request) {
     if (error) {
       throw new SupabaseError(
         'Could not delete gift exchange member',
-        500,
+        error.code,
         error,
       );
     }

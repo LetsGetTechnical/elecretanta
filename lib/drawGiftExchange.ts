@@ -26,8 +26,16 @@ export async function drawGiftExchange(
       .eq('id', exchangeId)
       .single();
 
-    if (exchangeError || !exchange) {
-      throw new BackendError('Gift exchange not found', 404);
+    if (exchangeError) {
+      throw new SupabaseError(
+        'Gift exchange not found',
+        exchangeError.code,
+        exchangeError,
+      );
+    }
+
+    if (!exchange) {
+      throw new SupabaseError('Gift exchange not found', 404);
     }
 
     // Check exchange status
@@ -41,8 +49,16 @@ export async function drawGiftExchange(
       .select('id, user_id')
       .eq('gift_exchange_id', exchangeId);
 
-    if (membersError || !members) {
-      throw new BackendError('Failed to fetch members', 500);
+    if (membersError) {
+      throw new SupabaseError(
+        'Failed to fetch members',
+        membersError.code,
+        membersError,
+      );
+    }
+
+    if (!members) {
+      throw new SupabaseError('Failed to fetch members', 404);
     }
 
     //Validate minimum members
@@ -70,7 +86,7 @@ export async function drawGiftExchange(
       if (updateError) {
         throw new SupabaseError(
           'Failed to assign recipients',
-          500,
+          updateError.code,
           updateError,
         );
       }
@@ -98,7 +114,7 @@ export async function drawGiftExchange(
     if (statusError) {
       throw new SupabaseError(
         'Failed to update exchange status',
-        500,
+        statusError.code,
         statusError,
       );
     }

@@ -31,12 +31,16 @@ export async function generateAndStoreSuggestions(
       .eq('id', recipientId)
       .single();
 
-    if (profileError || !recipientProfile) {
+    if (profileError) {
       throw new SupabaseError(
         'Failed to fetch recipient profile',
-        500,
+        profileError.code,
         profileError,
       );
+    }
+
+    if (!recipientProfile) {
+      throw new SupabaseError('Recipient profile is missing', 500);
     }
 
     const prompt = `Take on the role of a Secret Santa. Generate 3 personalized gift suggestions based on this profile information that I will provide you with: 
@@ -124,7 +128,7 @@ export async function generateAndStoreSuggestions(
       if (suggestionError) {
         throw new SupabaseError(
           'Failed to store suggestion',
-          500,
+          suggestionError.code,
           suggestionError,
         );
       }

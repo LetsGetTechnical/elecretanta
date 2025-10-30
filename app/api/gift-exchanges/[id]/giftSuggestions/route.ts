@@ -54,7 +54,11 @@ export async function GET(
       .single();
 
     if (matchError) {
-      throw new SupabaseError('Failed to fetch match', 500, matchError);
+      throw new SupabaseError(
+        'Failed to fetch match',
+        matchError.code,
+        matchError,
+      );
     }
 
     // Get suggestions
@@ -67,7 +71,7 @@ export async function GET(
     if (suggestionsError) {
       throw new SupabaseError(
         'Failed to fetch suggestions',
-        500,
+        suggestionsError.code,
         suggestionsError,
       );
     }

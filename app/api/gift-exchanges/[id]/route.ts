@@ -21,7 +21,11 @@ export async function GET(
       .single();
 
     if (error) {
-      throw new SupabaseError('Could not fetch gift exchange.', 500, error);
+      throw new SupabaseError(
+        'Could not fetch gift exchange.',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
@@ -77,7 +81,11 @@ export async function PATCH(
       .single();
 
     if (error) {
-      throw new SupabaseError('Could not update gift exchange', 500, error);
+      throw new SupabaseError(
+        'Could not update gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
@@ -112,7 +120,11 @@ export async function DELETE(req: Request) {
       .eq('id', id);
 
     if (error) {
-      throw new SupabaseError('Failed to delete gift exchange', 500, error);
+      throw new SupabaseError(
+        'Failed to delete gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json({ success: true });

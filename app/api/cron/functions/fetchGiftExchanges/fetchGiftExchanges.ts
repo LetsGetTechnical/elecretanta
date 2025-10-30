@@ -18,7 +18,11 @@ export const fetchGiftExchanges = async ({
   const { data, error } = await supabase.from('gift_exchanges').select('*');
 
   if (error) {
-    throw new SupabaseError('Failed to fetch gift exchanges', 500, error);
+    throw new SupabaseError(
+      'Failed to fetch gift exchanges',
+      error.code,
+      error,
+    );
   }
 
   if (data.length === 0) {

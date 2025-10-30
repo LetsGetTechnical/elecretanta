@@ -28,7 +28,7 @@ export async function GET() {
       .single();
 
     if (error) {
-      throw new SupabaseError('Failed to fetch profile', 500, error);
+      throw new SupabaseError('Failed to fetch profile', error.code, error);
     }
 
     return NextResponse.json(data);
@@ -64,7 +64,7 @@ export async function PATCH(request: Request) {
       .single();
 
     if (error) {
-      throw new SupabaseError('Failed to update profile', 500, error);
+      throw new SupabaseError('Failed to update profile', error.code, error);
     }
 
     return NextResponse.json(data);

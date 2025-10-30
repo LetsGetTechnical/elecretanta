@@ -35,7 +35,11 @@ export async function GET(): Promise<NextResponse> {
     });
 
     if (error) {
-      throw new SupabaseError('Failed to get gift exchanges', 500, error);
+      throw new SupabaseError(
+        'Failed to get gift exchanges',
+        error.code,
+        error,
+      );
     }
     return NextResponse.json(data);
   } catch (error) {
@@ -94,7 +98,11 @@ export async function POST(req: Request): Promise<NextResponse> {
       .single();
 
     if (error) {
-      throw new SupabaseError('Failed to create gift exchange', 500, error);
+      throw new SupabaseError(
+        'Failed to create gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
@@ -137,7 +145,11 @@ export async function PATCH(req: Request): Promise<NextResponse> {
       .single();
 
     if (fetchError) {
-      throw new SupabaseError('Error fetching gift exchange', 404, fetchError);
+      throw new SupabaseError(
+        'Error fetching gift exchange',
+        fetchError.code,
+        fetchError,
+      );
     }
 
     if (!giftExchange) {
@@ -158,7 +170,11 @@ export async function PATCH(req: Request): Promise<NextResponse> {
       .single();
 
     if (error) {
-      throw new SupabaseError('Failed to update gift exchange', 500, error);
+      throw new SupabaseError(
+        'Failed to update gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);

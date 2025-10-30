@@ -39,7 +39,7 @@ export async function GET(
     if (error) {
       throw new SupabaseError(
         'Could not fetch user profile',
-        401,
+        error.code,
         sessionError,
       );
     }

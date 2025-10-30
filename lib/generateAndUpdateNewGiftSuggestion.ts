@@ -131,7 +131,7 @@ export async function generateAndUpdateNewGiftSuggestion(
     if (suggestionError) {
       throw new SupabaseError(
         'Failed to update suggestion',
-        500,
+        suggestionError.code,
         suggestionError,
       );
     }

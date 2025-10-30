@@ -97,8 +97,16 @@ export async function POST(
       .eq('id', giftExchangeId)
       .single();
 
-    if (exchangeError || !exchange) {
-      throw new SupabaseError('Gift exchange not found', 404, exchangeError);
+    if (exchangeError) {
+      throw new SupabaseError(
+        'Gift exchange not found',
+        exchangeError.code,
+        exchangeError,
+      );
+    }
+
+    if (!exchange.status || exchange.status === 'complete') {
+      throw new SupabaseError('Gift exchange is not active', 404);
     }
 
     // Insert new member
@@ -118,7 +126,7 @@ export async function POST(
     if (error) {
       throw new SupabaseError(
         'Failed to create gift exchange member',
-        500,
+        error.code,
         error,
       );
     }
