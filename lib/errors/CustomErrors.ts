@@ -55,7 +55,7 @@ export class SupabaseError extends Error {
    */
   constructor(
     message: string,
-    public statusCode: number,
+    public statusCode: number | string,
     public details?: unknown,
   ) {
     super(message);
