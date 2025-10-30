@@ -1,7 +1,7 @@
 'use client';
 
 import { GiftExchange } from '@/app/types/giftExchange';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 import { GiftExchangeHeader } from '@/components/GiftExchangeHeader/GiftExchangeHeader';
 import { JourneyCard } from '../../../components/JourneyCard/JourneyCard';
@@ -17,11 +17,15 @@ import GiftSuggestionCard from '@/components/GiftSuggestionCard/GiftSuggestionCa
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
+import { useToast } from '@/hooks/use-toast';
+import { ToastVariants } from '@/components/Toast/Toast.enum';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
   const { session } = useAuthContext();
-  const [isUserAMember, setIsUserAMember] = useState<boolean | null>(null);
+  const router = useRouter()
+  const { toast } = useToast()
+
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
     id: '',
@@ -40,6 +44,10 @@ export default function GiftExchangePage() {
 
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
   const [giftSuggestions, setGiftSuggestions] = useState<IGiftSuggestion[]>([]);
+
+  const isUserAMember = session?.user?.id 
+    ? giftExchangeMembers.some(member => member.user_id === session.user.id)
+    : false;
 
   const handleGiftUpdate = (
     updatedGift: IGiftSuggestion,
@@ -69,21 +77,60 @@ export default function GiftExchangePage() {
           giftSuggestionsResponse.json(),
         ]);
 
+
+      const isExchangePending = giftExchangeResult.status === 'pending'
+      const isUserLoggedIn = !!(session?.user?.id)
+      const isUserAGroupMember = session?.user?.id 
+        ? giftExchangeMembers.some(member => member.user_id === session.user.id)
+        : false;
+
+      console.log("giftExchangeResult")
+      console.log(giftExchangeResult)
+      console.log("isExchangePending")
+      console.log(isExchangePending)
+      console.log("isUserLoggedIn")
+      console.log(isUserLoggedIn)
+
+      if (giftExchangeResult.error){ /** Case #3 "Bad Link" */
+        router.push('/dashboard')   
+        toast({
+          variant: ToastVariants.Error,
+          title: `Bad Link`,
+          description: `Please check the invitation link and try again.`,
+        });
+        return
+      }
+
+      if (isExchangePending && !isUserLoggedIn) { /** Case #2 not logged in but status is pending */
+        // Options:
+        // Show modal ?
+        // redirect straight to log in page
+        return
+      }
+
+      if (isUserLoggedIn && !isExchangePending && !isUserAGroupMember) {
+        console.log("EXPIRED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        router.push('/dashboard')   
+        toast({
+          variant: ToastVariants.Error,
+          title: `Expired Link`,
+          description: `Sorry, the specified link is no longer valid.`,
+        });
+        return
+      }
+
       setGiftExchangeData(giftExchangeResult);
       setGiftExchangeMembers(membersResult);
       setGiftMatch(giftSuggestionsResult.match);
       setGiftSuggestions(giftSuggestionsResult.suggestions);
-      if (session) {
-        setIsUserAMember(
-          membersResult.some(
-            (member: GiftExchangeMember) => member.user_id === session?.user.id,
-          ),
-        );
-      } else {
-        setIsUserAMember(false);
-      }
+
     } catch (error) {
       console.error('Error fetching data:', error);
+      toast({
+        variant: ToastVariants.Error,
+        title: `Server Error`,
+        description: `Sorry, there was a network error.`,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -100,6 +147,7 @@ export default function GiftExchangePage() {
       console.error(error);
     }
   };
+
 
   if (isLoading) {
     return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
@@ -129,9 +177,9 @@ export default function GiftExchangePage() {
             </section>
             <section className="flex flex-col">
               <h1 className="font-bold">Gift Suggestions</h1>
-              {giftSuggestions.length === 0 && <WaitingForSuggestions />}
+              {giftSuggestions?.length === 0 && <WaitingForSuggestions />}
 
-              {giftSuggestions.length !== 0 && (
+              {giftSuggestions?.length > 0 && (
                 <div className="flex flex-row flex-wrap">
                   {giftSuggestions.map((gift, index) => (
                     <GiftSuggestionCard
@@ -158,10 +206,11 @@ export default function GiftExchangePage() {
     }
   };
 
+
+
   return (
     <main className="min-h-screen-minus-20">
       {isUserAMember === false &&
-        !isLoading &&
         giftExchangeData.status === 'pending' && (
           <WarningModal
             giftExchangeData={giftExchangeData}

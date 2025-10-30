@@ -34,6 +34,10 @@ jest.mock('@/app/api/openaiConfig/config', () => ({
 
 jest.mock('next/navigation', () => ({
   useParams: () => ({ id: '123' }),
+  useRouter: () => ({
+    push: jest.fn(),
+    refresh: jest.fn(),
+  }),
 }));
 
 jest.mock('@/context/AuthContextProvider');
