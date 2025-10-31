@@ -5,12 +5,15 @@ import GroupCard, { GroupCardSkeleton } from '@/components/GroupCard/GroupCard';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { GiftExchangeWithMemberCount } from '../types/giftExchange';
+import { useToast } from '@/hooks/use-toast';
+import { notifyAboutExchanges } from '@/lib/utils';
 
 export default function Dashboard() {
   const [giftExchanges, setGiftExchanges] = useState<
     GiftExchangeWithMemberCount[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchGiftExchanges() {
@@ -28,6 +31,8 @@ export default function Dashboard() {
 
         const data = await response.json();
         setGiftExchanges(data);
+
+        notifyAboutExchanges(data, toast);
       } catch (error) {
         console.error('Failed to fetch gift exchanges:', error);
       } finally {

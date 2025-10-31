@@ -17,7 +17,7 @@ import {
 } from '@/components/Card/Card';
 import { Input } from '@/components/Input/Input';
 import { Progress } from '@/components/Progress/progress';
-import { ChevronLeft, ChevronRight, Gift } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Form,
   FormControl,
@@ -38,6 +38,7 @@ import { MultiSelect } from '@/components/MultiSelect/multi-select-input';
 import { Textarea } from '@/components/TextArea/textarea';
 import { Slider } from '@/components/Slider/Slider';
 import getUserAvatar from '@/lib/getUserAvatar';
+import LogoIcon from '@/app/assets/svgs/LogoIcon';
 
 /**
  * Onboarding form component.
@@ -120,7 +121,7 @@ export const Onboarding = ({
 
   const steps: Step[] = [
     {
-      title: 'Welcome to Elfgorithm✨',
+      title: 'Welcome to Secret Santa Exchange✨',
       description: "Let's find your perfect gift match",
       schema: stepOneSchema,
     },
@@ -300,8 +301,8 @@ export const Onboarding = ({
                 {/* Conditionally render the form Fields for each step */}
                 {currentStep === 0 && (
                   <>
-                    <div className="bg-pink-100 w-fit p-3 rounded-full mx-auto mb-4">
-                      <Gift className="text-red-600" />
+                    <div className="bg-[#13433b] w-fit p-3 rounded-full mx-auto mb-4">
+                      <LogoIcon />
                     </div>
                     <h3 className="font-bold text-center">Hello, {name}!</h3>
                     <p className="text-center">

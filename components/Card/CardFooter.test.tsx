@@ -24,9 +24,9 @@ describe('CardFooter', () => {
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
-        render(<CardFooter aria-label="Elfgorithm footer"/>);
+        render(<CardFooter aria-label="Secret Santa Exchange footer"/>);
 
         const cardFooter = screen.getByTestId('card-footer');
-        expect(cardFooter).toHaveAttribute('aria-label', 'Elfgorithm footer');
+        expect(cardFooter).toHaveAttribute('aria-label', 'Secret Santa Exchange footer');
     })
 })
