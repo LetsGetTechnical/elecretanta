@@ -6,23 +6,54 @@ import GiftSuggestionCard from './GiftSuggestionCard';
 import { userEvent } from '@testing-library/user-event';
 import FeedbackView from '../FeedbackView/FeedbackView';
 import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';
+import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 
-//add props data
-//add data test id for compoonents
+
+const demoGiftSuggestion= {
+    gift: {
+        id: "string",
+        title: "string",
+        price: "string",
+        description: "string",
+        matchReasons: [],
+        matchScore: 3,
+        imageUrl: "string | null;,"
+    },
+    allGiftSuggestions: [],
+    budget: "string",
+    handleFeedback: jest.fn(),
+    onGiftUpdate: jest.fn(),
+    recipient:{
+        id: "string",
+        display_name: "string",
+        email: "string",
+        categories: [],
+        created_at: "string",
+        updated_at: "string",
+        onboarding_complete: true
+    },
+    handleFeedbackView: jest.fn()
+}
+//Add mock for resolved values 
+//add props data for null/no response(check err for feedback view and gift view)
 describe('Gift Suggestion Card test',()=>{
     render(
         //figure out how what should be rendered: card, feedback, giftcardview
+        <>
         <FeedbackView
-        allGiftSuggestions={}
-        budget={}
-        gift={}
-        handleFeedback={}
-        onGiftUpdate={}
-        recipient={}
+        allGiftSuggestions={demoGiftSuggestion.allGiftSuggestions}
+        budget={demoGiftSuggestion.budget}
+        gift={demoGiftSuggestion.gift}
+        handleFeedback={demoGiftSuggestion.handleFeedback()}
+        onGiftUpdate={demoGiftSuggestion.onGiftUpdate()}
+        recipient={demoGiftSuggestion.recipient}
         />
+        <GiftDetailsView gift={demoGiftSuggestion.gift} handleFeedback={demoGiftSuggestion.handleFeedbackView} />
+        </>
        
     )
     // it('confirm card renders',()=>{
+
         
     // });
     // it('confirm FeedbackView renders when state is true',()=>{
