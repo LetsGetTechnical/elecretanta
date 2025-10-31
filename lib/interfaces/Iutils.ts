@@ -16,5 +16,4 @@ export interface ToastFunction {
 export interface processExchangeForToastProps {
   exchange: GiftExchangeWithMemberCount;
   toast: ToastFunction;
-  today?: Date;
 }
