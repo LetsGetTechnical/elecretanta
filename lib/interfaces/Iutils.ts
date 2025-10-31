@@ -4,7 +4,7 @@
 import { ToastVariants } from '@/components/Toast/Toast.enum';
 import { GiftExchangeWithMemberCount } from '@/app/types/giftExchange';
 
-export interface ToastFunction {
+export interface IToastFunction {
   (props: {
     variant: ToastVariants;
     title: string;
