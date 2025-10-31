@@ -13,7 +13,7 @@ export interface IToastFunction {
   }): void;
 }
 
-export interface processExchangeForToastProps {
+export interface IProcessExchangeForToastProps {
   exchange: GiftExchangeWithMemberCount;
   toast: ToastFunction;
 }
