@@ -223,19 +223,19 @@ export const GiftExchangeHeader = ({
               <p className="text-xs">{giftExchangeData.description}</p>
             </div>
             <div>
-              {getStatusText(giftExchangeData.status) === 'Active' && (
+              {getStatusText(giftExchangeData.status) === 'Active' && isOwner && (
                 <Button onClick={completeGiftExchange}>
                   Complete Gift Exchange
                 </Button>
               )}
-              {getStatusText(giftExchangeData.status) === 'Open' ? (
+              {getStatusText(giftExchangeData.status) === 'Open' && isOwner ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button disabled={membersData.length < 2}>
+                    <Button disabled={membersData.length <= 2}>
                       Draw Gift Exchange
                     </Button>
                   </AlertDialogTrigger>
-                  {membersData.length < 2 && (
+                  {membersData.length <= 2 && (
                     <p className="text-yellow-600 bg-yellow-100 border border-yellow-600 p-2 rounded-lg text-sm mt-2">
                       Gift Exchange needs 3 or more people to start
                     </p>
