@@ -5,8 +5,8 @@ import { createClient } from '@/lib/supabase/client';
 import { ToastVariants } from '@/components/Toast/Toast.enum';
 import { GiftExchangeWithMemberCount } from '@/app/types/giftExchange';
 import {
-  ToastFunction,
-  processExchangeForToastProps,
+  IToastFunction,
+  IProcessExchangeForToastProps,
 } from './interfaces/Iutils';
 
 export function cn(...inputs: ClassValue[]) {
@@ -55,7 +55,7 @@ export const signInWithGoogle = async (options?: { redirectPath?: string }) => {
 export const processExchangeForToast = ({
   exchange,
   toast,
-}: processExchangeForToastProps) => {
+}: IProcessExchangeForToastProps) => {
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
 
@@ -93,7 +93,7 @@ export const processExchangeForToast = ({
 
 export const notifyAboutExchanges = (
   data: GiftExchangeWithMemberCount[],
-  toast: ToastFunction,
+  toast: IToastFunction,
 ) => {
   for (const exchange of data) {
     processExchangeForToast({ exchange, toast });

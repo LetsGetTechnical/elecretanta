@@ -15,5 +15,5 @@ export interface IToastFunction {
 
 export interface IProcessExchangeForToastProps {
   exchange: GiftExchangeWithMemberCount;
-  toast: ToastFunction;
+  toast: IToastFunction;
 }
