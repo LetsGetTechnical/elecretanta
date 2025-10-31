@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import type { CreateGiftExchangeMemberRequest } from '@/app/types/giftExchangeMember';
+import { SupabaseError, BackendError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 // get all members of a gift exchange
 export async function GET(
@@ -43,20 +45,16 @@ export async function GET(
     const { data: membersData, error: membersError } = await query;
 
     if (membersError) {
-      return NextResponse.json(
-        { error: 'Gift exchange members not found' },
-        { status: 404 },
+      throw new SupabaseError(
+        'Gift exchange members not found',
+        404,
+        membersError,
       );
     }
 
     return NextResponse.json(membersData);
   } catch (error) {
-    console.log(error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -70,22 +68,26 @@ export async function POST(
 
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     // Get and validate request body
     const body: CreateGiftExchangeMemberRequest = await req.json();
 
     if (!body.user_id) {
-      return NextResponse.json(
-        { error: 'User ID is required' },
-        { status: 400 },
-      );
+      throw new BackendError('User ID is required', 400);
     }
 
     // Check if exchange exists and is valid
@@ -95,11 +97,16 @@ export async function POST(
       .eq('id', giftExchangeId)
       .single();
 
-    if (exchangeError || !exchange) {
-      return NextResponse.json(
-        { error: 'Gift exchange not found' },
-        { status: 404 },
+    if (exchangeError) {
+      throw new SupabaseError(
+        'Gift exchange not found',
+        exchangeError.code,
+        exchangeError,
       );
+    }
+
+    if (!exchange.status || exchange.status === 'complete') {
+      throw new SupabaseError('Gift exchange is not active', 404);
     }
 
     // Insert new member
@@ -117,15 +124,15 @@ export async function POST(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Failed to create gift exchange member',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Unexpected error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

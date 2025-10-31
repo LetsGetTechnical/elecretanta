@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { createClient } from '@/lib/supabase/client';
 import { ToastVariants } from '@/components/Toast/Toast.enum';
 import { GiftExchangeWithMemberCount } from '@/app/types/giftExchange';
+import { BackendError } from './errors/CustomErrors';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -12,9 +13,9 @@ export function cn(...inputs: ClassValue[]) {
 export const validateGroupExchangeDates = (
   drawingDate: Date,
   exchangeDate: Date,
-): string | null => {
+): null => {
   if (drawingDate >= exchangeDate) {
-    return 'Drawing date must be before exchange date';
+    throw new BackendError('Drawing date must be before exchange date', 400);
   }
   return null;
 };
@@ -40,10 +41,11 @@ export const signInWithGoogle = async (options?: { redirectPath?: string }) => {
     });
 
     if (error) {
+      console.error('Error signing in with Google:', error);
       redirect('/auth/error');
     }
   } catch (error) {
-    console.error('Error signing in with Google:', error);
+    console.error('Unexpected error signing in with Google:', error);
     redirect('/auth/error');
   }
 };

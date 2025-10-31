@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { CreateGiftExchangeRequest } from '@/app/types/giftExchange';
 import { validateGroupExchangeDates } from '@/lib/utils';
+import { SupabaseError, BackendError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 /**
  * Get all gift exchanges for the current user
@@ -13,12 +15,19 @@ import { validateGroupExchangeDates } from '@/lib/utils';
 export async function GET(): Promise<NextResponse> {
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     const { data, error } = await supabase.rpc('get_gift_exchanges_for_user', {
@@ -26,16 +35,15 @@ export async function GET(): Promise<NextResponse> {
     });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Failed to get gift exchanges',
+        error.code,
+        error,
+      );
     }
     return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -47,12 +55,19 @@ export async function GET(): Promise<NextResponse> {
 export async function POST(req: Request): Promise<NextResponse> {
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     const body: CreateGiftExchangeRequest = await req.json();
@@ -63,7 +78,7 @@ export async function POST(req: Request): Promise<NextResponse> {
     const dateError = validateGroupExchangeDates(drawingDate, exchangeDate);
 
     if (dateError) {
-      return NextResponse.json({ error: dateError }, { status: 400 });
+      throw new BackendError('Invalid date for group exchange', 400);
     }
 
     const { data, error } = await supabase
@@ -83,17 +98,16 @@ export async function POST(req: Request): Promise<NextResponse> {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Failed to create gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -105,13 +119,21 @@ export async function POST(req: Request): Promise<NextResponse> {
 export async function PATCH(req: Request): Promise<NextResponse> {
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
     }
+
+    if (!user) {
+      throw new SupabaseError('User is not authenticated or exists', 500);
+    }
+
     const body = await req.json();
     const giftExchangeId = req.url.split('/').pop();
 
@@ -122,11 +144,16 @@ export async function PATCH(req: Request): Promise<NextResponse> {
       .eq('id', giftExchangeId)
       .single();
 
-    if (fetchError || !giftExchange) {
-      return NextResponse.json(
-        { error: 'Gift exchange not found' },
-        { status: 404 },
+    if (fetchError) {
+      throw new SupabaseError(
+        'Error fetching gift exchange',
+        fetchError.code,
+        fetchError,
       );
+    }
+
+    if (!giftExchange) {
+      throw new SupabaseError('Gift exchange not found', 404);
     }
 
     // Update with all provided fields
@@ -143,16 +170,15 @@ export async function PATCH(req: Request): Promise<NextResponse> {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Failed to update gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

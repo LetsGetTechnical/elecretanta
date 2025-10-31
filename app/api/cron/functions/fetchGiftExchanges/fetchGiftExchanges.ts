@@ -3,6 +3,7 @@
 
 import { GiftExchange } from '@/app/types/giftExchange';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseError } from '@/lib/errors/CustomErrors';
 
 /**
  * Fetches all gift exchanges in the database.
@@ -17,11 +18,15 @@ export const fetchGiftExchanges = async ({
   const { data, error } = await supabase.from('gift_exchanges').select('*');
 
   if (error) {
-    throw new Error(error.message);
+    throw new SupabaseError(
+      'Failed to fetch gift exchanges',
+      error.code,
+      error,
+    );
   }
 
   if (data.length === 0) {
-    throw new Error('No gift exchanges found.');
+    throw new SupabaseError('No gift exchanges found', 500, error);
   }
 
   return data;
