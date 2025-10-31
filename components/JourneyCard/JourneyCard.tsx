@@ -70,7 +70,7 @@ export const JourneyCard = ({
       <CardContent className="pt-4">
         <div className="flex flex-col gap-6">
           {journeySteps.map((step) => (
-            <div key={step.id} className="flex gap-4 items-center">
+            <div key={step.id} className="flex gap-4 items-center" data-testid={`journey-step-${step.id}`}>
               <div className="bg-white rounded-full w-10 h-10 flex items-center justify-center">
                 {step.icon}
               </div>
