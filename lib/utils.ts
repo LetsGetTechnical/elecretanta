@@ -4,6 +4,10 @@ import { twMerge } from 'tailwind-merge';
 import { createClient } from '@/lib/supabase/client';
 import { ToastVariants } from '@/components/Toast/Toast.enum';
 import { GiftExchangeWithMemberCount } from '@/app/types/giftExchange';
+import {
+  IToastFunction,
+  IProcessExchangeForToastProps,
+} from './interfaces/Iutils';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -48,27 +52,11 @@ export const signInWithGoogle = async (options?: { redirectPath?: string }) => {
   }
 };
 
-interface ToastFunction {
-  (props: {
-    variant: ToastVariants;
-    title: string;
-    description: string;
-    group: string;
-  }): void;
-}
-
-interface processExchangeForToastProps {
-  exchange: GiftExchangeWithMemberCount;
-  toast: ToastFunction;
-  today?: Date;
-}
-
 export const processExchangeForToast = ({
   exchange,
   toast,
-  today = new Date(),
-}: processExchangeForToastProps) => {
-  const todayStart = new Date(today);
+}: IProcessExchangeForToastProps) => {
+  const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
 
   const drawingDateStart = new Date(exchange.drawing_date);
@@ -105,7 +93,7 @@ export const processExchangeForToast = ({
 
 export const notifyAboutExchanges = (
   data: GiftExchangeWithMemberCount[],
-  toast: ToastFunction,
+  toast: IToastFunction,
 ) => {
   for (const exchange of data) {
     processExchangeForToast({ exchange, toast });
