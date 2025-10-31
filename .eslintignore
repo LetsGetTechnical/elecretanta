@@ -38,7 +38,6 @@ components/GiftSuggestionCard/GiftSuggestionCard.tsx
 components/ImageSelector/ImageSelector.tsx
 components/Input/input.tsx
 components/InviteCard/InviteCard.tsx
-components/JourneyCard/JourneyCard.tsx
 components/Label/label.tsx
 components/LoadingCard/LoadingCard.tsx
 components/LoadingSkeleton/LoadingSkeleton.tsx
