@@ -37,15 +37,15 @@ components/GiftDetailsView/GiftDetailsView.tsx
 components/ImageSelector/ImageSelector.tsx
 components/Input/input.tsx
 components/InviteCard/InviteCard.tsx
-components/JourneyCard/JourneyCard.tsx
 components/Label/label.tsx
 components/LoadingCard/LoadingCard.tsx
 components/LoadingSkeleton/LoadingSkeleton.tsx
 components/LoadingSpinner/LoadingSpinner.tsx
 components/MembersList/MembersList.tsx
 components/MultiSelect/multi-select-input.tsx
-components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
+app/assets/svgs/LogoCombination.tsx
+app/assets/svgs/LogoIcon.tsx
 lib/supabase/middleware.ts
 lib/utils.ts

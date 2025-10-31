@@ -1,6 +1,6 @@
-# Elfgorithm 🎅
+# Secret Santa Exchange 🎅
 
-Elfgorithm is an AI-powered Secret Santa platform that makes gift exchanges delightful and effortless. Perfect for organizing gift exchanges between colleagues, friends, and family, Elfgorithm takes the guesswork out of gift-giving with personalized AI suggestions.
+Secret Santa Exchange is an AI-powered Secret Santa platform that makes gift exchanges delightful and effortless. Perfect for organizing gift exchanges between colleagues, friends, and family, Secret Santa Exchange takes the guesswork out of gift-giving with personalized AI suggestions.
 
 ## 🎄 Hackathon Project
 
