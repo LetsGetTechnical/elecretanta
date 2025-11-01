@@ -4,54 +4,50 @@
 import { render, screen } from '@testing-library/react';
 import GiftSuggestionCard from './GiftSuggestionCard';
 import { userEvent } from '@testing-library/user-event';
-import FeedbackView from '../FeedbackView/FeedbackView';
-import GiftDetailsView from '../GiftDetailsView/GiftDetailsView';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
+import { Profile } from '@/app/types/profile';
 
+jest.mock('@/app/types/giftSuggestion',()=>{
 
-const demoGiftSuggestion= {
-    gift: {
-        id: "string",
-        title: "string",
-        price: "string",
-        description: "string",
-        matchReasons: [],
-        matchScore: 3,
-        imageUrl: "string | null;,"
-    },
-    allGiftSuggestions: [],
-    budget: "string",
-    handleFeedback: jest.fn(),
-    onGiftUpdate: jest.fn(),
-    recipient:{
-        id: "string",
-        display_name: "string",
-        email: "string",
-        categories: [],
-        created_at: "string",
-        updated_at: "string",
-        onboarding_complete: true
-    },
-    handleFeedbackView: jest.fn()
-}
-//Add mock for resolved values 
+})
+
+const mockProfile: Profile = {
+    id: '1',
+    display_name: 'Test User',
+    email: 'test@example.com',
+    categories: ['test'],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    onboarding_complete: true,
+  };
+  const mockGiftSuggestion: IGiftSuggestion = {
+    id: '1',
+    title: 'Test Gift',
+    price: '100',
+    description: 'Test Description',
+    matchReasons: ['test reason'],
+    matchScore: 0.8,
+    imageUrl: 'test.jpg',
+  };
+  
+  //Mock onGiftUpdate(only)
+  const handleGiftUpdate = jest.fn()
+
 //add props data for null/no response(check err for feedback view and gift view)
 describe('Gift Suggestion Card test',()=>{
     render(
         //figure out how what should be rendered: card, feedback, giftcardview
-        <>
-        <FeedbackView
-        allGiftSuggestions={demoGiftSuggestion.allGiftSuggestions}
-        budget={demoGiftSuggestion.budget}
-        gift={demoGiftSuggestion.gift}
-        handleFeedback={demoGiftSuggestion.handleFeedback()}
-        onGiftUpdate={demoGiftSuggestion.onGiftUpdate()}
-        recipient={demoGiftSuggestion.recipient}
+  
+       <GiftSuggestionCard 
+            allGiftSuggestions={[]}
+            budget={''}
+            gift={mockGiftSuggestion}
+            index={3}
+            onGiftUpdate={handleGiftUpdate}
+            recipient={mockProfile}
         />
-        <GiftDetailsView gift={demoGiftSuggestion.gift} handleFeedback={demoGiftSuggestion.handleFeedbackView} />
-        </>
-       
     )
+  
     // it('confirm card renders',()=>{
 
         
