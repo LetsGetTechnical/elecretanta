@@ -186,6 +186,23 @@ Before finalizing changes:
 - Request reviews from specified groups
 - Link PR in Discord
 
+## Learning from Past PRs
+
+**IMPORTANT**: Before starting work, review the 10 most commented closed PRs to understand common review feedback patterns:
+
+```bash
+gh pr list --repo LetsGetTechnical/elecretanta --state closed --limit 10 --json number,title,comments --jq 'sort_by(.comments | length) | reverse | .[] | "\(.number): \(.title) (\(.comments | length) comments)"'
+```
+
+Review these PRs to learn:
+- Common mistakes caught during review
+- Code patterns that require changes
+- Edge cases frequently missed
+- Documentation or test gaps
+- Style or architectural concerns
+
+Use `gh pr view <number>` to read specific PR discussions. This context helps you avoid repeating common issues and aligns your work with team expectations.
+
 ## Trust These Instructions
 
 These instructions are comprehensive and validated. Only search or explore further if:
