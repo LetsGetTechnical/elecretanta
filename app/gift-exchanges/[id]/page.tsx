@@ -24,8 +24,8 @@ import { signInWithGoogle } from '@/lib/utils';
 export default function GiftExchangePage() {
   const { id } = useParams();
   const { session, isSignedIn } = useAuthContext();
-  const router = useRouter()
-  const { toast } = useToast()
+  const router = useRouter();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
     id: '',
@@ -38,13 +38,15 @@ export default function GiftExchangePage() {
     owner_id: '',
     status: 'pending',
   });
-  const [giftExchangeMembers, setGiftExchangeMembers] = useState<GiftExchangeMember[]>([]);
-  
+  const [giftExchangeMembers, setGiftExchangeMembers] = useState<
+    GiftExchangeMember[]
+  >([]);
+
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
   const [giftSuggestions, setGiftSuggestions] = useState<IGiftSuggestion[]>([]);
 
-  const isUserAMember = session?.user?.id 
-    ? giftExchangeMembers.some(member => member.user_id === session.user.id)
+  const isUserAMember = session?.user?.id
+    ? giftExchangeMembers.some((member) => member.user_id === session.user.id)
     : false;
 
   const handleGiftUpdate = (
@@ -59,8 +61,8 @@ export default function GiftExchangePage() {
   };
 
   const fetchGiftExchangeData = useCallback(async () => {
-    if(isSignedIn  ===  null) {
-      return 
+    if (isSignedIn === null) {
+      return;
     }
     setIsLoading(true);
     try {
@@ -77,43 +79,46 @@ export default function GiftExchangePage() {
           membersResponse.json(),
           giftSuggestionsResponse.json(),
         ]);
-  
-      if ( giftExchangeResult.error || membersResult.error ) {
-        router.push('/dashboard')   
+
+      if (giftExchangeResult.error || membersResult.error) {
+        router.push('/dashboard');
         toast({
           variant: ToastVariants.Error,
           title: `Bad Link`,
           description: `Please check the invitation link and try again.`,
         });
-        return
+        return;
       }
-      
+
       setGiftExchangeData(giftExchangeResult);
       setGiftExchangeMembers(membersResult);
       setGiftMatch(giftSuggestionsResult.match);
       setGiftSuggestions(giftSuggestionsResult.suggestions);
 
-      const isExchangePending = giftExchangeResult.status === 'pending'
-      const isUserLoggedIn = !!(session?.user?.id)
-      const isUserAGroupMember = isUserLoggedIn && membersResult.some((member: GiftExchangeMember) => member.user_id === session.user.id)
+      const isExchangePending = giftExchangeResult.status === 'pending';
+      const isUserLoggedIn = !!session?.user?.id;
+      const isUserAGroupMember =
+        isUserLoggedIn &&
+        membersResult.some(
+          (member: GiftExchangeMember) => member.user_id === session.user.id,
+        );
 
       if (!isExchangePending && !isUserLoggedIn) {
         await signInWithGoogle({
           redirectPath: window.location.pathname,
         });
-        return
+        return;
       }
 
       if (isUserLoggedIn && !isExchangePending && !isUserAGroupMember) {
-        router.push('/dashboard')   
+        router.push('/dashboard');
         toast({
           variant: ToastVariants.Error,
           title: `Expired Link`,
           description: `Sorry, the specified link is no longer valid.`,
         });
-        return
+        return;
       }
-
     } catch (error) {
       console.error('Error fetching data:', error);
       toast({
@@ -197,14 +202,13 @@ export default function GiftExchangePage() {
 
   return (
     <main className="min-h-screen-minus-20">
-      {isUserAMember === false &&
-        giftExchangeData.status === 'pending' && (
-          <WarningModal
-            giftExchangeData={giftExchangeData}
-            members={giftExchangeMembers}
-            updateGiftExchangeMembers={updateGiftExchangeMembers}
-          />
-        )}
+      {isUserAMember === false && giftExchangeData.status === 'pending' && (
+        <WarningModal
+          giftExchangeData={giftExchangeData}
+          members={giftExchangeMembers}
+          updateGiftExchangeMembers={updateGiftExchangeMembers}
+        />
+      )}
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}

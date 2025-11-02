@@ -169,7 +169,7 @@ describe('GiftExchangePage', () => {
     });
   });
 
-  it('redirects to the dashboard and displays an Expired Link toast if user is not a member of the group and group i', async () => {
+  it('redirects to the dashboard and displays an Expired Link toast if user is not a member of a group that has already had its Drawing', async () => {
     (useAuthContext as jest.Mock).mockReturnValue(mockNonMemberSession);
     mockDataFetch('active');
 
@@ -186,7 +186,7 @@ describe('GiftExchangePage', () => {
     });
   });
 
-  it('calls signInWithGoogle function if the user is not logged in but the Exchange Drawing has already taken place', async () => {
+  it('calls signInWithGoogle function if the user is not logged in and the group has already had its Drawing', async () => {
     (useAuthContext as jest.Mock).mockReturnValue(mockNoSession);
     (utils.signInWithGoogle as jest.Mock).mockResolvedValue(undefined);
     mockDataFetch('active');
