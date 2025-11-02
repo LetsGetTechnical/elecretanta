@@ -1,26 +1,18 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import GiftExchangePage from './page';
 import { useAuthContext } from '@/context/AuthContextProvider';
+import * as utils from '@/lib/utils';
 
-const mockGiftExchangeData = {
-  id: '123',
-  name: 'Test Exchange',
-  budget: '50',
-  status: 'pending',
-};
+const routerPush = jest.fn();
 
-const mockMembers = [
-  {
-    id: '1',
-    user_id: 'test-member',
-    member: { avatar: 'https://example.com/mock-avatar.png' },
-  },
-];
+jest.mock('next/navigation', () => ({
+  useParams: () => ({ id: '123' }),
+  useRouter: () => ({
+    push: routerPush,
+  }),
+}));
 
-const mockGiftSuggestions = {
-  match: null,
-  suggestions: [],
-};
+jest.mock('@/context/AuthContextProvider');
 
 jest.mock('@/app/api/openaiConfig/config', () => ({
   openai: {
@@ -32,24 +24,59 @@ jest.mock('@/app/api/openaiConfig/config', () => ({
   },
 }));
 
-jest.mock('next/navigation', () => ({
-  useParams: () => ({ id: '123' }),
-  useRouter: () => ({
-    push: jest.fn(),
-    refresh: jest.fn(),
-  }),
+const mockToast = jest.fn();
+
+jest.mock('@/hooks/use-toast', () => ({
+  useToast: jest.fn(() => ({
+    toast: mockToast,
+  })),
 }));
 
-jest.mock('@/context/AuthContextProvider');
+jest.mock('@/lib/utils', () => ({
+  ...jest.requireActual('@/lib/utils'),
+  signInWithGoogle: jest.fn(),
+}));
 
-describe('GiftExchangePage Warning Modal', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
+const mockGiftExchangeData = {
+  id: '123',
+  name: 'Test Exchange',
+  budget: '50',
+};
 
-    global.fetch = jest
-      .fn()
+const mockGiftSuggestions = {
+  match: null,
+  suggestions: [],
+};
+
+const mockGroupMember = {
+  id: '1',
+  user_id: 'test-member',
+  member: { avatar: 'https://example.com/mock-avatar.png' },
+};
+
+const mockNonGroupMember = { ...mockGroupMember, id: 'not-a-member' };
+
+const mockMembers = [mockGroupMember];
+
+const mockMemberSession = {
+  session: {
+    user: mockGroupMember,
+  },
+};
+
+const mockNonMemberSession = {
+  session: {
+    user: mockNonGroupMember,
+  },
+};
+
+const mockNoSession = { session: null };
+
+describe('GiftExchangePage', () => {
+  const mockDataFetch = (status: string) => {
+    (global.fetch as jest.Mock)
       .mockResolvedValueOnce({
-        json: async () => mockGiftExchangeData,
+        json: async () => ({ ...mockGiftExchangeData, status }),
       })
       .mockResolvedValueOnce({
         json: async () => mockMembers,
@@ -57,16 +84,36 @@ describe('GiftExchangePage Warning Modal', () => {
       .mockResolvedValueOnce({
         json: async () => mockGiftSuggestions,
       });
+  };
+
+  const mockFetchWithoutValidData = () => {
+    (global.fetch as jest.Mock)
+      .mockResolvedValueOnce({
+        json: async () => ({ error: 'Error' }),
+      })
+      .mockResolvedValueOnce({
+        json: async () => ({ error: 'Error' }),
+      })
+      .mockResolvedValueOnce({
+        json: async () => ({ error: 'Error' }),
+      });
+  };
+
+  const mockRejectedFetch = () => {
+    (global.fetch as jest.Mock).mockRejectedValueOnce({});
+  };
+
+  beforeEach(() => {
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('displays the WarningModal with the join button for a logged-in user who is not a member of a pending group', async () => {
-    (useAuthContext as jest.Mock).mockReturnValue({
-      session: {
-        user: {
-          id: 'not-a-member',
-        },
-      },
-    });
+    (useAuthContext as jest.Mock).mockReturnValue(mockNonMemberSession);
+    mockDataFetch('pending');
 
     render(<GiftExchangePage />);
 
@@ -78,7 +125,8 @@ describe('GiftExchangePage Warning Modal', () => {
   });
 
   it('displays the WarningModal with a Google sign-in button for users who are not signed in and not members of a pending group', async () => {
-    (useAuthContext as jest.Mock).mockReturnValue({ session: null });
+    (useAuthContext as jest.Mock).mockReturnValue(mockNoSession);
+    mockDataFetch('pending');
 
     render(<GiftExchangePage />);
 
@@ -87,5 +135,68 @@ describe('GiftExchangePage Warning Modal', () => {
 
     expect(warningModal).toBeInTheDocument();
     expect(googleButton).toBeInTheDocument();
+  });
+
+  it('redirects to user dashboard and displays Bad Link toast if URL is invalid', async () => {
+    (useAuthContext as jest.Mock).mockReturnValue(mockMemberSession);
+    mockFetchWithoutValidData();
+
+    render(<GiftExchangePage />);
+
+    await waitFor(() => {
+      expect(routerPush).toHaveBeenCalledWith('/dashboard');
+
+      expect(mockToast).toHaveBeenCalledWith({
+        variant: 'error',
+        title: 'Bad Link',
+        description: 'Please check the invitation link and try again.',
+      });
+    });
+  });
+
+  it('displays a Server Error toast if data fetching throws an error', async () => {
+    (useAuthContext as jest.Mock).mockReturnValue(mockMemberSession);
+    mockRejectedFetch();
+
+    render(<GiftExchangePage />);
+
+    await waitFor(() => {
+      expect(mockToast).toHaveBeenCalledWith({
+        variant: 'error',
+        title: 'Server Error',
+        description: 'Sorry, there was a network error.',
+      });
+    });
+  });
+
+  it('redirects to the dashboard and displays an Expired Link toast if user is not a member of the group and group i', async () => {
+    (useAuthContext as jest.Mock).mockReturnValue(mockNonMemberSession);
+    mockDataFetch('active');
+
+    render(<GiftExchangePage />);
+
+    await waitFor(() => {
+      expect(routerPush).toHaveBeenCalledWith('/dashboard');
+
+      expect(mockToast).toHaveBeenCalledWith({
+        variant: 'error',
+        title: 'Expired Link',
+        description: 'Sorry, the specified link is no longer valid.',
+      });
+    });
+  });
+
+  it('calls signInWithGoogle function if the user is not logged in but the Exchange Drawing has already taken place', async () => {
+    (useAuthContext as jest.Mock).mockReturnValue(mockNoSession);
+    (utils.signInWithGoogle as jest.Mock).mockResolvedValue(undefined);
+    mockDataFetch('active');
+
+    render(<GiftExchangePage />);
+
+    await waitFor(() => {
+      expect(utils.signInWithGoogle as jest.Mock).toHaveBeenCalledWith({
+        redirectPath: expect.any(String),
+      });
+    });
   });
 });

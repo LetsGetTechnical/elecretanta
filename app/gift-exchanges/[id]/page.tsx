@@ -19,13 +19,13 @@ import { useAuthContext } from '@/context/AuthContextProvider';
 import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
 import { useToast } from '@/hooks/use-toast';
 import { ToastVariants } from '@/components/Toast/Toast.enum';
+import { signInWithGoogle } from '@/lib/utils';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
-  const { session } = useAuthContext();
+  const { session, isSignedIn } = useAuthContext();
   const router = useRouter()
   const { toast } = useToast()
-
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
     id: '',
@@ -38,10 +38,8 @@ export default function GiftExchangePage() {
     owner_id: '',
     status: 'pending',
   });
-  const [giftExchangeMembers, setGiftExchangeMembers] = useState<
-    GiftExchangeMember[]
-  >([]);
-
+  const [giftExchangeMembers, setGiftExchangeMembers] = useState<GiftExchangeMember[]>([]);
+  
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
   const [giftSuggestions, setGiftSuggestions] = useState<IGiftSuggestion[]>([]);
 
@@ -61,6 +59,9 @@ export default function GiftExchangePage() {
   };
 
   const fetchGiftExchangeData = useCallback(async () => {
+    if(isSignedIn  ===  null) {
+      return 
+    }
     setIsLoading(true);
     try {
       const [giftExchangeResponse, membersResponse, giftSuggestionsResponse] =
@@ -76,22 +77,8 @@ export default function GiftExchangePage() {
           membersResponse.json(),
           giftSuggestionsResponse.json(),
         ]);
-
-
-      const isExchangePending = giftExchangeResult.status === 'pending'
-      const isUserLoggedIn = !!(session?.user?.id)
-      const isUserAGroupMember = session?.user?.id 
-        ? giftExchangeMembers.some(member => member.user_id === session.user.id)
-        : false;
-
-      console.log("giftExchangeResult")
-      console.log(giftExchangeResult)
-      console.log("isExchangePending")
-      console.log(isExchangePending)
-      console.log("isUserLoggedIn")
-      console.log(isUserLoggedIn)
-
-      if (giftExchangeResult.error){ /** Case #3 "Bad Link" */
+  
+      if ( giftExchangeResult.error || membersResult.error ) {
         router.push('/dashboard')   
         toast({
           variant: ToastVariants.Error,
@@ -100,16 +87,24 @@ export default function GiftExchangePage() {
         });
         return
       }
+      
+      setGiftExchangeData(giftExchangeResult);
+      setGiftExchangeMembers(membersResult);
+      setGiftMatch(giftSuggestionsResult.match);
+      setGiftSuggestions(giftSuggestionsResult.suggestions);
 
-      if (isExchangePending && !isUserLoggedIn) { /** Case #2 not logged in but status is pending */
-        // Options:
-        // Show modal ?
-        // redirect straight to log in page
+      const isExchangePending = giftExchangeResult.status === 'pending'
+      const isUserLoggedIn = !!(session?.user?.id)
+      const isUserAGroupMember = isUserLoggedIn && membersResult.some((member: GiftExchangeMember) => member.user_id === session.user.id)
+
+      if (!isExchangePending && !isUserLoggedIn) {
+        await signInWithGoogle({
+          redirectPath: window.location.pathname,
+        });
         return
       }
 
       if (isUserLoggedIn && !isExchangePending && !isUserAGroupMember) {
-        console.log("EXPIRED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         router.push('/dashboard')   
         toast({
           variant: ToastVariants.Error,
@@ -118,11 +113,6 @@ export default function GiftExchangePage() {
         });
         return
       }
-
-      setGiftExchangeData(giftExchangeResult);
-      setGiftExchangeMembers(membersResult);
-      setGiftMatch(giftSuggestionsResult.match);
-      setGiftSuggestions(giftSuggestionsResult.suggestions);
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -134,11 +124,11 @@ export default function GiftExchangePage() {
     } finally {
       setIsLoading(false);
     }
-  }, [id, session]);
+  }, [id, session, isSignedIn]);
 
   useEffect(() => {
     fetchGiftExchangeData();
-  }, [fetchGiftExchangeData, session, id]);
+  }, [fetchGiftExchangeData, session, id, isSignedIn]);
 
   const updateGiftExchangeMembers = async () => {
     try {
@@ -147,7 +137,6 @@ export default function GiftExchangePage() {
       console.error(error);
     }
   };
-
 
   if (isLoading) {
     return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
@@ -205,8 +194,6 @@ export default function GiftExchangePage() {
         );
     }
   };
-
-
 
   return (
     <main className="min-h-screen-minus-20">
