@@ -19,6 +19,11 @@ import { JSX } from "react"
 const Toaster = (): JSX.Element => {
   const { toasts } = useToast()
 
+  // Create function/hook to get the current user
+  // Create function/hook to load user owned groups
+  
+  // Filter toasts for groups the user owns
+
   return (
     <ToastProvider>
       {toasts.map(function ({ id, title, description, action, ...props }) {
