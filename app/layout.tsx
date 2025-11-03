@@ -63,8 +63,8 @@ const RootLayout = ({
             <SnowOverlayWrapper />
             {children}
           </SnowOverlayProvider>
+          <Toaster />
         </AuthContextProvider>
-        <Toaster />
       </body>
     </html>
   );
