@@ -29,6 +29,11 @@ const Toaster = (): JSX.Element => {
     })
   })
 
+  // Create function/hook to get the current user
+  // Create function/hook to load user owned groups
+  
+  // Filter toasts for groups the user owns
+
   return (
     <ToastProvider>
       {filteredToasts.map(function ({ id, title, description, action, ...props }) {
