@@ -14,7 +14,7 @@ const mockMembers: GiftExchangeMember[] = [
     member: {
       display_name: 'John Doe',
       email: 'john.doe@example.com',
-      avatar: 'https://example.com/avatar.png',
+      avatar: 'https://example.com/john.png',
     },
     recipient: {
       display_name: 'Jane Smith',
@@ -26,7 +26,7 @@ const mockMembers: GiftExchangeMember[] = [
     id: '2',
     gift_exchange_id: '1',
     user_id: '2',
-    recipient_id: '1',
+    recipient_id: '3',
     has_drawn: true,
     created_at: new Date(),
     updated_at: new Date(),
@@ -36,9 +36,28 @@ const mockMembers: GiftExchangeMember[] = [
       avatar: 'https://example.com/jane.png',
     },
     recipient: {
+      display_name: 'Robert Joe',
+      email: 'robert.joe@example.com',
+      avatar: 'https://example.com/robert.png',
+    },
+  },
+  {
+    id: '3',
+    gift_exchange_id: '1',
+    user_id: '3',
+    recipient_id: '1',
+    has_drawn: true,
+    created_at: new Date(),
+    updated_at: new Date(),
+    member: {
+      display_name: 'Robert Joe',
+      email: 'robert.joe@example.com',
+      avatar: 'https://example.com/robert.png',
+    },
+    recipient: {
       display_name: 'John Doe',
       email: 'john.doe@example.com',
-      avatar: 'https://example.com/avatar.png',
+      avatar: 'https://example.com/john.png',
     },
   },
 ];
