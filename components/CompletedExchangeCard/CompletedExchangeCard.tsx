@@ -82,7 +82,10 @@ export const CompletedExchangeCard = ({
                 <p className="sr-only">gifted to</p>
               </div>
 
-              <div className="flex items-center ">
+              <div
+                className="flex items-center"
+                data-testid={`recipient-${member.id}`}
+              >
                 <p className="sm:text-lg pr-2">
                   {member.recipient.display_name}
                 </p>
