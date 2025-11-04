@@ -62,6 +62,11 @@ const mockMembers: GiftExchangeMember[] = [
   },
 ];
 
+jest.mock('@radix-ui/react-avatar', () => ({
+  ...jest.requireActual('@radix-ui/react-avatar'),
+  Image: (props: typeof Image) => <img data-testid="avatar-image" {...props} />,
+}));
+
 describe('CompletedExchangeCard', () => {
   beforeEach(() => {
     jest.useFakeTimers();
