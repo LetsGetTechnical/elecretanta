@@ -70,7 +70,7 @@ export const CompletedExchangeCard = ({
                 <Avatar
                   data-testid={`avatar`}
                   userAvatar={
-                    member.recipient.avatar ||
+                    member.member.avatar ||
                     'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg'
                   }
                 />
