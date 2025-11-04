@@ -115,7 +115,7 @@ export default function GiftExchangePage() {
         toast({
           variant: ToastVariants.Error,
           title: `Expired Link`,
-          description: `Sorry, the specified link is no longer valid.`,
+          description: `Sorry, this invitation is no longer valid.`,
         });
         return;
       }
@@ -123,8 +123,8 @@ export default function GiftExchangePage() {
       console.error('Error fetching data:', error);
       toast({
         variant: ToastVariants.Error,
-        title: `Server Error`,
-        description: `Sorry, there was a network error.`,
+        title: `Error`,
+        description: `Sorry, something went wrong.`,
       });
     } finally {
       setIsLoading(false);
