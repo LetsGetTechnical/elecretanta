@@ -1,7 +1,7 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, waitFor } from '@testing-library/react';
 import { GiftExchangeHeader } from './GiftExchangeHeader';
 import { GROUP_IMAGES } from '../ImageSelector/ImageSelector';
 
@@ -149,7 +149,7 @@ describe('GiftExchangeHeader owner permissions', () => {
     cleanup(); // Clean up after each test
   });
 
-  it('matching user_id and owner_id should render the draw gift exchange button', async () => {
+  it('should render the draw gift exchange button when user_id and owner_id match ', async () => {
     
     render(
       <GiftExchangeHeader
@@ -159,12 +159,13 @@ describe('GiftExchangeHeader owner permissions', () => {
       />
     );
     
-    const drawButton = await screen.findByRole("button", { name: /draw gift exchange/i });
+    // const drawButton = await screen.findByRole("button", { name: /draw gift exchange/i });
+    const drawButton = await screen.findByTestId('draw-gift-exchange');
     expect(drawButton).toBeInTheDocument();
     
   })
   
-  it('non-owner should NOT see the draw gift exchange button', async () => {
+  it('should NOT render the draw gift exchange button when user_id and owner_id DO NOT match ', async () => {
     // Override for this specific test
     mockGetUser.mockResolvedValue({
       data: {
@@ -183,17 +184,14 @@ describe('GiftExchangeHeader owner permissions', () => {
       />
     );
     
-    // Button should not be rendered for non-owners
-    let drawButton = null;
-    try {
-      drawButton = await screen.findByRole("button", { name: /draw gift exchange/i });
-    } catch(error) {
-      console.error(error);
-    }
-    expect(drawButton).not.toBeInTheDocument();
+    // Wait for useEffect to complete, then check that button doesn't exist
+    await waitFor(() => {
+      const drawButton = screen.queryByTestId('draw-gift-exchange');
+      expect(drawButton).not.toBeInTheDocument();
+    })
   });
 
-  it('matching user_id and owner_id should render the complete gift exchange button', async () => {
+  it('should render the complete gift exchange button when user_id and owner_id match', async () => {
     
     render(
       <GiftExchangeHeader
@@ -203,12 +201,13 @@ describe('GiftExchangeHeader owner permissions', () => {
       />
     );
     
-    const completeButton = await screen.findByRole("button", { name: /complete gift exchange/i });
+    // const completeButton = await screen.findByRole("button", { name: /complete gift exchange/i });
+    const completeButton = await screen.findByTestId('complete-gift-exchange');
     expect(completeButton).toBeInTheDocument();
     
   })
 
-  it('non-owner should NOT see the complete gift exchange button', async () => {
+  it('should NOT render the complete gift exchange button when user_id and owner_id DO NOT match', async () => {
     mockGetUser.mockResolvedValue({
       data: {
         user: {
@@ -225,15 +224,12 @@ describe('GiftExchangeHeader owner permissions', () => {
       id={mockGiftExchangeDataActive.id} 
       />
     );
-    
-    // Button should NOT be rendered for non-owners
-    let completeButton = null;
-    try {
-      completeButton = await screen.findByRole("button", { name: /complete gift exchange/i });
-    } catch(error) {
-      console.error(error);
-    }
-    expect(completeButton).not.toBeInTheDocument();
+
+    // Wait for useEffect to complete, then check that button doesn't exist
+    await waitFor(() => {
+      const completeButton = screen.queryByTestId('complete-gift-exchange');
+      expect(completeButton).not.toBeInTheDocument();
+    })
   });
   
 });

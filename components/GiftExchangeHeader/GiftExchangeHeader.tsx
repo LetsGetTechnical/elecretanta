@@ -224,14 +224,14 @@ export const GiftExchangeHeader = ({
             </div>
             <div>
               {getStatusText(giftExchangeData.status) === 'Active' && isOwner && (
-                <Button onClick={completeGiftExchange}>
+                <Button onClick={completeGiftExchange} data-testid='complete-gift-exchange'>
                   Complete Gift Exchange
                 </Button>
               )}
               {getStatusText(giftExchangeData.status) === 'Open' && isOwner ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button disabled={membersData.length <= 2}>
+                    <Button disabled={membersData.length <= 2} data-testid='draw-gift-exchange'>
                       Draw Gift Exchange
                     </Button>
                   </AlertDialogTrigger>
