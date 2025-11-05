@@ -18,6 +18,10 @@ describe('Utils test', () => {
 
     const mockToast = jest.fn();
 
+    beforeAll(() => {
+      jest.useFakeTimers().setSystemTime(new Date('2025-12-10T00:00:00Z'));
+    });
+
     beforeEach(() => {
       jest.clearAllMocks();
     });
@@ -29,7 +33,6 @@ describe('Utils test', () => {
       processExchangeForToast({
         exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
         toast: mockToast,
-        today,
       });
 
       expect(mockToast).toHaveBeenCalledTimes(1);
@@ -45,7 +48,6 @@ describe('Utils test', () => {
       processExchangeForToast({
         exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
         toast: mockToast,
-        today,
       });
 
       expect(mockToast).toHaveBeenCalledTimes(1);
@@ -61,7 +63,6 @@ describe('Utils test', () => {
       processExchangeForToast({
         exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
         toast: mockToast,
-        today,
       });
 
       expect(mockToast).toHaveBeenCalledTimes(1);
@@ -77,7 +78,6 @@ describe('Utils test', () => {
       processExchangeForToast({
         exchange: { ...baseExchange, drawing_date: drawDate.toISOString() },
         toast: mockToast,
-        today,
       });
 
       expect(mockToast).not.toHaveBeenCalled();
