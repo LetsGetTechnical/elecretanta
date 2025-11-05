@@ -41,6 +41,8 @@ export default function GiftExchangePage() {
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
   const [giftSuggestions, setGiftSuggestions] = useState<IGiftSuggestion[]>([]);
 
+  const inviteLink = window.location.href; // Invite Link for Invite Card
+
   const handleGiftUpdate = (
     updatedGift: IGiftSuggestion,
     originalIndex: number,
@@ -116,7 +118,7 @@ export default function GiftExchangePage() {
             />
             <div className="flex flex-col gap-4 w-full">
               <MembersList members={giftExchangeMembers} />
-              <InviteCard />
+              <InviteCard inviteLink={inviteLink} />
             </div>
           </div>
         );
