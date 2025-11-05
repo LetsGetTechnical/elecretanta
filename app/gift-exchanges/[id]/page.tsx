@@ -173,7 +173,7 @@ export default function GiftExchangePage() {
               <h1 className="font-bold">Gift Suggestions</h1>
               {giftSuggestions?.length === 0 && <WaitingForSuggestions />}
 
-              {giftSuggestions?.length > 0 && (
+              {giftSuggestions?.length !== 0 && (
                 <div className="flex flex-row flex-wrap">
                   {giftSuggestions.map((gift, index) => (
                     <GiftSuggestionCard
