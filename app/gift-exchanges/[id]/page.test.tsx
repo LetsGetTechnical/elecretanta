@@ -89,9 +89,9 @@ describe('GiftExchangePage', () => {
 
   const mockFetchWithoutValidData = () => {
     (global.fetch as jest.Mock)
-      .mockResolvedValue({
-        json: async () => ({ error: 'Error' }),
-      })
+    .mockResolvedValue({
+      json: async () => ({ error: 'Error' }),
+    });
   };
 
   const mockRejectedFetch = () => {
