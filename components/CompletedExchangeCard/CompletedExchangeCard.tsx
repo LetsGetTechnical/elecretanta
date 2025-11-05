@@ -64,7 +64,7 @@ export const CompletedExchangeCard = ({
           {members.map((member) => (
             <div key={member.id} className="grid grid-cols-[auto_1fr_auto]">
               <div
-                className="flex items-center"
+                className="gift-giver flex items-center"
                 data-testid={`member-${member.id}`}
               >
                 <Avatar
@@ -83,7 +83,7 @@ export const CompletedExchangeCard = ({
               </div>
 
               <div
-                className="flex items-center"
+                className="recipient flex items-center"
                 data-testid={`recipient-${member.id}`}
               >
                 <p className="sm:text-lg pr-2">
