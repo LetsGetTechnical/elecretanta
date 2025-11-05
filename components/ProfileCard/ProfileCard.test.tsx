@@ -5,25 +5,16 @@ import { render, screen } from '@testing-library/react';
 import ProfileCard from './ProfileCard';
 import { Profile } from '@/app/types/profile';
 import { userEvent } from '@testing-library/user-event';
+import { type ComponentProps } from 'react';
 
 jest.mock('@radix-ui/react-avatar', () => {
   const actual = jest.requireActual('@radix-ui/react-avatar');
-  return {
+  return ({
     ...actual,
-    Image: ({ src, alt, ...props }: { src?: string; alt?: string }) => {
-      if (!src) {
-        return (
-          <img
-            data-testid="avatar-fallback-image"
-            src="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
-            alt="default avatar"
-            {...props}
-          />
-        );
-      }
-      return <img data-testid="avatar-image" src={src} alt={alt} {...props} />;
-    },
-  };
+    Image: (props: ComponentProps<'img'>) => {
+      return <img {...props}/>;
+    }
+  })
 });
 
 const testProfile: Profile = {
@@ -91,11 +82,9 @@ describe('ProfileCard', () => {
         showEditButton={false}
       />,
     );
-    const avatarFallbackImage = screen.getByTestId('avatar-fallback-image');
-    expect(avatarFallbackImage).toHaveAttribute(
-      'src',
-      'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg',
-    );
+
+    const avatarFallbackImage = screen.getByTestId('avatar-fallback');
+    expect(avatarFallbackImage).toBeInTheDocument();
   });
 
   it('Edit Profile Button navigates to the onboarding path after user click', async () => {
