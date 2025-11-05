@@ -44,7 +44,6 @@ components/LoadingSkeleton/LoadingSkeleton.tsx
 components/LoadingSpinner/LoadingSpinner.tsx
 components/MembersList/MembersList.tsx
 components/MultiSelect/multi-select-input.tsx
-components/Popover/popover.tsx
 components/ProfileCard/ProfileCard.tsx
 components/SnowOverlayWrapper/react-snow-overlay.d.ts
 app/assets/svgs/LogoCombination.tsx
