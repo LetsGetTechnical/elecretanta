@@ -18,8 +18,8 @@ import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
 import { useToast } from '@/hooks/use-toast';
-import { ToastVariants } from '@/components/Toast/Toast.enum';
 import { signInWithGoogle } from '@/lib/utils';
+import { TOASTS } from '@/components/Toast/toastsConfig';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -82,11 +82,7 @@ export default function GiftExchangePage() {
 
       if (giftExchangeResult.error || membersResult.error) {
         router.push('/dashboard');
-        toast({
-          variant: ToastVariants.Error,
-          title: 'Bad Link',
-          description: 'Please check the invitation link and try again.',
-        });
+        toast(TOASTS.badLinkToast);
         return;
       }
 
@@ -112,20 +108,12 @@ export default function GiftExchangePage() {
 
       if (isUserLoggedIn && !isExchangePending && !isUserAGroupMember) {
         router.push('/dashboard');
-        toast({
-          variant: ToastVariants.Error,
-          title: 'Expired Link',
-          description: 'Sorry, this invitation is no longer valid.',
-        });
+        toast(TOASTS.expiredLinkToast);
         return;
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      toast({
-        variant: ToastVariants.Error,
-        title: 'Error',
-        description: 'Sorry, something went wrong.',
-      });
+      toast(TOASTS.errorToast);
     } finally {
       setIsLoading(false);
     }
@@ -133,7 +121,7 @@ export default function GiftExchangePage() {
 
   useEffect(() => {
     fetchGiftExchangeData();
-  }, [fetchGiftExchangeData, session, id, isSignedIn]);
+  }, [fetchGiftExchangeData, session, id]);
 
   const updateGiftExchangeMembers = async () => {
     try {

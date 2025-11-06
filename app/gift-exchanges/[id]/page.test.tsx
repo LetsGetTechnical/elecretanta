@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import GiftExchangePage from './page';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import * as utils from '@/lib/utils';
-import { ToastVariants } from '@/components/Toast/Toast.enum';
+import { TOASTS } from '@/components/Toast/toastsConfig';
 
 const routerPush = jest.fn();
 
@@ -141,11 +141,7 @@ describe('GiftExchangePage', () => {
     await waitFor(() => {
       expect(routerPush).toHaveBeenCalledWith('/dashboard');
 
-      expect(mockToast).toHaveBeenCalledWith({
-        variant: ToastVariants.Error,
-        title: 'Bad Link',
-        description: 'Please check the invitation link and try again.',
-      });
+      expect(mockToast).toHaveBeenCalledWith(TOASTS.badLinkToast);
     });
   });
 
@@ -156,11 +152,7 @@ describe('GiftExchangePage', () => {
     render(<GiftExchangePage />);
 
     await waitFor(() => {
-      expect(mockToast).toHaveBeenCalledWith({
-        variant: ToastVariants.Error,
-        title: 'Error',
-        description: 'Sorry, something went wrong.',
-      });
+      expect(mockToast).toHaveBeenCalledWith(TOASTS.errorToast);
     });
   });
 
@@ -173,11 +165,7 @@ describe('GiftExchangePage', () => {
     await waitFor(() => {
       expect(routerPush).toHaveBeenCalledWith('/dashboard');
 
-      expect(mockToast).toHaveBeenCalledWith({
-        variant: ToastVariants.Error,
-        title: 'Expired Link',
-        description: 'Sorry, this invitation is no longer valid.',
-      });
+      expect(mockToast).toHaveBeenCalledWith(TOASTS.expiredLinkToast);
     });
   });
 

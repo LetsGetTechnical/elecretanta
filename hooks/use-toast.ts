@@ -135,9 +135,9 @@ export const reducer = (state: State, action: Action): State => {
         toasts: state.toasts.map((t) =>
           t.id === toastId || (typeof toastId === 'undefined')
             ? {
-              ...t,
-              open: false,
-            }
+                ...t,
+                open: false,
+              }
             : t,
         ),
       };
@@ -172,7 +172,7 @@ export function dispatch(action: Action): void {
   });
 }
 
-type Toast = Omit<ToasterToast, 'id'>;
+export type Toast = Omit<ToasterToast, 'id'>;
 
 type ToastControls = {
   id: string;
