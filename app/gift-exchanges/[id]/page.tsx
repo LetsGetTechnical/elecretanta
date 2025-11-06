@@ -84,8 +84,8 @@ export default function GiftExchangePage() {
         router.push('/dashboard');
         toast({
           variant: ToastVariants.Error,
-          title: `Bad Link`,
-          description: `Please check the invitation link and try again.`,
+          title: 'Bad Link',
+          description: 'Please check the invitation link and try again.',
         });
         return;
       }
@@ -114,8 +114,8 @@ export default function GiftExchangePage() {
         router.push('/dashboard');
         toast({
           variant: ToastVariants.Error,
-          title: `Expired Link`,
-          description: `Sorry, this invitation is no longer valid.`,
+          title: 'Expired Link',
+          description: 'Sorry, this invitation is no longer valid.',
         });
         return;
       }
@@ -123,8 +123,8 @@ export default function GiftExchangePage() {
       console.error('Error fetching data:', error);
       toast({
         variant: ToastVariants.Error,
-        title: `Error`,
-        description: `Sorry, something went wrong.`,
+        title: 'Error',
+        description: 'Sorry, something went wrong.',
       });
     } finally {
       setIsLoading(false);
