@@ -264,7 +264,8 @@ export const Onboarding = ({
         }
 
         setIsSubmitted(true);
-        router.refresh();
+
+        console.log('Middleware profile:', response);
 
         if (editing) {
           router.push('/profile');
