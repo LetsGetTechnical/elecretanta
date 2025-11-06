@@ -4,7 +4,8 @@
 'use client';
 
 import { useState, useEffect, JSX } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -57,7 +58,6 @@ export const Onboarding = ({
   const [name, setName] = useState<string | null>('There');
   const [currentStep, setCurrentStep] = useState(initialStep);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const editing = searchParams.get('editing');
 
@@ -268,9 +268,9 @@ export const Onboarding = ({
         setIsSubmitted(true);
 
         if (editing) {
-          router.push('/profile');
+          redirect('/profile');
         } else {
-          router.push('/dashboard');
+          redirect('/dashboard');
         }
       } catch (error) {
         console.error('Error updating profile: ', error);
