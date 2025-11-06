@@ -1,6 +1,8 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
+'use client';
+
 import { useState, useEffect, JSX } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
@@ -264,7 +266,6 @@ export const Onboarding = ({
         }
 
         setIsSubmitted(true);
-        router.refresh();
 
         if (editing) {
           router.push('/profile');
