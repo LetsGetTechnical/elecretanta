@@ -265,7 +265,7 @@ export const Onboarding = ({
 
         setIsSubmitted(true);
 
-        console.log('Middleware profile:', response);
+        await new Promise((r) => setTimeout(r, 3000));
 
         if (editing) {
           router.push('/profile');
