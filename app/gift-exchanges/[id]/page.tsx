@@ -48,6 +48,7 @@ export default function GiftExchangePage() {
   const isUserAMember = session?.user?.id
     ? giftExchangeMembers.some((member) => member.user_id === session.user.id)
     : false;
+  const inviteLink = window.location.href; // Invite Link for Invite Card
 
   const handleGiftUpdate = (
     updatedGift: IGiftSuggestion,
@@ -146,7 +147,7 @@ export default function GiftExchangePage() {
             />
             <div className="flex flex-col gap-4 w-full">
               <MembersList members={giftExchangeMembers} />
-              <InviteCard />
+              <InviteCard inviteLink={inviteLink} />
             </div>
           </div>
         );
