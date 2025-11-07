@@ -1,7 +1,7 @@
 'use client';
 
 import { GiftExchange } from '@/app/types/giftExchange';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 import { GiftExchangeHeader } from '@/components/GiftExchangeHeader/GiftExchangeHeader';
 import { JourneyCard } from '../../../components/JourneyCard/JourneyCard';
@@ -17,11 +17,15 @@ import GiftSuggestionCard from '@/components/GiftSuggestionCard/GiftSuggestionCa
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
+import { useToast } from '@/hooks/use-toast';
+import { signInWithGoogle } from '@/lib/utils';
+import { TOASTS } from '@/components/Toast/toasts.consts';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
-  const { session } = useAuthContext();
-  const [isUserAMember, setIsUserAMember] = useState<boolean | null>(null);
+  const { session, isSignedIn } = useAuthContext();
+  const router = useRouter();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange>({
     id: '',
@@ -41,6 +45,11 @@ export default function GiftExchangePage() {
   const [giftMatch, setGiftMatch] = useState<Profile | null>(null);
   const [giftSuggestions, setGiftSuggestions] = useState<IGiftSuggestion[]>([]);
 
+  const isUserAMember = session?.user?.id
+    ? giftExchangeMembers.some((member) => member.user_id === session.user.id)
+    : false;
+  const inviteLink = window.location.href; // Invite Link for Invite Card
+
   const handleGiftUpdate = (
     updatedGift: IGiftSuggestion,
     originalIndex: number,
@@ -53,6 +62,9 @@ export default function GiftExchangePage() {
   };
 
   const fetchGiftExchangeData = useCallback(async () => {
+    if (isSignedIn === null) {
+      return;
+    }
     setIsLoading(true);
     try {
       const [giftExchangeResponse, membersResponse, giftSuggestionsResponse] =
@@ -69,23 +81,44 @@ export default function GiftExchangePage() {
           giftSuggestionsResponse.json(),
         ]);
 
+      if (giftExchangeResult.error || membersResult.error) {
+        router.push('/dashboard');
+        toast(TOASTS.badLinkToast);
+        return;
+      }
+
       setGiftExchangeData(giftExchangeResult);
       setGiftExchangeMembers(membersResult);
       setGiftMatch(giftSuggestionsResult.match);
       setGiftSuggestions(giftSuggestionsResult.suggestions);
-      if (session) {
-        setIsUserAMember(
-          membersResult.some(
-            (member: GiftExchangeMember) => member.user_id === session?.user.id,
-          ),
+
+      const isExchangePending = giftExchangeResult.status === 'pending';
+      const isUserLoggedIn = !!session?.user?.id;
+      const isUserAGroupMember =
+        isUserLoggedIn &&
+        membersResult.some(
+          (member: GiftExchangeMember) => member.user_id === session.user.id,
         );
+
+      if (!isExchangePending && !isUserLoggedIn) {
+        await signInWithGoogle({
+          redirectPath: window.location.pathname,
+        });
+        return;
+      }
+
+      if (isUserLoggedIn && !isExchangePending && !isUserAGroupMember) {
+        router.push('/dashboard');
+        toast(TOASTS.expiredLinkToast);
+        return;
       }
     } catch (error) {
       console.error('Error fetching data:', error);
+      toast(TOASTS.errorToast);
     } finally {
       setIsLoading(false);
     }
-  }, [id, session]);
+  }, [id, session, isSignedIn]);
 
   useEffect(() => {
     fetchGiftExchangeData();
@@ -114,7 +147,7 @@ export default function GiftExchangePage() {
             />
             <div className="flex flex-col gap-4 w-full">
               <MembersList members={giftExchangeMembers} />
-              <InviteCard />
+              <InviteCard inviteLink={inviteLink} />
             </div>
           </div>
         );
@@ -127,9 +160,9 @@ export default function GiftExchangePage() {
             </section>
             <section className="flex flex-col">
               <h1 className="font-bold">Gift Suggestions</h1>
-              {giftSuggestions.length === 0 && <WaitingForSuggestions />}
+              {giftSuggestions?.length === 0 && <WaitingForSuggestions />}
 
-              {giftSuggestions.length !== 0 && (
+              {giftSuggestions?.length !== 0 && (
                 <div className="flex flex-row flex-wrap">
                   {giftSuggestions.map((gift, index) => (
                     <GiftSuggestionCard
@@ -158,15 +191,13 @@ export default function GiftExchangePage() {
 
   return (
     <main className="min-h-screen-minus-20">
-      {isUserAMember === false &&
-        !isLoading &&
-        giftExchangeData.status === 'pending' && (
-          <WarningModal
-            giftExchangeData={giftExchangeData}
-            members={giftExchangeMembers}
-            updateGiftExchangeMembers={updateGiftExchangeMembers}
-          />
-        )}
+      {isUserAMember === false && giftExchangeData.status === 'pending' && (
+        <WarningModal
+          giftExchangeData={giftExchangeData}
+          members={giftExchangeMembers}
+          updateGiftExchangeMembers={updateGiftExchangeMembers}
+        />
+      )}
       <section className="mx-auto flex flex-col gap-4 px-4 md:px-16 lg:px-32 xl:px-52 pt-12 text-primary-foreground">
         <GiftExchangeHeader
           giftExchangeData={giftExchangeData}

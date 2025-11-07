@@ -24,9 +24,9 @@ describe('CardHeader', () => {
     });
 
     it('renders a custom attribute, such as aria-label, passed via props', () => {
-        render(<CardHeader aria-label="Elfgorithm feature overview"/>);
+        render(<CardHeader aria-label="Secret Santa Exchange feature overview"/>);
 
         const cardHeader = screen.getByTestId('card-header');
-        expect(cardHeader).toHaveAttribute('aria-label', 'Elfgorithm feature overview');
+        expect(cardHeader).toHaveAttribute('aria-label', 'Secret Santa Exchange feature overview');
     });
 })

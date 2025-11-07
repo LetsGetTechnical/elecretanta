@@ -12,12 +12,12 @@ describe('ToastTitle', () => {
     render(<ToastTitle className="custom-class"></ToastTitle>);
 
     const toastTitle = screen.getByTestId('toastTitle');
-    expect(toastTitle).toHaveClass('custom-class')
-  })
+    expect(toastTitle).toHaveClass('custom-class');
+  });
 
   it('passes custom data attributes', () => {
     render(<ToastTitle data-custom-attribute="testValue"></ToastTitle>);
     const toastTitle = screen.getByTestId('toastTitle');
-    expect(toastTitle).toHaveAttribute('data-custom-attribute', 'testValue')
-  })
+    expect(toastTitle).toHaveAttribute('data-custom-attribute', 'testValue');
+  });
 });

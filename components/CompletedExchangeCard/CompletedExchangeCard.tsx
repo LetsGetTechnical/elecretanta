@@ -64,13 +64,13 @@ export const CompletedExchangeCard = ({
           {members.map((member) => (
             <div key={member.id} className="grid grid-cols-[auto_1fr_auto]">
               <div
-                className="flex items-center"
+                className="gift-giver flex items-center"
                 data-testid={`member-${member.id}`}
               >
                 <Avatar
                   data-testid={`avatar`}
                   userAvatar={
-                    member.recipient.avatar ||
+                    member.member.avatar ||
                     'https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg'
                   }
                 />
@@ -82,7 +82,10 @@ export const CompletedExchangeCard = ({
                 <p className="sr-only">gifted to</p>
               </div>
 
-              <div className="flex items-center ">
+              <div
+                className="recipient flex items-center"
+                data-testid={`recipient-${member.id}`}
+              >
                 <p className="sm:text-lg pr-2">
                   {member.recipient.display_name}
                 </p>
