@@ -14,7 +14,7 @@ const mockMembers: GiftExchangeMember[] = [
     member: {
       display_name: 'John Doe',
       email: 'john.doe@example.com',
-      avatar: 'https://example.com/avatar.png',
+      avatar: 'https://example.com/john.png',
     },
     recipient: {
       display_name: 'Jane Smith',
@@ -26,7 +26,7 @@ const mockMembers: GiftExchangeMember[] = [
     id: '2',
     gift_exchange_id: '1',
     user_id: '2',
-    recipient_id: '1',
+    recipient_id: '3',
     has_drawn: true,
     created_at: new Date(),
     updated_at: new Date(),
@@ -36,12 +36,36 @@ const mockMembers: GiftExchangeMember[] = [
       avatar: 'https://example.com/jane.png',
     },
     recipient: {
+      display_name: 'Robert Joe',
+      email: 'robert.joe@example.com',
+      avatar: 'https://example.com/robert.png',
+    },
+  },
+  {
+    id: '3',
+    gift_exchange_id: '1',
+    user_id: '3',
+    recipient_id: '1',
+    has_drawn: true,
+    created_at: new Date(),
+    updated_at: new Date(),
+    member: {
+      display_name: 'Robert Joe',
+      email: 'robert.joe@example.com',
+      avatar: 'https://example.com/robert.png',
+    },
+    recipient: {
       display_name: 'John Doe',
       email: 'john.doe@example.com',
-      avatar: 'https://example.com/avatar.png',
+      avatar: 'https://example.com/john.png',
     },
   },
 ];
+
+jest.mock('@radix-ui/react-avatar', () => ({
+  ...jest.requireActual('@radix-ui/react-avatar'),
+  Image: (props: typeof Image) => <img data-testid="avatar-image" {...props} />,
+}));
 
 describe('CompletedExchangeCard', () => {
   beforeEach(() => {
@@ -93,5 +117,52 @@ describe('CompletedExchangeCard', () => {
 
     const members = screen.getAllByTestId(/^member-\d+$/);
     expect(members).toHaveLength(mockMembers.length);
+  });
+
+  it('renders the correct member pairings', () => {
+    render(<CompletedExchangeCard members={mockMembers} />);
+
+    const givingMembers = screen.getAllByTestId(/^member-\d+$/);
+    const recipients = screen.getAllByTestId(/^recipient-\d+$/);
+    const avatars = screen.getAllByTestId(/avatar-image/i);
+
+    // Matching givers to recipients by name
+    expect(givingMembers[0]).toHaveTextContent('John Doe');
+    expect(recipients[0]).toHaveTextContent('Jane Smith');
+
+    expect(givingMembers[1]).toHaveTextContent('Jane Smith');
+    expect(recipients[1]).toHaveTextContent('Robert Joe');
+
+    expect(givingMembers[2]).toHaveTextContent('Robert Joe');
+    expect(recipients[2]).toHaveTextContent('John Doe');
+
+    // Matching givers to recipients by avatars
+    // John => Jane
+    expect(avatars[0]).toHaveAttribute(
+      'src',
+      expect.stringMatching(/john.png/i),
+    );
+    expect(avatars[1]).toHaveAttribute(
+      'src',
+      expect.stringMatching(/jane.png/i),
+    );
+    // Jane => Robert
+    expect(avatars[2]).toHaveAttribute(
+      'src',
+      expect.stringMatching(/jane.png/i),
+    );
+    expect(avatars[3]).toHaveAttribute(
+      'src',
+      expect.stringMatching(/robert.png/i),
+    );
+    // Robert => John
+    expect(avatars[4]).toHaveAttribute(
+      'src',
+      expect.stringMatching(/robert.png/i),
+    );
+    expect(avatars[5]).toHaveAttribute(
+      'src',
+      expect.stringMatching(/john.png/i),
+    );
   });
 });
