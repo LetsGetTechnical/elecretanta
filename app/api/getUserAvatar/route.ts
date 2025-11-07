@@ -21,5 +21,5 @@ export async function GET(): Promise<NextResponse> {
 
   const avatarUrl = user?.user_metadata.avatar_url;
 
-  return NextResponse.json({ avatarUrl });
+  return NextResponse.json(avatarUrl);
 }

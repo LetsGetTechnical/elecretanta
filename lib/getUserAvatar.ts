@@ -13,7 +13,7 @@ const getUserAvatar = async (): Promise<string> => {
     headers: { 'Content-Type': 'application/json' },
   });
   const userAvatar = await response.json();
-  return userAvatar.avatarUrl;
+  return userAvatar;
 };
 
 export default getUserAvatar;
