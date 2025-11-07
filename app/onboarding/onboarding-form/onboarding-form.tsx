@@ -1,6 +1,8 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
+'use client';
+
 import { useState, useEffect, JSX } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
@@ -269,7 +271,8 @@ export const Onboarding = ({
         if (editing) {
           router.push('/profile');
         } else {
-          router.push('/dashboard');
+          // Lets the middleware know that onboarding has been completed for the first time
+          router.push('/dashboard?onboardingCompleted=true');
         }
       } catch (error) {
         console.error('Error updating profile: ', error);

@@ -139,6 +139,15 @@ const LogoCombination: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         fill="#FAB76A"
         id="path24"
       />
+      <text
+        x="340"
+        y="55"
+        fill="#ffffff"
+        fontSize="16"
+        fontFamily="Arial, sans-serif"
+      >
+        BETA
+      </text>
     </svg>
   );
 };
