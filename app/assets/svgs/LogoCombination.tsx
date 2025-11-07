@@ -140,10 +140,10 @@ const LogoCombination: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         id="path24"
       />
       <text
-        x="248"
-        y="60"
-        fill="#FAB76A"
-        fontSize="24"
+        x="340"
+        y="55"
+        fill="#ffffff"
+        fontSize="16"
         fontFamily="Arial, sans-serif"
       >
         BETA
