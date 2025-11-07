@@ -19,7 +19,7 @@ import { useAuthContext } from '@/context/AuthContextProvider';
 import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
 import { useToast } from '@/hooks/use-toast';
 import { signInWithGoogle } from '@/lib/utils';
-import { TOASTS } from '@/components/Toast/toastsConfig';
+import { TOASTS } from '@/components/Toast/toasts.consts';
 
 export default function GiftExchangePage() {
   const { id } = useParams();

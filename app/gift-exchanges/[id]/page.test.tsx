@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import GiftExchangePage from './page';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import * as utils from '@/lib/utils';
-import { TOASTS } from '@/components/Toast/toastsConfig';
+import { TOASTS } from '@/components/Toast/toasts.consts';
 
 const routerPush = jest.fn();
 
