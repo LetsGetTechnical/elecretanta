@@ -13,10 +13,9 @@ import WarningModal from '../../../components/WarningModal/WarningModal';
 import { CompletedExchangeCard } from '../../../components/CompletedExchangeCard/CompletedExchangeCard';
 import { Profile } from '@/app/types/profile';
 import ProfileCard from '@/components/ProfileCard/ProfileCard';
-import GiftSuggestionCard from '@/components/GiftSuggestionCard/GiftSuggestionCard';
+import { GiftSuggestions } from '@/components/GiftSuggestions/GiftSuggestions';
 import { IGiftSuggestion } from '@/app/types/giftSuggestion';
 import { useAuthContext } from '@/context/AuthContextProvider';
-import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggestions';
 import { useToast } from '@/hooks/use-toast';
 import { signInWithGoogle } from '@/lib/utils';
 import { TOASTS } from '@/components/Toast/toasts.consts';
@@ -49,17 +48,6 @@ export default function GiftExchangePage() {
     ? giftExchangeMembers.some((member) => member.user_id === session.user.id)
     : false;
   const inviteLink = window.location.href; // Invite Link for Invite Card
-
-  const handleGiftUpdate = (
-    updatedGift: IGiftSuggestion,
-    originalIndex: number,
-  ) => {
-    setGiftSuggestions((prevSuggestions) => {
-      const newSuggestions = [...prevSuggestions];
-      newSuggestions[originalIndex] = updatedGift;
-      return newSuggestions;
-    });
-  };
 
   const fetchGiftExchangeData = useCallback(async () => {
     if (isSignedIn === null) {
@@ -136,6 +124,10 @@ export default function GiftExchangePage() {
     return <LoadingSkeleton statsCount={4} cardItemCount={10} />;
   }
 
+  console.log('gift suggestions...')
+  console.log(giftSuggestions)
+  console.log(giftExchangeData)
+
   const renderContent = () => {
     switch (giftExchangeData.status) {
       case 'pending':
@@ -158,26 +150,12 @@ export default function GiftExchangePage() {
               <h1 className="font-bold mb-4">Your Secret Santa Match</h1>
               <ProfileCard profile={giftMatch} />
             </section>
-            <section className="flex flex-col">
-              <h1 className="font-bold">Gift Suggestions</h1>
-              {giftSuggestions?.length === 0 && <WaitingForSuggestions />}
-
-              {giftSuggestions?.length !== 0 && (
-                <div className="flex flex-row flex-wrap">
-                  {giftSuggestions.map((gift, index) => (
-                    <GiftSuggestionCard
-                      allGiftSuggestions={giftSuggestions}
-                      budget={giftExchangeData.budget}
-                      gift={gift}
-                      index={index}
-                      key={gift.id}
-                      onGiftUpdate={handleGiftUpdate}
-                      recipient={giftMatch}
-                    />
-                  ))}
-                </div>
-              )}
-            </section>
+            <GiftSuggestions
+              id={giftExchangeData.id}
+              giftMatch={giftMatch}
+              budget={giftExchangeData.budget}
+              initialSuggestions={giftSuggestions}
+            />
           </div>
         );
       case 'completed':
