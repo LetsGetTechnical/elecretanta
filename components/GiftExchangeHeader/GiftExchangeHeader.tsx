@@ -41,6 +41,7 @@ interface MembersListProps {
 interface GiftExchangeHeaderProps {
   giftExchangeData: GiftExchange;
   id: string | string[] | undefined;
+  onDrawComplete?: () => void;
 }
 type GiftExchangeHeaderPropsUnion = GiftExchangeHeaderProps & MembersListProps;
 
@@ -57,6 +58,7 @@ export const GiftExchangeHeader = ({
   giftExchangeData,
   members,
   id,
+  onDrawComplete,
 }: GiftExchangeHeaderPropsUnion): JSX.Element => {
   const [membersData, setMembersData] = useState(members);
 
@@ -145,7 +147,8 @@ export const GiftExchangeHeader = ({
         throw new Error(`Error: ${response.status}`);
       }
 
-      location.reload();
+      // Trigger page refresh to show WaitingForSuggestions
+      onDrawComplete?.();
     } catch (error) {
       console.error('Failed to draw gift exchange:', error);
     }

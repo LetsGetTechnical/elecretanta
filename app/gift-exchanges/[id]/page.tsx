@@ -47,7 +47,8 @@ export default function GiftExchangePage() {
   const isUserAMember = session?.user?.id
     ? giftExchangeMembers.some((member) => member.user_id === session.user.id)
     : false;
-  const inviteLink = window.location.href; // Invite Link for Invite Card
+  // Only access window if it exists (client-side)
+  const inviteLink = typeof window !== 'undefined' ? window.location.href : '';
 
   const fetchGiftExchangeData = useCallback(async () => {
     if (isSignedIn === null) {
@@ -107,6 +108,11 @@ export default function GiftExchangePage() {
       setIsLoading(false);
     }
   }, [id, session, isSignedIn]);
+
+  const handleDrawComplete = useCallback(async () => {
+    // Refresh data after drawing
+    await fetchGiftExchangeData();
+  }, [fetchGiftExchangeData]);
 
   useEffect(() => {
     fetchGiftExchangeData();
@@ -181,6 +187,7 @@ export default function GiftExchangePage() {
           giftExchangeData={giftExchangeData}
           id={giftExchangeData.id}
           members={giftExchangeMembers}
+          onDrawComplete={handleDrawComplete}
         />
         {renderContent()}
       </section>
