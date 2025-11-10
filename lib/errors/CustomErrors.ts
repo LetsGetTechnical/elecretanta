@@ -18,7 +18,11 @@ export class BackendError extends Error {
   ) {
     super(message);
     this.name = 'BackendError';
-    this.stack = new Error().stack;
+
+    // Captures the stack trace
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, BackendError);
+    }
   }
 }
 
@@ -39,7 +43,11 @@ export class OpenAiError extends Error {
   ) {
     super(message);
     this.name = 'OpenAiError';
-    this.stack = new Error().stack;
+
+    // Captures the stack trace
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, OpenAiError);
+    }
   }
 }
 
@@ -60,7 +68,11 @@ export class SupabaseError extends Error {
   ) {
     super(message);
     this.name = 'SupabaseError';
-    this.stack = new Error().stack;
+
+    // Captures the stack trace
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, SupabaseError);
+    }
   }
 }
 
@@ -81,6 +93,10 @@ export class GoogleError extends Error {
   ) {
     super(message);
     this.name = 'GoogleError';
-    this.stack = new Error().stack;
+
+    // Captures the stack trace
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, GoogleError);
+    }
   }
 }
