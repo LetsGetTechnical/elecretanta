@@ -111,6 +111,7 @@ export default function CreateGroupPage() {
   }
 
   const giftDrawingDate = form.watch('drawing_date');
+  console.log(giftDrawingDate)
 
   return (
     <div className="create-group-page flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
@@ -281,7 +282,8 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={[{ before: new Date() }]}
+                          // onSelect={(e)=> {if (e) field.onChange(e); console.log(e)}}
+                          disabled={[{ before: new Date() }]} //
                           initialFocus
                         />
                       </PopoverContent>
