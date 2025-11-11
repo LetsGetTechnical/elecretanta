@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/Popover/popover';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import {
   Command,
   CommandEmpty,
@@ -96,8 +96,8 @@ export default function EditGroupPage() {
     defaultValues: {
       name: '',
       description: '',
-      drawing_date: new Date(),
-      exchange_date: new Date(),
+      drawing_date: undefined,
+      exchange_date: undefined,
       budget: '',
       group_image: '',
     },
@@ -388,7 +388,7 @@ export default function EditGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={[{ before: giftDrawingDate }]}
+                          disabled={[{ before: addDays(new Date(giftDrawingDate), 1) }]}
                           initialFocus
                         />
                       </PopoverContent>

@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/Popover/popover';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import {
   Command,
   CommandEmpty,
@@ -85,8 +85,8 @@ export default function CreateGroupPage() {
     defaultValues: {
       name: '',
       description: '',
-      drawing_date: new Date(),
-      exchange_date: new Date(),
+      drawing_date: undefined,
+      exchange_date: undefined,
       budget: '',
       group_image: GROUP_IMAGES[0].src,
     },
@@ -111,7 +111,6 @@ export default function CreateGroupPage() {
   }
 
   const giftDrawingDate = form.watch('drawing_date');
-  console.log(giftDrawingDate)
 
   return (
     <div className="create-group-page flex justify-center align-center flex-col px-4 md:px-16 lg:px-32 xl:px-52 pt-12">
@@ -282,8 +281,7 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          // onSelect={(e)=> {if (e) field.onChange(e); console.log(e)}}
-                          disabled={[{ before: new Date() }]} //
+                          disabled={[{ before: new Date() }]} 
                           initialFocus
                         />
                       </PopoverContent>
@@ -327,7 +325,7 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={[{ before: giftDrawingDate }]}
+                          disabled={[{ before: addDays(new Date(giftDrawingDate), 1) }]}
                           initialFocus
                         />
                       </PopoverContent>

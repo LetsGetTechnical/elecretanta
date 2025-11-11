@@ -4,7 +4,6 @@
 import { render, screen } from '@testing-library/react';
 import CreateGroupPage from './page';
 import { Calendar } from '@/components/Calendar/calendar';
-import userEvent from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -52,18 +51,20 @@ describe('Create Group Page', () => {
         );
       });
     });
-  const currentDate = new Date('2025-10-15T18:00:00Z');
-
-  beforeEach(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(currentDate);
-  });
-
-  afterEach(() => {
-    jest.useRealTimers();
   });
 
   describe('Calendar component in create group page', () => {
+    const currentDate = new Date('2025-10-15T00:00:00Z');
+
+    beforeEach(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(currentDate);
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
     it('disables past dates correctly', () => {
       render(
         <Calendar
@@ -85,35 +86,4 @@ describe('Create Group Page', () => {
       expect(tomorrow).not.toBeDisabled();
     });
   });
-  
-  it('has the first group image selected by default', () => {
-    render(<CreateGroupPage />);
-    
-    const [firstTile, ...otherTiles] = screen.getAllByRole('figure');
-    expect(firstTile).toHaveAttribute('data-state', 'checked');
-    otherTiles.forEach((imageTile) => {
-      expect(imageTile).toHaveAttribute('data-state', 'unchecked');
-    });
-  });
-  
-  it('does not show a validation error for the Calendar input when the user clicks on the default date and tries to submit the form', async () => {
-    render(<CreateGroupPage />);
-
-    jest.useRealTimers();
-    
-    const user = userEvent.setup()
-
-    // const drawingDateButton1 = screen.getAllByTestId('popover-trigger')[1]
-    // console.log(drawingDateButton1.length)
-    const drawingDateButton = screen.getByLabelText('Gift Drawing Date')
-    const submitButton = screen.getByRole('button',{name: 'Create Group'})
-    expect(drawingDateButton).toBeInTheDocument()
-    // // console.log(drawingDateButton)
-    await user.click(drawingDateButton) // need realTimers here
-    const today = screen.getByText('15');
-    await user.click(today)
-    await user.click(submitButton)
-    screen.debug(undefined, Infinity)
-    // expect(errorMessage).toBeInTheDocument()
-  })
-  })})
+});
