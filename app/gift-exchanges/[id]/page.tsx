@@ -78,7 +78,9 @@ export default function GiftExchangePage() {
             id: String(payload.new.id),
           };
 
-          setGiftSuggestions((prev) => [...prev, newSuggestion]);
+          setGiftSuggestions((prev) =>
+            prev.some(s => s.id === newSuggestion.id) ? prev : [...prev, newSuggestion]
+          );
         },
       )
       .subscribe();

@@ -5,11 +5,6 @@ import * as utils from '@/lib/utils';
 import { TOASTS } from '@/components/Toast/toasts.consts';
 import type { IGiftSuggestion } from '@/app/types/giftSuggestion';
 
-type GiftSuggestionsResponse = {
-  match: null;
-  suggestions: IGiftSuggestion[];
-};
-
 const routerPush = jest.fn();
 
 jest.mock('@/lib/supabase/client', () => ({
@@ -71,12 +66,12 @@ const mockGiftExchangeData = {
   budget: '50',
 };
 
-const mockGiftSuggestions: GiftSuggestionsResponse = {
+const mockGiftSuggestions = {
   match: null,
-  suggestions: [],
+  suggestions: [] as IGiftSuggestion[],
 };
 
-const mockGiftSuggestionsFull: GiftSuggestionsResponse = {
+const mockGiftSuggestionsFull = {
   match: null,
   suggestions: [
     {
@@ -115,7 +110,7 @@ const mockGiftSuggestionsFull: GiftSuggestionsResponse = {
         ],
         "id": "1455",
     }
-  ],
+  ] as IGiftSuggestion[],
 };
 
 const mockGroupMember = {
@@ -262,7 +257,7 @@ describe('GiftExchangePage', () => {
 
     const giftSuggestionCards = screen.queryAllByTestId('gift-suggestion-card');
     expect(giftSuggestionCards.length).toBe(0);
-  })
+  });
 
   it('renders 3 GiftSuggestionCard components when 3 gift suggestions are available', async () => {
     (useAuthContext as jest.Mock).mockReturnValue(mockMemberSession);
@@ -273,7 +268,7 @@ describe('GiftExchangePage', () => {
     const waitingForSuggestions = screen.queryByTestId('suggestions-waiting');
     expect(waitingForSuggestions).not.toBeInTheDocument();
 
-    // Verifiy 3 gift suggestions are provided
+    // Verify 3 gift suggestions are provided
     const giftSuggestionCards = await screen.findAllByTestId('gift-suggestion-card');
     expect(giftSuggestionCards.length).toBe(3);
 
@@ -281,5 +276,5 @@ describe('GiftExchangePage', () => {
     giftSuggestionCards.forEach(card => {
       expect(card).toBeInTheDocument();
     });
-  })
+  });
 });
