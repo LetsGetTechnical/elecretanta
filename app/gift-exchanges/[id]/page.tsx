@@ -52,7 +52,9 @@ export default function GiftExchangePage() {
   const inviteLink = window.location.href; // Invite Link for Invite Card
 
   useEffect(() => {
-    if (!session?.user.id || !id) return;
+    if (!session?.user.id || !id) {
+      return;
+    } 
 
     const supabase = createClient();
 
@@ -66,8 +68,10 @@ export default function GiftExchangePage() {
           table: 'gift_suggestions',
           filter: `gift_exchange_id=eq.${id}`,
         },
-        (payload: any) => {
-          if (payload.new.giver_id !== session.user.id) return;
+        (payload) => {
+          if (payload.new.giver_id !== session.user.id)  {
+            return;
+          }
 
           const newSuggestion: IGiftSuggestion = {
             ...payload.new.suggestion,
@@ -195,9 +199,9 @@ export default function GiftExchangePage() {
             <section className="flex flex-col">
               <h1 className="font-bold">Gift Suggestions</h1>
               
-              {giftSuggestions?.length < 3 ? (
-                <WaitingForSuggestions />
-              ) : (
+              {giftSuggestions?.length === 0 && <WaitingForSuggestions />}
+
+              {giftSuggestions?.length !== 0 && (
                 <div className="flex flex-row flex-wrap">
                   {giftSuggestions.map((gift, index) => (
                     <GiftSuggestionCard

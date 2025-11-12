@@ -3,8 +3,35 @@ import GiftExchangePage from './page';
 import { useAuthContext } from '@/context/AuthContextProvider';
 import * as utils from '@/lib/utils';
 import { TOASTS } from '@/components/Toast/toasts.consts';
+import type { IGiftSuggestion } from '@/app/types/giftSuggestion';
+
+type GiftSuggestionsResponse = {
+  match: null;
+  suggestions: IGiftSuggestion[];
+};
 
 const routerPush = jest.fn();
+
+jest.mock('@/lib/supabase/client', () => ({
+  createClient: jest.fn(() => ({
+    auth: {
+      onAuthStateChange: jest.fn(),
+      getSession: jest.fn().mockResolvedValue({ data: { session: null } }),
+      getUser: jest.fn().mockResolvedValue({ data: { user: { id: 'test-member' } } }),
+    },
+    from: jest.fn(() => ({
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      single: jest.fn().mockReturnThis(),
+      then: jest.fn(),
+    })),
+    channel: jest.fn(() => ({
+      on: jest.fn().mockReturnThis(),
+      subscribe: jest.fn().mockReturnThis(),
+    })),
+    removeChannel: jest.fn(),
+  })),
+}));
 
 jest.mock('next/navigation', () => ({
   useParams: () => ({ id: '123' }),
@@ -44,9 +71,51 @@ const mockGiftExchangeData = {
   budget: '50',
 };
 
-const mockGiftSuggestions = {
+const mockGiftSuggestions: GiftSuggestionsResponse = {
   match: null,
   suggestions: [],
+};
+
+const mockGiftSuggestionsFull: GiftSuggestionsResponse = {
+  match: null,
+  suggestions: [
+    {
+        "price": "$50",
+        "title": "Bamboo Cheese Board and Knife Set",
+        "imageUrl": null,
+        "matchScore": 80,
+        "description": "This elegant bamboo cheese board comes with a hidden slide-out drawer that holds a cheese knife set. Perfect for hosting gatherings and enjoying a selection of cheeses.",
+        "matchReasons": [
+            "Luxurious bamboo material",
+            "Ideal for hosting food-related events"
+        ],
+        "id": "1451",
+    },
+    {
+        "price": "$60",
+        "title": "Swarovski Crystal Watch",
+        "imageUrl": null,
+        "matchScore": 90,
+        "description": "A stunning Swarovski crystal watch that combines functionality with luxury. The intricate design and sparkling crystals make it a stylish accessory for any occasion.",
+        "matchReasons": [
+            "Luxurious item for a luxury watch enthusiast",
+            "Adds a touch of style and fashion"
+        ],
+        "id": "1454",
+    },
+    {
+        "price": "$55",
+        "title": "Artisanal Gluten-Free Baking Kit",
+        "imageUrl": null,
+        "matchScore": 85,
+        "description": "A complete baking kit with high-quality gluten-free ingredients and recipes for creating delicious treats at home. Perfect for someone with a gluten allergy who enjoys baking.",
+        "matchReasons": [
+            "Caters to gluten allergy",
+            "Combines food & cooking with arts & crafts"
+        ],
+        "id": "1455",
+    }
+  ],
 };
 
 const mockGroupMember = {
@@ -74,7 +143,7 @@ const mockNonMemberSession = {
 const mockNoSession = { session: null };
 
 describe('GiftExchangePage', () => {
-  const mockDataFetch = (status: string) => {
+  const mockDataFetch = (status: string, suggestions = mockGiftSuggestions) => {
     (global.fetch as jest.Mock)
       .mockResolvedValueOnce({
         json: async () => ({ ...mockGiftExchangeData, status }),
@@ -83,7 +152,7 @@ describe('GiftExchangePage', () => {
         json: async () => mockMembers,
       })
       .mockResolvedValueOnce({
-        json: async () => mockGiftSuggestions,
+        json: async () => suggestions,
       });
   };
 
@@ -182,4 +251,35 @@ describe('GiftExchangePage', () => {
       });
     });
   });
+
+  it('renders the WaitingForSuggestions component when no gift suggestions are available', async () => {
+    (useAuthContext as jest.Mock).mockReturnValue(mockMemberSession);
+    mockDataFetch('active');
+    render(<GiftExchangePage />);
+
+    const waitingForSuggestions = await screen.findByTestId('suggestions-waiting');
+    expect(waitingForSuggestions).toBeInTheDocument();
+
+    const giftSuggestionCards = screen.queryAllByTestId('gift-suggestion-card');
+    expect(giftSuggestionCards.length).toBe(0);
+  })
+
+  it('renders 3 GiftSuggestionCard components when 3 gift suggestions are available', async () => {
+    (useAuthContext as jest.Mock).mockReturnValue(mockMemberSession);
+    mockDataFetch('active', mockGiftSuggestionsFull);
+    render(<GiftExchangePage />);
+
+    // Verify the waiting for suggestions component is not rendering
+    const waitingForSuggestions = screen.queryByTestId('suggestions-waiting');
+    expect(waitingForSuggestions).not.toBeInTheDocument();
+
+    // Verifiy 3 gift suggestions are provided
+    const giftSuggestionCards = await screen.findAllByTestId('gift-suggestion-card');
+    expect(giftSuggestionCards.length).toBe(3);
+
+    // Verify each card is in the document
+    giftSuggestionCards.forEach(card => {
+      expect(card).toBeInTheDocument();
+    });
+  })
 });
