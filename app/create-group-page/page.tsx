@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/Form/form';
-import { Check, ChevronsUpDown, ChevronLeft } from 'lucide-react';
+import { Check, ChevronsUpDown, ChevronLeft, X } from 'lucide-react';
 import { Input } from '@/components/Input/Input';
 import { Button } from '@/components/Button/button';
 import { CalendarIcon } from 'lucide-react';
@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/Popover/popover';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import {
   Command,
   CommandEmpty,
@@ -41,6 +41,7 @@ import { useRouter } from 'next/navigation';
 import LinkCustom from '@/components/LinkCustom/LinkCustom';
 import { useState } from 'react';
 import { BUDGET_OPTIONS } from '@/constants/exchangeGroupOptions';
+import Link from 'next/link';
 
 const groupImageUrls = GROUP_IMAGES.map((image) => image.src);
 
@@ -74,8 +75,8 @@ export default function CreateGroupPage() {
     defaultValues: {
       name: '',
       description: '',
-      drawing_date: new Date(),
-      exchange_date: new Date(),
+      drawing_date: undefined,
+      exchange_date: undefined,
       budget: '',
       group_image: GROUP_IMAGES[0].src,
     },
@@ -111,7 +112,14 @@ export default function CreateGroupPage() {
       </div>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white w-full xl:w-1/2 mb-5 flex justify-center align-center rounded flex-col ">
-          <h2 className="font-bold m-5">Create Secret Santa Page</h2>
+          <div className="flex justify-end m-1.5">
+            <Button variant="ghost" asChild data-testid="x-button">
+              <Link href="/dashboard">
+                <X className="text-black" />
+              </Link>
+            </Button>
+          </div>
+          <h2 className="font-bold mx-5 mb-5">Create Secret Santa Page</h2>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -342,10 +350,11 @@ export default function CreateGroupPage() {
                   );
                 }}
               />
-              <div className="flex justify-center md:justify-start md:m-5 m-0 w-full">
-                <Button className="m-2" type="submit">
-                  Create Group
+              <div className="flex gap-2 justify-center md:justify-end p-3">
+                <Button variant="secondary" className="bg-slate-300" asChild>
+                  <Link href="/dashboard">Cancel</Link>
                 </Button>
+                <Button type="submit">Create Group</Button>
               </div>
             </form>
           </Form>

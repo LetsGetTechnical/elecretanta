@@ -50,8 +50,18 @@ describe('Edit Group Page', () => {
   });
 
   describe('Calendar component', () => {
+    const currentDate = new Date('2025-10-15T00:00:00Z');
+
+    beforeEach(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(currentDate);
+    })
+
+    afterEach(() => {
+      jest.useRealTimers();
+    })
+
     it('disables past dates correctly', () => {
-      const currentDate = new Date('2025-10-15T00:00:00Z');
 
       render(
         <Calendar
