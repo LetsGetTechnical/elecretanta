@@ -20,6 +20,7 @@ import { WaitingForSuggestions } from './WaitingForSuggestions/WaitingForSuggest
 import { useToast } from '@/hooks/use-toast';
 import { signInWithGoogle } from '@/lib/utils';
 import { TOASTS } from '@/components/Toast/toasts.consts';
+import { createClient } from '@/lib/supabase/client';
 
 export default function GiftExchangePage() {
   const { id } = useParams();
@@ -49,6 +50,45 @@ export default function GiftExchangePage() {
     ? giftExchangeMembers.some((member) => member.user_id === session.user.id)
     : false;
   const inviteLink = window.location.href; // Invite Link for Invite Card
+
+  useEffect(() => {
+    if (!session?.user.id || !id) {
+      return;
+    } 
+
+    const supabase = createClient();
+
+    const channel = supabase
+      .channel('gift_suggestions_live')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'gift_suggestions',
+          filter: `gift_exchange_id=eq.${id}`,
+        },
+        (payload) => {
+          if (payload.new.giver_id !== session.user.id)  {
+            return;
+          }
+
+          const newSuggestion: IGiftSuggestion = {
+            ...payload.new.suggestion,
+            id: String(payload.new.id),
+          };
+
+          setGiftSuggestions((prev) =>
+            prev.some(s => s.id === newSuggestion.id) ? prev : [...prev, newSuggestion]
+          );
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [id, session?.user.id]);
 
   const handleGiftUpdate = (
     updatedGift: IGiftSuggestion,
@@ -160,6 +200,7 @@ export default function GiftExchangePage() {
             </section>
             <section className="flex flex-col">
               <h1 className="font-bold">Gift Suggestions</h1>
+              
               {giftSuggestions?.length === 0 && <WaitingForSuggestions />}
 
               {giftSuggestions?.length !== 0 && (
