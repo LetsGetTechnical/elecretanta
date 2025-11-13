@@ -4,6 +4,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { openai } from '../app/api/openaiConfig/config';
 import { getAmazonImage } from './getAmazonImage';
+import { SupabaseError, OpenAiError } from './errors/CustomErrors';
 
 /**
  * Generates and store gift suggestions
@@ -12,7 +13,7 @@ import { getAmazonImage } from './getAmazonImage';
  * @param {string} giverId - The id for gift giver
  * @param {string} recipientId - The id for gift receiver
  * @param {number} budget - The price range for exchange
- * @returns {object} - The response status
+ * @returns {Promise<void>} - Promise that resolves when gifts are generated and stored
  * @throws {Error} - If it fails to provide gift suggestions
  */
 export async function generateAndStoreSuggestions(
@@ -21,19 +22,28 @@ export async function generateAndStoreSuggestions(
   giverId: string,
   recipientId: string,
   budget: number,
-): Promise<{ success: boolean }> {
-  // Get recipient's profile
-  const { data: recipientProfile, error: profileError } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', recipientId)
-    .single();
+): Promise<void> {
+  try {
+    // Get recipient's profile
+    const { data: recipientProfile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', recipientId)
+      .single();
 
-  if (profileError || !recipientProfile) {
-    throw new Error('Failed to fetch recipient profile');
-  }
+    if (profileError) {
+      throw new SupabaseError(
+        'Failed to fetch recipient profile',
+        profileError.code,
+        profileError,
+      );
+    }
 
-  const prompt = `Take on the role of a Secret Santa. Generate 3 personalized gift suggestions based on this profile information that I will provide you with: 
+    if (!recipientProfile) {
+      throw new SupabaseError('Recipient profile is missing', 500);
+    }
+
+    const prompt = `Take on the role of a Secret Santa. Generate 3 personalized gift suggestions based on this profile information that I will provide you with: 
     
     Gift Budget: $${budget}
     
@@ -57,13 +67,16 @@ export async function generateAndStoreSuggestions(
     
     Respond with only the JSON array without any markdown formatting or additional text. The array should contain objects with fields: title, price, description, matchReasons (array), matchScore (number)`;
 
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: prompt }],
-    model: 'gpt-3.5-turbo',
-    temperature: 0.7,
-  });
+    const completion = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+      temperature: 0.7,
+    });
 
-  try {
+    if (!completion || !completion.choices || completion.choices.length === 0) {
+      throw new OpenAiError('Failed to generate gift suggestions', 500);
+    }
+
     let jsonContent = completion.choices[0].message.content || '';
 
     // Clean up the response if it contains markdown or extra text
@@ -113,12 +126,14 @@ export async function generateAndStoreSuggestions(
         });
 
       if (suggestionError) {
-        console.error('Failed to store suggestion:', suggestionError);
+        throw new SupabaseError(
+          'Failed to store suggestion',
+          suggestionError.code,
+          suggestionError,
+        );
       }
     }
-    return { success: true };
   } catch (error) {
-    console.error('Failed to parse or store suggestions:', error);
-    throw new Error('Failed to generate gift suggestions');
+    throw error;
   }
 }

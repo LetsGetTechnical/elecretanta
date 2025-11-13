@@ -1,13 +1,17 @@
 // Copyright (c) Gridiron Survivor.
 // Licensed under the MIT License.
 
+import { GoogleError, BackendError } from './errors/CustomErrors';
+
 /**
  * Amazon Image
  * @param {string} title - The title of the search item
- * @returns {Promise<{ imageUrl: string | null, success: boolean }>
-} - The image url and response status
+ * @returns {Promise<{ imageUrl: string | null }>}
+ - The image url and response status
  */
-export const getAmazonImage = async (title: string): Promise<{ imageUrl: string | null, success: boolean }> => {
+export const getAmazonImage = async (
+  title: string,
+): Promise<{ imageUrl: string | null }> => {
   const API_KEY = process.env.GOOGLE_API_KEY;
   const CSE_ID = process.env.GOOGLE_CSE_ID;
 
@@ -24,7 +28,10 @@ export const getAmazonImage = async (title: string): Promise<{ imageUrl: string 
     );
 
     if (!response.ok) {
-      throw new Error(`Google API responded with status: ${response.status}`);
+      throw new GoogleError(
+        'Error fetching Google Search results:',
+        response.status,
+      );
     }
 
     const data = await response.json();
@@ -35,7 +42,7 @@ export const getAmazonImage = async (title: string): Promise<{ imageUrl: string 
         const domain = new URL(item.image.contextLink).hostname;
         return domain.includes('amazon.');
       } catch {
-        return false;
+        throw new BackendError('Failed to fetch valid Amazon product url', 404);
       }
     });
 
@@ -43,13 +50,11 @@ export const getAmazonImage = async (title: string): Promise<{ imageUrl: string 
     if (amazonItems?.length > 0) {
       return {
         imageUrl: amazonItems[0].link,
-        success: true,
       };
     }
 
-    return { success: false, imageUrl: null };
+    throw new BackendError('Failed to fetch Amazon image', 404);
   } catch (error) {
-    console.error('Failed to fetch Amazon image:', error);
-    return { success: false, imageUrl: null };
+    throw error;
   }
 };

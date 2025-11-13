@@ -5,16 +5,12 @@ import { SupabaseClient } from '@supabase/supabase-js';
 jest.mock('@/lib/drawGiftExchange', () => ({
   drawGiftExchange: jest.fn(),
 }));
-
-const mockEq = jest.fn();
-const mockUpdate = jest.fn(() => ({
-  eq: mockEq,
-}));
-
 const mockSupabase = {
-  from: jest.fn(() => ({
-    update: mockUpdate,
-  })),
+  from: jest.fn().mockReturnValue({
+    update: jest.fn().mockReturnValue({
+      eq: jest.fn().mockResolvedValue({}),
+    }),
+  }),
 } as unknown as SupabaseClient;
 
 describe('processGiftExchanges', () => {
@@ -67,8 +63,12 @@ describe('processGiftExchanges', () => {
     });
 
     expect(mockSupabase.from).toHaveBeenCalledWith('gift_exchanges');
-    expect(mockUpdate).toHaveBeenCalledWith({ status: 'completed' });
-    expect(mockEq).toHaveBeenCalledWith('id', '456');
+    expect(mockSupabase.from('gift_exchanges').update).toHaveBeenCalledWith({
+      status: 'completed',
+    });
+    expect(
+      mockSupabase.from('gift_exchanges').update({ status: 'completed' }).eq,
+    ).toHaveBeenCalledWith('id', '456');
     expect(drawnCount).toBe(0);
     expect(completedCount).toBe(1);
   });
