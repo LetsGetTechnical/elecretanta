@@ -12,7 +12,7 @@ import { ToastViewport } from "../ToastViewport/ToastViewport"
 import { ToastProvider } from "../ToastProvider/ToastProvider"
 import { JSX } from "react"
 import { useAuthContext } from '@/context/AuthContextProvider';
-import useUserOwnedGroups from "@/hooks/useUserOwnedGroups"
+import useExchangeGroups from "@/hooks/useExchangeGroups";
 
 /**
  * Renders and manages display of toast notifications.
@@ -21,10 +21,10 @@ import useUserOwnedGroups from "@/hooks/useUserOwnedGroups"
 const Toaster = (): JSX.Element => {
   const { toasts } = useToast()
   const { session } = useAuthContext()
-  const userOwnedGroups = useUserOwnedGroups()
+  const userExchangeGroups = useExchangeGroups()
   
   const filteredToasts = toasts.filter((toast) => {
-    return userOwnedGroups.some((group) => {
+    return userExchangeGroups.some((group) => {
       return (group.gift_exchange_id === toast.group && group.owner_id === session?.user.id)
     })
   })
