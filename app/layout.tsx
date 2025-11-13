@@ -55,7 +55,7 @@ const RootLayout = ({
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-solid-green`}
       >
         <AuthContextProvider>
           <SnowOverlayProvider>
