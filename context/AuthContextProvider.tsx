@@ -70,8 +70,8 @@ const AuthContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
             data: { user },
           } = await supabase.auth.getUser();
           setUser(user);
-          setIsSignedIn(true);
         }
+        setIsSignedIn(!!session);
       } catch (error) {
         throw error;
       }
