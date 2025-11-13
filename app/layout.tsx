@@ -11,6 +11,7 @@ import SnowOverlayWrapper from '@/components/SnowOverlayWrapper/SnowOverlayWrapp
 import AuthContextProvider from '@/context/AuthContextProvider';
 import Script from 'next/script';
 import Toaster from '@/components/Toaster/Toaster';
+import UserFeedbackButton from '@/components/UserFeedbackButton/UserFeedbackButton';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -55,12 +56,13 @@ const RootLayout = ({
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-solid-green`}
       >
         <AuthContextProvider>
           <SnowOverlayProvider>
             <GlobalHeader />
             <SnowOverlayWrapper />
+            <UserFeedbackButton />
             {children}
           </SnowOverlayProvider>
         </AuthContextProvider>

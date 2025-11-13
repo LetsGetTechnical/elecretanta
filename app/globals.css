@@ -71,7 +71,7 @@
   }
 }
 @layer components {
-  .bg-gradient {
-    @apply bg-gradient-to-b from-[#244B40] from-[60%] to-[#395A50] to-[60%];
+  .bg-solid-green {
+    @apply bg-[#244B40];
   }
 }
