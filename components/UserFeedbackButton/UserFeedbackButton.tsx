@@ -16,7 +16,7 @@ const UserFeedbackButton = (): JSX.Element => {
       target="_blank"
       rel="noopener noreferrer"
       data-testid="user-feedback-button"
-      className="fixed bottom-0 left-4 bg-[#FAFAFA] text-[#0B4157] px-4 py-[10px] border-2 border-[#222222] rounded-tl-xl rounded-tr-xl"
+      className="fixed bottom-0 left-4 bg-[#FAFAFA] text-[#0B4157] px-4 py-[10px] border-2 border-[#222222] rounded-tl-xl rounded-tr-xl z-[9999]"
     >
       Support/Feedback
     </a>
