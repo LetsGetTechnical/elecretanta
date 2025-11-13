@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { drawGiftExchange } from '@/lib/drawGiftExchange';
+import { SupabaseError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 /**
  * API Route for drawing gift exchange names
@@ -16,30 +18,24 @@ export async function POST(
 
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     await drawGiftExchange(supabase, id);
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(error);
-    const message =
-      error instanceof Error ? error.message : 'Internal server error';
-    let status = 500; // default status
-    if (message.includes('not found')) {
-      status = 404;
-    } else if (
-      message.includes('already been drawn') ||
-      message.includes('3 members')
-    ) {
-      status = 400;
-    }
-
-    return NextResponse.json({ error: message }, { status });
+    return logError(error);
   }
 }
