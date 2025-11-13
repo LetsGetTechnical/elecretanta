@@ -75,6 +75,9 @@ export default function EditGroupPage() {
   const [giftExchangeData, setGiftExchangeData] = useState<GiftExchange | null>(
     null,
   );
+  const [budgetOpen, setBudgetOpen] = useState(false);
+  const [drawingDateOpen, setDrawingDateOpen] = useState(false);
+  const [exchangeDateOpen, setExchangeDateOpen] = useState(false);
 
   const supabase = createClient();
 
@@ -236,11 +239,10 @@ export default function EditGroupPage() {
                 control={form.control}
                 name="budget"
                 render={({ field }) => {
-                  const [open, setOpen] = useState(false);
                   return (
                     <FormItem className="flex flex-col">
                       <FormLabel className="mx-5 mt-5">Price Range</FormLabel>
-                      <Popover open={open} onOpenChange={setOpen}>
+                      <Popover open={budgetOpen} onOpenChange={setBudgetOpen}>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -280,7 +282,7 @@ export default function EditGroupPage() {
                                         'budget',
                                         budgetOption.value,
                                       );
-                                      setOpen(false);
+                                      setBudgetOpen(false);
                                     }}
                                   >
                                     {budgetOption.label}
@@ -312,13 +314,15 @@ export default function EditGroupPage() {
                 control={form.control}
                 name="drawing_date"
                 render={({ field }) => {
-                  const [open, setOpen] = useState(false);
                   return (
                     <FormItem className="flex flex-col">
                       <FormLabel className="mx-5 mt-5">
                         Gift Drawing Date
                       </FormLabel>
-                      <Popover open={open} onOpenChange={setOpen}>
+                      <Popover
+                        open={drawingDateOpen}
+                        onOpenChange={setDrawingDateOpen}
+                      >
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -344,7 +348,7 @@ export default function EditGroupPage() {
                             selected={field.value}
                             onSelect={(inputValue) => {
                               field.onChange(inputValue);
-                              setOpen(false);
+                              setDrawingDateOpen(false);
                             }}
                             disabled={[{ before: new Date() }]}
                             initialFocus
@@ -363,13 +367,15 @@ export default function EditGroupPage() {
                 control={form.control}
                 name="exchange_date"
                 render={({ field }) => {
-                  const [open, setOpen] = useState(false);
                   return (
                     <FormItem className="flex flex-col">
                       <FormLabel className="mx-5 mt-5">
                         Gift Exchange Date
                       </FormLabel>
-                      <Popover open={open} onOpenChange={setOpen}>
+                      <Popover
+                        open={exchangeDateOpen}
+                        onOpenChange={setExchangeDateOpen}
+                      >
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -395,9 +401,11 @@ export default function EditGroupPage() {
                             selected={field.value}
                             onSelect={(inputValue) => {
                               field.onChange(inputValue);
-                              setOpen(false);
+                              setExchangeDateOpen(false);
                             }}
-                            disabled={[{ before: addDays(new Date(giftDrawingDate), 1) }]}
+                            disabled={[
+                              { before: addDays(new Date(giftDrawingDate), 1) },
+                            ]}
                             initialFocus
                           />
                         </PopoverContent>

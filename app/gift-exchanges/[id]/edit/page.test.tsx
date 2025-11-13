@@ -23,8 +23,6 @@ class MockResizeObserver {
 
 global.ResizeObserver = MockResizeObserver;
 
-global.fetch = jest.fn();
-
 describe('Edit Group Page', () => {
   beforeEach(() => {
     (global.fetch as jest.Mock).mockResolvedValue({
@@ -55,14 +53,13 @@ describe('Edit Group Page', () => {
     beforeEach(() => {
       jest.useFakeTimers();
       jest.setSystemTime(currentDate);
-    })
+    });
 
     afterEach(() => {
       jest.useRealTimers();
-    })
+    });
 
     it('disables past dates correctly', () => {
-
       render(
         <Calendar
           mode="single"

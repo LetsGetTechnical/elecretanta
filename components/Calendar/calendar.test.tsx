@@ -10,7 +10,7 @@ describe('Calendar', () => {
     const daysDisplayedCount = screen.getAllByRole('gridcell').length;
     expect(daysDisplayedCount).toBeGreaterThan(31);
 
-    Array(12).forEach(async () => {
+    Array.from({ length: 12 }).forEach(async () => {
       const nextMonthButton = screen.getByLabelText('Go to next month');
       await user.click(nextMonthButton);
 
