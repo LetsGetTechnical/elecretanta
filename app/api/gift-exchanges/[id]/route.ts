@@ -2,6 +2,8 @@ import { UpdateGiftExchangeRequest } from '@/app/types/giftExchange';
 import { createClient } from '@/lib/supabase/server';
 import { validateGroupExchangeDates } from '@/lib/utils';
 import { NextResponse } from 'next/server';
+import { SupabaseError, BackendError } from '@/lib/errors/CustomErrors';
+import logError from '@/lib/errors/logError';
 
 export async function GET(
   req: Request,
@@ -19,17 +21,16 @@ export async function GET(
       .single();
 
     if (error) {
-      throw error;
+      throw new SupabaseError(
+        'Could not fetch gift exchange.',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -41,12 +42,19 @@ export async function PATCH(
   const id = await params.id;
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     const body: UpdateGiftExchangeRequest = await req.json();
@@ -58,7 +66,7 @@ export async function PATCH(
       const dateError = validateGroupExchangeDates(drawingDate, exchangeDate);
 
       if (dateError) {
-        return NextResponse.json({ error: dateError }, { status: 400 });
+        throw new BackendError('Invalid date for group exchange', 400);
       }
     }
 
@@ -73,17 +81,16 @@ export async function PATCH(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Could not update gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }
 
@@ -92,12 +99,19 @@ export async function DELETE(req: Request) {
   const id = searchParams.get('id');
   try {
     const supabase = await createClient();
+
     const {
       data: { user },
+      error: userError,
     } = await supabase.auth.getUser();
 
+    if (userError) {
+      const statusCode = userError.status || 500;
+      throw new SupabaseError('Failed to fetch user', statusCode, userError);
+    }
+
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
     const { error } = await supabase
@@ -106,16 +120,15 @@ export async function DELETE(req: Request) {
       .eq('id', id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new SupabaseError(
+        'Failed to delete gift exchange',
+        error.code,
+        error,
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.log(error);
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return logError(error);
   }
 }

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { fetchGiftExchanges } from './fetchGiftExchanges';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseError } from '@/lib/errors/CustomErrors';
 
 jest.mock('@/lib/supabase/server');
 
@@ -32,11 +33,11 @@ describe('fetchGiftExchanges', () => {
   it('throws an error when fetch fails', async () => {
     mockSelect.mockResolvedValueOnce({
       data: null,
-      error: new Error('Something went wrong'),
+      error: new SupabaseError('Something went wrong', 500),
     });
 
     await expect(
       fetchGiftExchanges({ supabase: mockSupabase }),
-    ).rejects.toThrow('Something went wrong');
+    ).rejects.toThrow(SupabaseError);
   });
 });
