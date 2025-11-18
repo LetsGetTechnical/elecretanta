@@ -191,8 +191,8 @@ describe('GiftExchangeHeader owner permissions', () => {
     })
   });
 
-  it('should disable the draw gift exchange button when gift exchange is being drawn', async () => {
-    
+  it('should disable the draw gift exchange button when the gift exchange is being drawn', async () => {
+
     render(
       <GiftExchangeHeader
       giftExchangeData={mockGiftExchangeDataPending}
