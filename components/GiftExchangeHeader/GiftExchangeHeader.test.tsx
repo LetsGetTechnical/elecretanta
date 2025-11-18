@@ -191,7 +191,16 @@ describe('GiftExchangeHeader owner permissions', () => {
     })
   });
 
-  it('should disable the draw gift exchange button when gift exchange is being drawn', async () => {});
+  it('should disable the draw gift exchange button when gift exchange is being drawn', async () => {
+    
+    render(
+      <GiftExchangeHeader
+      giftExchangeData={mockGiftExchangeDataPending}
+      members={mockMembersData}
+      id={mockGiftExchangeDataPending.id} 
+      />
+    );
+  });
 
   it('should render the complete gift exchange button when user_id and owner_id match', async () => {
     
