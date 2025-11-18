@@ -59,6 +59,7 @@ export const GiftExchangeHeader = ({
   id,
 }: GiftExchangeHeaderPropsUnion): JSX.Element => {
   const [membersData, setMembersData] = useState(members);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
     setMembersData(members);
@@ -128,6 +129,7 @@ export const GiftExchangeHeader = ({
    * @returns {Promise<void>}
    */
   const call = async (): Promise<void> => {
+    setIsDrawing(true);
     try {
       const response = await fetch(`/api/gift-exchanges/${id}/draw`, {
         method: 'POST',
@@ -148,6 +150,7 @@ export const GiftExchangeHeader = ({
       location.reload();
     } catch (error) {
       console.error('Failed to draw gift exchange:', error);
+      setIsDrawing(false);
     }
   };
 
@@ -223,16 +226,23 @@ export const GiftExchangeHeader = ({
               <p className="text-xs">{giftExchangeData.description}</p>
             </div>
             <div>
-              {getStatusText(giftExchangeData.status) === 'Active' && isOwner && (
-                <Button onClick={completeGiftExchange} data-testid='complete-gift-exchange'>
+              {getStatusText(giftExchangeData.status) === 'Active' &&
+                isOwner && (
+                <Button
+                  onClick={completeGiftExchange}
+                  data-testid="complete-gift-exchange"
+                >
                   Complete Gift Exchange
                 </Button>
               )}
               {getStatusText(giftExchangeData.status) === 'Open' && isOwner ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button disabled={membersData.length <= 2} data-testid='draw-gift-exchange'>
-                      Draw Gift Exchange
+                    <Button
+                      disabled={membersData.length <= 2 || isDrawing}
+                      data-testid="draw-gift-exchange"
+                    >
+                      {isDrawing ? "Drawing..." : "Draw Gift Exchange"}
                     </Button>
                   </AlertDialogTrigger>
                   {membersData.length <= 2 && (

@@ -3,7 +3,7 @@
   "version": "0.8.2-alpha",
   "private": true,
   "scripts": {
-    "dev": "cross-env PORT=4000 next dev",
+    "dev": "cross-env PORT=4000 NODE_OPTIONS=\"--inspect\" next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
