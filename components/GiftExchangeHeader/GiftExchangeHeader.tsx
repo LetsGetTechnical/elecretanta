@@ -32,6 +32,9 @@ import { Button } from '@/components/Button/button';
 import LinkCustom from '../LinkCustom/LinkCustom';
 import Image from 'next/image';
 import { GROUP_IMAGES } from '@/components/ImageSelector/ImageSelector';
+import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner';
+import { useToast } from '@/hooks/use-toast';
+import { ToastVariants } from '../Toast/Toast.enum';
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -60,6 +63,7 @@ export const GiftExchangeHeader = ({
 }: GiftExchangeHeaderPropsUnion): JSX.Element => {
   const [membersData, setMembersData] = useState(members);
   const [isDrawing, setIsDrawing] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     setMembersData(members);
@@ -130,6 +134,13 @@ export const GiftExchangeHeader = ({
    */
   const call = async (): Promise<void> => {
     setIsDrawing(true);
+
+    toast({
+      variant: ToastVariants.Error,
+      title: 'Text goes here',
+      description: 'Text goes here',
+    });
+
     try {
       const response = await fetch(`/api/gift-exchanges/${id}/draw`, {
         method: 'POST',
@@ -228,21 +239,22 @@ export const GiftExchangeHeader = ({
             <div>
               {getStatusText(giftExchangeData.status) === 'Active' &&
                 isOwner && (
-                <Button
-                  onClick={completeGiftExchange}
-                  data-testid="complete-gift-exchange"
-                >
-                  Complete Gift Exchange
-                </Button>
-              )}
+                  <Button
+                    onClick={completeGiftExchange}
+                    data-testid="complete-gift-exchange"
+                  >
+                    Complete Gift Exchange
+                  </Button>
+                )}
               {getStatusText(giftExchangeData.status) === 'Open' && isOwner ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button
                       disabled={membersData.length <= 2 || isDrawing}
                       data-testid="draw-gift-exchange"
+                      className="min-w-40"
                     >
-                      {isDrawing ? "Drawing..." : "Draw Gift Exchange"}
+                      {isDrawing ? <LoadingSpinner /> : 'Draw Gift Exchange'}
                     </Button>
                   </AlertDialogTrigger>
                   {membersData.length <= 2 && (
