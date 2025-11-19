@@ -32,6 +32,9 @@ import { Button } from '@/components/Button/button';
 import LinkCustom from '../LinkCustom/LinkCustom';
 import Image from 'next/image';
 import { GROUP_IMAGES } from '@/components/ImageSelector/ImageSelector';
+import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner';
+import { useToast } from '@/hooks/use-toast';
+import { ToastVariants } from '../Toast/Toast.enum';
 // initialize type for exchange data response
 
 interface MembersListProps {
@@ -59,6 +62,8 @@ export const GiftExchangeHeader = ({
   id,
 }: GiftExchangeHeaderPropsUnion): JSX.Element => {
   const [membersData, setMembersData] = useState(members);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     setMembersData(members);
@@ -128,6 +133,14 @@ export const GiftExchangeHeader = ({
    * @returns {Promise<void>}
    */
   const call = async (): Promise<void> => {
+    setIsDrawing(true);
+
+    toast({
+      variant: ToastVariants.Success,
+      title: '',
+      description: 'Please keep this browser open until our elves complete the gift drawing.',
+    });
+
     try {
       const response = await fetch(`/api/gift-exchanges/${id}/draw`, {
         method: 'POST',
@@ -148,6 +161,13 @@ export const GiftExchangeHeader = ({
       location.reload();
     } catch (error) {
       console.error('Failed to draw gift exchange:', error);
+      toast({
+        variant: ToastVariants.Error,
+        title: 'Draw Failed',
+        description: 'Failed to complete the gift drawing. Please try again.',
+      });
+    } finally {
+      setIsDrawing(false);
     }
   };
 
@@ -223,16 +243,24 @@ export const GiftExchangeHeader = ({
               <p className="text-xs">{giftExchangeData.description}</p>
             </div>
             <div>
-              {getStatusText(giftExchangeData.status) === 'Active' && isOwner && (
-                <Button onClick={completeGiftExchange} data-testid='complete-gift-exchange'>
+              {getStatusText(giftExchangeData.status) === 'Active' &&
+                isOwner && (
+                <Button
+                  onClick={completeGiftExchange}
+                  data-testid="complete-gift-exchange"
+                >
                   Complete Gift Exchange
                 </Button>
               )}
               {getStatusText(giftExchangeData.status) === 'Open' && isOwner ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button disabled={membersData.length <= 2} data-testid='draw-gift-exchange'>
-                      Draw Gift Exchange
+                    <Button
+                      disabled={membersData.length <= 2 || isDrawing}
+                      data-testid="draw-gift-exchange"
+                      className="min-w-40"
+                    >
+                      {isDrawing ? <LoadingSpinner /> : 'Draw Gift Exchange'}
                     </Button>
                   </AlertDialogTrigger>
                   {membersData.length <= 2 && (

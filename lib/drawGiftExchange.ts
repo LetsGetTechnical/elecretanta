@@ -94,15 +94,13 @@ export async function drawGiftExchange(
       // Fire and forget suggestions with error handling
       // hacky way to avoid waiting for all suggestions to be generated
       // avoids timeout issues
-      generateAndStoreSuggestions(
+      await generateAndStoreSuggestions(
         supabase,
         exchangeId,
         giver.user_id,
         recipient.user_id,
         exchange.budget,
-      ).catch((error) => {
-        throw new SupabaseError('Failed to generate suggestions', 500, error);
-      });
+      );
     }
 
     // Update exchange status to active
