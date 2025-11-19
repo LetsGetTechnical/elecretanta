@@ -36,10 +36,19 @@ const GiftDetailsView = ({
     setImageError(true);
   }, []);
 
-  const handleAmazonLink = ({ searchTerm }: { searchTerm: string }) => {
-    const encodedSearch = encodeURIComponent(searchTerm).replace(/%20/g, '+');
-
-    return `https://www.amazon.com/s?k=${encodedSearch}&tag=${process.env.NEXT_PUBLIC_AMAZON_AFFILIATE_TAG}`;
+  // If we have a direct product URL from Amazon PAAPI use it; otherwise fall back to search
+  const buildAmazonLink = (gift: IGiftSuggestion) => {
+    const affiliateTag = process.env.NEXT_PUBLIC_AMAZON_AFFILIATE_TAG;
+    if (gift.productUrl && isValidUrl(gift.productUrl)) {
+      // Attach affiliate tag to product URL if not present
+      const url = new URL(gift.productUrl);
+      if (affiliateTag) {
+        url.searchParams.set('tag', affiliateTag);
+      }
+      return url.toString();
+    }
+    const encodedSearch = encodeURIComponent(gift.title).replace(/%20/g, '+');
+    return `https://www.amazon.com/s?k=${encodedSearch}${affiliateTag ? `&tag=${affiliateTag}` : ''}`;
   };
 
   const showImage = gift.imageUrl && isValidUrl(gift.imageUrl) && !imageError;
@@ -56,12 +65,13 @@ const GiftDetailsView = ({
             onError={handleImageError}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
+          <div className="w-full h-full flex flex-col items-center justify-center">
             <GiftIcon
               role="img"
               className="w-16 h-16 text-gray-300"
               aria-label="gift placeholder image"
             />
+            <span className="mt-2 text-xs text-gray-400">No image available</span>
           </div>
         )}
 
@@ -103,13 +113,13 @@ const GiftDetailsView = ({
       <CardFooter className="flex flex-col">
         <div className="flex justify-between w-full">
           <a
-            href={handleAmazonLink({ searchTerm: gift.title })}
+            href={buildAmazonLink(gift)}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Button
               className="text-sm w-32 h-9 bg-primaryButtonYellow hover:bg-primaryButtonYellow70"
-              onClick={() => handleAmazonLink({ searchTerm: gift.title })}
+              onClick={() => {}}
             >
               <SquareArrowOutUpRight /> View
             </Button>

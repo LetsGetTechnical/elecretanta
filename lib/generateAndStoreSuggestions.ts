@@ -139,6 +139,10 @@ export async function generateAndStoreSuggestions(
         imageResult.status === 'fulfilled' && imageResult.value.imageUrl
           ? imageResult.value.imageUrl
           : null;
+      const productUrl =
+        imageResult.status === 'fulfilled' && imageResult.value.productUrl
+          ? imageResult.value.productUrl
+          : null;
 
       return {
         gift_exchange_id: exchangeId,
@@ -154,6 +158,7 @@ export async function generateAndStoreSuggestions(
           matchReasons: suggestion.matchReasons,
           matchScore: suggestion.matchScore,
           imageUrl,
+          productUrl,
         },
       };
     });
