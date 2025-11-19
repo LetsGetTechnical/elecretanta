@@ -5,6 +5,10 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { openai } from '../app/api/openaiConfig/config';
 import { getAmazonImage } from './getAmazonImage';
 import { SupabaseError, OpenAiError } from './errors/CustomErrors';
+import {
+  IGeneratedSuggestionRaw,
+  IGeneratedSuggestionNormalized,
+} from './interfaces/IGeneratedSuggestionRaw';
 
 /**
  * Generates and store gift suggestions
@@ -99,39 +103,71 @@ export async function generateAndStoreSuggestions(
       }
     }
 
-    const parsedResponse = JSON.parse(jsonContent);
+    const parsedResponse: IGeneratedSuggestionRaw[] = ((): IGeneratedSuggestionRaw[] => {
+      const raw = JSON.parse(jsonContent) as unknown[];
+      return raw.map((item) => {
+        const obj = item as Record<string, unknown>;
+        const matchReasonsRaw = obj.matchReasons;
+        return {
+          title: String(obj.title ?? ''),
+          price:
+            typeof obj.price === 'number'
+              ? obj.price
+              : String(obj.price ?? '').trim(),
+          description: String(obj.description ?? ''),
+          matchReasons: Array.isArray(matchReasonsRaw)
+            ? matchReasonsRaw.map(String)
+            : [],
+          matchScore: Number(obj.matchScore ?? 0),
+        };
+      });
+    })();
 
-    // Process each suggestion with Amazon data
-    for (const suggestion of parsedResponse) {
-      const amazonData = await getAmazonImage(suggestion.title);
+    // Fetch Amazon images in parallel
+    const imageResults = await Promise.allSettled(
+      parsedResponse.map((response) => getAmazonImage(String(response.title))),
+    );
 
-      const cleanSuggestion = {
-        title: String(suggestion.title),
-        price: String(suggestion.price),
-        description: String(suggestion.description),
-        matchReasons: Array.isArray(suggestion.matchReasons)
-          ? suggestion.matchReasons.map(String)
-          : [],
-        matchScore: Number(suggestion.matchScore),
-        imageUrl: amazonData.imageUrl || null,
+    const rows = parsedResponse.map((suggestion, idx): {
+      gift_exchange_id: string;
+      giver_id: string;
+      recipient_id: string;
+      suggestion: IGeneratedSuggestionNormalized;
+    } => {
+      const imageResult = imageResults[idx];
+      const imageUrl =
+        imageResult.status === 'fulfilled' && imageResult.value.imageUrl
+          ? imageResult.value.imageUrl
+          : null;
+
+      return {
+        gift_exchange_id: exchangeId,
+        giver_id: giverId,
+        recipient_id: recipientId,
+        suggestion: {
+          title: suggestion.title,
+          price:
+            typeof suggestion.price === 'number'
+              ? String(suggestion.price)
+              : suggestion.price,
+          description: suggestion.description,
+          matchReasons: suggestion.matchReasons,
+          matchScore: suggestion.matchScore,
+          imageUrl,
+        },
       };
+    });
 
-      const { error: suggestionError } = await supabase
-        .from('gift_suggestions')
-        .insert({
-          gift_exchange_id: exchangeId,
-          giver_id: giverId,
-          recipient_id: recipientId,
-          suggestion: cleanSuggestion,
-        });
+    const { error: insertError } = await supabase
+      .from('gift_suggestions')
+      .insert(rows);
 
-      if (suggestionError) {
-        throw new SupabaseError(
-          'Failed to store suggestion',
-          suggestionError.code,
-          suggestionError,
-        );
-      }
+    if (insertError) {
+      throw new SupabaseError(
+        'Failed to store suggestions',
+        insertError.code,
+        insertError,
+      );
     }
   } catch (error) {
     throw error;
