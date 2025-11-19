@@ -161,6 +161,7 @@ export const GiftExchangeHeader = ({
       location.reload();
     } catch (error) {
       console.error('Failed to draw gift exchange:', error);
+    } finally {
       setIsDrawing(false);
     }
   };
