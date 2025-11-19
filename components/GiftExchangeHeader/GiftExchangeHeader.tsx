@@ -136,9 +136,9 @@ export const GiftExchangeHeader = ({
     setIsDrawing(true);
 
     toast({
-      variant: ToastVariants.Error,
-      title: 'Text goes here',
-      description: 'Text goes here',
+      variant: ToastVariants.Success,
+      title: '',
+      description: 'Please keep this browser open until our elves complete the gift drawing.',
     });
 
     try {
