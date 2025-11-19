@@ -161,6 +161,11 @@ export const GiftExchangeHeader = ({
       location.reload();
     } catch (error) {
       console.error('Failed to draw gift exchange:', error);
+      toast({
+        variant: ToastVariants.Error,
+        title: 'Draw Failed',
+        description: 'Failed to complete the gift drawing. Please try again.',
+      });
     } finally {
       setIsDrawing(false);
     }
