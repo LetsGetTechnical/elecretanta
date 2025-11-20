@@ -7,14 +7,21 @@ export async function GET(request: Request) {
   const redirectPath =
     requestUrl.searchParams.get('redirect_to') || '/dashboard';
 
-  if (code) {
-    const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+  try {
+    if (code) {
+      const supabase = await createClient();
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (!error) {
+      if (error) {
+        console.error('Error with session:', error);
+        return NextResponse.redirect(`${requestUrl.origin}/auth-code-error`);
+      }
+
       return NextResponse.redirect(`${requestUrl.origin}${redirectPath}`);
     }
-  }
+  } catch (error) {
+    console.error('Error with session:', error);
 
-  return NextResponse.redirect(`${requestUrl.origin}/auth-code-error`);
+    return NextResponse.redirect(`${requestUrl.origin}/auth-code-error`);
+  }
 }

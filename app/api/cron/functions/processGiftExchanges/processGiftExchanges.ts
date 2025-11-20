@@ -6,6 +6,7 @@ import {
   IGiftProcess,
   IProcessGiftExchangesResult,
 } from '@/app/types/giftExchange';
+import { SupabaseError } from '@/lib/errors/CustomErrors';
 
 /**
  * Checks the dates to know how to update gift exchange status.
@@ -28,18 +29,30 @@ export const processGiftExchanges = async ({
   let drawnCount = 0;
   let completedCount = 0;
 
-  if (drawDate === currentDate && exchange.status === 'pending') {
-    await drawGiftExchange(supabase, exchange.id);
-    drawnCount += 1;
-  }
+  try {
+    if (drawDate === currentDate && exchange.status === 'pending') {
+      await drawGiftExchange(supabase, exchange.id);
+      drawnCount += 1;
+    }
 
-  if (currentDate > exchangeDate && exchange.status === 'active') {
-    await supabase
-      .from('gift_exchanges')
-      .update({ status: 'completed' })
-      .eq('id', exchange.id);
-    completedCount += 1;
-  }
+    if (currentDate > exchangeDate && exchange.status === 'active') {
+      const { error } = await supabase
+        .from('gift_exchanges')
+        .update({ status: 'completed' })
+        .eq('id', exchange.id);
+      completedCount += 1;
 
-  return { drawnCount, completedCount };
+      if (error) {
+        throw new SupabaseError(
+          'Failed to process gift exchange',
+          error.code,
+          error,
+        );
+      }
+    }
+
+    return { drawnCount, completedCount };
+  } catch (error) {
+    throw error;
+  }
 };
