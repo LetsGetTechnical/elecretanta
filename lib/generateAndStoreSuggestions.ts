@@ -103,7 +103,7 @@ export async function generateAndStoreSuggestions(
       }
     }
 
-    const rawItems = JSON.parse(jsonContent) as IGeneratedSuggestionRaw[];
+    const rawItems = JSON.parse(jsonContent) as Array<Record<string, unknown>>;
 
     const parsedResponse = rawItems.map((item) => {
 
@@ -140,7 +140,7 @@ export async function generateAndStoreSuggestions(
         recipient_id: recipientId,
         suggestion: {
           title: suggestion.title,
-          price: String(suggestion.price),
+          price: suggestion.price,
           description: suggestion.description,
           matchReasons: suggestion.matchReasons,
           matchScore: suggestion.matchScore,

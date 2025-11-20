@@ -3,16 +3,16 @@
 
 export interface IGeneratedSuggestionRaw {
   title: string;
-  price: string | number; // OpenAI may return number or formatted string
+  price: string;
   description: string;
-  matchReasons: string[]; // Ensure array shape
-  matchScore: number; // 0-100
+  matchReasons: string[];
+  matchScore: number;
 }
 
 // Normalized shape we persist (after coercion / enrichment)
 export interface IGeneratedSuggestionNormalized {
   title: string;
-  price: string; // stored consistently as string
+  price: string;
   description: string;
   matchReasons: string[];
   matchScore: number;
