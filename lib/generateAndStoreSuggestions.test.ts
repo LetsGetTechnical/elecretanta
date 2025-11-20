@@ -96,7 +96,8 @@ describe('generateAndStoreSuggestions', () => {
     expect(getAmazonImage).toHaveBeenCalledWith('Kindle Paperwhite');
     expect(mockFrom).toHaveBeenCalledWith('gift_suggestions');
     expect(mockInsert).toHaveBeenCalledWith(
-      expect.objectContaining({
+      expect.arrayContaining([
+        expect.objectContaining({
         gift_exchange_id: 'Exchange1',
         giver_id: 'Giver1',
         recipient_id: 'Recipient1',
@@ -105,6 +106,7 @@ describe('generateAndStoreSuggestions', () => {
           imageUrl: 'https://amazon.com/kindle.jpg',
         }),
       }),
+      ])
     );
   });
 
