@@ -6,7 +6,6 @@ import { openai } from '../app/api/openaiConfig/config';
 import { getAmazonImage } from './getAmazonImage';
 import { SupabaseError, OpenAiError } from './errors/CustomErrors';
 import {
-  IGeneratedSuggestionRaw,
   IGeneratedSuggestionNormalized,
 } from './interfaces/IGeneratedSuggestionRaw';
 
