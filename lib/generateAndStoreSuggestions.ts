@@ -103,27 +103,21 @@ export async function generateAndStoreSuggestions(
       }
     }
 
-    const parsedResponse: IGeneratedSuggestionRaw[] = ((): IGeneratedSuggestionRaw[] => {
-      const raw = JSON.parse(jsonContent) as unknown[];
-      return raw.map((item) => {
-        const obj = item as Record<string, unknown>;
-        const matchReasonsRaw = obj.matchReasons;
-        return {
-          title: String(obj.title ?? ''),
-          price:
-            typeof obj.price === 'number'
-              ? obj.price
-              : String(obj.price ?? '').trim(),
-          description: String(obj.description ?? ''),
-          matchReasons: Array.isArray(matchReasonsRaw)
-            ? matchReasonsRaw.map(String)
-            : [],
-          matchScore: Number(obj.matchScore ?? 0),
-        };
-      });
-    })();
+    const rawItems = JSON.parse(jsonContent) as IGeneratedSuggestionRaw[];
 
-    // Fetch Amazon images in parallel
+    const parsedResponse = rawItems.map((item) => {
+
+      return {
+        title: String(item.title),
+        price: String(item.price),
+        description: String(item.description),
+        matchReasons: Array.isArray(item.matchReasons)
+          ? item.matchReasons.map(String)
+          : [],
+        matchScore: Number(item.matchScore),
+      };
+    });
+
     const imageResults = await Promise.allSettled(
       parsedResponse.map((response) => getAmazonImage(String(response.title))),
     );
@@ -146,10 +140,7 @@ export async function generateAndStoreSuggestions(
         recipient_id: recipientId,
         suggestion: {
           title: suggestion.title,
-          price:
-            typeof suggestion.price === 'number'
-              ? String(suggestion.price)
-              : suggestion.price,
+          price: String(suggestion.price),
           description: suggestion.description,
           matchReasons: suggestion.matchReasons,
           matchScore: suggestion.matchScore,
