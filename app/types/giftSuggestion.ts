@@ -9,4 +9,5 @@ export interface IGiftSuggestion {
   matchReasons: string[];
   matchScore: number;
   imageUrl: string | null;
+  productUrl?: string | null; // direct Amazon product detail page
 }
