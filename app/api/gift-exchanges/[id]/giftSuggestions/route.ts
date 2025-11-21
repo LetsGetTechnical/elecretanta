@@ -27,11 +27,11 @@ export async function GET(
       throw new SupabaseError('User is not authenticated or exists', 500);
     }
 
-    // Get match with full profile info
-    const { data: match, error: matchError } = await supabase
-      .from('gift_exchange_members')
-      .select(
-        `
+    const [matchResult, suggestionsResult] = await Promise.all([
+      supabase
+        .from('gift_exchange_members')
+        .select(
+          `
         id,
         recipient_id,
         recipient:profiles!gift_exchange_members_recipient_id_profiles_fkey (
@@ -48,40 +48,39 @@ export async function GET(
           avatar
         )
       `,
-      )
-      .eq('gift_exchange_id', id)
-      .eq('user_id', user.id)
-      .single();
+        )
+        .eq('gift_exchange_id', id)
+        .eq('user_id', user.id)
+        .single(),
+      supabase
+        .from('gift_suggestions')
+        .select('*')
+        .eq('gift_exchange_id', id)
+        .eq('giver_id', user.id),
+    ]);
 
-    if (matchError) {
+    if (matchResult.error) {
       throw new SupabaseError(
         'Failed to fetch match',
-        matchError.code,
-        matchError,
+        matchResult.error.code,
+        matchResult.error,
       );
     }
 
-    // Get suggestions
-    const { data: suggestions, error: suggestionsError } = await supabase
-      .from('gift_suggestions')
-      .select('*')
-      .eq('gift_exchange_id', id)
-      .eq('giver_id', user.id);
-
-    if (suggestionsError) {
+    if (suggestionsResult.error) {
       throw new SupabaseError(
         'Failed to fetch suggestions',
-        suggestionsError.code,
-        suggestionsError,
+        suggestionsResult.error.code,
+        suggestionsResult.error,
       );
     }
 
     return NextResponse.json({
-      match: match.recipient,
-      suggestions: suggestions.map((s) => ({
-        ...s.suggestion,
-        id: s.id,
-        created_at: s.created_at,
+      match: matchResult.data?.recipient,
+      suggestions: (suggestionsResult.data || []).map((suggestion) => ({
+        ...suggestion.suggestion,
+        id: suggestion.id,
+        created_at: suggestion.created_at,
       })),
     });
   } catch (error) {
