@@ -69,39 +69,46 @@ export async function drawGiftExchange(
     // Shuffle members to assign
     const shuffledMembers = [...members].sort(() => Math.random() - 0.5);
 
-    // Update assignments
-    for (let i = 0; i < shuffledMembers.length; i++) {
-      const giver = shuffledMembers[i];
-      // Last person gives to first person, closing the circle
-      const recipient = shuffledMembers[(i + 1) % shuffledMembers.length];
+    const assignments = shuffledMembers.map((member, index) => ({
+      giver: member,
+      recipient: shuffledMembers[(index + 1) % shuffledMembers.length],
+    }));
 
-      const { error: updateError } = await supabase
-        .from('gift_exchange_members')
-        .update({
-          recipient_id: recipient.user_id,
-          has_drawn: true,
-        })
-        .eq('id', giver.id);
+    // Perform all member recipient assignments in parallel
+    const assignmentResults = await Promise.allSettled(
+      assignments.map((assignment) =>
+        supabase
+          .from('gift_exchange_members')
+          .update({ recipient_id: assignment.recipient.user_id, has_drawn: true })
+          .eq('id', assignment.giver.id),
+      ),
+    );
 
-      if (updateError) {
+    for (const result of assignmentResults) {
+      if (result.status === 'rejected') {
+        throw new SupabaseError('Failed to assign recipients', 500);
+      }
+      if ('value' in result && result.value.error) {
         throw new SupabaseError(
           'Failed to assign recipients',
-          updateError.code,
-          updateError,
+          result.value.error.code,
+          result.value.error,
         );
       }
-
-      // Fire and forget suggestions with error handling
-      // hacky way to avoid waiting for all suggestions to be generated
-      // avoids timeout issues
-      await generateAndStoreSuggestions(
-        supabase,
-        exchangeId,
-        giver.user_id,
-        recipient.user_id,
-        exchange.budget,
-      );
     }
+
+    // Generate suggestions for all members concurrently (do not block one another)
+    await Promise.allSettled(
+      assignments.map((assignment) =>
+        generateAndStoreSuggestions(
+          supabase,
+          exchangeId,
+          assignment.giver.user_id,
+          assignment.recipient.user_id,
+          exchange.budget,
+        ),
+      ),
+    );
 
     // Update exchange status to active
     const { error: statusError } = await supabase
