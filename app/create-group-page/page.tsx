@@ -39,19 +39,9 @@ import {
 } from '@/components/ImageSelector/ImageSelector';
 import { useRouter } from 'next/navigation';
 import LinkCustom from '@/components/LinkCustom/LinkCustom';
+import { useState } from 'react';
+import { BUDGET_OPTIONS } from '@/constants/exchangeGroupOptions';
 import Link from 'next/link';
-
-const priceRanges = [
-  { label: '$10 - $20', value: '10-20' },
-  { label: '$20 - $30', value: '20-30' },
-  { label: '$30 - $40', value: '30-40' },
-  { label: '$40 - $50', value: '40-50' },
-  { label: '$50 - $60', value: '50-60' },
-  { label: '$60 - $70', value: '60-70' },
-  { label: '$70 - $80', value: '70-80' },
-  { label: '$80 - $90', value: '80-90' },
-  { label: '$90 - $100', value: '90-100' },
-] as const;
 
 const groupImageUrls = GROUP_IMAGES.map((image) => image.src);
 
@@ -66,7 +56,7 @@ const formSchema = z
     drawing_date: z.date(),
     exchange_date: z.date(),
     budget: z.string({
-      required_error: 'Please select a Price Range.',
+      required_error: 'Please select a budget.',
     }),
     group_image: z.string().refine((val) => groupImageUrls.includes(val), {
       message: 'Group Theme Image must be selected',
@@ -79,6 +69,10 @@ const formSchema = z
 
 export default function CreateGroupPage() {
   const router = useRouter();
+
+  const [budgetOpen, setBudgetOpen] = useState(false);
+  const [drawingDateOpen, setDrawingDateOpen] = useState(false);
+  const [exchangeDateOpen, setExchangeDateOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -185,157 +179,185 @@ export default function CreateGroupPage() {
               <FormField
                 control={form.control}
                 name="budget"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="m-5">Price Range</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              'w-60 justify-between m-5',
-                              !field.value && 'text-muted-foreground',
-                            )}
-                          >
-                            {field.value
-                              ? priceRanges.find(
-                                  (priceRanges) =>
-                                    priceRanges.value === field.value,
-                                )?.label
-                              : 'Select a price range'}
-                            <ChevronsUpDown className="opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-52 p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Search Price Ranges..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <CommandEmpty>No framework found.</CommandEmpty>
-                            <CommandGroup>
-                              {priceRanges.map((priceRanges) => (
-                                <CommandItem
-                                  value={priceRanges.label}
-                                  key={priceRanges.value}
-                                  onSelect={() => {
-                                    form.setValue('budget', priceRanges.value);
-                                  }}
-                                >
-                                  {priceRanges.label}
-                                  <Check
-                                    className={cn(
-                                      'ml-auto',
-                                      priceRanges.value === field.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0',
-                                    )}
-                                  />
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription className="m-5">
-                      Please select the price range for your Secret Santa group!
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="m-5">Price Range</FormLabel>
+                      <Popover open={budgetOpen} onOpenChange={setBudgetOpen}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              data-testid="budget-button"
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                'w-60 justify-between m-5',
+                                !field.value && 'text-muted-foreground',
+                              )}
+                            >
+                              {field.value
+                                ? BUDGET_OPTIONS.find(
+                                    (budgetOption) =>
+                                      budgetOption.value === field.value,
+                                  )?.label
+                                : 'Select a price range'}
+                              <ChevronsUpDown className="opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-52 p-0">
+                          <Command>
+                            <CommandInput
+                              placeholder="Search Price Ranges..."
+                              className="h-9"
+                            />
+                            <CommandList>
+                              <CommandEmpty>No framework found.</CommandEmpty>
+                              <CommandGroup>
+                                {BUDGET_OPTIONS.map((budgetOption) => (
+                                  <CommandItem
+                                    value={budgetOption.label}
+                                    key={budgetOption.value}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        'budget',
+                                        budgetOption.value,
+                                      );
+                                      setBudgetOpen(false);
+                                    }}
+                                  >
+                                    {budgetOption.label}
+                                    <Check
+                                      className={cn(
+                                        'ml-auto',
+                                        budgetOption.value === field.value
+                                          ? 'opacity-100'
+                                          : 'opacity-0',
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription className="m-5">
+                        Please select the price range for your Secret Santa
+                        group!
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
               <FormField
                 control={form.control}
                 name="drawing_date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="mx-5 mt-5">
-                      Gift Drawing Date
-                    </FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-60 pl-3 text-left font-normal m-5',
-                              !field.value && 'text-muted-foreground ',
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={[{ before: new Date() }]} 
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription className="ml-5">
-                      When names will be drawn for the gift exchange.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="mx-5 mt-5">
+                        Gift Drawing Date
+                      </FormLabel>
+                      <Popover
+                        open={drawingDateOpen}
+                        onOpenChange={setDrawingDateOpen}
+                      >
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              data-testid="drawing-date-button"
+                              variant={'outline'}
+                              className={cn(
+                                'w-60 pl-3 text-left font-normal m-5',
+                                !field.value && 'text-muted-foreground ',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(inputValue) => {
+                              field.onChange(inputValue);
+                              setDrawingDateOpen(false);
+                            }}
+                            disabled={[{ before: new Date() }]}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription className="ml-5">
+                        When names will be drawn for the gift exchange.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
               <FormField
                 control={form.control}
                 name="exchange_date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="mx-5 mt-5">
-                      Gift Exchange Date
-                    </FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-60 pl-3 text-left font-normal m-5',
-                              !field.value && 'text-muted-foreground',
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={[{ before: addDays(new Date(giftDrawingDate), 1) }]}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription className="ml-5">
-                      When the gift exchange will take place.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="mx-5 mt-5">
+                        Gift Exchange Date
+                      </FormLabel>
+                      <Popover
+                        open={exchangeDateOpen}
+                        onOpenChange={setExchangeDateOpen}
+                      >
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              data-testid="exchange-date-button"
+                              variant={'outline'}
+                              className={cn(
+                                'w-60 pl-3 text-left font-normal m-5',
+                                !field.value && 'text-muted-foreground',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(inputValue) => {
+                              field.onChange(inputValue);
+                              setExchangeDateOpen(false);
+                            }}
+                            disabled={[
+                              { before: addDays(new Date(giftDrawingDate), 1) },
+                            ]}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription className="ml-5">
+                        When the gift exchange will take place.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
               <div className="flex gap-2 justify-center md:justify-end p-3">
                 <Button variant="secondary" className="bg-slate-300" asChild>
