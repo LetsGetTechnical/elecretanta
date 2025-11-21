@@ -11,6 +11,8 @@ import { ToastClose } from "../ToastClose/ToastClose"
 import { ToastViewport } from "../ToastViewport/ToastViewport"
 import { ToastProvider } from "../ToastProvider/ToastProvider"
 import { JSX } from "react"
+import { useAuthContext } from '@/context/AuthContextProvider';
+import useExchangeGroups from "@/hooks/useExchangeGroups";
 
 /**
  * Renders and manages display of toast notifications.
@@ -18,10 +20,18 @@ import { JSX } from "react"
  */
 const Toaster = (): JSX.Element => {
   const { toasts } = useToast()
+  const { session } = useAuthContext()
+  const userExchangeGroups = useExchangeGroups()
+  
+  const filteredToasts = toasts.filter((toast) => {
+    return userExchangeGroups.some((group) => {
+      return (group.gift_exchange_id === toast.group && group.owner_id === session?.user.id)
+    })
+  })
 
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
+      {filteredToasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
             <div className="grid gap-1">
