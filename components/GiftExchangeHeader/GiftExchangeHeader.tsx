@@ -158,6 +158,22 @@ export const GiftExchangeHeader = ({
         throw new Error(`Error: ${response.status}`);
       }
 
+      // Separate try/catch for email sending
+      try {
+        await fetch(`/api/gift-exchanges/${id}/send-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            exchangeId: id,
+            members: membersData,
+          }),
+        });
+      } catch (emailError) {
+        console.error('Failed to send emails:', emailError);
+      }
+
       location.reload();
     } catch (error) {
       console.error('Failed to draw gift exchange:', error);
