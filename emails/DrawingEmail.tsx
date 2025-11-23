@@ -12,33 +12,39 @@ import {
 } from '@react-email/components';
 
 interface DrawingEmailProps {
-  userFirstname: string;
+  userName: string;
 }
 
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000';
+  : 'http://localhost:3000/static';
+
+// System Font Stack for macOS, iOS, Windows, Android, Linux
+// Matches system-ui font stack in Next.js
+const fonts = {
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+}
 
 export const DrawingEmail = ({
-  userFirstname,
+  userName,
 }: DrawingEmailProps) => (
   <Html>
     <Head />
     <Tailwind>
-      <Body className="bg-white antialiased">
+      <Body className="bg-white antialiased" style={fonts}>
         <Container className="mx-auto py-5 pb-12">
-          <div className="py-[15px] bg-[#12433B]">
+          <div className="py-[15px] bg-[#12433B] rounded-[12px]">
             <Img
-              src={`${baseUrl}/static/SSE-Beta.png`}
+              src={`${baseUrl}/secret_santa_exchange_logo_beta.png`}
               alt="Secret Santa Exchange"
               className="mx-auto"
             />
           </div>
           <Text className="text-[16px] leading-[26px]">
-            Hi {userFirstname},
+            Hi {userName},
           </Text>
           <Text className="text-[16px] leading-[26px]">
-            Your secret santa group has completed the drawing! Find out who you matched with and see your AI generated gift suggestions.
+            Your secret santa group drawing has completed! Find out who you matched with and see your AI generated gift suggestions.
           </Text>
           <Section className="text-center">
             <Button
@@ -49,7 +55,7 @@ export const DrawingEmail = ({
             </Button>
           </Section>
           <Text className="text-[16px] leading-[26px]">
-            Best,
+            Happy Holidays,
             <br />
             The Secret Santa Exchange Team
           </Text>
@@ -61,7 +67,7 @@ export const DrawingEmail = ({
 );
 
 DrawingEmail.PreviewProps = {
-  userFirstname: 'Alan',
+  userName: 'Jeremy',
 } as DrawingEmailProps;
 
 export default DrawingEmail;
