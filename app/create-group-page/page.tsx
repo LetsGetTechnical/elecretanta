@@ -40,6 +40,8 @@ import {
 import { useRouter } from 'next/navigation';
 import LinkCustom from '@/components/LinkCustom/LinkCustom';
 import Link from 'next/link';
+import { useState } from 'react';
+import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
 
 const priceRanges = [
   { label: '$10 - $20', value: '10-20' },
@@ -79,6 +81,7 @@ const formSchema = z
 
 export default function CreateGroupPage() {
   const router = useRouter();
+  const [isLoading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -94,6 +97,7 @@ export default function CreateGroupPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setLoading(true);
       console.log(values);
       const response = await fetch('/api/gift-exchanges', {
         method: 'POST',
@@ -107,6 +111,8 @@ export default function CreateGroupPage() {
       router.push(`/gift-exchanges/${data.id}`);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -281,7 +287,7 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={[{ before: new Date() }]} 
+                          disabled={[{ before: new Date() }]}
                           initialFocus
                         />
                       </PopoverContent>
@@ -325,7 +331,9 @@ export default function CreateGroupPage() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={[{ before: addDays(new Date(giftDrawingDate), 1) }]}
+                          disabled={[
+                            { before: addDays(new Date(giftDrawingDate), 1) },
+                          ]}
                           initialFocus
                         />
                       </PopoverContent>
@@ -341,7 +349,16 @@ export default function CreateGroupPage() {
                 <Button variant="secondary" className="bg-slate-300" asChild>
                   <Link href="/dashboard">Cancel</Link>
                 </Button>
-                <Button type="submit">Create Group</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? (
+                    <div className='flex items-center gap-2'>
+                      Creating Group
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    'Create Group'
+                  )}
+                </Button>
               </div>
             </form>
           </Form>
