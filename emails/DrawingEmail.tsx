@@ -29,15 +29,15 @@ export const DrawingEmail = ({
   userName,
 }: DrawingEmailProps) => (
   <Html>
-    <Head />
     <Tailwind>
+    <Head />
       <Body className="bg-white antialiased" style={fonts}>
         <Container className="mx-auto py-5 pb-12">
-          <div className="py-[15px] bg-[#12433B] rounded-[12px]">
+          <div className="py-[15px] bg-[#12433B] rounded-[12px]" style={{ maxWidth: '100%'}}>
             <Img
               src={`${baseUrl}/secret_santa_exchange_logo_beta.png`}
               alt="Secret Santa Exchange"
-              className="mx-auto"
+              className="mx-auto w-80"
             />
           </div>
           <Text className="text-[16px] leading-[26px]">
