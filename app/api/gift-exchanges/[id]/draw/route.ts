@@ -34,7 +34,62 @@ export async function POST(
     }
 
     await drawGiftExchange(supabase, id);
-    return NextResponse.json({ success: true });
+
+    // Fetch updated members (now with recipient assignments)
+    const { data: membersData, error: membersError } = await supabase
+      .from('gift_exchange_members')
+      .select(`
+        id,
+        gift_exchange_id,
+        user_id,
+        recipient_id,
+        has_drawn,
+        created_at,
+        updated_at,
+        member:profiles!user_id (
+          id,
+          display_name,
+          email,
+          avatar
+        ),
+        recipient:profiles!recipient_id (
+          id,
+          display_name,
+          email,
+          avatar
+        )
+      `)
+      .eq('gift_exchange_id', id);
+
+    if (membersError) {
+      console.error('membersError detail:', membersError);
+      throw new SupabaseError(
+        'Failed to fetch updated members',
+        membersError.code,
+        membersError,
+      );
+    }
+
+    // Fetch gift suggestions
+    const { data: suggestionsData, error: suggestionsError } = await supabase
+      .from('gift_suggestions')
+      .select('*')
+      .eq('gift_exchange_id', id);
+
+    if (suggestionsError) {
+      console.error('membersError detail:', membersError);
+      throw new SupabaseError(
+        'Failed to fetch updated members',
+        suggestionsError.code,
+        suggestionsError,
+      );
+    }
+
+    return NextResponse.json({
+      members: membersData,
+      suggestions: suggestionsData
+    });
+
   } catch (error) {
     return logError(error);
   }
