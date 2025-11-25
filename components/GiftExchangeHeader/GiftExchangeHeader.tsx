@@ -158,6 +158,7 @@ export const GiftExchangeHeader = ({
         throw new Error(`Error: ${response.status}`);
       }
 
+      const data = await response.json();
       // Separate try/catch for email sending
       try {
         await fetch(`/api/gift-exchanges/${id}/send-email`, {
@@ -167,7 +168,8 @@ export const GiftExchangeHeader = ({
           },
           body: JSON.stringify({
             exchangeId: id,
-            members: membersData,
+            members: data.members,
+            suggestions: data.suggestions
           }),
         });
       } catch (emailError) {
