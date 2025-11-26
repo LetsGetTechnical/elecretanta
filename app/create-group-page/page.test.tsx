@@ -39,6 +39,13 @@ describe('Create Group Page', () => {
     });
   });
 
+  it('has the cheapest price range selected by default', () => {
+    render(<CreateGroupPage />);
+
+    const priceRangeButton = screen.getByRole('combobox');
+    expect(priceRangeButton).toHaveTextContent('$10 - $20');
+  });
+
   describe('Close (X) button', () => {
     it('renders the X button with the correct href', () => {
       render(<CreateGroupPage />);
