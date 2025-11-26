@@ -65,8 +65,8 @@ const RootLayout = ({
             <UserFeedbackButton />
             {children}
           </SnowOverlayProvider>
+          <Toaster />
         </AuthContextProvider>
-        <Toaster />
       </body>
     </html>
   );
