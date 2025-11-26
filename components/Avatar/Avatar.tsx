@@ -2,12 +2,17 @@
 // Licensed under the MIT License.
 
 import { JSX } from 'react';
-
 import { AvatarImage } from './AvatarImage';
 import { AvatarFallback } from './AvatarFallback/AvatarFallback';
 import { AvatarBody } from './AvatarBody/AvatarBody';
 
 /**
+ * Avatar component
+ * @param props - The props for the Avatar component.
+ * @param props.userAvatar - The URL of the user's avatar image.
+ * @returns {JSX.Element} The rendered Avatar component. 
+ */
+const Avatar = ({ userAvatar }: { userAvatar: string | undefined }): JSX.Element => {
  * An Avatar component that displays a provided image URL or a default image if not provided.
  * @param {string} userAvatar - URL string for the avatar image. If undefined, the AvatarFallback img will be used.
  * @returns {JSX.Element} - The rendered Avatar element.
