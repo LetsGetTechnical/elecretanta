@@ -4,12 +4,11 @@
 import { render, screen } from '@testing-library/react';
 import CreateGroupPage from './page';
 import { Calendar } from '@/components/Calendar/calendar';
+import userEvent from '@testing-library/user-event';
+import { BUDGET_OPTIONS } from '@/constants/exchangeGroupOptions';
 
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    refresh: jest.fn(),
-  }),
+  useRouter: () => {},
 }));
 
 class MockResizeObserver {
@@ -92,6 +91,66 @@ describe('Create Group Page', () => {
 
       const tomorrow = screen.getByText('16');
       expect(tomorrow).not.toBeDisabled();
+    });
+  });
+
+  describe('Budget input', () => {
+    beforeEach(() => {
+      Element.prototype.scrollIntoView = jest.fn();
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it('closes the popover when a selection is made', async () => {
+      render(<CreateGroupPage />);
+
+      const user = userEvent.setup();
+      const budgetOptionsTriggerButton = screen.getByTestId('budget-button');
+      await user.click(budgetOptionsTriggerButton);
+      const budgetOptions = screen.getAllByRole('option');
+      expect(budgetOptions).toHaveLength(BUDGET_OPTIONS.length);
+
+      const firstBudgetOption = budgetOptions[0];
+      await user.click(firstBudgetOption);
+      expect(screen.queryByRole('option')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Drawing date calendar input', () => {
+    it('closes the popover when a selection is made', async () => {
+      render(<CreateGroupPage />);
+
+      const user = userEvent.setup();
+      const drawingDateTriggerButton = screen.getByTestId(
+        'drawing-date-button',
+      );
+      expect(screen.queryByRole('gridcell')).not.toBeInTheDocument();
+
+      await user.click(drawingDateTriggerButton);
+      const calendarDays = screen.getAllByRole('gridcell');
+      const firstCalendarDay = calendarDays[calendarDays.length - 1];
+      await user.click(firstCalendarDay);
+      expect(screen.queryByRole('gridcell')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Exchange date calendar input', () => {
+    it('closes the popover when a selection is made', async () => {
+      render(<CreateGroupPage />);
+
+      const user = userEvent.setup();
+      const drawingDateTriggerButton = screen.getByTestId(
+        'exchange-date-button',
+      );
+      expect(screen.queryByRole('gridcell')).not.toBeInTheDocument();
+
+      await user.click(drawingDateTriggerButton);
+      const calendarDays = screen.getAllByRole('gridcell');
+      const firstCalendarDay = calendarDays[calendarDays.length - 1];
+      await user.click(firstCalendarDay);
+      expect(screen.queryByRole('gridcell')).not.toBeInTheDocument();
     });
   });
 });
