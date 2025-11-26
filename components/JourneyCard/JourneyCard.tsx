@@ -61,7 +61,7 @@ export const JourneyCard = ({
   ];
 
   return (
-    <Card className="w-full bg-groupCardGreen border-none">
+    <Card className="w-full bg-groupCardGreen border-none" data-testid="journey-card">
       <CardHeader className="bg-groupCardGreen rounded-xl p-2">
         <CardTitle className="p-4 flex gap-2 items-center text-white font-bold">
           Your Gift Giving Journey
@@ -70,7 +70,7 @@ export const JourneyCard = ({
       <CardContent className="pt-4">
         <div className="flex flex-col gap-6">
           {journeySteps.map((step) => (
-            <div key={step.id} className="flex gap-4 items-center">
+            <div key={step.id} className="flex gap-4 items-center" data-testid={`journey-step-${step.id}`}>
               <div className="bg-white rounded-full w-10 h-10 flex items-center justify-center">
                 {step.icon}
               </div>
