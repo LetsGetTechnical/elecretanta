@@ -87,7 +87,7 @@ export default function CreateGroupPage() {
       description: '',
       drawing_date: undefined,
       exchange_date: undefined,
-      budget: '',
+      budget: priceRanges[0].value,
       group_image: GROUP_IMAGES[0].src,
     },
   });
