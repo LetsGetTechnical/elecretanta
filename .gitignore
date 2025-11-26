@@ -44,3 +44,6 @@ next-env.d.ts
 /test-results/
 /playwright/.cache/
 *storybook.log
+# lockfiles from other package managers
+package-lock.json
+yarn.lock

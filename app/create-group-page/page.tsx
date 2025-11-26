@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -79,6 +80,9 @@ const formSchema = z
 
 export default function CreateGroupPage() {
   const router = useRouter();
+  const [budgetPopoverOpen, setBudgetPopoverOpen] = useState(false);
+  const [drawingDatePopoverOpen, setDrawingDatePopoverOpen] = useState(false);
+  const [exchangeDatePopoverOpen, setExchangeDatePopoverOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -188,7 +192,7 @@ export default function CreateGroupPage() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel className="m-5">Price Range</FormLabel>
-                    <Popover>
+                    <Popover open={budgetPopoverOpen} onOpenChange={setBudgetPopoverOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -224,6 +228,7 @@ export default function CreateGroupPage() {
                                   key={priceRanges.value}
                                   onSelect={() => {
                                     form.setValue('budget', priceRanges.value);
+                                    setBudgetPopoverOpen(false);
                                   }}
                                 >
                                   {priceRanges.label}
@@ -257,7 +262,7 @@ export default function CreateGroupPage() {
                     <FormLabel className="mx-5 mt-5">
                       Gift Drawing Date
                     </FormLabel>
-                    <Popover>
+                    <Popover open={drawingDatePopoverOpen} onOpenChange={setDrawingDatePopoverOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -280,7 +285,10 @@ export default function CreateGroupPage() {
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(date) => {
+                            field.onChange(date);
+                            setDrawingDatePopoverOpen(false);
+                          }}
                           disabled={[{ before: new Date() }]} 
                           initialFocus
                         />
@@ -301,7 +309,7 @@ export default function CreateGroupPage() {
                     <FormLabel className="mx-5 mt-5">
                       Gift Exchange Date
                     </FormLabel>
-                    <Popover>
+                    <Popover open={exchangeDatePopoverOpen} onOpenChange={setExchangeDatePopoverOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -324,7 +332,10 @@ export default function CreateGroupPage() {
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(date) => {
+                            field.onChange(date);
+                            setExchangeDatePopoverOpen(false);
+                          }}
                           disabled={[{ before: addDays(new Date(giftDrawingDate), 1) }]}
                           initialFocus
                         />
