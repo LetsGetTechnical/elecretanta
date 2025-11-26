@@ -11,7 +11,7 @@ describe('UserDropdownMenu', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve('mock-avatar-url'),
+        json: () => Promise.resolve({ avatarUrl: 'mock-avatar-url' }),
       }),
     ) as jest.Mock;
     user = userEvent.setup();
