@@ -12,8 +12,8 @@ const getUserAvatar = async (): Promise<string> => {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
-  const userAvatar = await response.json();
-  return userAvatar;
+  const { avatarUrl } = await response.json();
+  return avatarUrl;
 };
 
 export default getUserAvatar;
