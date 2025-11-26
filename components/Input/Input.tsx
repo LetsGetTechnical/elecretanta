@@ -1,8 +1,18 @@
-import * as React from 'react';
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
 
+import { forwardRef, ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
+/**
+ * A customizable Input Component
+ * @param {object} props - props for the Input
+ * @param {string} props.className - additonal CSS classes
+ * @param {string} props.type - type of button
+ * @returns {Input} - returns Input Component
+ */
+
+const Input = forwardRef<HTMLInputElement, ComponentProps<'input'>>(
   ({ className, type, ...props }, ref) => {
     return (
       <input
@@ -18,6 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
     );
   },
 );
+
 Input.displayName = 'Input';
 
 export { Input };
