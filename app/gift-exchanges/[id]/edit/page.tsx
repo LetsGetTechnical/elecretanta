@@ -16,7 +16,7 @@ import {
 import { Check, ChevronsUpDown, ChevronLeft } from 'lucide-react';
 import { Input } from '@/components/Input/Input';
 import { Button } from '@/components/Button/button';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, X } from 'lucide-react';
 import { Calendar } from '@/components/Calendar/calendar';
 import {
   Popover,
@@ -74,8 +74,8 @@ const formSchema = z
     group_image: z
       .string()
       .refine((val) => groupImageUrls.includes(val), {
-        message: 'Group Theme Image must be selected',
-      }),
+      message: 'Group Theme Image must be selected',
+    }),
   })
   .refine((data) => data.exchange_date > data.drawing_date, {
     message: 'Exchange Date must be after the Drawing Date',
@@ -192,9 +192,19 @@ export default function EditGroupPage() {
       </div>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white w-full xl:w-1/2 mb-5 flex justify-center align-center rounded flex-col ">
-          <h2 className="font-bold m-5">Edit Secret Santa Page</h2>
+          <div className="flex justify-end m-1.5">
+            <Button variant="ghost" asChild data-testid="x-button">
+              <Link href="/dashboard">
+                <X className="text-black" />
+              </Link>
+            </Button>
+          </div>
+          <h2 className="font-bold mx-5 mb-5">Edit Secret Santa Page</h2>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 mb-6 md:mb-4"
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -400,14 +410,21 @@ export default function EditGroupPage() {
                   </FormItem>
                 )}
               />
-              <div className="flex md:justify-start justify-center md:m-5 m-0 w-full">
-                <Button className="m-2" type="submit">
+              <div className="sm:flex sm:justify-center md:justify-end sm:gap-3 mx-3 space-x-2 space-y-2 sm:space-x-0 sm:space-y-0">
+                <Button
+                  variant="secondary"
+                  className="bg-slate-300 whitespace-nowrap"
+                  asChild
+                >
+                  <Link href="/dashboard">Cancel</Link>
+                </Button>
+                <Button className="whitespace-nowrap" type="submit">
                   Save Changes
                 </Button>
                 <Button
                   variant="outline"
                   type="button"
-                  className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white m-2"
+                  className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white whitespace-nowrap"
                   onClick={deleteGiftExchange}
                 >
                   Delete Group
