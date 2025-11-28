@@ -62,8 +62,8 @@ export const DrawingEmail = ({
           </Text>
             {giftSuggestions?.length !== 0 && 
               giftSuggestions.map((gift) => (
-                <Section style={{ marginBottom: '15px' }}>
-                  <Row style={{ height: '150px' }}>
+                <Section style={{ width: '75%', marginBottom: '15px', marginTop: '15px' }}>
+                  <Row>
                     <Column
                       style={{
                         border: '1px solid #e2e2e2',
@@ -94,7 +94,34 @@ export const DrawingEmail = ({
                     </Column>
                     <Column
                       style={{
-                        borderTop: '1px solid #e2e2e2',
+                        border: '1px solid #e2e2e2',
+                        borderLeft: 0,
+                        borderBottom: 0,
+                        borderRadius: '0 8px 0 0',
+                        padding: 12,
+                        verticalAlign: 'top',
+                        textAlign: 'right',
+                        width: '100px'
+                      }}
+                    >  
+                      <Text 
+                        style={{ 
+                          fontSize: 14, 
+                          display: 'inline-block', 
+                          padding: '0.25rem 0.75rem', 
+                          margin: 0
+                        }}
+                      >
+                        ${gift.price}
+                      </Text>
+                    </Column>
+                  </Row>
+                  <Row>
+                    <Column
+                      style={{
+                        borderLeft: '1px solid #e2e2e2',
+                        borderRight: '1px solid #e2e2e2',
+                        height: '300px',
                         padding: 12,
                         textAlign: 'center',
                       }}
@@ -103,30 +130,15 @@ export const DrawingEmail = ({
                         <Img
                           src={gift.imageUrl}
                           alt={gift.title}
-                          style={{ width: '25%', height: 'auto', borderRadius: 4, display: 'inline-block' }}
+                          style={{ width: 'auto', height: '100%', borderRadius: 4, display: 'inline-block' }}
                         />
                       ) : 
                         <Img
-                          src={`${baseUrl}/giftIcon_100.png`}
+                          src={`${baseUrl}/gift100px.png`}
                           alt={gift.title}
-                          style={{ width: '25%', height: 'auto', borderRadius: 4, display: 'inline-block' }}
+                          style={{ width: 'auto', height: 'auto', borderRadius: 4, display: 'inline-block' }}
                         />
                       }
-                    </Column>
-                    <Column
-                      style={{
-                        border: '1px solid #e2e2e2',
-                        borderLeft: 0,
-                        borderBottom: 0,
-                        padding: 12,
-                        verticalAlign: 'top',
-                        width: '100px'
-                      }}
-                    >  
-                      <Text style={{ fontSize: 14, marginTop: 8, display: 'inline-block' }}
-                      >
-                        ${gift.price}
-                      </Text>
                     </Column>
                   </Row>
                   <Row>
