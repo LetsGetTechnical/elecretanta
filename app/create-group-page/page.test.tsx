@@ -21,6 +21,14 @@ class MockResizeObserver {
 global.ResizeObserver = MockResizeObserver;
 
 describe('Create Group Page', () => {
+  it('displays the correct heading text', () => {
+    render(<CreateGroupPage />);
+
+    expect(
+      screen.getByRole('heading', { name: 'Create Secret Santa Group' }),
+    ).toBeInTheDocument();
+  });
+
   it('has the first group image selected by default', () => {
     render(<CreateGroupPage />);
 

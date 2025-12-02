@@ -129,7 +129,7 @@ export default function CreateGroupPage() {
               </Link>
             </Button>
           </div>
-          <h2 className="font-bold mx-5 mb-5">Create Secret Santa Page</h2>
+          <h2 className="font-bold mx-5 mb-5">Create Secret Santa Group</h2>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
