@@ -1,3 +1,6 @@
+// Copyright (c) Gridiron Survivor.
+// Licensed under the MIT License.
+
 import { Calendar } from '@/components/Calendar/calendar';
 import { render, screen } from '@testing-library/react';
 import EditGroupPage from './page';
