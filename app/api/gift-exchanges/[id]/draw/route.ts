@@ -38,7 +38,8 @@ export async function POST(
     // Fetch updated members (now with recipient assignments)
     const { data: membersData, error: membersError } = await supabase
       .from('gift_exchange_members')
-      .select(`
+      .select(
+        `
         id,
         gift_exchange_id,
         user_id,
@@ -55,10 +56,12 @@ export async function POST(
         recipient:profiles!recipient_id (
           id,
           display_name,
+          age_group,
           email,
           avatar
         )
-      `)
+      `,
+      )
       .eq('gift_exchange_id', id);
 
     if (membersError) {
@@ -77,7 +80,7 @@ export async function POST(
       .eq('gift_exchange_id', id);
 
     if (suggestionsError) {
-      console.error('membersError detail:', membersError);
+      console.error('suggestionsError detail:', suggestionsError);
       throw new SupabaseError(
         'Failed to fetch updated members',
         suggestionsError.code,
@@ -87,9 +90,8 @@ export async function POST(
 
     return NextResponse.json({
       members: membersData,
-      suggestions: suggestionsData
+      suggestions: suggestionsData,
     });
-
   } catch (error) {
     return logError(error);
   }

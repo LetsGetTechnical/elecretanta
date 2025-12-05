@@ -138,7 +138,8 @@ export const GiftExchangeHeader = ({
     toast({
       variant: ToastVariants.Success,
       title: '',
-      description: 'Please keep this browser open until our elves complete the gift drawing.',
+      description:
+        'Please keep this browser open until our elves complete the gift drawing.',
     });
 
     try {
@@ -169,11 +170,17 @@ export const GiftExchangeHeader = ({
           body: JSON.stringify({
             exchangeId: id,
             members: data.members,
-            suggestions: data.suggestions
+            suggestions: data.suggestions,
           }),
         });
       } catch (emailError) {
         console.error('Failed to send emails:', emailError);
+        toast({
+          variant: ToastVariants.Error,
+          title: 'Email Notification Failed',
+          description:
+            'The draw completed successfully, but email notifications could not be sent. Please notify members manually.',
+        });
       }
 
       location.reload();
