@@ -8,7 +8,6 @@ import { useSnowOverlay } from '@/providers/SnowOverlayProvider';
 import { Button } from '../Button/button';
 import React from 'react';
 
-
 /**
  * SnowOverlayToggle component
  * A button that toggles snowfall overlay
@@ -39,6 +38,6 @@ const SnowOverlayToggle = (): React.JSX.Element => {
       )}
     </Button>
   );
-}
+};
 
 export { SnowOverlayToggle };
