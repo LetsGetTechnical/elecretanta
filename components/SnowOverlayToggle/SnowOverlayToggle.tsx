@@ -21,6 +21,7 @@ const SnowOverlayToggle = (): React.JSX.Element => {
       variant={'ghost'}
       className="text-white p-1 transition-all ease-in-out w-auto h-auto"
       onClick={toggleSnowSetting}
+      aria-label={isSnowing ? 'Turn off snow overlay' : 'Turn on snow overlay'}
       data-testid="snow-overlay-toggle"
     >
       {isSnowing ? (

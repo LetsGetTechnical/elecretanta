@@ -17,6 +17,7 @@ describe('SnowOverlayToggle', () => {
     );
     const sunIcon = screen.getByTestId('sun-icon');
     expect(sunIcon).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Turn off snow overlay' })).toBeInTheDocument();
 
     await userEvent.click(screen.getByTestId('snow-overlay-toggle'));
 
