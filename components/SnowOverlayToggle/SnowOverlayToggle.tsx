@@ -8,7 +8,6 @@ import { useSnowOverlay } from '@/providers/SnowOverlayProvider';
 import { Button } from '../Button/button';
 import React from 'react';
 
-
 /**
  * SnowOverlayToggle component
  * A button that toggles snowfall overlay
@@ -21,6 +20,7 @@ const SnowOverlayToggle = (): React.JSX.Element => {
       variant={'ghost'}
       className="text-white p-1 transition-all ease-in-out w-auto h-auto"
       onClick={toggleSnowSetting}
+      aria-label={isSnowing ? 'Turn off snow overlay' : 'Turn on snow overlay'}
       data-testid="snow-overlay-toggle"
     >
       {isSnowing ? (
@@ -38,6 +38,6 @@ const SnowOverlayToggle = (): React.JSX.Element => {
       )}
     </Button>
   );
-}
+};
 
 export { SnowOverlayToggle };
